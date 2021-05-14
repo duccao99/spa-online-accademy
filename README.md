@@ -1,2 +1,1 @@
-# SPA-Online-Accademy
-Advanced web course final project
+# SPA Online Academy
