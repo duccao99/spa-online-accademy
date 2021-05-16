@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Copyright from "./../Copyright/Copyright";
+import Box from "@material-ui/core/Box";
 import Footer from "./../Footer/Footer";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -20,6 +21,7 @@ import { Link } from "react-router-dom";
 import Banner from "../Banner/Banner";
 import CommonCarousel from "../Carousel/CommonCarousel";
 import CardCourse from "./../CardCourse/CardCourse";
+import Category from "../Category/Category";
 
 const common_spacing = 32;
 
@@ -62,10 +64,13 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    display: "flex",
   },
+
   btn_sign_in: {
     color: "inherit",
     textDecoration: "none",
+    textTransform: "capitalize",
     "&:visited": {
       color: "inherit",
       textDecoration: "none",
@@ -83,6 +88,12 @@ const useStyles = makeStyles((theme) => ({
   },
   card_wrapper: {
     // marginBottom: common_spacing * 2,
+  },
+  nav_typo: {
+    margin: 12,
+  },
+  btn_si: {
+    textTransform: "capitalize",
   },
 }));
 
@@ -111,13 +122,21 @@ export default function HomePage() {
             color="inherit"
             aria-label="menu"
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            DT Online Academy
-          </Typography>
+          <Box className={classes.title}>
+            <Typography variant="h6" className={classes.nav_typo}>
+              Online Academy
+            </Typography>
+            <Typography variant="h6" className={classes.nav_typo}>
+              <Category />
+            </Typography>
+          </Box>
+
           <Link className={classes.btn_sign_in} to="/user/sign-in">
-            <Button color="inherit">Sign in</Button>
+            <Button className={classes.btn_si} color="inherit">
+              Sign in
+            </Button>
           </Link>
         </Toolbar>
       </AppBar>
@@ -181,7 +200,7 @@ export default function HomePage() {
         <Container className={classes.cardGrid} maxWidth="lg">
           {/* End hero unit */}
           <Typography className={classes.ten_most_newest_courses} variant="h4">
-            Ten most newest courses
+            Ten newest courses
           </Typography>
 
           <CommonCarousel>

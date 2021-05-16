@@ -25,7 +25,7 @@ function Copyright() {
         color="inherit"
         href={`${env_config.BASE_URL}`}
       >
-        DT Online Academy
+        Online Academy
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
