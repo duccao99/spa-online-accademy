@@ -5,7 +5,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
+
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -16,19 +16,8 @@ import validator from "validator";
 import * as env_config from "../../config/env.config";
 import axios from "axios";
 import { swal2Timing } from "../../config/swal2.config";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href={`${env_config.BASE_URL}`}>
-        Online Academy DT
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Link } from "react-router-dom";
+import Copyright from "./../Copyright/Copyright";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +45,14 @@ const useStyles = makeStyles((theme) => ({
 
   helperText: {
     color: "red",
+  },
+  link: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
   },
 }));
 
@@ -232,7 +229,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/user/sign-in" variant="body2">
+              <Link className={classes.link} to="/user/sign-in" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

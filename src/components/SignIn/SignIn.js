@@ -6,7 +6,6 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Grid,
   Box,
   Typography,
@@ -18,19 +17,9 @@ import validator from "validator";
 import axios from "axios";
 import { Redirect, useHistory } from "react-router-dom";
 import * as env_config from "../../config/env.config";
+import { Link } from "react-router-dom";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "./../Copyright/Copyright";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,6 +41,14 @@ const useStyles = makeStyles((theme) => ({
   },
   helperText: {
     color: "red",
+  },
+  link: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
   },
 }));
 
@@ -194,13 +191,17 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/user/forgot-password" variant="body2">
+              <Link
+                className={classes.link}
+                to="/user/forgot-password"
+                variant="body2"
+              >
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/user/sign-up" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link className={classes.link} to="/user/sign-up" variant="body2">
+                {"Don't have an account? Sign up"}
               </Link>
             </Grid>
           </Grid>
