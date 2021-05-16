@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Subcategory from "../Category/Subcategory";
+import Subcategory from "./Subcategory";
 
 const useStyles = makeStyles((theme) => ({
   typography: {
@@ -15,10 +15,21 @@ const useStyles = makeStyles((theme) => ({
     "&.MuiButton-root": {
       padding: "0!important",
     },
+    "&.MuiPaper-root": {
+      transition: 0,
+    },
+  },
+  popover_cat: {
+    transition: 0,
   },
 }));
 
-export default function SimplePopover({ title, categories }) {
+export default function PopoverCat({
+  title,
+  categories,
+  sub_mobi_cat,
+  sub_web_cat,
+}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [close, set_close] = useState(false);
@@ -53,6 +64,7 @@ export default function SimplePopover({ title, categories }) {
         <Typography variant="h6"> {title}</Typography>
       </Button>
       <Popover
+        className={classes.popover_cat}
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -66,13 +78,15 @@ export default function SimplePopover({ title, categories }) {
           horizontal: "center",
         }}
       >
-        {categories.map((e) => {
+        {categories.map((e, i) => {
           return (
             <Subcategory
-              key={e}
+              key={i}
               set_cat_close={set_close}
+              sub_mobi_cat={e.cat_id === 2 ? sub_mobi_cat : []}
+              sub_web_cat={e.cat_id === 1 ? sub_web_cat : []}
               className={classes.typography}
-              cat_name={e}
+              cat_name={e.cat_name}
             />
           );
         })}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
@@ -9,6 +9,8 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import DraftsIcon from "@material-ui/icons/Drafts";
 import SendIcon from "@material-ui/icons/Send";
 import { Box } from "@material-ui/core";
+import axios from "axios";
+import * as env_config from "../../config/env.config";
 
 const StyledMenu = withStyles({
   paper: {
@@ -33,8 +35,6 @@ const StyledMenu = withStyles({
   />
 ));
 
-const makeStyles = withStyles((theme) => {});
-
 const StyledMenuItem = withStyles((theme) => ({
   root: {
     "&:focus": {
@@ -46,7 +46,12 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-export default function Subcategory({ cat_name, set_cat_close }) {
+export default function Subcategory({
+  cat_name,
+  set_cat_close,
+  sub_web_cat,
+  sub_mobi_cat,
+}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -73,15 +78,24 @@ export default function Subcategory({ cat_name, set_cat_close }) {
           set_cat_close(true);
         }}
       >
-        <StyledMenuItem>
-          <ListItemText primary="ReactJS" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemText primary="ReactJS" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemText primary="ReactJS" />
-        </StyledMenuItem>
+        {sub_web_cat.length !== 0
+          ? sub_web_cat.map((ele, i) => {
+              return (
+                <StyledMenuItem>
+                  <ListItemText key={i} primary={ele.subject_name} />
+                </StyledMenuItem>
+              );
+            })
+          : ""}
+        {sub_mobi_cat.length !== 0
+          ? sub_mobi_cat.map((ele, i) => {
+              return (
+                <StyledMenuItem>
+                  <ListItemText key={i} primary={ele.subject_name} />
+                </StyledMenuItem>
+              );
+            })
+          : ""}
       </StyledMenu>
     </div>
   );

@@ -200,7 +200,7 @@ export default function HomePage() {
         <Container className={classes.cardGrid} maxWidth="lg">
           {/* End hero unit */}
           <Typography className={classes.ten_most_newest_courses} variant="h4">
-            Ten most newest courses
+            Ten newest courses
           </Typography>
 
           <CommonCarousel>
