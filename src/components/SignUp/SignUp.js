@@ -21,7 +21,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href={`${env_config.BASE_URL}`}>
         Online Academy DT
       </Link>{" "}
       {new Date().getFullYear()}
@@ -107,8 +107,7 @@ export default function SignUp() {
         // auth
         const auth_url = `${env_config.DEV_URL}/api/auth`;
         const auth_data = {
-          user_name: data.user_name,
-          password: data.password,
+          ...data,
         };
 
         axios
