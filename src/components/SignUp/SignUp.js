@@ -13,8 +13,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import validator from "validator";
-import * as env_config from "../../../config/env.config";
+import * as env_config from "../../config/env.config";
 import axios from "axios";
+import { swal2Timing } from "../../config/swal2.config";
 
 function Copyright() {
   return (
@@ -61,17 +62,95 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
   const [is_email_error, set_is_email_error] = useState(false);
+  const [is_pass_error, set_is_pass_error] = useState(false);
+  const [user_name, set_user_name] = useState("");
   const [email, set_email] = useState("");
+  const [password, set_password] = useState("");
 
   const handleEmailChange = (e) => {
     set_email(e.target.value);
-    let ret = validator.isEmail(email);
-
-    if (ret === false) {
+    if (validator.isEmail(email) === false) {
       set_is_email_error(true);
+    } else {
+      set_is_email_error(false);
     }
   };
-  const handleSignUp = (e) => {};
+
+  const handleUsernameChange = (e) => {
+    set_user_name(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
+    set_password(e.target.value);
+
+    if (e.target.value.length < 6) {
+      set_is_pass_error(true);
+    } else {
+      set_is_pass_error(false);
+    }
+  };
+  const handleSignUp = (e) => {
+    handleFormSubmit(e);
+  };
+  const createStudentAccount = (e) => {
+    const url = `${env_config.DEV_URL}/api/user/sign-up`;
+    const data = {
+      user_name: user_name,
+      email: email,
+      password: password,
+    };
+    const config = {};
+    axios
+      .post(url, data, config)
+      .then((ret) => {
+        console.log(ret);
+
+        // auth
+        const auth_url = `${env_config.DEV_URL}/api/auth`;
+        const auth_data = {
+          user_name: data.user_name,
+          password: data.password,
+        };
+
+        axios
+          .post(auth_url, auth_data, config)
+          .then((ret) => {
+            console.log(ret);
+
+            const title = "Account created!";
+            const html = "";
+            const timer = 2000;
+            const icon = "success";
+            swal2Timing(title, html, timer, icon);
+          })
+          .catch((er) => {
+            console.log(er);
+          });
+      })
+      .catch((er) => {
+        const title = "Error!";
+        const html = "";
+        const timer = 2000;
+        const icon = "error";
+        console.log(er);
+
+        swal2Timing(title, html, timer, icon);
+      });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    if (e.which === 13) {
+      createStudentAccount();
+    }
+    createStudentAccount();
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.which === 13) {
+      handleFormSubmit(e);
+    }
+  };
 
   useEffect(() => {}, []);
 
@@ -85,7 +164,12 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form
+          className={classes.form}
+          noValidate
+          onKeyPress={handleKeyPress}
+          onSubmit={handleFormSubmit}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <TextField
@@ -97,6 +181,7 @@ export default function SignUp() {
                 id="Username"
                 label="Username"
                 autoFocus
+                onChange={handleUsernameChange}
               />
             </Grid>
 
@@ -125,6 +210,13 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={handlePasswordChange}
+                FormHelperTextProps={{
+                  className: classes.helperText,
+                }}
+                helperText={
+                  is_pass_error === true ? "At least 6 characters" : ""
+                }
                 autoComplete="current-password"
               />
             </Grid>
@@ -141,7 +233,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/user/sign-in" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
