@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import HelloWorld from "./components/HelloWorld/HelloWorld";
 import SignIn from "./components/SignIn/SignIn";
 import { getToken, setToken } from "./config/accessToken";
+import HomePage from "./components/HomePage/HomePage";
 
 function App() {
   const [is_logged_in, set_is_logged_in] = useState(false);
@@ -16,7 +17,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={HelloWorld} />
+        <Route exact path="/" component={HomePage} />
         <Route exact path="/user/sign-in" component={SignIn} />
         <Route exact path="/user/sign-up" component={SignUp} />
       </Switch>
