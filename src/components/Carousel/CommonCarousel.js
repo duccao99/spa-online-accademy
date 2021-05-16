@@ -21,6 +21,7 @@ export default function CommonCarousel(props) {
       interval={1000}
       transitionTime={700}
       showIndicators={true}
+      showThumbs={false}
       className={classes.carousel}
     >
       {props.children}
