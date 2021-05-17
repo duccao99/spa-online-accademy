@@ -6,6 +6,7 @@ import LeftCat from "../LeftCat/LeftCat";
 import Searchbar from "./Searchbar";
 import CardCourse from "../CardCourse/CardCourse";
 import Pagination from "./Pagination";
+import cn from "classnames";
 const style = makeStyles((theme) => ({
   main_course_list_wrapper: {
     flexGrow: 1,
@@ -14,7 +15,7 @@ const style = makeStyles((theme) => ({
   },
 
   paper: {
-    padding: theme.spacing(2),
+    padding: 32,
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
@@ -26,6 +27,11 @@ const style = makeStyles((theme) => ({
     "& ul.MuiPagination-ul": {
       justifyContent: "flex-end",
     },
+  },
+  left_cat: {
+    position: "sticky",
+    top: 32,
+    padding: 16,
   },
 }));
 
@@ -41,7 +47,7 @@ export default function CoursesList() {
         <Container className={classes.main_course_list_wrapper} maxWidth="lg">
           <Grid container spacing={4}>
             <Grid item xs={12} sm={12} md={3} lg={3}>
-              <Paper className={classes.paper}>
+              <Paper className={cn(classes.paper, classes.left_cat)}>
                 <LeftCat />
               </Paper>
             </Grid>
@@ -52,7 +58,7 @@ export default function CoursesList() {
                 <Grid container spacing={4} className={classes.course_list}>
                   {courses.map((ele, i) => {
                     return (
-                      <Grid item xs={12} sm={6} md={3} lg={3}>
+                      <Grid item xs={12} sm={6} md={4} lg={4}>
                         <CardCourse />
                       </Grid>
                     );
