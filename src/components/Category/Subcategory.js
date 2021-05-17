@@ -51,6 +51,7 @@ export default function Subcategory({
   set_cat_close,
   sub_web_cat,
   sub_mobi_cat,
+  classes,
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -65,6 +66,7 @@ export default function Subcategory({
         aria-haspopup="true"
         variant="text"
         color="primary"
+        className={classes.cat_name}
         onClick={handleClick}
       >
         <Box p={1}>{cat_name}</Box>
@@ -73,6 +75,7 @@ export default function Subcategory({
         id="customized-menu"
         anchorEl={anchorEl}
         keepMounted
+        className={classes.popover_cat}
         open={Boolean(anchorEl)}
         onClose={() => {
           set_cat_close(true);

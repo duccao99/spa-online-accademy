@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import Popover from "@material-ui/core/Popover";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import CategoryIcon from "@material-ui/icons/Category";
+import React, { useEffect, useState } from "react";
 import Subcategory from "./Subcategory";
-
 const useStyles = makeStyles((theme) => ({
   typography: {
     padding: theme.spacing(2),
@@ -14,13 +14,40 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "initial",
     "&.MuiButton-root": {
       padding: "0!important",
+      transition: "0!important",
     },
     "&.MuiPaper-root": {
       transition: 0,
+      transition: "0!important",
     },
   },
   popover_cat: {
-    transition: 0,
+    "&:hover": {
+      cursor: "pointer",
+    },
+    transition: "0!important",
+    "&.MuiButton-root": {
+      transition: "0!important",
+    },
+    "&.MuiPaper-root": {
+      transition: "0!important",
+    },
+  },
+  cat_name: {
+    width: "100%!important",
+    "&.MuiButton-root": {
+      transition: "0!important",
+    },
+    "&.MuiPaper-root": {
+      transition: "0!important",
+    },
+  },
+  cat_icon: {
+    display: "flex",
+    alignItems: "center",
+  },
+  icon_category: {
+    marginRight: 6,
   },
 }));
 
@@ -54,15 +81,18 @@ export default function PopoverCat({
 
   return (
     <div>
-      <Button
+      <Box
         aria-describedby={id}
         variant="text"
         color="inherit"
         className={classes.popover}
         onClick={handleClick}
       >
-        <Typography variant="h6"> {title}</Typography>
-      </Button>
+        <Typography variant="h6" className={classes.cat_icon}>
+          {" "}
+          <CategoryIcon className={classes.icon_category} /> {title}
+        </Typography>
+      </Box>
       <Popover
         className={classes.popover_cat}
         id={id}
@@ -81,6 +111,7 @@ export default function PopoverCat({
         {categories.map((e, i) => {
           return (
             <Subcategory
+              classes={classes}
               key={i}
               set_cat_close={set_close}
               sub_mobi_cat={e.cat_id === 2 ? sub_mobi_cat : []}

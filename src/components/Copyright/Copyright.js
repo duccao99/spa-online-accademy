@@ -1,6 +1,6 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import * as env_config from "../../config/env.config";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -20,11 +20,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link
-        className={classes.link}
-        color="inherit"
-        href={`${env_config.BASE_URL}`}
-      >
+      <Link className={classes.link} color="inherit" to={`/`}>
         Online Academy
       </Link>{" "}
       {new Date().getFullYear()}

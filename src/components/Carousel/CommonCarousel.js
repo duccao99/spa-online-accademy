@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   carousel_dot_css: {
-    maxHeight: 500,
+    minHeight: 500,
     // overflow: "hidden",
 
     "& li.dot": {
