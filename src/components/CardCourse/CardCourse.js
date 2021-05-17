@@ -83,27 +83,37 @@ const useStyles = makeStyles((theme) => ({
   card_wrapper: {
     // marginBottom: common_spacing * 2,
   },
+  link: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
+  },
 }));
 
 export default function CardCourse() {
   const classes = useStyles();
   return (
-    <Card className={classes.card}>
-      <CardMedia
-        className={classes.cardMedia}
-        image="https://source.unsplash.com/random"
-        title="Image title"
-      />
+    <Link className={classes.link} to="/course/1">
+      <Card className={classes.card}>
+        <CardMedia
+          className={classes.cardMedia}
+          image="https://source.unsplash.com/random"
+          title="Image title"
+        />
 
-      <CardContent className={classes.cardContent}>
-        <Typography gutterBottom variant="h5" component="h2">
-          Heading
-        </Typography>
-        <Typography>
-          This is a media card. You can use this section to describe the
-          content.
-        </Typography>
-      </CardContent>
-    </Card>
+        <CardContent className={classes.cardContent}>
+          <Typography gutterBottom variant="h5" component="h2">
+            Heading
+          </Typography>
+          <Typography>
+            This is a media card. You can use this section to describe the
+            content.
+          </Typography>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }

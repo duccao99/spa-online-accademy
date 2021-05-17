@@ -5,6 +5,7 @@ import HelloWorld from "./components/HelloWorld/HelloWorld";
 import SignIn from "./components/SignIn/SignIn";
 import { getToken, setToken } from "./config/accessToken";
 import HomePage from "./components/HomePage/HomePage";
+import CoursesList from "./components/CoursesList/CoursesList";
 
 function App() {
   const [is_logged_in, set_is_logged_in] = useState(false);
@@ -12,7 +13,11 @@ function App() {
 
   useEffect(() => {
     set_access_token(getToken());
-  }, []);
+
+    if (access_token !== "" || access_token !== undefined) {
+      set_is_logged_in(true);
+    }
+  }, [access_token]);
 
   return (
     <Router>
@@ -20,6 +25,7 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/user/sign-in" component={SignIn} />
         <Route exact path="/user/sign-up" component={SignUp} />
+        <Route exact path="/courses-list" component={CoursesList} />
       </Switch>
     </Router>
   );
