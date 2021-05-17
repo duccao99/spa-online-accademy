@@ -19,7 +19,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import Banner from "../Banner/Banner";
 import CommonCarousel from "../Carousel/CommonCarousel";
-
+import CardActionArea from "@material-ui/core/CardActionArea";
 const common_spacing = 32;
 
 const useStyles = makeStyles((theme) => ({
@@ -91,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
     },
   },
+  typo: {
+    textAlign: "left",
+  },
 }));
 
 export default function CardCourse() {
@@ -98,21 +101,28 @@ export default function CardCourse() {
   return (
     <Link className={classes.link} to="/course/1">
       <Card className={classes.card}>
-        <CardMedia
-          className={classes.cardMedia}
-          image="https://source.unsplash.com/random"
-          title="Image title"
-        />
+        <CardActionArea>
+          <CardMedia
+            className={classes.cardMedia}
+            image="https://source.unsplash.com/random"
+            title="Image title"
+          />
 
-        <CardContent className={classes.cardContent}>
-          <Typography gutterBottom variant="h5" component="h2">
-            Heading
-          </Typography>
-          <Typography>
-            This is a media card. You can use this section to describe the
-            content.
-          </Typography>
-        </CardContent>
+          <CardContent className={classes.cardContent}>
+            <Typography
+              className={classes.typo}
+              gutterBottom
+              variant="h5"
+              component="h2"
+            >
+              Course name
+            </Typography>
+            <Typography className={classes.typo}>Category</Typography>
+            <Typography className={classes.typo}>Instructor name</Typography>
+            <Typography className={classes.typo}>Rating </Typography>
+            <Typography className={classes.typo}>100$ </Typography>
+          </CardContent>
+        </CardActionArea>
       </Card>
     </Link>
   );

@@ -36,7 +36,11 @@ export default function Cat({ cat_name, cat_id }) {
 
   return (
     <React.Fragment>
-      <ListItem button onClick={handleClick}>
+      <ListItem
+        className={classes.left_cat_wrapper}
+        button
+        onClick={handleClick}
+      >
         <ListItemIcon className={classes.cat_icon}>
           <InboxIcon />
         </ListItemIcon>
