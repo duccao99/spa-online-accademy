@@ -9,6 +9,8 @@ import React, { useState, useEffect } from "react";
 import CommonCarousel from "../Carousel/CommonCarousel";
 import Navbar from "../Navbar/Navbar";
 import CardCourse from "./../CardCourse/CardCourse";
+import CardNewestCourse from "./../CardCourse/CardNewestCourse";
+
 import Footer from "./../Footer/Footer";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -148,6 +150,11 @@ export default function HomePage() {
   const [is_logged_in, set_is_logged_in] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [outstanding_courses, set_outstanding_courses] = useState([]);
+  const [newest_courses, set_newest_courses] = useState([]);
+  const [newest_courses_1_4, set_newest_courses_1_4] = useState([]);
+  const [newest_courses_2_4, set_newest_courses_2_4] = useState([]);
+  const [newest_courses_3_2, set_newest_courses_3_2] = useState([]);
+
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -166,6 +173,29 @@ export default function HomePage() {
     const config = {};
     axios.get(url, config).then((ret) => {
       set_outstanding_courses(ret.data.outstanding_courses);
+    });
+
+    const newest_url = `${env.DEV_URL}/api/course/ten-newest-courses`;
+
+    axios.get(newest_url, config).then((ret) => {
+      set_newest_courses(ret.data.ten_newest_courses);
+
+      let first_4 = [];
+      let second_4 = [];
+      let third_2 = [];
+      for (let i = 0; i < 4; ++i) {
+        first_4.push(ret.data.ten_newest_courses[i]);
+      }
+
+      for (let i = 4; i < 8; ++i) {
+        second_4.push(ret.data.ten_newest_courses[i]);
+      }
+      for (let i = 8; i < 10; ++i) {
+        third_2.push(ret.data.ten_newest_courses[i]);
+      }
+      set_newest_courses_1_4(first_4);
+      set_newest_courses_2_4(second_4);
+      set_newest_courses_3_2(third_2);
     });
   }, []);
 
@@ -251,38 +281,42 @@ export default function HomePage() {
           <CommonCarousel>
             {/* first 4 newest courses */}
             <Grid container spacing={4}>
-              {ten_most_newest_courses_first_4.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={3} lg={3}>
-                  <CardCourse />
-                </Grid>
-              ))}
+              {newest_courses_1_4.length !== 0
+                ? newest_courses_1_4.map((card) => (
+                    <Grid item key={card} xs={12} sm={6} md={3} lg={3}>
+                      <CardNewestCourse {...card} />
+                    </Grid>
+                  ))
+                : ""}
             </Grid>
             <Grid container spacing={4}>
               {/* second 4 newest courses */}
-
-              {ten_most_newest_courses_second_4.map((card) => (
-                <Grid
-                  item
-                  key={card}
-                  xs={12}
-                  sm={6}
-                  md={3}
-                  lg={3}
-                  className={classes.card_wrapper}
-                >
-                  <CardCourse />
-                </Grid>
-              ))}
+              {newest_courses_2_4.length !== 0
+                ? newest_courses_2_4.map((card) => (
+                    <Grid
+                      item
+                      key={card}
+                      xs={12}
+                      sm={6}
+                      md={3}
+                      lg={3}
+                      className={classes.card_wrapper}
+                    >
+                      <CardNewestCourse {...card} />
+                    </Grid>
+                  ))
+                : ""}
             </Grid>
 
             <Grid container spacing={4}>
               {/* third 2 newest courses */}
-
-              {ten_most_newest_courses_third_2.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={3} lg={3}>
-                  <CardCourse />
-                </Grid>
-              ))}
+              {newest_courses_3_2.length !== 0
+                ? newest_courses_3_2.map((card) => (
+                    <Grid item key={card} xs={12} sm={6} md={3} lg={3}>
+                      <CardNewestCourse {...card} />
+                    </Grid>
+                  ))
+                : ""}
             </Grid>
           </CommonCarousel>
         </Container>
