@@ -65,8 +65,8 @@ export default function FiveRelativeCourse(props) {
 
   return (
     <Paper className={classes.paper}>
-      <Typography className={classes.pb16} variant="h4">
-        <strong>Five courses relative category</strong>{" "}
+      <Typography className={classes.pb16} component="strong" variant="h4">
+        Five courses relative category
       </Typography>
 
       <CommonCarousel>

@@ -99,31 +99,43 @@ const useStyles = makeStyles((theme) => ({
 export default function CardCourse() {
   const classes = useStyles();
   return (
-    <Link className={classes.link} to="/course/1">
+    <React.Fragment>
       <Card className={classes.card}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.cardMedia}
-            image=""
-            title="Image title"
-          />
+        <Link className={classes.link} to="/course/1">
+          <CardActionArea>
+            <CardMedia
+              className={classes.cardMedia}
+              image=""
+              title="Image title"
+            />
 
-          <CardContent className={classes.cardContent}>
-            <Typography
-              className={classes.typo}
-              gutterBottom
-              variant="h5"
-              component="h2"
-            >
-              Course name
-            </Typography>
-            <Typography className={classes.typo}>Category</Typography>
-            <Typography className={classes.typo}>Instructor name</Typography>
-            <Typography className={classes.typo}>Rating </Typography>
-            <Typography className={classes.typo}>100$ </Typography>
-          </CardContent>
-        </CardActionArea>
+            <CardContent className={classes.cardContent}>
+              <Typography
+                className={classes.typo}
+                gutterBottom
+                variant="h5"
+                component="h2"
+              >
+                Course name
+              </Typography>
+              <Typography className={classes.typo}>Category</Typography>
+              <Typography className={classes.typo}>Instructor name</Typography>
+              <Typography className={classes.typo}>Rating </Typography>
+              <Typography className={classes.typo}>100$ </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Link>
+        <CardActions>
+          <Button variant="contained" size="small" color="primary">
+            Buy
+          </Button>
+          <Link className={classes.link} to="/course/1">
+            <Button variant="outlined" size="small" color="primary">
+              Detail
+            </Button>
+          </Link>
+        </CardActions>
       </Card>
-    </Link>
+    </React.Fragment>
   );
 }

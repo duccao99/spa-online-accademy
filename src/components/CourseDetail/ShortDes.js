@@ -56,7 +56,7 @@ export default function ShortDes({ course_detail }) {
 
   return (
     <Paper className={classes.paper}>
-      <Typography variant="h4" className={classes.des}>
+      <Typography className={classes.pb16} component="strong" variant="h4">
         Short description
       </Typography>
       <Box

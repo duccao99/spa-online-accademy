@@ -10,6 +10,7 @@ import CommonCarousel from "../Carousel/CommonCarousel";
 import Navbar from "../Navbar/Navbar";
 import CardCourse from "./../CardCourse/CardCourse";
 import Footer from "./../Footer/Footer";
+import { Link } from "react-router-dom";
 
 const common_spacing = 32;
 
@@ -184,22 +185,26 @@ export default function HomePage() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button
-                    className={classes.btn}
-                    variant="contained"
-                    color="primary"
-                  >
-                    If you are instructor
-                  </Button>
+                  <Link to="/join-with-ins" className={classes.link}>
+                    <Button
+                      className={classes.btn}
+                      variant="contained"
+                      color="primary"
+                    >
+                      If you are instructor
+                    </Button>
+                  </Link>
                 </Grid>
                 <Grid item>
-                  <Button
-                    className={classes.btn}
-                    variant="outlined"
-                    color="primary"
-                  >
-                    If you are student
-                  </Button>
+                  <Link to="/user/sign-in" className={classes.link}>
+                    <Button
+                      className={classes.btn}
+                      variant="outlined"
+                      color="primary"
+                    >
+                      If you are student
+                    </Button>
+                  </Link>
                 </Grid>
               </Grid>
             </div>

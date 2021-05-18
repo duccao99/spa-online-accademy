@@ -1,5 +1,6 @@
-import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
+import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -50,6 +51,24 @@ const styles = makeStyles((theme) => ({
       fontSize: common_fontsize,
     },
   },
+  link: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
+  },
+
+  btn_add_to_cart: {
+    width: "100%",
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
+  },
 }));
 
 export default function CatPrice({ course_detail }) {
@@ -87,6 +106,17 @@ export default function CatPrice({ course_detail }) {
         <Typography>
           <strong>Sale: </strong> {course_detail.course_fee}
         </Typography>
+      </Box>
+
+      <Box className={classes.box_cat}>
+        <Link
+          to={`/add-to-cart/course/${1}`}
+          className={classes.btn_add_to_cart}
+        >
+          <Button fullWidth variant="contained">
+            Add to cart
+          </Button>
+        </Link>
       </Box>
     </Paper>
   );

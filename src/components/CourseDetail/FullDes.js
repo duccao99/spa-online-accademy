@@ -56,7 +56,7 @@ export default function FullDes({ course_detail }) {
 
   return (
     <Paper className={classes.paper}>
-      <Typography variant="h4" className={classes.des}>
+      <Typography className={classes.pb16} component="strong" variant="h4">
         Full description
       </Typography>
       <Box
