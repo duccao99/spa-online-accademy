@@ -171,7 +171,7 @@ export default function HomePage() {
               color="textPrimary"
               gutterBottom
             >
-              Study in COVID 19
+              Study in COVID 19 ?
             </Typography>
             <Typography
               variant="h5"
@@ -179,8 +179,7 @@ export default function HomePage() {
               color="textSecondary"
               paragraph
             >
-              Our platform was created with the purpose that helps people to
-              study in the COVID time
+              Go study online
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">

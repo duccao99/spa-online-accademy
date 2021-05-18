@@ -1,28 +1,17 @@
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Paper,
-  Container,
-  Box,
-  Button,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
+import { Container, Grid, makeStyles } from "@material-ui/core";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import * as env from "../../config/env.config";
-import { render } from "react-dom";
-import Moment from "react-moment";
-import cn from "classnames";
+import Footer from "../Footer/Footer";
+import Navbar from "../Navbar/Navbar";
 import Avatar from "./Avatar";
-import ShortDes from "./ShortDes";
 import CatPrice from "./CatPrice";
+import Feedback from "./Feedback";
+import FiveRelativeCourse from "./FiveRelativeCourse";
 import FullDes from "./FullDes";
 import InstructorDes from "./InstructorDes";
+import ShortDes from "./ShortDes";
 import Syllabus from "./Syllabus";
-import FiveRelativeCourse from "./FiveRelativeCourse";
-import Feedback from "./Feedback";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({

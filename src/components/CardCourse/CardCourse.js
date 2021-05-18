@@ -104,7 +104,7 @@ export default function CardCourse() {
         <CardActionArea>
           <CardMedia
             className={classes.cardMedia}
-            image="https://source.unsplash.com/random"
+            image=""
             title="Image title"
           />
 

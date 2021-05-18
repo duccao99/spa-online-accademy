@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Paper,
-  Container,
-  Box,
-  Button,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
+import React, { useState } from "react";
 import CardCourse from "../CardCourse/CardCourse";
 import CommonCarousel from "../Carousel/CommonCarousel";
 

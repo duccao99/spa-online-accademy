@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Paper,
-  Container,
-  Box,
-  Button,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
+import React from "react";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({

@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Paper,
-  Container,
-  Box,
-  Button,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
+import React from "react";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -67,13 +59,13 @@ export default function CatPrice({ course_detail }) {
     <Paper className={classes.paper}>
       <Box className={classes.box_cat}>
         <Typography>
-          <strong>Amount student enroll: </strong> 10
+          <strong>Number student enroll: </strong> 10
         </Typography>
       </Box>
 
       <Box className={classes.box_cat}>
         <Typography>
-          <strong>Amount student rating: </strong> 10
+          <strong>Number student rating: </strong> 10
         </Typography>
       </Box>
       <Box className={classes.box_cat}>

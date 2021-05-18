@@ -1,20 +1,7 @@
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Paper,
-  Container,
-  Box,
-  Button,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
-import axios from "axios";
-import * as env from "../../config/env.config";
-import { render } from "react-dom";
-import Moment from "react-moment";
+import { makeStyles, Paper, Typography } from "@material-ui/core";
 import cn from "classnames";
+import React from "react";
+import Moment from "react-moment";
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
   course_detail_wrapper: {},

@@ -1,24 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Paper,
-  Container,
-  Box,
-  Button,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
-import axios from "axios";
-import * as env from "../../config/env.config";
-import { render } from "react-dom";
-import Moment from "react-moment";
-import cn from "classnames";
-import Avatar from "./Avatar";
-import ShortDes from "./ShortDes";
-import CatPrice from "./CatPrice";
-import FullDes from "./FullDes";
+import { makeStyles, Paper, Typography } from "@material-ui/core";
+import React from "react";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
