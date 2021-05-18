@@ -92,6 +92,7 @@ const useStyles = makeStyles((theme) => ({
 
   btn_sign_in: {
     color: "inherit",
+    fontSize: 16,
     textDecoration: "none",
     textTransform: "capitalize",
     "&:visited": {
