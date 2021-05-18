@@ -1,11 +1,15 @@
-import { Paper, Typography } from "@material-ui/core";
-import List from "@material-ui/core/List";
-import ListSubheader from "@material-ui/core/ListSubheader";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
+import CallToActionIcon from "@material-ui/icons/CallToAction";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 import React from "react";
-import Chapter from "./Chapter";
+import Lesson from "./Lesson";
 
 const common_fontsize = 18;
+
 const styles = makeStyles((theme) => ({
   course_detail_wrapper: {},
   ava_course: {},
@@ -59,38 +63,33 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const chapters = [
+const lessons = [
   {
-    name: "chap 1",
     chap_id: 1,
-  },
-  {
-    name: "chap 2",
-    chap_id: 2,
+    lesson_name: "lesson 1",
   },
 ];
-
-export default function Syllabus({ course_detail }) {
+// get lesson by chap id and it will be okay
+export default function Chapter({ name }) {
   const classes = styles();
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   return (
-    <Paper className={classes.paper}>
-      <List
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader id="nested-list-subheader">
-            <Typography component="strong" variant="h4">
-              Course syllabus
-            </Typography>
-          </ListSubheader>
-        }
-        className={classes.root}
-      >
-        {chapters.map((ele, i) => {
-          return <Chapter key={i} {...ele} />;
-        })}
-      </List>
-    </Paper>
+    <React.Fragment>
+      <ListItem button onClick={handleClick}>
+        <ListItemIcon>
+          <CallToActionIcon />
+        </ListItemIcon>
+        <ListItemText primary={name} />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      {lessons.map((ele, i) => {
+        return <Lesson open={open} />;
+      })}
+    </React.Fragment>
   );
 }

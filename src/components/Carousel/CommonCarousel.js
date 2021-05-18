@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
       minHeight: 400,
     },
     "& ul.control-dots": {
-      bottom: 0,
+      bottom: -32,
     },
   },
 }));

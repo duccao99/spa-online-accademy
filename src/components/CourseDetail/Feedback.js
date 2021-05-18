@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Paper,
-  Container,
-  Box,
-  Button,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
+import React from "react";
 import CardFeedback from "../CardFeedback/CardFeedback";
 
 const common_fontsize = 18;
@@ -61,6 +53,9 @@ const styles = makeStyles((theme) => ({
   pb16: {
     paddingBottom: 16,
   },
+  mb16: {
+    marginBottom: 16,
+  },
 }));
 
 export default function Feedback(props) {
@@ -70,6 +65,13 @@ export default function Feedback(props) {
 
   return (
     <Paper className={classes.paper}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography component="strong" variant="h4">
+            Feedbacks
+          </Typography>
+        </Grid>
+      </Grid>
       <Grid container spacing={3}>
         {fb.map((ele, i) => {
           return (

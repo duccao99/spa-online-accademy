@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Paper,
-  Container,
-  Box,
-  Button,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
+import React from "react";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -64,7 +56,7 @@ export default function FullDes({ course_detail }) {
 
   return (
     <Paper className={classes.paper}>
-      <Typography variant="h4" className={classes.des}>
+      <Typography className={classes.pb16} component="strong" variant="h4">
         Full description
       </Typography>
       <Box

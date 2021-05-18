@@ -43,10 +43,10 @@ export default function CardFeedback() {
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          Like
         </Button>
         <Button size="small" color="primary">
-          Learn More
+          Share
         </Button>
       </CardActions>
     </Card>
