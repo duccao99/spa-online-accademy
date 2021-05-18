@@ -94,18 +94,34 @@ const useStyles = makeStyles((theme) => ({
   typo: {
     textAlign: "left",
   },
+  card_action: {
+    display: "flex",
+    alignItems: "flex-end",
+    height: "100%",
+  },
 }));
 
-export default function CardCourse() {
+export default function CardCourse(props) {
+  const {
+    course_avatar_url,
+    course_fee,
+    course_name,
+    course_title,
+    course_id,
+    subject_name,
+    user_name,
+    avg_rate,
+  } = props;
+  console.log(props);
   const classes = useStyles();
   return (
     <React.Fragment>
       <Card className={classes.card}>
-        <Link className={classes.link} to="/course/1">
+        <Link className={classes.link} to={`/course/${course_id}`}>
           <CardActionArea>
             <CardMedia
               className={classes.cardMedia}
-              image=""
+              image={`${course_avatar_url}`}
               title="Image title"
             />
 
@@ -116,20 +132,20 @@ export default function CardCourse() {
                 variant="h5"
                 component="h2"
               >
-                Course name
+                {course_name}
               </Typography>
-              <Typography className={classes.typo}>Category</Typography>
-              <Typography className={classes.typo}>Instructor name</Typography>
-              <Typography className={classes.typo}>Rating </Typography>
-              <Typography className={classes.typo}>100$ </Typography>
+              <Typography className={classes.typo}>{subject_name}</Typography>
+              <Typography className={classes.typo}> {user_name}</Typography>
+              <Typography className={classes.typo}>Rate: {avg_rate}</Typography>
+              <Typography className={classes.typo}>{course_fee}$</Typography>
             </CardContent>
           </CardActionArea>
         </Link>
-        <CardActions>
+        <CardActions className={classes.card_action}>
           <Button variant="contained" size="small" color="primary">
             Buy
           </Button>
-          <Link className={classes.link} to="/course/1">
+          <Link className={classes.link} to={`/course/${course_id}`}>
             <Button variant="outlined" size="small" color="primary">
               Detail
             </Button>

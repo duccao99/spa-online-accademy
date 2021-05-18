@@ -61,6 +61,7 @@ export default function Avatar({ course_detail, last_updated }) {
         backgroundImage: `url(${course_detail.course_avatar_url})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
       className={cn(classes.paper, classes.ava_course)}
     >
