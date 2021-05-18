@@ -5,12 +5,14 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import cn from "classnames";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CommonCarousel from "../Carousel/CommonCarousel";
 import Navbar from "../Navbar/Navbar";
 import CardCourse from "./../CardCourse/CardCourse";
 import Footer from "./../Footer/Footer";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import * as env from "../../config/env.config";
 
 const common_spacing = 32;
 
@@ -145,6 +147,7 @@ export default function HomePage() {
   const classes = useStyles();
   const [is_logged_in, set_is_logged_in] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [outstanding_courses, set_outstanding_courses] = useState([]);
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -157,6 +160,14 @@ export default function HomePage() {
   const handleChange = (event) => {
     set_is_logged_in(event.target.checked);
   };
+
+  useEffect(() => {
+    const url = `${env.DEV_URL}/api/course/outstanding-courses`;
+    const config = {};
+    axios.get(url, config).then((ret) => {
+      set_outstanding_courses(ret.data.outstanding_courses);
+    });
+  }, []);
 
   return (
     <React.Fragment>
@@ -221,10 +232,10 @@ export default function HomePage() {
           </Typography>
 
           <Grid container spacing={4} justify={"center"}>
-            {outstanding_courses.map((card) => {
+            {outstanding_courses.map((card, i) => {
               return (
-                <Grid item key={card} xs={12} sm={6} md={3} lg={3}>
-                  <CardCourse />
+                <Grid item key={i} xs={12} sm={6} md={3} lg={3}>
+                  <CardCourse {...card} />
                 </Grid>
               );
             })}
