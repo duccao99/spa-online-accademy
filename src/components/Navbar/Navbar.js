@@ -215,7 +215,7 @@ export default function Navbar() {
           </Box>
 
           {/* Cart */}
-          <Link>
+          <Link to="/user/cart">
             <IconButton className={classes.cart_css}>
               <StyledBadge badgeContent={4} color="secondary">
                 <ShoppingCartIcon />
