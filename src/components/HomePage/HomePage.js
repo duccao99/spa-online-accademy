@@ -10,12 +10,19 @@ import CommonCarousel from "../Carousel/CommonCarousel";
 import Navbar from "../Navbar/Navbar";
 import CardCourse from "./../CardCourse/CardCourse";
 import CardNewestCourse from "./../CardCourse/CardNewestCourse";
-
+import Paper from "@material-ui/core/Paper";
+import { Box } from "@material-ui/core";
 import Footer from "./../Footer/Footer";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import * as env from "../../config/env.config";
-
+import CardCat from "./CardCat";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 const common_spacing = 32;
 
 const useStyles = makeStyles((theme) => ({
@@ -123,6 +130,21 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 100,
     marginBottom: 100,
   },
+  list_cat_container: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  table: {
+    "&.MuiTableContainer-root": {
+      width: "unset",
+    },
+  },
+  box_cat: {
+    display: "flex;",
+    justifyContent: "center;",
+    alignItems: "center;",
+    width: "100%",
+  },
 }));
 
 const StyledBadge = withStyles((theme) => ({
@@ -133,6 +155,18 @@ const StyledBadge = withStyles((theme) => ({
     padding: "0 4px",
   },
 }))(Badge);
+
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+];
 
 const outstanding_courses = [1, 2, 3];
 // ten_most_viewed_courses
@@ -150,10 +184,14 @@ export default function HomePage() {
   const [is_logged_in, set_is_logged_in] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [outstanding_courses, set_outstanding_courses] = useState([]);
-  const [newest_courses, set_newest_courses] = useState([]);
   const [newest_courses_1_4, set_newest_courses_1_4] = useState([]);
   const [newest_courses_2_4, set_newest_courses_2_4] = useState([]);
   const [newest_courses_3_2, set_newest_courses_3_2] = useState([]);
+
+  const [most_viewed_courses_1_4, set_most_viewed_courses_1_4] = useState([]);
+  const [most_viewed_courses_2_4, set_most_viewed_courses_2_4] = useState([]);
+  const [most_viewed_courses_3_2, set_most_viewed_courses_3_2] = useState([]);
+  const [top_sub_cat, set_top_sub_cat] = useState([]);
 
   const open = Boolean(anchorEl);
 
@@ -169,17 +207,18 @@ export default function HomePage() {
   };
 
   useEffect(() => {
+    // outstanding
     const url = `${env.DEV_URL}/api/course/outstanding-courses`;
     const config = {};
     axios.get(url, config).then((ret) => {
       set_outstanding_courses(ret.data.outstanding_courses);
     });
 
+    // newest
+
     const newest_url = `${env.DEV_URL}/api/course/ten-newest-courses`;
 
     axios.get(newest_url, config).then((ret) => {
-      set_newest_courses(ret.data.ten_newest_courses);
-
       let first_4 = [];
       let second_4 = [];
       let third_2 = [];
@@ -196,6 +235,37 @@ export default function HomePage() {
       set_newest_courses_1_4(first_4);
       set_newest_courses_2_4(second_4);
       set_newest_courses_3_2(third_2);
+    });
+
+    // viewed
+
+    const most_viewed_url = `${env.DEV_URL}/api/course/ten-most-viewed-courses`;
+
+    axios.get(most_viewed_url, config).then((ret) => {
+      let first_4 = [];
+      let second_4 = [];
+      let third_2 = [];
+      for (let i = 0; i < 4; ++i) {
+        first_4.push(ret.data.ten_most_viewed_courses[i]);
+      }
+
+      for (let i = 4; i < 8; ++i) {
+        second_4.push(ret.data.ten_most_viewed_courses[i]);
+      }
+      for (let i = 8; i < 10; ++i) {
+        third_2.push(ret.data.ten_most_viewed_courses[i]);
+      }
+
+      set_most_viewed_courses_1_4(first_4);
+      set_most_viewed_courses_2_4(second_4);
+      set_most_viewed_courses_3_2(third_2);
+    });
+
+    // top sub cat
+    const top_sub_cat_url = `${env.DEV_URL}/api/course/top-sub-cat`;
+
+    axios.get(top_sub_cat_url, config).then((ret) => {
+      set_top_sub_cat(ret.data.top_sub_cat);
     });
   }, []);
 
@@ -282,8 +352,8 @@ export default function HomePage() {
             {/* first 4 newest courses */}
             <Grid container spacing={4}>
               {newest_courses_1_4.length !== 0
-                ? newest_courses_1_4.map((card) => (
-                    <Grid item key={card} xs={12} sm={6} md={3} lg={3}>
+                ? newest_courses_1_4.map((card, i) => (
+                    <Grid item key={i} xs={12} sm={6} md={3} lg={3}>
                       <CardNewestCourse {...card} />
                     </Grid>
                   ))
@@ -292,10 +362,10 @@ export default function HomePage() {
             <Grid container spacing={4}>
               {/* second 4 newest courses */}
               {newest_courses_2_4.length !== 0
-                ? newest_courses_2_4.map((card) => (
+                ? newest_courses_2_4.map((card, i) => (
                     <Grid
                       item
-                      key={card}
+                      key={i}
                       xs={12}
                       sm={6}
                       md={3}
@@ -311,8 +381,8 @@ export default function HomePage() {
             <Grid container spacing={4}>
               {/* third 2 newest courses */}
               {newest_courses_3_2.length !== 0
-                ? newest_courses_3_2.map((card) => (
-                    <Grid item key={card} xs={12} sm={6} md={3} lg={3}>
+                ? newest_courses_3_2.map((card, i) => (
+                    <Grid item key={i} xs={12} sm={6} md={3} lg={3}>
                       <CardNewestCourse {...card} />
                     </Grid>
                   ))
@@ -330,43 +400,69 @@ export default function HomePage() {
           <CommonCarousel>
             <Grid container spacing={4}>
               {/* ten_most_viewed_courses_first_4 */}
-              {ten_most_viewed_courses_first_4.map((card) => {
+              {most_viewed_courses_1_4.map((card, i) => {
                 return (
                   <Grid
                     className={classes.card_wrapper}
                     item
-                    key={card}
+                    key={i}
                     xs={12}
                     sm={6}
                     md={3}
                     lg={3}
                   >
-                    <CardCourse />
+                    <CardCourse {...card} />
                   </Grid>
                 );
               })}
             </Grid>
             <Grid container spacing={4}>
               {/* ten_most_viewed_courses_second_4 */}
-              {ten_most_viewed_courses_second_4.map((card) => {
+              {most_viewed_courses_2_4.map((card, i) => {
                 return (
-                  <Grid item key={card} xs={12} sm={6} md={3} lg={3}>
-                    <CardCourse />
+                  <Grid key={i} item xs={12} sm={6} md={3} lg={3}>
+                    <CardCourse {...card} />
                   </Grid>
                 );
               })}
             </Grid>
             <Grid container spacing={4}>
               {/* ten_most_viewed_courses_third_2 */}
-              {ten_most_viewed_courses_third_2.map((card) => {
+              {most_viewed_courses_3_2.map((card, i) => {
                 return (
-                  <Grid item key={card} xs={12} sm={6} md={3} lg={3}>
-                    <CardCourse />
+                  <Grid key={i} item key={card} xs={12} sm={6} md={3} lg={3}>
+                    <CardCourse {...card} />
                   </Grid>
                 );
               })}
             </Grid>
           </CommonCarousel>
+        </Container>
+
+        <Container className={classes.cardGrid} maxWith="lg">
+          {/* End hero unit */}
+          <Typography className={classes.ten_most_newest_courses} variant="h4">
+            Top categories
+          </Typography>
+
+          <Box className={classes.box_cat}>
+            <TableContainer component={Paper} className={classes.table}>
+              <TableContainer aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Category</TableCell>
+                    <TableCell align="right">Subject</TableCell>
+                    <TableCell align="right">Number student enroll</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {top_sub_cat.map((cat, i) => {
+                    return <CardCat key={i} cat={cat} />;
+                  })}
+                </TableBody>
+              </TableContainer>
+            </TableContainer>
+          </Box>
         </Container>
       </main>
       {/* Footer */}
