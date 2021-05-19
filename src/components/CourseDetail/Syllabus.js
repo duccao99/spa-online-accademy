@@ -79,11 +79,9 @@ export default function Syllabus({ course_detail }) {
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
-          <ListSubheader id="nested-list-subheader">
-            <Typography component="strong" variant="h4">
-              Course syllabus
-            </Typography>
-          </ListSubheader>
+          <Typography component="strong" variant="h4">
+            Course syllabus
+          </Typography>
         }
         className={classes.root}
       >

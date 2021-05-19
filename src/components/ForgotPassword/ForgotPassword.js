@@ -99,8 +99,6 @@ export default function ForgotPassword() {
     axios
       .post(url, data, config)
       .then((ret) => {
-        console.log(ret);
-
         // auth
         const auth_url = `${env_config.DEV_URL}/api/auth`;
         const auth_data = {
@@ -110,8 +108,6 @@ export default function ForgotPassword() {
         axios
           .post(auth_url, auth_data, config)
           .then((ret) => {
-            console.log(ret);
-
             const title = "Account created!";
             const html = "";
             const timer = 2000;

@@ -6,12 +6,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import StarBorder from "@material-ui/icons/StarBorder";
+
+import CategoryIcon from "@material-ui/icons/Category";
 
 const style = makeStyles((theme) => ({
   left_cat_wrapper: {},
@@ -25,18 +21,22 @@ const style = makeStyles((theme) => ({
   },
 }));
 
-export default function Subcat({ open, setOpen }) {
+export default function Subcat({ open, setOpen, all_subcat }) {
   const classes = style();
 
   return (
     <Collapse in={open} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        <ListItem button className={classes.nested}>
-          <ListItemIcon className={classes.cat_icon}>
-            <StarBorder />
-          </ListItemIcon>
-          <ListItemText primary="Starred" />
-        </ListItem>
+        {all_subcat.map((ele, i) => {
+          return (
+            <ListItem key={i} button className={classes.nested}>
+              <ListItemIcon className={classes.cat_icon}>
+                <CategoryIcon />
+              </ListItemIcon>
+              <ListItemText primary={`${ele.subject_name}`} />
+            </ListItem>
+          );
+        })}
       </List>
     </Collapse>
   );

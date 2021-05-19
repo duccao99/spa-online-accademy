@@ -112,7 +112,7 @@ export default function CardNewestCourse(props) {
     user_name,
     avg_rate,
   } = props;
-  console.log(props);
+
   const classes = useStyles();
   return (
     <React.Fragment>

@@ -13,6 +13,8 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import Subcat from "./Subcat";
+import LanguageIcon from "@material-ui/icons/Language";
+import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 
 const style = makeStyles((theme) => ({
   left_cat_wrapper: {},
@@ -26,7 +28,7 @@ const style = makeStyles((theme) => ({
   },
 }));
 
-export default function Cat({ cat_name, cat_id }) {
+export default function Cat({ cat_name, cat_id, all_subcat }) {
   const classes = style();
   const [open, setOpen] = React.useState(false);
 
@@ -42,12 +44,24 @@ export default function Cat({ cat_name, cat_id }) {
         onClick={handleClick}
       >
         <ListItemIcon className={classes.cat_icon}>
-          <InboxIcon />
+          {cat_id === 1 ? <LanguageIcon /> : <PhoneIphoneIcon />}
         </ListItemIcon>
         <ListItemText primary={cat_name} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <Subcat open={open} setOpen={setOpen} />
+      {cat_id === 1 ? (
+        <Subcat
+          all_subcat={all_subcat.filter((ele) => ele.cat_id === 1)}
+          open={open}
+          setOpen={setOpen}
+        />
+      ) : (
+        <Subcat
+          all_subcat={all_subcat.filter((ele) => ele.cat_id === 2)}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </React.Fragment>
   );
 }

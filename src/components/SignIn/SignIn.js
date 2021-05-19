@@ -103,12 +103,9 @@ export default function SignIn() {
           ...data,
         };
 
-        console.log(ret);
-
         axios
           .post(auth_url, auth_data, config)
           .then((ret) => {
-            console.log(ret);
             sessionStorage.setItem(
               "access_token",
               JSON.stringify(ret.data.accessToken)

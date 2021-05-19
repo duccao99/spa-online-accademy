@@ -10,11 +10,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BasicPagination() {
+export default function BasicPagination({
+  total_pagi_stuff,
+  handlePagiChange,
+  curr_page,
+  set_curr_page,
+}) {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
-      <Pagination count={10} color="primary" />
+      <Pagination
+        page={+curr_page}
+        count={+total_pagi_stuff}
+        onChange={handlePagiChange}
+        color="primary"
+      />
     </div>
   );
 }
