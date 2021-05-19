@@ -129,8 +129,8 @@ export default function CardNewestCourse(props) {
               <Typography
                 className={classes.typo}
                 gutterBottom
-                variant="h5"
-                component="h2"
+                variant="h6"
+                component="p"
               >
                 {course_name}
               </Typography>
