@@ -249,8 +249,13 @@ export default function Navbar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <Link className={classes.link} to="/user/profile">
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                </Link>
+
+                <Link className={classes.link} to="/user/purchased-course">
+                  <MenuItem onClick={handleClose}>Purchased course</MenuItem>
+                </Link>
               </Menu>
             </div>
           )}

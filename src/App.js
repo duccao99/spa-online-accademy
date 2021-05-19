@@ -8,6 +8,7 @@ import CoursesList from "./components/CoursesList/CoursesList";
 import CourseDetail from "./components/CourseDetail/CourseDetail";
 import Cart from "./components/Cart/Cart";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import UserProfile from "./components/User/UserProfile";
 
 function App() {
   const [is_logged_in, set_is_logged_in] = useState(false);
@@ -27,6 +28,8 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/user/sign-in" component={SignIn} />
         <Route exact path="/user/sign-up" component={SignUp} />
+        <Route exact path="/user/profile" component={UserProfile} />
+        <Route exact path="/user/profile/:id" component={UserProfile} />
         <Route exact path="/user/forgot-password" component={ForgotPassword} />
 
         <Route exact path="/user/cart" component={Cart} />
