@@ -11,6 +11,7 @@ import SendIcon from "@material-ui/icons/Send";
 import { Box } from "@material-ui/core";
 import axios from "axios";
 import * as env_config from "../../config/env.config";
+import { Link, useParams } from "react-router-dom";
 
 const StyledMenu = withStyles({
   paper: {
@@ -18,6 +19,14 @@ const StyledMenu = withStyles({
   },
   btn_cat_name: {
     padding: 12,
+  },
+  link: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
   },
 })((props) => (
   <Menu
@@ -44,6 +53,14 @@ const StyledMenuItem = withStyles((theme) => ({
       },
     },
   },
+  link: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
+  },
 }))(MenuItem);
 
 export default function Subcategory({
@@ -58,6 +75,7 @@ export default function Subcategory({
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const { id } = useParams();
 
   return (
     <div>
@@ -84,18 +102,34 @@ export default function Subcategory({
         {sub_web_cat.length !== 0
           ? sub_web_cat.map((ele, i) => {
               return (
-                <StyledMenuItem>
-                  <ListItemText key={i} primary={ele.subject_name} />
-                </StyledMenuItem>
+                <Link
+                  onClick={() => {
+                    set_cat_close(true);
+                  }}
+                  className={classes.link}
+                  to={`/courses-list/${ele.subject_name}`}
+                >
+                  <StyledMenuItem>
+                    <ListItemText key={i} primary={ele.subject_name} />
+                  </StyledMenuItem>
+                </Link>
               );
             })
           : ""}
         {sub_mobi_cat.length !== 0
           ? sub_mobi_cat.map((ele, i) => {
               return (
-                <StyledMenuItem>
-                  <ListItemText key={i} primary={ele.subject_name} />
-                </StyledMenuItem>
+                <Link
+                  onClick={() => {
+                    set_cat_close(true);
+                  }}
+                  className={classes.link}
+                  to={`/courses-list/${ele.subject_name}`}
+                >
+                  <StyledMenuItem>
+                    <ListItemText key={i} primary={ele.subject_name} />
+                  </StyledMenuItem>
+                </Link>
               );
             })
           : ""}

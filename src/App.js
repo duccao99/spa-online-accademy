@@ -34,6 +34,7 @@ function App() {
 
         <Route exact path="/user/cart" component={Cart} />
         <Route exact path="/courses-list" component={CoursesList} />
+        <Route exact path="/courses-list/:id" component={CoursesList} />
         <Route exact path="/course/:course_id" component={CourseDetail} />
       </Switch>
     </Router>

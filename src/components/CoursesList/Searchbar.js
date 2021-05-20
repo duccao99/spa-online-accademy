@@ -13,7 +13,7 @@ export default function Searchbar() {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="freeSolo"
+            label="Course name"
             margin="normal"
             variant="outlined"
           />

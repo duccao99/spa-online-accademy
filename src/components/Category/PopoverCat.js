@@ -49,6 +49,14 @@ const useStyles = makeStyles((theme) => ({
   icon_category: {
     marginRight: 6,
   },
+  link: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
+  },
 }));
 
 export default function PopoverCat({

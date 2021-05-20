@@ -6,6 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
+import { Link, useParams } from "react-router-dom";
 
 import CategoryIcon from "@material-ui/icons/Category";
 
@@ -19,10 +20,19 @@ const style = makeStyles((theme) => ({
       minWidth: 40,
     },
   },
+  link: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
+  },
 }));
 
 export default function Subcat({ open, setOpen, all_subcat }) {
   const classes = style();
+  const { id } = useParams();
 
   return (
     <Collapse in={open} timeout="auto" unmountOnExit>
@@ -33,7 +43,15 @@ export default function Subcat({ open, setOpen, all_subcat }) {
               <ListItemIcon className={classes.cat_icon}>
                 <CategoryIcon />
               </ListItemIcon>
-              <ListItemText primary={`${ele.subject_name}`} />
+              <Link
+                // onClick={() => {
+                //   set_cat_close(true);
+                // }}
+                className={classes.link}
+                to={`/courses-list/${ele.subject_name}`}
+              >
+                <ListItemText primary={`${ele.subject_name}`} />
+              </Link>
             </ListItem>
           );
         })}

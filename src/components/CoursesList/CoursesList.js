@@ -9,6 +9,7 @@ import Pagination from "./Pagination";
 import cn from "classnames";
 import axios from "axios";
 import * as env from "../../config/env.config";
+import { Link, useParams } from "react-router-dom";
 const style = makeStyles((theme) => ({
   main_course_list_wrapper: {
     flexGrow: 1,
@@ -44,16 +45,32 @@ export default function CoursesList() {
   const [all_courses_finished, set_all_courses_finished] = useState([]);
   const [total_pagi_stuff, set_total_pagi_stuff] = useState([]);
   const [curr_page, set_curr_page] = useState([]);
+  const { id } = useParams();
 
   useEffect(() => {
-    const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
-    const config = {};
-    axios.get(all_course_finished_url, config).then((ret) => {
-      set_all_courses_finished(ret.data.all_courses_finished);
-      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-      set_curr_page(ret.data.curr_page);
-    });
-  }, []);
+    let sub_cat_name = "";
+
+    if (id !== undefined) {
+      sub_cat_name = id;
+      console.log(id);
+      const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${sub_cat_name}`;
+      const config = {};
+      axios.get(all_courses_by_subcat_url, config).then((ret) => {
+        console.log(ret);
+        set_all_courses_finished(ret.data.course_by_sub_cat);
+        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+        set_curr_page(ret.data.curr_pagi);
+      });
+    } else {
+      const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
+      const config = {};
+      axios.get(all_course_finished_url, config).then((ret) => {
+        set_all_courses_finished(ret.data.all_courses_finished);
+        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+        set_curr_page(ret.data.curr_page);
+      });
+    }
+  }, [id]);
 
   const handlePagiChange = (event, value) => {
     set_curr_page(value);
