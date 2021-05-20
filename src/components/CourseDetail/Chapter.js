@@ -88,7 +88,7 @@ export default function Chapter({ name }) {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       {lessons.map((ele, i) => {
-        return <Lesson open={open} />;
+        return <Lesson key={i} open={open} />;
       })}
     </React.Fragment>
   );

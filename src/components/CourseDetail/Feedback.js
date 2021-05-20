@@ -75,7 +75,7 @@ export default function Feedback(props) {
       <Grid container spacing={3}>
         {fb.map((ele, i) => {
           return (
-            <Grid item xs={12}>
+            <Grid key={i} item xs={12}>
               <CardFeedback key={i} />;
             </Grid>
           );
