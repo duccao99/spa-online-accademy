@@ -10,6 +10,7 @@ import cn from "classnames";
 import axios from "axios";
 import * as env from "../../config/env.config";
 import { Link, useParams } from "react-router-dom";
+import { debounce } from "lodash";
 const style = makeStyles((theme) => ({
   main_course_list_wrapper: {
     flexGrow: 1,
@@ -45,46 +46,64 @@ export default function CoursesList() {
   const [all_courses_finished, set_all_courses_finished] = useState([]);
   const [total_pagi_stuff, set_total_pagi_stuff] = useState([]);
   const [curr_page, set_curr_page] = useState([]);
+  const [search_value, set_search_value] = useState("");
   const { id } = useParams();
 
   useEffect(() => {
     let sub_cat_name = "";
 
     if (id !== undefined) {
-      sub_cat_name = id;
-      console.log(id);
-      const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${sub_cat_name}`;
-      const config = {};
-      axios.get(all_courses_by_subcat_url, config).then((ret) => {
-        console.log(ret);
-        set_all_courses_finished(ret.data.course_by_sub_cat);
-        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-        set_curr_page(ret.data.curr_pagi);
-      });
+      debounce(() => {
+        const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${sub_cat_name}`;
+        const config = {};
+        axios.get(all_courses_by_subcat_url, config).then((ret) => {
+          console.log(ret);
+          set_all_courses_finished(ret.data.course_by_sub_cat);
+          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+          set_curr_page(ret.data.curr_pagi);
+        });
+      }, 200)();
     } else {
+      debounce(() => {
+        const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
+        const config = {};
+        axios.get(all_course_finished_url, config).then((ret) => {
+          set_all_courses_finished(ret.data.all_courses_finished);
+          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+          set_curr_page(ret.data.curr_page);
+        });
+      }, 200)();
+    }
+
+    if (search_value) {
+      debounce(() => {
+        const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
+        const config = {};
+        axios.get(all_courses_by_subcat_url, config).then((ret) => {
+          set_all_courses_finished(ret.data.all_courses);
+          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+          set_curr_page(ret.data.curr_pagi);
+        });
+      }, 500)();
+    }
+  }, [id, search_value]);
+
+  const handlePagiChange = (event, value) => {
+    set_curr_page(value);
+
+    debounce(() => {
       const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
-      const config = {};
+      const config = {
+        params: {
+          pagi: value,
+        },
+      };
       axios.get(all_course_finished_url, config).then((ret) => {
         set_all_courses_finished(ret.data.all_courses_finished);
         set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
         set_curr_page(ret.data.curr_page);
       });
-    }
-  }, [id]);
-
-  const handlePagiChange = (event, value) => {
-    set_curr_page(value);
-    const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
-    const config = {
-      params: {
-        pagi: value,
-      },
-    };
-    axios.get(all_course_finished_url, config).then((ret) => {
-      set_all_courses_finished(ret.data.all_courses_finished);
-      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-      set_curr_page(ret.data.curr_page);
-    });
+    }, 200)();
   };
   return (
     <React.Fragment>
@@ -100,16 +119,23 @@ export default function CoursesList() {
             </Grid>
             <Grid item xs={12} sm={12} md={9} lg={9}>
               <Paper className={classes.paper}>
-                <Searchbar />
+                <Searchbar
+                  set_search_value={set_search_value}
+                  search_value={search_value}
+                  all_courses={all_courses_finished}
+                />
 
                 <Grid container spacing={4} className={classes.course_list}>
-                  {all_courses_finished.map((ele, i) => {
-                    return (
-                      <Grid key={i} item xs={12} sm={6} md={4} lg={4}>
-                        <CardCourse {...ele} />
-                      </Grid>
-                    );
-                  })}
+                  {all_courses_finished !== undefined &&
+                  all_courses_finished.length !== 0
+                    ? all_courses_finished.map((ele, i) => {
+                        return (
+                          <Grid key={i} item xs={12} sm={6} md={4} lg={4}>
+                            <CardCourse {...ele} />
+                          </Grid>
+                        );
+                      })
+                    : "No course!"}
                 </Grid>
                 <Grid container spacing={4}>
                   <Grid

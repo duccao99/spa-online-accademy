@@ -1,18 +1,33 @@
 /* eslint-disable no-use-before-define */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import axios from "axios";
 
-export default function Searchbar() {
+export default function Searchbar({
+  all_courses,
+  search_value,
+  set_search_value,
+}) {
+  const [all_courses_filter, set_all_courses_filter] = useState([]);
+  useEffect(() => {
+    console.log(all_courses);
+    set_all_courses_filter(all_courses);
+  }, []);
+  const handleSearchChange = (e) => {
+    set_search_value(e.target.value);
+  };
   return (
     <div style={{ width: "100%" }}>
       <Autocomplete
         id="free-solo-demo"
         freeSolo
-        options={top100Films.map((option) => option.title)}
+        options={all_courses_filter.map((option) => option.course_name)}
         renderInput={(params) => (
           <TextField
             {...params}
+            value={search_value}
+            onChange={handleSearchChange}
             label="Course name"
             margin="normal"
             variant="outlined"
