@@ -50,11 +50,10 @@ export default function CoursesList() {
   const { id } = useParams();
 
   useEffect(() => {
-    let sub_cat_name = "";
-
     if (id !== undefined) {
+      set_search_value("");
       debounce(() => {
-        const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${sub_cat_name}`;
+        const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${id}`;
         const config = {};
         axios.get(all_courses_by_subcat_url, config).then((ret) => {
           console.log(ret);
@@ -90,20 +89,46 @@ export default function CoursesList() {
 
   const handlePagiChange = (event, value) => {
     set_curr_page(value);
+    const config = {
+      params: {
+        pagi: value,
+      },
+    };
 
-    debounce(() => {
-      const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
-      const config = {
-        params: {
-          pagi: value,
-        },
-      };
-      axios.get(all_course_finished_url, config).then((ret) => {
-        set_all_courses_finished(ret.data.all_courses_finished);
-        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-        set_curr_page(ret.data.curr_page);
-      });
-    }, 200)();
+    if (search_value) {
+      debounce(() => {
+        const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
+
+        axios.get(all_courses_by_subcat_url, config).then((ret) => {
+          set_all_courses_finished(ret.data.all_courses);
+          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+          set_curr_page(ret.data.curr_pagi);
+        });
+      }, 500)();
+    } else {
+      if (id !== undefined) {
+        set_search_value("");
+        debounce(() => {
+          const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${id}`;
+
+          axios.get(all_courses_by_subcat_url, config).then((ret) => {
+            set_all_courses_finished(ret.data.course_by_sub_cat);
+            set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+            set_curr_page(ret.data.curr_pagi);
+          });
+        }, 200)();
+      } else {
+        debounce(() => {
+          const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
+
+          axios.get(all_course_finished_url, config).then((ret) => {
+            set_all_courses_finished(ret.data.all_courses_finished);
+            set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+            set_curr_page(ret.data.curr_page);
+          });
+        }, 200)();
+      }
+    }
   };
   return (
     <React.Fragment>
