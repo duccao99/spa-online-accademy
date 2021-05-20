@@ -10,6 +10,7 @@ import CommonCarousel from "../Carousel/CommonCarousel";
 import Navbar from "../Navbar/Navbar";
 import CardCourse from "./../CardCourse/CardCourse";
 import CardNewestCourse from "./../CardCourse/CardNewestCourse";
+import CardCourseEnroll from "../CardCourse/CardCourseEnroll";
 import Paper from "@material-ui/core/Paper";
 import { Box } from "@material-ui/core";
 import Footer from "./../Footer/Footer";
@@ -335,7 +336,8 @@ export default function HomePage() {
             {outstanding_courses.map((card, i) => {
               return (
                 <Grid item key={i} xs={12} sm={6} md={3} lg={3}>
-                  <CardCourse {...card} />
+                  {/* <CardCourse {...card} /> */}
+                  <CardCourseEnroll {...card} />
                 </Grid>
               );
             })}

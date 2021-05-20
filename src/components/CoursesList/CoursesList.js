@@ -113,9 +113,44 @@ export default function CoursesList() {
     sort_name: "",
     is_checked: false,
   });
+  const [most_stu_enroll, set_most_stu_enroll] = useState([]);
+  const [most_view_courses, set_most_view_courses] = useState([]);
+  const [newest_courses, set_newest_courses] = useState([]);
+
   const location = useLocation();
 
+  function getMostStudentEnrollCourses() {
+    debounce(() => {
+      const most_stu_rul = `${env.DEV_URL}/api/course/most-student-enroll`;
+      const config = {};
+      axios.get(most_stu_rul, config).then((ret) => {
+        set_most_stu_enroll(ret.data.most_student_enroll);
+      });
+    }, 500)();
+  }
+  function getMostViewCourses() {
+    debounce(() => {
+      const most_views_url = `${env.DEV_URL}/api/course/ten-most-viewed-courses`;
+      const config = {};
+      axios.get(most_views_url, config).then((ret) => {
+        set_most_view_courses(ret.data.ten_most_viewed_courses);
+      });
+    }, 500)();
+  }
+  function getNewestCourses() {
+    debounce(() => {
+      const newest_url = `${env.DEV_URL}/api/course/ten-newest-courses`;
+      const config = {};
+      axios.get(newest_url, config).then((ret) => {
+        set_newest_courses(ret.data.ten_newest_courses);
+      });
+    }, 500)();
+  }
+
   useEffect(() => {
+    getMostStudentEnrollCourses();
+    getMostViewCourses();
+    getNewestCourses();
     if (search_value) {
       debounce(() => {
         const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
@@ -292,7 +327,12 @@ export default function CoursesList() {
                     all_courses_finished.map((ele, i) => {
                       return (
                         <Grid key={i} item xs={12} sm={6} md={4} lg={4}>
-                          <CardCourse {...ele} />
+                          <CardCourse
+                            {...ele}
+                            most_stu_enroll={most_stu_enroll}
+                            most_view_courses={most_view_courses}
+                            newest_courses={newest_courses}
+                          />
                         </Grid>
                       );
                     })
