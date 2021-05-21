@@ -189,7 +189,7 @@ export default function CourseDetail({ match }) {
 
       <Container className={classes.section_feedback}>
         <Grid container spacing={3}>
-          <Grid item xs={8}>
+          <Grid item xs={12} sm={12} md={8}>
             <Feedback match={match} feedback={feedback} />
           </Grid>
         </Grid>

@@ -18,6 +18,7 @@ import axios from "axios";
 import { Redirect, useHistory } from "react-router-dom";
 import * as env_config from "../../config/env.config";
 import { Link } from "react-router-dom";
+import FacebookSignInButton from "./FacebookSignInButton";
 
 import Copyright from "./../Copyright/Copyright";
 
@@ -186,6 +187,17 @@ export default function SignIn() {
           >
             Sign In
           </Button>
+
+          <Box
+            width="100%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            my={3}
+          >
+            <FacebookSignInButton />
+          </Box>
+
           <Grid container>
             {/* <Grid item xs>
               <Link

@@ -36,7 +36,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       display: "none",
     },
-    [theme.breakpoints.between("sm", "lg")]: {
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+    [theme.breakpoints.between("md", "lg")]: {
       display: "flex",
     },
   },
@@ -44,7 +47,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       display: "flex",
     },
-    [theme.breakpoints.between("sm", "lg")]: {
+    [theme.breakpoints.down("md")]: {
+      display: "flex",
+    },
+    [theme.breakpoints.between("md", "lg")]: {
       display: "none",
     },
   },
