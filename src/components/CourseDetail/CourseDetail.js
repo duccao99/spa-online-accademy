@@ -178,7 +178,11 @@ export default function CourseDetail({ match }) {
       <Container className={classes.section_five_course_relative}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <FiveRelativeCourse five_relative_course={five_relative_course} />
+            <FiveRelativeCourse
+              match={match}
+              course_detail={course_detail}
+              five_relative_course={five_relative_course}
+            />
           </Grid>
         </Grid>
       </Container>
@@ -186,7 +190,7 @@ export default function CourseDetail({ match }) {
       <Container className={classes.section_feedback}>
         <Grid container spacing={3}>
           <Grid item xs={8}>
-            <Feedback feedback={feedback} />
+            <Feedback match={match} feedback={feedback} />
           </Grid>
         </Grid>
       </Container>

@@ -209,7 +209,7 @@ export default function CardCourse(props) {
         }
       }
     }
-  }, [most_stu_enroll, most_view_courses, newest_courses, all_sales]);
+  }, [most_stu_enroll, most_view_courses, newest_courses]);
 
   const classes = useStyles();
   return (

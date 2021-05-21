@@ -1,5 +1,9 @@
 import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import * as env from "../../config/env.config";
+import axios from "axios";
+
 import CardFeedback from "../CardFeedback/CardFeedback";
 
 const common_fontsize = 18;
@@ -58,11 +62,37 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-export default function Feedback(props) {
+export default function Feedback({ match }) {
   const classes = styles();
-  //   const { feedback } = props;
   const fb = [1, 2, 3, 4, 5];
+  const [feedback, set_feedback] = useState([]);
+  const [no_feedback, set_no_feedback] = useState(false);
 
+  const {
+    params: { course_id },
+  } = match;
+
+  function getFeedback() {
+    if (course_id !== undefined) {
+      const feedback_url = `${env.DEV_URL}/api/course/detail/feedback/${course_id}`;
+      const config = {};
+      axios.get(feedback_url, config).then((ret) => {
+        if (ret.data.feedback.length === 0) {
+          return set_no_feedback(true);
+        }
+        if (ret.data.feedback === undefined) {
+          return set_no_feedback(true);
+        }
+
+        set_feedback(ret.data.feedback);
+      });
+    }
+    return;
+  }
+
+  useEffect(() => {
+    getFeedback();
+  }, []);
   return (
     <Paper className={classes.paper}>
       <Grid container spacing={3}>
@@ -73,13 +103,15 @@ export default function Feedback(props) {
         </Grid>
       </Grid>
       <Grid container spacing={3}>
-        {fb.map((ele, i) => {
-          return (
-            <Grid key={i} item xs={12}>
-              <CardFeedback key={i} />;
-            </Grid>
-          );
-        })}
+        {no_feedback
+          ? "There is no feedback"
+          : feedback.map((ele, i) => {
+              return (
+                <Grid key={i} item xs={12}>
+                  <CardFeedback key={i} {...ele} />
+                </Grid>
+              );
+            })}
       </Grid>
     </Paper>
   );

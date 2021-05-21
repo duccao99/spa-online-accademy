@@ -1,5 +1,9 @@
-import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import { Grid, makeStyles, Paper, Box, Typography } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import * as env from "../../config/env.config";
+import axios from "axios";
+
 import CardCourse from "../CardCourse/CardCourse";
 import CommonCarousel from "../Carousel/CommonCarousel";
 
@@ -56,40 +60,115 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-export default function FiveRelativeCourse(props) {
+export default function FiveRelativeCourse({ match }) {
   const classes = styles();
-  //   const { five_relative_course } = props;
-  const five_relative_course = [1, 2, 3, 4, 5];
-  const [first_4_courses, set_first_3_courses] = useState([1, 2, 3, 4]);
-  const [second_1_courses, set_second_2_courses] = useState([1]);
+  const { id } = useParams();
+
+  const {
+    params: { course_id },
+  } = match;
+
+  const [is_empty, set_is_empty] = useState(false);
+  const [first_4_courses, set_first_4_courses] = useState([]);
+  const [second_1_course, set_second_1_course] = useState([]);
+
+  function getFiveRelativeCourseCatBoughtMost() {
+    if (course_id !== undefined) {
+      const five_rel_url = `${env.DEV_URL}/api/course/detail/five-relative-bought-most/${course_id}`;
+      const config = {};
+      axios.get(five_rel_url, config).then((ret) => {
+        let first_4 = [];
+        let sec_1 = [];
+        console.log(ret);
+
+        if (
+          ret.data.five_relative_cat_course.length === 0 ||
+          ret.data.five_relative_cat_course === undefined
+        ) {
+          set_is_empty(true);
+          return;
+        }
+
+        if (ret.data.five_relative_cat_course.length < 4) {
+          for (let i = 0; i < ret.data.five_relative_cat_course.length; ++i) {
+            first_4.push(ret.data.five_relative_cat_course[i]);
+          }
+          set_first_4_courses(first_4);
+          set_second_1_course(undefined);
+
+          return;
+        }
+
+        for (let i = 0; i < 4; ++i) {
+          first_4.push(ret.data.five_relative_cat_course[i]);
+        }
+        set_first_4_courses(first_4);
+
+        if (ret.data.five_relative_cat_course.length <= 4) {
+          set_second_1_course(undefined);
+          return;
+        }
+
+        for (let i = 4; i < 5; ++i) {
+          sec_1.push(ret.data.five_relative_cat_course[i]);
+        }
+        set_second_1_course(sec_1);
+      });
+    }
+    return;
+  }
+
+  useEffect(() => {
+    getFiveRelativeCourseCatBoughtMost();
+  }, []);
 
   return (
     <Paper className={classes.paper}>
       <Typography className={classes.pb16} component="strong" variant="h4">
-        Five courses relative category
+        Courses relative category
       </Typography>
 
-      <CommonCarousel>
-        <Grid container spacing={4}>
-          {first_4_courses.map((ele, i) => {
-            return (
-              <Grid key={i} item xs={12} sm={12} md={3}>
-                <CardCourse {...ele} />
+      {is_empty ? (
+        <Box>There is no course</Box>
+      ) : (
+        <div>
+          {second_1_course === undefined ? (
+            <CommonCarousel>
+              <Grid container spacing={4}>
+                {first_4_courses.map((ele, i) => {
+                  return (
+                    <Grid key={i} item xs={12} sm={12} md={3}>
+                      <CardCourse {...ele} />
+                    </Grid>
+                  );
+                })}
               </Grid>
-            );
-          })}
-        </Grid>
+            </CommonCarousel>
+          ) : (
+            <CommonCarousel>
+              <Grid container spacing={4}>
+                {first_4_courses.map((ele, i) => {
+                  return (
+                    <Grid key={i} item xs={12} sm={12} md={3}>
+                      <CardCourse {...ele} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
 
-        <Grid container spacing={4}>
-          {second_1_courses.map((ele, i) => {
-            return (
-              <Grid key={i} item xs={12} sm={12} md={3}>
-                <CardCourse {...ele} />
+              <Grid container spacing={4}>
+                {second_1_course.map((ele, i) => {
+                  return (
+                    <Grid key={i} item xs={12} sm={12} md={3}>
+                      <CardCourse {...ele} />
+                    </Grid>
+                  );
+                })}
               </Grid>
-            );
-          })}
-        </Grid>
-      </CommonCarousel>
+            </CommonCarousel>
+          )}
+        </div>
+      )}
     </Paper>
   );
 }

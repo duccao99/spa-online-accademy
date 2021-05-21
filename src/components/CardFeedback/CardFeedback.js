@@ -19,7 +19,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CardFeedback() {
+export default function CardFeedback({
+  user_id,
+  course_id,
+  review_content,
+  star,
+  user_name,
+}) {
   const classes = useStyles();
   const [rating_value, set_rating_value] = React.useState(2);
   return (
@@ -32,12 +38,12 @@ export default function CardFeedback() {
         /> */}
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Username
+            {user_name}
           </Typography>
-          <Rating value={rating_value} />
+          <Rating value={+star} />
 
           <Box py={3}>
-            <Typography>asdasdsds</Typography>
+            <Typography>{review_content}</Typography>
           </Box>
         </CardContent>
       </CardActionArea>
@@ -45,9 +51,9 @@ export default function CardFeedback() {
         <Button size="small" color="primary">
           Like
         </Button>
-        <Button size="small" color="primary">
+        {/* <Button size="small" color="primary">
           Share
-        </Button>
+        </Button> */}
       </CardActions>
     </Card>
   );

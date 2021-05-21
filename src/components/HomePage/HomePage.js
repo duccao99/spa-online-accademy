@@ -453,7 +453,7 @@ export default function HomePage() {
                 <TableHead>
                   <TableRow>
                     <TableCell>Category</TableCell>
-                    <TableCell align="right">Subject</TableCell>
+                    <TableCell align="right">Sub category</TableCell>
                     <TableCell align="right">Number student enroll</TableCell>
                   </TableRow>
                 </TableHead>
