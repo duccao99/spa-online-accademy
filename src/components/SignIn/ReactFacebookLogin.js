@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import FacebookLogin from "react-facebook-login";
 import * as env from "../../config/env.config";
 import axios from "axios";
@@ -22,7 +21,7 @@ export default function ReactFacebookLogin({}) {
       console.log(user);
       sessionStorage.setItem("user_name", JSON.stringify(user.user_name));
       sessionStorage.setItem("email", JSON.stringify(user.email));
-
+      sessionStorage.setItem("isLogout", false);
       history.push(ret.data.href);
     });
   }
@@ -45,6 +44,7 @@ export default function ReactFacebookLogin({}) {
       fields="name,email,picture"
       onClick={componentClicked}
       callback={responseFacebook}
+      textButton="Sign in with Facebook"
       icon="fa-facebook"
     />
   );

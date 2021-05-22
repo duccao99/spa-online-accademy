@@ -103,6 +103,7 @@ export default function SignIn() {
         const user = ret.data.user_info;
         sessionStorage.setItem("user_name", JSON.stringify(user.user_name));
         sessionStorage.setItem("email", JSON.stringify(user.email));
+        sessionStorage.setItem("isLogout", false);
 
         history.push(ret.data.href);
       })

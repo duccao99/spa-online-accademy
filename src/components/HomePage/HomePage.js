@@ -24,6 +24,17 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import { connect } from "react-redux";
+
+import { debounce } from "lodash";
+import { bindActionCreators } from "redux";
+import * as CartActions from "../../actions/cart.action";
+import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
+import {
+  GET_ALL_COURSES_SALE,
+  ADD_SALES_INTO_GLOBAL_STATE,
+} from "../../actionTypes/course.type";
+
 const common_spacing = 32;
 
 const useStyles = makeStyles((theme) => ({
@@ -180,7 +191,8 @@ const ten_most_newest_courses_first_4 = [1, 2, 3, 4];
 const ten_most_newest_courses_second_4 = [5, 6, 7, 8];
 const ten_most_newest_courses_third_2 = [9, 10];
 
-export default function HomePage() {
+function HomePage(props) {
+  const { dispatchAddSales } = props;
   const classes = useStyles();
   const [is_logged_in, set_is_logged_in] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -193,6 +205,7 @@ export default function HomePage() {
   const [most_viewed_courses_2_4, set_most_viewed_courses_2_4] = useState([]);
   const [most_viewed_courses_3_2, set_most_viewed_courses_3_2] = useState([]);
   const [top_sub_cat, set_top_sub_cat] = useState([]);
+  const [isLogout, setisLogout] = useState(true);
 
   const open = Boolean(anchorEl);
 
@@ -208,6 +221,24 @@ export default function HomePage() {
   };
 
   useEffect(() => {
+    const isLg = sessionStorage.getItem("isLogout", false);
+    console.log("is logout: ", isLg);
+    if (isLg !== null) {
+      setisLogout(isLg);
+    } else {
+      console.log(isLg);
+      setisLogout(isLg);
+    }
+
+    // add sales dispatch
+    debounce(() => {
+      const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
+      const config = {};
+      axios.get(all_sales_url, config).then((ret) => {
+        dispatchAddSales(ret.data.all_sales);
+      });
+    }, 500)();
+
     // outstanding
     const url = `${env.DEV_URL}/api/course/outstanding-courses`;
     const config = {};
@@ -268,11 +299,11 @@ export default function HomePage() {
     axios.get(top_sub_cat_url, config).then((ret) => {
       set_top_sub_cat(ret.data.top_sub_cat);
     });
-  }, []);
+  }, [isLogout]);
 
   return (
     <React.Fragment>
-      <Navbar />
+      <Navbar setisLogout={setisLogout} />
       <main>
         {/* Hero unit */}
         <div className={cn(classes.heroContent, classes.header)}>
@@ -335,9 +366,9 @@ export default function HomePage() {
           <Grid container spacing={4} justify={"center"}>
             {outstanding_courses.map((card, i) => {
               return (
-                <Grid item key={i} xs={12} sm={6} md={3} lg={3}>
+                <Grid item key={card.course_id} xs={12} sm={6} md={3} lg={3}>
                   {/* <CardCourse {...card} /> */}
-                  <CardCourseEnroll {...card} />
+                  <CardCourseEnroll isLogout={isLogout} {...card} />
                 </Grid>
               );
             })}
@@ -355,8 +386,15 @@ export default function HomePage() {
             <Grid container spacing={4}>
               {newest_courses_1_4.length !== 0
                 ? newest_courses_1_4.map((card, i) => (
-                    <Grid item key={i} xs={12} sm={6} md={3} lg={3}>
-                      <CardNewestCourse {...card} />
+                    <Grid
+                      item
+                      key={card.course_id}
+                      xs={12}
+                      sm={6}
+                      md={3}
+                      lg={3}
+                    >
+                      <CardNewestCourse isLogout={isLogout} {...card} />
                     </Grid>
                   ))
                 : ""}
@@ -367,14 +405,14 @@ export default function HomePage() {
                 ? newest_courses_2_4.map((card, i) => (
                     <Grid
                       item
-                      key={i}
+                      key={card.course_id}
                       xs={12}
                       sm={6}
                       md={3}
                       lg={3}
                       className={classes.card_wrapper}
                     >
-                      <CardNewestCourse {...card} />
+                      <CardNewestCourse isLogout={isLogout} {...card} />
                     </Grid>
                   ))
                 : ""}
@@ -384,8 +422,15 @@ export default function HomePage() {
               {/* third 2 newest courses */}
               {newest_courses_3_2.length !== 0
                 ? newest_courses_3_2.map((card, i) => (
-                    <Grid item key={i} xs={12} sm={6} md={3} lg={3}>
-                      <CardNewestCourse {...card} />
+                    <Grid
+                      item
+                      key={card.course_id}
+                      xs={12}
+                      sm={6}
+                      md={3}
+                      lg={3}
+                    >
+                      <CardNewestCourse isLogout={isLogout} {...card} />
                     </Grid>
                   ))
                 : ""}
@@ -407,13 +452,13 @@ export default function HomePage() {
                   <Grid
                     className={classes.card_wrapper}
                     item
-                    key={i}
+                    key={card.course_id}
                     xs={12}
                     sm={6}
                     md={3}
                     lg={3}
                   >
-                    <CardCourse {...card} />
+                    <CardCourse isLogout={isLogout} {...card} />
                   </Grid>
                 );
               })}
@@ -422,8 +467,8 @@ export default function HomePage() {
               {/* ten_most_viewed_courses_second_4 */}
               {most_viewed_courses_2_4.map((card, i) => {
                 return (
-                  <Grid key={i} item xs={12} sm={6} md={3} lg={3}>
-                    <CardCourse {...card} />
+                  <Grid key={card.course_id} item xs={12} sm={6} md={3} lg={3}>
+                    <CardCourse isLogout={isLogout} {...card} />
                   </Grid>
                 );
               })}
@@ -432,8 +477,8 @@ export default function HomePage() {
               {/* ten_most_viewed_courses_third_2 */}
               {most_viewed_courses_3_2.map((card, i) => {
                 return (
-                  <Grid key={i} item key={card} xs={12} sm={6} md={3} lg={3}>
-                    <CardCourse {...card} />
+                  <Grid key={card.course_id} item xs={12} sm={6} md={3} lg={3}>
+                    <CardCourse isLogout={isLogout} {...card} />
                   </Grid>
                 );
               })}
@@ -459,7 +504,7 @@ export default function HomePage() {
                 </TableHead>
                 <TableBody>
                   {top_sub_cat.map((cat, i) => {
-                    return <CardCat key={i} cat={cat} />;
+                    return <CardCat key={cat.cat_id} cat={cat} />;
                   })}
                 </TableBody>
               </TableContainer>
@@ -473,3 +518,27 @@ export default function HomePage() {
     </React.Fragment>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cart_global_state: state.cartReducer.cart,
+    all_courses_sale_global_state: state.courseReducer.all_courses_sale,
+  };
+};
+
+// const mapDispatchToProps = (dispatch) => ({
+//   dispatchAddToCart: bindActionCreators(CartActions, dispatch),
+// });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchAddSales: (sales) => {
+      dispatch({
+        type: ADD_SALES_INTO_GLOBAL_STATE,
+        payload: sales,
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

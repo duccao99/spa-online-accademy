@@ -30,6 +30,11 @@ import axios from "axios";
 import * as env from "../../config/env.config";
 import { useParams, useLocation } from "react-router-dom";
 import { debounce } from "lodash";
+import { bindActionCreators } from "redux";
+import * as CartActions from "../../actions/cart.action";
+import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
+import { connect } from "react-redux";
+
 const common_spacing = 32;
 
 const useStyles = makeStyles((theme) => ({
@@ -123,7 +128,7 @@ const defaultProps = {
   color: "secondary",
 };
 
-export default function CardCourse(props) {
+function CardCourseEnroll(props) {
   const {
     course_avatar_url,
     course_fee,
@@ -132,15 +137,26 @@ export default function CardCourse(props) {
     course_id,
     subject_name,
     user_name,
+    user_id,
     avg_rate,
     most_stu_enroll,
     most_view_courses,
     newest_courses,
+    dispatchAddToCart,
+    cart_global_state,
+    isLogout,
   } = props;
   const [is_best_seller, set_is_best_seller] = useState(false);
 
   const [is_sales, set_is_sales] = useState(false);
   const [sale, set_sale] = useState(0);
+  const [is_in_cart, set_is_in_cart] = useState(false);
+  const [toggle_buy_click, set_toggle_buy_click] = useState(false);
+  const [email, set_email] = useState(undefined);
+
+  const handleBuyClick = (e) => {
+    dispatchAddToCart(course_id, user_id);
+  };
 
   const [all_sales, set_all_sales] = useState([]);
 
@@ -150,23 +166,49 @@ export default function CardCourse(props) {
       const config = {};
       axios.get(all_sales_url, config).then((ret) => {
         set_all_sales(ret.data.all_sales);
+
+        if (ret.data.all_sales !== undefined) {
+          for (let i = 0; i < ret.data.all_sales.length; ++i) {
+            if (course_id === ret.data.all_sales[i].course_id) {
+              set_is_sales(true);
+              set_sale(+ret.data.all_sales[i].sale_percent);
+              break;
+            }
+          }
+        }
       });
     }, 500)();
+    return;
   }
 
   useEffect(() => {
-    allSales();
+    const email = sessionStorage.getItem("email");
+    if (email === null) {
+      return set_email(undefined);
+    } else if (email === undefined) {
+      return set_email(undefined);
+    } else if (email === "") {
+      return set_email(undefined);
+    }
+    set_email(email);
 
-    if (all_sales !== undefined) {
-      for (let i = 0; i < all_sales.length; ++i) {
-        if (course_id === all_sales[i].course_id) {
-          set_is_sales(true);
-          set_sale(+all_sales[i].sale_percent);
+    if (cart_global_state !== undefined) {
+      for (let i = 0; i < cart_global_state.length; ++i) {
+        if (cart_global_state[i].course_id === course_id) {
+          set_is_in_cart(true);
+          set_toggle_buy_click(!toggle_buy_click);
           break;
         }
       }
     }
-  }, [most_stu_enroll, most_view_courses, newest_courses, all_sales]);
+  }, [
+    most_stu_enroll,
+    most_view_courses,
+    newest_courses,
+    cart_global_state,
+    email,
+    isLogout,
+  ]);
 
   const classes = useStyles();
   return (
@@ -221,17 +263,50 @@ export default function CardCourse(props) {
             </CardContent>
           </CardActionArea>
         </Link>
-        <CardActions className={classes.card_action}>
-          <Button variant="contained" size="small" color="primary">
-            Buy
-          </Button>
-          <Link className={classes.link} to={`/course/${course_id}`}>
-            <Button variant="outlined" size="small" color="primary">
-              Detail
+
+        {email !== undefined ? (
+          <CardActions className={classes.card_action}>
+            <Button
+              disabled={is_in_cart === true}
+              onClick={handleBuyClick}
+              variant="contained"
+              size="small"
+              color="primary"
+            >
+              Buy
             </Button>
-          </Link>
-        </CardActions>
+            <Link className={classes.link} to={`/course/${course_id}`}>
+              <Button variant="outlined" size="small" color="primary">
+                Detail
+              </Button>
+            </Link>
+          </CardActions>
+        ) : (
+          <React.Fragment></React.Fragment>
+        )}
       </Card>
     </React.Fragment>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cart_global_state: state.cartReducer.cart,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchAddToCart: (course_id, user_id) => {
+      dispatch({
+        type: ADD_COURSE_TO_CART,
+        payload: {
+          course_id: course_id,
+          user_id: user_id,
+        },
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardCourseEnroll);

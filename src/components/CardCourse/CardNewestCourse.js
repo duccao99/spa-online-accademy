@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import CameraIcon from "@material-ui/icons/PhotoCamera";
@@ -23,6 +23,10 @@ import { Box } from "@material-ui/core";
 
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Badge from "@material-ui/core/Badge";
+import { bindActionCreators } from "redux";
+import * as CartActions from "../../actions/cart.action";
+import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
+import { connect } from "react-redux";
 
 const common_spacing = 32;
 
@@ -111,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CardNewestCourse(props) {
+function CardNewestCourse(props) {
   const {
     course_avatar_url,
     course_fee,
@@ -120,8 +124,42 @@ export default function CardNewestCourse(props) {
     course_id,
     subject_name,
     user_name,
+    user_id,
     avg_rate,
+    dispatchAddToCart,
+    cart_global_state,
+    isLogout,
   } = props;
+  const [is_in_cart, set_is_in_cart] = useState(false);
+  const [toggle_buy_click, set_toggle_buy_click] = useState(false);
+  const [email, set_email] = useState(undefined);
+
+  const handleBuyClick = (e) => {
+    console.log(user_id);
+    dispatchAddToCart(course_id, user_id);
+  };
+
+  useEffect(() => {
+    const email = sessionStorage.getItem("email");
+    if (email === null) {
+      return set_email(undefined);
+    } else if (email === undefined) {
+      return set_email(undefined);
+    } else if (email === "") {
+      return set_email(undefined);
+    }
+    set_email(email);
+
+    if (cart_global_state !== undefined) {
+      for (let i = 0; i < cart_global_state.length; ++i) {
+        if (cart_global_state[i].course_id === course_id) {
+          set_is_in_cart(true);
+          set_toggle_buy_click(!toggle_buy_click);
+          break;
+        }
+      }
+    }
+  }, [cart_global_state, email, isLogout]);
 
   const classes = useStyles();
   return (
@@ -161,17 +199,50 @@ export default function CardNewestCourse(props) {
             </CardContent>
           </CardActionArea>
         </Link>
-        <CardActions className={classes.card_action}>
-          <Button variant="contained" size="small" color="primary">
-            Buy
-          </Button>
-          <Link className={classes.link} to={`/course/${course_id}`}>
-            <Button variant="outlined" size="small" color="primary">
-              Detail
+
+        {email !== undefined ? (
+          <CardActions className={classes.card_action}>
+            <Button
+              disabled={is_in_cart === true}
+              onClick={handleBuyClick}
+              variant="contained"
+              size="small"
+              color="primary"
+            >
+              Buy
             </Button>
-          </Link>
-        </CardActions>
+            <Link className={classes.link} to={`/course/${course_id}`}>
+              <Button variant="outlined" size="small" color="primary">
+                Detail
+              </Button>
+            </Link>
+          </CardActions>
+        ) : (
+          <React.Fragment></React.Fragment>
+        )}
       </Card>
     </React.Fragment>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cart_global_state: state.cartReducer.cart,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchAddToCart: (course_id, user_id) => {
+      dispatch({
+        type: ADD_COURSE_TO_CART,
+        payload: {
+          course_id: course_id,
+          user_id: user_id,
+        },
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardNewestCourse);

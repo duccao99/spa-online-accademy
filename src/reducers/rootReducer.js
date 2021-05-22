@@ -1,24 +1,5 @@
-const initialState = {
-  users: [
-    {
-      user_id: 1,
-      user_name: "duccao",
-    },
-    {
-      user_id: 2,
-      user_name: "duccao 2",
-    },
-  ],
-};
+import { combineReducers } from "redux";
+import cartReducer from "./cart.reducer";
+import courseReducer from "./course.reducer";
 
-// Use the initialState as a default value
-export default function appReducer(state = initialState, action) {
-  // The reducer normally looks at the action type field to decide what happens
-  switch (action.type) {
-    // Do something here based on the different types of actions
-    default:
-      // If this reducer doesn't recognize the action type, or doesn't
-      // care about this specific action, return the existing state unchanged
-      return state;
-  }
-}
+export default combineReducers({ cartReducer, courseReducer });

@@ -171,7 +171,8 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-export default function Navbar() {
+export default function Navbar(props) {
+  const { setisLogout } = props;
   const classes = useStyles();
   const [user_name, set_user_name] = useState("");
   const [email, set_email] = useState("");
@@ -200,6 +201,9 @@ export default function Navbar() {
     sessionStorage.removeItem("user_name");
     sessionStorage.removeItem("email");
     sessionStorage.clear();
+
+    sessionStorage.setItem("isLogout", true);
+    setisLogout(true);
 
     set_user_name(undefined);
 
