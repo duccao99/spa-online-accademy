@@ -26,14 +26,24 @@ function Cart(props) {
   const { cart_global } = props;
 
   const [cart, set_cart] = useState([]);
+  const [isLogout, setisLogout] = useState(true);
 
   useEffect(() => {
+    // navbar logout problem
+    const isLg = sessionStorage.getItem("isLogout", false);
+
+    if (isLg !== null) {
+      setisLogout(isLg);
+    } else {
+      setisLogout(isLg);
+    }
+
     set_cart(cart_global);
   }, []);
 
   return (
     <React.Fragment>
-      <Navbar />
+      <Navbar setisLogout={setisLogout} />
       <Container>
         <Box my={12}>
           <Grid container spacing={4}>

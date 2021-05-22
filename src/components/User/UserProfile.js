@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
 import {
-  makeStyles,
   Box,
-  Grid,
   Container,
+  Grid,
+  makeStyles,
   Paper,
   Typography,
-  Button,
 } from "@material-ui/core";
-import { Link, Redirect, useParams } from "react-router-dom";
-
+import React, { useEffect, useState } from "react";
+import { Redirect, useParams } from "react-router-dom";
+import Footer from "../Footer/Footer";
+import Navbar from "../Navbar/Navbar";
 import Change from "./Change";
 
 const styles = makeStyles((theme) => ({
@@ -45,12 +43,19 @@ export default function UserProfile() {
   let { id } = useParams();
   const [user_name, set_user_name] = useState("");
   const [email, set_email] = useState("");
-
-  console.log(id);
+  const [isLogout, setisLogout] = useState(true);
 
   useEffect(() => {
     let user_name = sessionStorage.getItem("user_name");
     let email = sessionStorage.getItem("email");
+
+    const isLg = sessionStorage.getItem("isLogout", false);
+
+    if (isLg !== null) {
+      setisLogout(isLg);
+    } else {
+      setisLogout(isLg);
+    }
 
     if (user_name === "") {
       return set_user_name(undefined);
@@ -62,8 +67,6 @@ export default function UserProfile() {
     user_name = user_name.substring(1, user_name.length - 1);
     email = email.substring(1, email.length - 1);
 
-    console.log(user_name, email);
-
     set_user_name(user_name);
     set_email(email);
   }, []);
@@ -71,7 +74,7 @@ export default function UserProfile() {
     <Redirect to="/" />
   ) : (
     <React.Fragment>
-      <Navbar />
+      <Navbar setisLogout={setisLogout} />
 
       <Container>
         <Box my={12}>

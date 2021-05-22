@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
-import SignUp from "./components/SignUp/SignUp";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
-import SignIn from "./components/SignIn/SignIn";
-import { getToken, setToken } from "./config/accessToken";
-import HomePage from "./components/HomePage/HomePage";
-import CoursesList from "./components/CoursesList/CoursesList";
-import CourseDetail from "./components/CourseDetail/CourseDetail";
+import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
+import CourseDetail from "./components/CourseDetail/CourseDetail";
+import CoursesList from "./components/CoursesList/CoursesList";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import HomePage from "./components/HomePage/HomePage";
+import SignIn from "./components/SignIn/SignIn";
+import SignUp from "./components/SignUp/SignUp";
 import UserProfile from "./components/User/UserProfile";
-import FacebookSignIn from "./components/SignIn/FacebookSignInButton";
+import Verify from "./components/User/Verify";
+import { getToken } from "./config/accessToken";
 
 function App() {
   const [is_logged_in, set_is_logged_in] = useState(false);
   const [access_token, set_access_token] = useState("");
+
+  const [isLogout, setisLogout] = useState(true);
 
   useEffect(() => {
     set_access_token(getToken());
@@ -27,6 +29,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/" component={HomePage} />
+
         <Route exact path="/user/sign-in" component={SignIn} />
 
         <Route exact path="/user/sign-up" component={SignUp} />
@@ -36,6 +39,8 @@ function App() {
         <Route exact path="/user/forgot-password" component={ForgotPassword} />
 
         <Route exact path="/user/cart" component={Cart} />
+
+        <Route exact path="/courses-list/:id" component={CoursesList} />
         <Route exact path="/courses-list" component={CoursesList} />
         <Route
           exact
@@ -47,8 +52,8 @@ function App() {
           path="/courses-list/byPrice/:price_value"
           component={CoursesList}
         />
-        <Route exact path="/courses-list/:id" component={CoursesList} />
         <Route exact path="/course/:course_id" component={CourseDetail} />
+        <Route exact path="/:id" component={Verify} />
       </Switch>
     </Router>
   );

@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ADD_SALES_INTO_GLOBAL_STATE } from "../../actionTypes/course.type";
 import * as env from "../../config/env.config";
+import { swal2Timing } from "../../config/swal2.config";
 import CardCourseEnroll from "../CardCourse/CardCourseEnroll";
 import CommonCarousel from "../Carousel/CommonCarousel";
 import Navbar from "../Navbar/Navbar";
@@ -179,27 +180,34 @@ function HomePage(props) {
   const [most_viewed_courses_3_2, set_most_viewed_courses_3_2] = useState([]);
   const [top_sub_cat, set_top_sub_cat] = useState([]);
   const [isLogout, setisLogout] = useState(true);
-
-  const open = Boolean(anchorEl);
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleChange = (event) => {
-    set_is_logged_in(event.target.checked);
-  };
+  const [is_verified, set_is_verified] = useState(false);
 
   useEffect(() => {
+    // check is verify account
+    let email = sessionStorage.getItem("email");
+
+    if (email !== null) {
+      set_is_logged_in(true);
+      email = email.substring(1, email.length - 1);
+      const config = {};
+      const verified_url = `${env.DEV_URL}/api/user/check-verify-account/${email}`;
+      axios.get(verified_url, config).then((ret) => {
+        set_is_verified(ret.data.isVerified);
+        if (ret.data.isVerified === false) {
+          const icon = "warning";
+          const title = "Verify!";
+          const html = "Please verify your email account!";
+          const timer = 3500;
+          swal2Timing(title, html, timer, icon);
+        }
+      });
+    }
+
     const isLg = sessionStorage.getItem("isLogout", false);
-    console.log("is logout: ", isLg);
+
     if (isLg !== null) {
       setisLogout(isLg);
     } else {
-      console.log(isLg);
       setisLogout(isLg);
     }
 
@@ -272,7 +280,7 @@ function HomePage(props) {
     axios.get(top_sub_cat_url, config).then((ret) => {
       set_top_sub_cat(ret.data.top_sub_cat);
     });
-  }, [isLogout]);
+  }, [isLogout, is_logged_in]);
 
   return (
     <React.Fragment>

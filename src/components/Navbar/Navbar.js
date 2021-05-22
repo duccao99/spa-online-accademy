@@ -179,7 +179,6 @@ function Navbar(props) {
   const params = useParams();
   const history = useHistory();
 
-  const [is_logged_in, set_is_logged_in] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [quantity, set_quantity] = useState(0);
 
@@ -192,13 +191,7 @@ function Navbar(props) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleChange = (event) => {
-    set_is_logged_in(event.target.checked);
-  };
-
   const handleSignOutClick = (e) => {
-    const pathname = history.location.pathname;
-
     sessionStorage.removeItem("user_name");
     sessionStorage.removeItem("email");
     sessionStorage.clear();
@@ -213,7 +206,7 @@ function Navbar(props) {
 
   useEffect(() => {
     // get global cart
-    console.log("cart globasl:", quantity_global_state);
+
     set_quantity(quantity_global_state);
 
     const user_name = sessionStorage.getItem("user_name");

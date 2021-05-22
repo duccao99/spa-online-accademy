@@ -111,6 +111,7 @@ export default function CoursesList() {
   const [most_stu_enroll, set_most_stu_enroll] = useState([]);
   const [most_view_courses, set_most_view_courses] = useState([]);
   const [newest_courses, set_newest_courses] = useState([]);
+  const [isLogout, setisLogout] = useState(true);
 
   const location = useLocation();
 
@@ -143,6 +144,15 @@ export default function CoursesList() {
   }
 
   useEffect(() => {
+    // navbar logout problem
+    const isLg = sessionStorage.getItem("isLogout", false);
+
+    if (isLg !== null) {
+      setisLogout(isLg);
+    } else {
+      setisLogout(isLg);
+    }
+
     getMostStudentEnrollCourses();
     getMostViewCourses();
     getNewestCourses();
@@ -272,7 +282,7 @@ export default function CoursesList() {
 
   return (
     <React.Fragment>
-      <Navbar />
+      <Navbar setisLogout={setisLogout} />
 
       <main>
         <Container className={classes.main_course_list_wrapper} maxWidth="lg">

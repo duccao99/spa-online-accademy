@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import FacebookLogin from "react-facebook-login";
-import * as env from "../../config/env.config";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
+import * as env from "../../config/env.config";
 
 export default function ReactFacebookLogin({}) {
   const [load, setLoad] = useState(false);
@@ -27,7 +27,7 @@ export default function ReactFacebookLogin({}) {
   }
 
   const responseFacebook = (res) => {
-    // console.log(res);
+    console.log(res);
 
     signIn(res.name, res.email);
   };
