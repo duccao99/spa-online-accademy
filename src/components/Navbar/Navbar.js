@@ -9,12 +9,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { BugReportTwoTone } from "@material-ui/icons";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import React, { useState, useEffect } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Category from "../Category/Category";
 import NavbarMobile from "./NavbarMobile";
 
@@ -171,8 +171,8 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-export default function Navbar(props) {
-  const { setisLogout } = props;
+function Navbar(props) {
+  const { setisLogout, cart_global_state, quantity_global_state } = props;
   const classes = useStyles();
   const [user_name, set_user_name] = useState("");
   const [email, set_email] = useState("");
@@ -181,6 +181,7 @@ export default function Navbar(props) {
 
   const [is_logged_in, set_is_logged_in] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [quantity, set_quantity] = useState(0);
 
   const open = Boolean(anchorEl);
 
@@ -211,6 +212,10 @@ export default function Navbar(props) {
   };
 
   useEffect(() => {
+    // get global cart
+    console.log("cart globasl:", quantity_global_state);
+    set_quantity(quantity_global_state);
+
     const user_name = sessionStorage.getItem("user_name");
     const email = sessionStorage.getItem("email");
     if (user_name === "") {
@@ -227,7 +232,7 @@ export default function Navbar(props) {
 
     set_user_name(user_name);
     set_email(email);
-  }, [user_name]);
+  }, [user_name, quantity, quantity_global_state]);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -270,7 +275,7 @@ export default function Navbar(props) {
               {/* Cart */}
               <Link to="/user/cart">
                 <IconButton className={classes.cart_css}>
-                  <StyledBadge badgeContent={4} color="secondary">
+                  <StyledBadge badgeContent={quantity} color="secondary">
                     <ShoppingCartIcon />
                   </StyledBadge>
                 </IconButton>
@@ -326,3 +331,12 @@ export default function Navbar(props) {
     </React.Fragment>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cart_global_state: state.cartReducer.cart,
+    quantity_global_state: state.cartReducer.quantity,
+  };
+};
+
+export default connect(mapStateToProps, null)(Navbar);

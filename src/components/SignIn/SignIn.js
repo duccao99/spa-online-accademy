@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from "react";
 import {
   Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Grid,
   Box,
-  Typography,
+  Button,
   Container,
+  CssBaseline,
+  Grid,
+  TextField,
+  Typography,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
-import validator from "validator";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import axios from "axios";
-import { Redirect, useHistory, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import validator from "validator";
 import * as env_config from "../../config/env.config";
-import { Link } from "react-router-dom";
-import FacebookSignInButton from "./FacebookSignInButton";
-import ReactFacebookLogin from "./ReactFacebookLogin";
 import Copyright from "./../Copyright/Copyright";
+import ReactFacebookLogin from "./ReactFacebookLogin";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

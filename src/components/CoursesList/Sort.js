@@ -1,29 +1,17 @@
-import React, { useEffect, useState } from "react";
-import {
-  makeStyles,
-  Container,
-  Grid,
-  Box,
-  Typography,
-} from "@material-ui/core";
-import SortIcon from "@material-ui/icons/Sort";
-import ListSubheader from "@material-ui/core/ListSubheader";
+import { makeStyles } from "@material-ui/core";
+import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { Link, useParams } from "react-router-dom";
-import Checkbox from "@material-ui/core/Checkbox";
-import StarRateIcon from "@material-ui/icons/StarRate";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import StarRateIcon from "@material-ui/icons/StarRate";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const style = makeStyles((theme) => ({
   left_cat_wrapper: {},

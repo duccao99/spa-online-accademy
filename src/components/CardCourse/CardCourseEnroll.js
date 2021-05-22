@@ -1,39 +1,21 @@
-import React, { useState, useEffect } from "react";
-import AppBar from "@material-ui/core/AppBar";
+import { Box } from "@material-ui/core";
+import Badge from "@material-ui/core/Badge";
 import Button from "@material-ui/core/Button";
-import CameraIcon from "@material-ui/icons/PhotoCamera";
 import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import { Box } from "@material-ui/core";
-
-import Copyright from "../Copyright/Copyright";
-import Footer from "../Footer/Footer";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import { Link } from "react-router-dom";
-import Banner from "../Banner/Banner";
-import CommonCarousel from "../Carousel/CommonCarousel";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import Badge from "@material-ui/core/Badge";
-
-import MailIcon from "@material-ui/icons/Mail";
-import cn from "classnames";
+import Typography from "@material-ui/core/Typography";
 import axios from "axios";
-import * as env from "../../config/env.config";
-import { useParams, useLocation } from "react-router-dom";
+import cn from "classnames";
 import { debounce } from "lodash";
-import { bindActionCreators } from "redux";
-import * as CartActions from "../../actions/cart.action";
-import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
+import * as env from "../../config/env.config";
 
 const common_spacing = 32;
 
@@ -155,7 +137,14 @@ function CardCourseEnroll(props) {
   const [email, set_email] = useState(undefined);
 
   const handleBuyClick = (e) => {
-    dispatchAddToCart(course_id, user_id);
+    dispatchAddToCart(
+      course_id,
+      user_id,
+      course_fee,
+      course_avatar_url,
+      course_name,
+      course_title
+    );
   };
 
   const [all_sales, set_all_sales] = useState([]);
@@ -297,11 +286,22 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatchAddToCart: (course_id, user_id) => {
+    dispatchAddToCart: (
+      course_id,
+      user_id,
+      course_price,
+      course_ava,
+      course_name,
+      course_title
+    ) => {
       dispatch({
         type: ADD_COURSE_TO_CART,
         payload: {
           course_id: course_id,
+          course_price: course_price,
+          course_ava: course_ava,
+          course_name: course_name,
+          course_title: course_title,
           user_id: user_id,
         },
       });

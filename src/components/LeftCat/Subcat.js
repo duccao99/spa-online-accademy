@@ -1,14 +1,12 @@
-import React from "react";
-import { makeStyles, Container, Grid, Box } from "@material-ui/core";
-import ListSubheader from "@material-ui/core/ListSubheader";
+import { makeStyles } from "@material-ui/core";
+import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
-import { Link, useParams } from "react-router-dom";
-
 import CategoryIcon from "@material-ui/icons/Category";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
 
 const style = makeStyles((theme) => ({
   left_cat_wrapper: {},

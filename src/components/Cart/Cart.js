@@ -1,15 +1,8 @@
-import React from "react";
-import {
-  Box,
-  Grid,
-  makeStyles,
-  Typography,
-  Container,
-  Paper,
-} from "@material-ui/core";
-import cn from "classnames";
-import Navbar from "../Navbar/Navbar";
+import { Box, Container, Grid, makeStyles } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import Footer from "../Footer/Footer";
+import Navbar from "../Navbar/Navbar";
 import UserCart from "./UserCart";
 import UserPay from "./UserPay";
 
@@ -28,8 +21,16 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-export default function Cart() {
+function Cart(props) {
   const classes = styles();
+  const { cart_global } = props;
+
+  const [cart, set_cart] = useState([]);
+
+  useEffect(() => {
+    set_cart(cart_global);
+  }, []);
+
   return (
     <React.Fragment>
       <Navbar />
@@ -40,7 +41,7 @@ export default function Cart() {
               <UserCart />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={4}>
-              <UserPay />
+              <UserPay cart={cart} />
             </Grid>
           </Grid>
         </Box>
@@ -49,3 +50,11 @@ export default function Cart() {
     </React.Fragment>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cart_global: state.cartReducer.cart,
+  };
+};
+
+export default connect(mapStateToProps, null)(Cart);

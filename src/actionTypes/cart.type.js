@@ -1,2 +1,3 @@
 export const CHANGE_CART_DATA = "CHANGE_CART_DATA";
 export const ADD_COURSE_TO_CART = "ADD_COURSE_TO_CART";
+export const CLEAR_CART = "CLEAR_CART";

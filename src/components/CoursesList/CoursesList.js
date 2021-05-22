@@ -1,30 +1,25 @@
-import { Container, makeStyles, Paper, Grid } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
-import Navbar from "../Navbar/Navbar";
+import {
+  Box,
+  Container,
+  Grid,
+  makeStyles,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import axios from "axios";
+import cn from "classnames";
+import { debounce } from "lodash";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import * as env from "../../config/env.config";
+import CardCourse from "../CardCourse/CardCourse";
 import Footer from "../Footer/Footer";
 import LeftCat from "../LeftCat/LeftCat";
-import Searchbar from "./Searchbar";
-import CardCourse from "../CardCourse/CardCourse";
+import Navbar from "../Navbar/Navbar";
 import Pagination from "./Pagination";
-import cn from "classnames";
-import axios from "axios";
-import * as env from "../../config/env.config";
-import { Link, useParams, useLocation } from "react-router-dom";
-import { debounce } from "lodash";
-import SortIcon from "@material-ui/icons/Sort";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import { Typography, Box } from "@material-ui/core";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-
+import Searchbar from "./Searchbar";
 import Sort from "./Sort";
+
 const style = makeStyles((theme) => ({
   main_course_list_wrapper: {
     flexGrow: 1,

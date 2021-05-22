@@ -1,19 +1,17 @@
-import React from "react";
 import {
   Box,
   Grid,
   makeStyles,
-  Typography,
-  Container,
   Paper,
-  TableHead,
-  TableBody,
-  TableContainer,
-  TableRow,
-  TableCell,
   Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
 } from "@material-ui/core";
 import cn from "classnames";
+import React from "react";
+import { connect } from "react-redux";
 import ItemCard from "./ItemCard";
 
 const styles = makeStyles((theme) => ({
@@ -49,8 +47,10 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
-export default function UserCart() {
+function UserCart(props) {
   const classes = styles();
+  const { user_cart, quantity } = props;
+  
 
   return (
     <Paper className={cn(classes.paper, classes.user_cart)}>
@@ -71,9 +71,11 @@ export default function UserCart() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row, i) => {
-                  return <ItemCard {...row} key={i} />;
-                })}
+                {user_cart.length > 0
+                  ? user_cart.map((row, i) => {
+                      return <ItemCard {...row} key={i} />;
+                    })
+                  : "There is no item in cart"}
               </TableBody>
             </Table>
           </Grid>
@@ -82,3 +84,12 @@ export default function UserCart() {
     </Paper>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user_cart: state.cartReducer.cart,
+    quantity: state.cartReducer.quantity,
+  };
+};
+
+export default connect(mapStateToProps, null)(UserCart);

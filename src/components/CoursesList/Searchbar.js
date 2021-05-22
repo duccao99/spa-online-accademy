@@ -1,8 +1,7 @@
 /* eslint-disable no-use-before-define */
-import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 export default function Searchbar({
   all_courses,

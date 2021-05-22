@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { Box } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
-import { Box } from "@material-ui/core";
-import axios from "axios";
-import * as env_config from "../../config/env.config";
+import { withStyles } from "@material-ui/core/styles";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 const StyledMenu = withStyles({

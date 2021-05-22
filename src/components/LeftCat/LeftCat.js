@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles, Box } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import * as env from "../../config/env.config";
 import Cat from "./Cat";
 

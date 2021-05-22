@@ -1,39 +1,31 @@
+import { Box } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import cn from "classnames";
-import React, { useState, useEffect } from "react";
-import CommonCarousel from "../Carousel/CommonCarousel";
-import Navbar from "../Navbar/Navbar";
-import CardCourse from "./../CardCourse/CardCourse";
-import CardNewestCourse from "./../CardCourse/CardNewestCourse";
-import CardCourseEnroll from "../CardCourse/CardCourseEnroll";
 import Paper from "@material-ui/core/Paper";
-import { Box } from "@material-ui/core";
-import Footer from "./../Footer/Footer";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import * as env from "../../config/env.config";
-import CardCat from "./CardCat";
-import Table from "@material-ui/core/Table";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { connect } from "react-redux";
-
+import Typography from "@material-ui/core/Typography";
+import axios from "axios";
+import cn from "classnames";
 import { debounce } from "lodash";
-import { bindActionCreators } from "redux";
-import * as CartActions from "../../actions/cart.action";
-import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
-import {
-  GET_ALL_COURSES_SALE,
-  ADD_SALES_INTO_GLOBAL_STATE,
-} from "../../actionTypes/course.type";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { ADD_SALES_INTO_GLOBAL_STATE } from "../../actionTypes/course.type";
+import * as env from "../../config/env.config";
+import CardCourseEnroll from "../CardCourse/CardCourseEnroll";
+import CommonCarousel from "../Carousel/CommonCarousel";
+import Navbar from "../Navbar/Navbar";
+import CardCourse from "./../CardCourse/CardCourse";
+import CardNewestCourse from "./../CardCourse/CardNewestCourse";
+import Footer from "./../Footer/Footer";
+import CardCat from "./CardCat";
 
 const common_spacing = 32;
 
@@ -171,25 +163,6 @@ const StyledBadge = withStyles((theme) => ({
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
-const outstanding_courses = [1, 2, 3];
-// ten_most_viewed_courses
-const ten_most_viewed_courses_first_4 = [1, 2, 3, 4];
-const ten_most_viewed_courses_second_4 = [5, 6, 7, 8];
-const ten_most_viewed_courses_third_2 = [9, 0];
-
-//const ten_most_newest_courses
-const ten_most_newest_courses_first_4 = [1, 2, 3, 4];
-const ten_most_newest_courses_second_4 = [5, 6, 7, 8];
-const ten_most_newest_courses_third_2 = [9, 10];
 
 function HomePage(props) {
   const { dispatchAddSales } = props;

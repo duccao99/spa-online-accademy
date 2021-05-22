@@ -1,6 +1,6 @@
 import {
-  GET_ALL_COURSES_SALE,
   ADD_SALES_INTO_GLOBAL_STATE,
+  GET_ALL_COURSES_SALE,
 } from "../actionTypes/course.type";
 
 const initState = {
