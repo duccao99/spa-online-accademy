@@ -9,11 +9,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import { BugReportTwoTone } from "@material-ui/icons";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams, useHistory } from "react-router-dom";
 import Category from "../Category/Category";
 import NavbarMobile from "./NavbarMobile";
 
@@ -145,6 +146,10 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     textTransform: "capitalize",
   },
+  btn_signout: {
+    textTransform: "capitalize",
+    textAlign: "left",
+  },
   cart_css: {
     color: "white",
   },
@@ -168,9 +173,14 @@ const StyledBadge = withStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
+  const [user_name, set_user_name] = useState("");
+  const [email, set_email] = useState("");
+  const params = useParams();
+  const history = useHistory();
 
   const [is_logged_in, set_is_logged_in] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -183,6 +193,37 @@ export default function Navbar() {
   const handleChange = (event) => {
     set_is_logged_in(event.target.checked);
   };
+
+  const handleSignOutClick = (e) => {
+    const pathname = history.location.pathname;
+
+    sessionStorage.removeItem("user_name");
+    sessionStorage.removeItem("email");
+    sessionStorage.clear();
+
+    set_user_name(undefined);
+
+    return history.push("/");
+  };
+
+  useEffect(() => {
+    const user_name = sessionStorage.getItem("user_name");
+    const email = sessionStorage.getItem("email");
+    if (user_name === "") {
+      return set_user_name(undefined);
+    }
+
+    if (user_name === undefined) {
+      return set_user_name(undefined);
+    }
+
+    if (user_name === null) {
+      return set_user_name(undefined);
+    }
+
+    set_user_name(user_name);
+    set_email(email);
+  }, [user_name]);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -220,17 +261,16 @@ export default function Navbar() {
             </Link>
           </Box>
 
-          {/* Cart */}
-          <Link to="/user/cart">
-            <IconButton className={classes.cart_css}>
-              <StyledBadge badgeContent={4} color="secondary">
-                <ShoppingCartIcon />
-              </StyledBadge>
-            </IconButton>
-          </Link>
-
-          {is_logged_in && (
+          {user_name !== undefined ? (
             <div>
+              {/* Cart */}
+              <Link to="/user/cart">
+                <IconButton className={classes.cart_css}>
+                  <StyledBadge badgeContent={4} color="secondary">
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                </IconButton>
+              </Link>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -262,15 +302,21 @@ export default function Navbar() {
                 <Link className={classes.link} to="/user/purchased-course">
                   <MenuItem onClick={handleClose}>Purchased course</MenuItem>
                 </Link>
+                <MenuItem
+                  className={classes.btn_signout}
+                  onClick={handleSignOutClick}
+                >
+                  Sign out
+                </MenuItem>
               </Menu>
             </div>
+          ) : (
+            <Link className={classes.btn_sign_in} to="/user/sign-in">
+              <Button color="inherit" className={classes.btn_si}>
+                Sign in
+              </Button>
+            </Link>
           )}
-
-          <Link className={classes.btn_sign_in} to="/user/sign-in">
-            <Button color="inherit" className={classes.btn_si}>
-              Sign in
-            </Button>
-          </Link>
         </Toolbar>
       </AppBar>
     </React.Fragment>

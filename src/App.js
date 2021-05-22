@@ -30,6 +30,7 @@ function App() {
         <Route exact path="/user/sign-in" component={SignIn} />
 
         <Route exact path="/user/sign-up" component={SignUp} />
+        <Route exact path="/user/sign-out" component={HomePage} />
         <Route exact path="/user/profile" component={UserProfile} />
         <Route exact path="/user/profile/:id" component={UserProfile} />
         <Route exact path="/user/forgot-password" component={ForgotPassword} />

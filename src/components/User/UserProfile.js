@@ -10,7 +10,7 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 
 import Change from "./Change";
 
@@ -43,8 +43,33 @@ const styles = makeStyles((theme) => ({
 export default function UserProfile() {
   const classes = styles();
   let { id } = useParams();
+  const [user_name, set_user_name] = useState("");
+  const [email, set_email] = useState("");
+
   console.log(id);
-  return (
+
+  useEffect(() => {
+    let user_name = sessionStorage.getItem("user_name");
+    let email = sessionStorage.getItem("email");
+
+    if (user_name === "") {
+      return set_user_name(undefined);
+    } else if (user_name === undefined) {
+      return set_user_name(undefined);
+    } else if (user_name === null) {
+      return set_user_name(undefined);
+    }
+    user_name = user_name.substring(1, user_name.length - 1);
+    email = email.substring(1, email.length - 1);
+
+    console.log(user_name, email);
+
+    set_user_name(user_name);
+    set_email(email);
+  }, []);
+  return user_name === undefined ? (
+    <Redirect to="/" />
+  ) : (
     <React.Fragment>
       <Navbar />
 
@@ -55,12 +80,12 @@ export default function UserProfile() {
               <Paper className={classes.paper}>
                 <Box my={3}>
                   <Typography variant="h6" component="p">
-                    Username:
+                    Username: {user_name}
                   </Typography>
                 </Box>
                 <Box my={3}>
                   <Typography variant="h6" component="p">
-                    Email:
+                    Email: {email}
                   </Typography>
                 </Box>
               </Paper>

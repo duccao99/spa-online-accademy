@@ -15,11 +15,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import validator from "validator";
 import axios from "axios";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, useParams } from "react-router-dom";
 import * as env_config from "../../config/env.config";
 import { Link } from "react-router-dom";
 import FacebookSignInButton from "./FacebookSignInButton";
-
+import ReactFacebookLogin from "./ReactFacebookLogin";
 import Copyright from "./../Copyright/Copyright";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +61,8 @@ export default function SignIn() {
   const [password, set_password] = useState("");
   const history = useHistory();
 
+  useEffect(() => {}, [history]);
+
   const handleEmailChange = (e) => {
     set_email(e.target.value);
     if (validator.isEmail(e.target.value) === false) {
@@ -98,25 +100,11 @@ export default function SignIn() {
     axios
       .post(url, data, config)
       .then((ret) => {
-        // auth
-        const auth_url = `${env_config.DEV_URL}/api/auth`;
-        const auth_data = {
-          ...data,
-        };
+        const user = ret.data.user_info;
+        sessionStorage.setItem("user_name", JSON.stringify(user.user_name));
+        sessionStorage.setItem("email", JSON.stringify(user.email));
 
-        axios
-          .post(auth_url, auth_data, config)
-          .then((ret) => {
-            sessionStorage.setItem(
-              "access_token",
-              JSON.stringify(ret.data.accessToken)
-            );
-
-            history.push("/");
-          })
-          .catch((er) => {
-            console.log(er);
-          });
+        history.push(ret.data.href);
       })
       .catch((er) => {});
   };
@@ -188,7 +176,7 @@ export default function SignIn() {
             Sign In
           </Button>
 
-          <Box
+          {/* <Box
             width="100%"
             display="flex"
             justifyContent="center"
@@ -196,6 +184,25 @@ export default function SignIn() {
             my={3}
           >
             <FacebookSignInButton />
+          </Box> */}
+
+          <Box
+            width="100%"
+            display="none"
+            justifyContent="center"
+            alignItems="center"
+            my={1}
+          >
+            <ReactFacebookLogin />
+          </Box>
+          <Box
+            width="100%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            my={1}
+          >
+            <ReactFacebookLogin />
           </Box>
 
           <Grid container>
