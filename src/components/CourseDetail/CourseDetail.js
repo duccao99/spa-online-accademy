@@ -72,12 +72,22 @@ export default function CourseDetail({ match }) {
   const [instructor, set_instructor] = React.useState({});
   const [five_relative_course, set_five_relative_course] = React.useState([]);
   const [feedback, set_feedback] = useState([]);
+  const [isLogout, setisLogout] = useState(true);
 
   const {
     params: { course_id },
   } = match;
 
   useEffect(() => {
+    // nav
+    const isLg = sessionStorage.getItem("isLogout", false);
+
+    if (isLg !== null) {
+      setisLogout(isLg);
+    } else {
+      setisLogout(isLg);
+    }
+
     const url = `${env.DEV_URL}/api/course/${course_id}`;
     const config = {};
     axios
@@ -129,7 +139,7 @@ export default function CourseDetail({ match }) {
 
   return (
     <React.Fragment>
-      <Navbar />
+      <Navbar setisLogout={setisLogout} />
       <main>
         <Container className={classes.section_header}>
           <Grid container spacing={3}>

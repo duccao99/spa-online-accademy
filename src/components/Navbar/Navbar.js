@@ -210,7 +210,8 @@ function Navbar(props) {
     set_quantity(quantity_global_state);
 
     const user_name = sessionStorage.getItem("user_name");
-    const email = sessionStorage.getItem("email");
+    let email = sessionStorage.getItem("email");
+
     if (user_name === "") {
       return set_user_name(undefined);
     }
@@ -222,6 +223,8 @@ function Navbar(props) {
     if (user_name === null) {
       return set_user_name(undefined);
     }
+
+    email = email.substring(1, email.length - 1);
 
     set_user_name(user_name);
     set_email(email);
@@ -301,7 +304,10 @@ function Navbar(props) {
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                 </Link>
 
-                <Link className={classes.link} to="/user/purchased-course">
+                <Link
+                  className={classes.link}
+                  to={`/user/purchased-course/${email}`}
+                >
                   <MenuItem onClick={handleClose}>Purchased course</MenuItem>
                 </Link>
                 <MenuItem

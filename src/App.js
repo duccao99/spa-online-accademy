@@ -5,6 +5,7 @@ import CourseDetail from "./components/CourseDetail/CourseDetail";
 import CoursesList from "./components/CoursesList/CoursesList";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import HomePage from "./components/HomePage/HomePage";
+import PurchasedCourse from "./components/PurchasedCourses/PurchasedCourses";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import UserProfile from "./components/User/UserProfile";
@@ -39,6 +40,11 @@ function App() {
         <Route exact path="/user/forgot-password" component={ForgotPassword} />
 
         <Route exact path="/user/cart" component={Cart} />
+        <Route
+          exact
+          path="/user/purchased-course/:email"
+          component={PurchasedCourse}
+        />
 
         <Route exact path="/courses-list/:id" component={CoursesList} />
         <Route exact path="/courses-list" component={CoursesList} />

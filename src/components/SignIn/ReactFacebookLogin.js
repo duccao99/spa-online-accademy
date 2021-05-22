@@ -22,6 +22,7 @@ export default function ReactFacebookLogin({}) {
       sessionStorage.setItem("user_name", JSON.stringify(user.user_name));
       sessionStorage.setItem("email", JSON.stringify(user.email));
       sessionStorage.setItem("isLogout", false);
+      sessionStorage.setItem("user_login_id", ret.data.user_info.user_id);
       history.push(ret.data.href);
     });
   }

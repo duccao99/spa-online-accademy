@@ -156,9 +156,11 @@ function CardCourse(props) {
   const [show_btn, set_show_btn] = useState(false);
 
   const handleBuyClick = (e) => {
+    const curr_user_id = sessionStorage.getItem("user_login_id");
+
     dispatchAddToCart(
       course_id,
-      user_id,
+      +curr_user_id,
       course_fee,
       course_avatar_url,
       course_name,
@@ -186,6 +188,7 @@ function CardCourse(props) {
   }
 
   useEffect(() => {
+    console.log("where is user id:", user_id);
     // This stuff make app broken !!!
     // allSales();
     const email = sessionStorage.getItem("email");

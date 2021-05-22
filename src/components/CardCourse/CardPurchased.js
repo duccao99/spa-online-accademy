@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardNewestCourse(props) {
+function CardPurchased(props) {
   const {
     course_avatar_url,
     course_fee,
@@ -109,6 +109,7 @@ function CardNewestCourse(props) {
     course_id,
     subject_name,
     user_name,
+    ins_name,
     user_id,
     avg_rate,
     dispatchAddToCart,
@@ -119,18 +120,7 @@ function CardNewestCourse(props) {
   const [toggle_buy_click, set_toggle_buy_click] = useState(false);
   const [email, set_email] = useState(undefined);
 
-  const handleBuyClick = (e) => {
-    const curr_user_id = sessionStorage.getItem("user_login_id");
-
-    dispatchAddToCart(
-      course_id,
-      +curr_user_id,
-      course_fee,
-      course_avatar_url,
-      course_name,
-      course_title
-    );
-  };
+  const handleEnroll = (e) => {};
 
   useEffect(() => {
     const email = sessionStorage.getItem("email");
@@ -187,8 +177,8 @@ function CardNewestCourse(props) {
                 {course_name}
               </Typography>
               <Typography className={classes.typo}>{subject_name}</Typography>
-              <Typography className={classes.typo}> {user_name}</Typography>
-              <Typography className={classes.typo}>{course_fee}$</Typography>
+              {/* <Typography className={classes.typo}> {ins_name}</Typography> */}
+              {/* <Typography className={classes.typo}>{course_fee}$</Typography> */}
             </CardContent>
           </CardActionArea>
         </Link>
@@ -197,12 +187,12 @@ function CardNewestCourse(props) {
           <CardActions className={classes.card_action}>
             <Button
               disabled={is_in_cart === true}
-              onClick={handleBuyClick}
+              onClick={handleEnroll}
               variant="contained"
               size="small"
-              color="primary"
+              color="secondary"
             >
-              Buy
+              Enroll
             </Button>
             <Link className={classes.link} to={`/course/${course_id}`}>
               <Button variant="outlined" size="small" color="primary">
@@ -249,4 +239,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardNewestCourse);
+export default connect(mapStateToProps, mapDispatchToProps)(CardPurchased);

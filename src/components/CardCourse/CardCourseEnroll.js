@@ -137,9 +137,11 @@ function CardCourseEnroll(props) {
   const [email, set_email] = useState(undefined);
 
   const handleBuyClick = (e) => {
+    const curr_user_id = sessionStorage.getItem("user_login_id");
+
     dispatchAddToCart(
       course_id,
-      user_id,
+      +curr_user_id,
       course_fee,
       course_avatar_url,
       course_name,

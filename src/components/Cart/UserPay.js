@@ -33,6 +33,8 @@ function UserPay(props) {
   const { cart_global, dispatchClearCart } = props;
 
   const handleCheckout = (e) => {
+    const curr_user_id = sessionStorage.getItem("user_login_id");
+
     const add_order_url = `${env.DEV_URL}/api/order/add`;
     const money = cart_global.reduce((prev, curr) => {
       return prev + curr.course_price;
@@ -44,7 +46,7 @@ function UserPay(props) {
     }
 
     const data = {
-      user_id: cart_global[0].user_id,
+      user_id: +curr_user_id,
       course_ids,
       total_money: money,
     };
