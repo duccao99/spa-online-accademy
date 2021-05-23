@@ -176,6 +176,7 @@ function Navbar(props) {
   const classes = useStyles();
   const [user_name, set_user_name] = useState("");
   const [email, set_email] = useState("");
+  const [user_role, set_user_role] = useState(0);
   const params = useParams();
   const history = useHistory();
 
@@ -205,6 +206,15 @@ function Navbar(props) {
   };
 
   useEffect(() => {
+    // check role
+    const user_role_check = sessionStorage.getItem("user_role");
+
+    if (user_role_check !== null) {
+      set_user_role(user_role_check);
+    } else {
+      set_user_role(null);
+    }
+
     // get global cart
 
     set_quantity(quantity_global_state);
@@ -264,6 +274,18 @@ function Navbar(props) {
                 Courses list
               </Typography>
             </Link>
+
+            {+user_role === 4 ? (
+              <Link className={classes.link} to="/admin">
+                {" "}
+                <Typography variant="h6" className={classes.nav_typo}>
+                  <ListAltIcon className={classes.icon_courses_list} />
+                  Admin Page
+                </Typography>
+              </Link>
+            ) : (
+              ""
+            )}
           </Box>
 
           {user_name !== undefined ? (

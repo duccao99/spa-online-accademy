@@ -15,14 +15,11 @@ import InstructorManagement from "./InstructorManagement";
 import StudentManagement from "./StudentManagement";
 
 const styles = makeStyles((theme) => ({
-  root: {
-    padding: 0,
-  },
+  root: {},
   paper: {
     padding: 32,
     textAlign: "left",
     color: theme.palette.text.secondary,
-    minHeight: "80vh",
   },
   link: {
     color: "inherit",

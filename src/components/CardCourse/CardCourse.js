@@ -188,7 +188,6 @@ function CardCourse(props) {
   }
 
   useEffect(() => {
-    console.log("where is user id:", user_id);
     // This stuff make app broken !!!
     // allSales();
     const email = sessionStorage.getItem("email");

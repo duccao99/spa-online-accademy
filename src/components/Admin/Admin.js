@@ -45,12 +45,7 @@ export default function Admin({ match }) {
   return (
     <div>
       <Container>
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="97vh"
-        >
+        <Box minHeight="97vh">
           <Grid container spacing={4}>
             <Grid item xs={12} md={3}>
               <DashboardSidebar match={match} setPage={setPage} />

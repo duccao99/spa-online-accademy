@@ -86,6 +86,9 @@ export default function DashboardSidebar({ setPage }) {
         <Link className={classes.link} to={`/admin/instructor-management`}>
           <MenuItem>Instructor management</MenuItem>
         </Link>
+        <Link className={classes.link} to={`/`}>
+          <MenuItem>Home</MenuItem>
+        </Link>
         <MenuItem className={classes.btn_signout} onClick={handleSignOutClick}>
           Sign out
         </MenuItem>
