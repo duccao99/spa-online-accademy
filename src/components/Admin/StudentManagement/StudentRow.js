@@ -20,6 +20,7 @@ import { swal2Timing } from "../../../config/swal2.config";
 import { Link } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
 import AddSubCatModal from "../../CommonModal/AddSubCatModal";
+import Moment from "react-moment";
 
 const useStyles = makeStyles({
   table: {
@@ -35,75 +36,111 @@ const useStyles = makeStyles({
       color: "inherit",
       textDecoration: "none",
     },
+    "&:hover": {
+      textDecoration: "underline",
+    },
   },
 });
 
-export default function RowSubCat({ row, handleDelSubCat }) {
+export default function StudentRow({
+  row,
+  handleDelStudent,
+  setIsEdit,
+  isEdit,
+}) {
   const classes = useStyles();
 
   const [openEdit, setOpenEdit] = React.useState(false);
   const [vl, setvl] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [maile, setMaile] = React.useState("");
+
   const config = {};
 
   const handleNewNameChange = (e) => {
-    setvl(e.target.value);
+    setUsername(e.target.value);
+  };
+  const handleMaileChange = (e) => {
+    setMaile(e.target.value);
   };
 
-  React.useEffect(() => {}, [openEdit]);
-  const handleEditSubCat = (id) => {
-    const edit_url = `${env.DEV_URL}/api/sub-category/${id}`;
+  const handleEditStudent = (id) => {
+    setIsEdit(!isEdit);
+    const edit_url = `${env.DEV_URL}/api/student/${id}`;
     const data = {
-      subject_name: vl,
+      user_name: `${username}`,
+      email: `${maile}`,
     };
 
-    axios.patch(edit_url, data, config).then((ret) => {
-      setOpenEdit(false);
-      const title = "Success!";
-      const html = "Updated!";
-      const timer = 2000;
-      const icon = "success";
-      swal2Timing(title, html, timer, icon);
+    axios
+      .patch(edit_url, data, config)
+      .then((ret) => {
+        setOpenEdit(false);
+        const title = "Success!";
+        const html = "Edited!";
+        const timer = 2000;
+        const icon = "success";
+        swal2Timing(title, html, timer, icon);
 
-      return;
-    });
+        return;
+      })
+      .catch((er) => {
+        setOpenEdit(false);
+        const title = "Error!";
+        const html = "Something broke";
+        const timer = 2000;
+        const icon = "error";
+        swal2Timing(title, html, timer, icon);
+      });
   };
+
   const handleKeypress = (e, id) => {
     if (e.which === 13) {
-      handleEditSubCat(id);
+      handleEditStudent(id);
     }
   };
-
+  React.useEffect(() => {}, [openEdit]);
   return openEdit === true ? (
     <TableRow openEdit={openEdit} setOpenEdit={setOpenEdit} hover>
       <TableCell align="left" component="th" scope="row">
-        {row.subject_id}
+        {row.user_id}
       </TableCell>
-
-      <TableCell align="left">
-        {" "}
+      <TableCell align="left" component="th" scope="row">
         <FormControl
-          fullWidth
           onKeyPress={(e) => {
-            handleKeypress(e, row.subject_id);
+            handleKeypress(e, row.user_id);
           }}
         >
           <TextField
-            fullWidth
-            label="Name"
+            label="username"
+            value={username}
             onChange={handleNewNameChange}
-            value={vl}
           />
         </FormControl>
       </TableCell>
-
-      <TableCell align="right">
+      <TableCell align="left" component="th" scope="row">
+        <FormControl
+          onKeyPress={(e) => {
+            handleKeypress(e, row.user_id);
+          }}
+        >
+          <TextField label="Email" value={maile} onChange={handleMaileChange} />
+        </FormControl>
+      </TableCell>{" "}
+      <TableCell align="left" component="th" scope="row">
+        {row.is_verified}
+      </TableCell>{" "}
+      <TableCell align="left" component="th" scope="row">
+        <Moment format="MM/DD/YYYY">{row.date_of_birth}</Moment>
+      </TableCell>
+      <TableCell align="right" component="th" scope="row">
         <Button
+          onClick={() => {
+            handleEditStudent(row.user_id);
+          }}
           className={classes.btn}
           variant="contained"
           color="secondary"
-          onClick={() => {
-            handleEditSubCat(row.subject_id);
-          }}
         >
           Save
         </Button>
@@ -122,33 +159,39 @@ export default function RowSubCat({ row, handleDelSubCat }) {
   ) : (
     <TableRow openEdit={openEdit} setOpenEdit={setOpenEdit} hover>
       <TableCell align="left" component="th" scope="row">
-        {row.subject_id}
+        {row.user_id}
       </TableCell>
-
-      <TableCell align="left">
-        {" "}
+      <TableCell align="left" component="th" scope="row">
         <Link
           className={classes.link}
-          to={`/admin/cat-management/subcat/${row.subject_id}`}
+          to={`/admin/student-management/student/${row.user_id}`}
         >
-          {row.subject_name}{" "}
+          {row.user_name}
         </Link>
       </TableCell>
-
-      <TableCell align="right">
+      <TableCell align="left" component="th" scope="row">
+        {row.email}
+      </TableCell>{" "}
+      <TableCell align="left" component="th" scope="row">
+        {row.is_verified}
+      </TableCell>{" "}
+      <TableCell align="left" component="th" scope="row">
+        <Moment format="MM/DD/YYYY">{row.date_of_birth}</Moment>
+      </TableCell>
+      <TableCell align="right" component="th" scope="row">
         <Button
-          className={classes.btn}
-          variant="contained"
-          color="primary"
           onClick={() => {
             setOpenEdit(true);
           }}
+          className={classes.btn}
+          variant="contained"
+          color="primary"
         >
           Edit
         </Button>
         <Button
           onClick={() => {
-            handleDelSubCat(row.subject_id);
+            handleDelStudent(row.user_id);
           }}
           className={classes.btn}
           variant="contained"

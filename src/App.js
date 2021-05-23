@@ -72,6 +72,11 @@ function App() {
         <Route exact path="/admin/student-management" component={Admin}></Route>
         <Route
           exact
+          path="/admin/student-management/student/:id"
+          component={Admin}
+        ></Route>
+        <Route
+          exact
           path="/admin/instructor-management"
           component={Admin}
         ></Route>

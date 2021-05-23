@@ -9,12 +9,12 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
-import * as env from "../../config/env.config";
-import { swal2Timing } from "../../config/swal2.config";
+import * as env from "../../../config/env.config";
+import { swal2Timing } from "../../../config/swal2.config";
 import { Link } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
-import AddSubCatModal from "../CommonModal/AddSubCatModal";
-import RowSubCat from "./CategoryManagement/RowSubCat";
+import AddSubCatModal from "../../CommonModal/AddSubCatModal";
+import RowSubCat from "./RowSubCat";
 
 const useStyles = makeStyles({
   table: {
@@ -32,10 +32,6 @@ const useStyles = makeStyles({
     },
   },
 });
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
 export default function CatManagement() {
   const classes = useStyles();

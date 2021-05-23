@@ -9,11 +9,12 @@ import {
 } from "@material-ui/core";
 import DashboardSidebar from "./DashboardSidebar";
 import { useParams, useHistory } from "react-router-dom";
-import CatManagement from "./CatManagement";
+import CatManagement from "./CategoryManagement/CatManagement";
 import DeleteCourse from "./DeleteCourse";
-import InstructorManagement from "./InstructorManagement";
-import StudentManagement from "./StudentManagement";
+import InstructorManagement from "./InstructorManagement/InstructorManagement";
+import StudentManagement from "./StudentManagement/StudentManagement";
 import SubCatDetail from "./SubCatDetail";
+import StudentDetail from "./StudentManagement/StudentDetail";
 
 const styles = makeStyles((theme) => ({
   root: {},
@@ -79,6 +80,12 @@ export default function AdminContent({ match }) {
           </Box>
         </Box>
       );
+    } else if (path === "/admin/student-management/student/:id") {
+      return (
+        <Box>
+          <StudentDetail />
+        </Box>
+      );
     } else if (path === "/admin/instructor-management") {
       return <InstructorManagement />;
     } else {
@@ -87,9 +94,7 @@ export default function AdminContent({ match }) {
           <Box mb={3}>
             <Typography variant="h6">Admin content</Typography>
           </Box>
-          <Box>
-            <DeleteCourse />
-          </Box>
+          <Box></Box>
         </Box>
       );
     }

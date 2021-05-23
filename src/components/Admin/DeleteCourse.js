@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
 import AddSubCatModal from "../CommonModal/AddSubCatModal";
 import RowSubCat from "./CategoryManagement/RowSubCat";
+import Moment from "react-moment";
 
 const useStyles = makeStyles({
   table: {
@@ -107,7 +108,9 @@ export default function DeleteCourse() {
                   {row.is_finished}
                 </TableCell>
                 <TableCell align="left" component="th" scope="row">
-                  {row.course_last_updated}
+                  <Moment format="MM/DD/YYYY HH:MM:SS">
+                    {row.course_last_updated}
+                  </Moment>
                 </TableCell>
 
                 <TableCell align="right">
