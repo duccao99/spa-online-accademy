@@ -15,6 +15,7 @@ import InstructorManagement from "./InstructorManagement/InstructorManagement";
 import StudentManagement from "./StudentManagement/StudentManagement";
 import SubCatDetail from "./SubCatDetail";
 import StudentDetail from "./StudentManagement/StudentDetail";
+import InsDetail from "./InstructorManagement/InsDetail";
 
 const styles = makeStyles((theme) => ({
   root: {},
@@ -22,6 +23,7 @@ const styles = makeStyles((theme) => ({
     padding: 32,
     textAlign: "left",
     color: theme.palette.text.secondary,
+    wordBreak: "break-all;",
   },
   link: {
     color: "inherit",
@@ -87,7 +89,23 @@ export default function AdminContent({ match }) {
         </Box>
       );
     } else if (path === "/admin/instructor-management") {
-      return <InstructorManagement />;
+      return (
+        <Box>
+          <Box mb={3}>
+            <Typography variant="h6">Instructor management</Typography>{" "}
+          </Box>
+          <InstructorManagement />
+        </Box>
+      );
+    } else if (path === "/admin/instructor-management/instructor/:id") {
+      return (
+        <Box>
+          <Box mb={3}>
+            <Typography variant="h6">Instructor management</Typography>{" "}
+          </Box>
+          <InsDetail />
+        </Box>
+      );
     } else {
       return (
         <Box>

@@ -81,8 +81,8 @@ export default function DeleteCourse() {
 
             <TableCell align="left">Course fee</TableCell>
             <TableCell align="left">Course views</TableCell>
-            <TableCell align="left">Is finished</TableCell>
-            <TableCell align="left">Last updated</TableCell>
+            {/* <TableCell align="left">Is finished</TableCell> */}
+            {/* <TableCell align="left">Last updated</TableCell> */}
             <TableCell align="right">Features</TableCell>
           </TableRow>
         </TableHead>
@@ -104,14 +104,14 @@ export default function DeleteCourse() {
                 <TableCell align="left" component="th" scope="row">
                   {row.views}
                 </TableCell>
-                <TableCell align="left" component="th" scope="row">
+                {/* <TableCell align="left" component="th" scope="row">
                   {row.is_finished}
-                </TableCell>
-                <TableCell align="left" component="th" scope="row">
+                </TableCell> */}
+                {/* <TableCell align="left" component="th" scope="row">
                   <Moment format="MM/DD/YYYY HH:MM:SS">
                     {row.course_last_updated}
                   </Moment>
-                </TableCell>
+                </TableCell> */}
 
                 <TableCell align="right">
                   <Button

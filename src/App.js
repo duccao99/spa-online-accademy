@@ -80,6 +80,11 @@ function App() {
           path="/admin/instructor-management"
           component={Admin}
         ></Route>
+        <Route
+          exact
+          path="/admin/instructor-management/instructor/:id"
+          component={Admin}
+        ></Route>
 
         <Route exact path="/:id" component={Verify} />
       </Switch>

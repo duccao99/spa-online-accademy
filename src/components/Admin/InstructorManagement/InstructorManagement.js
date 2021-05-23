@@ -1,5 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { TableFooter, Button, Typography } from "@material-ui/core";
+
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -7,6 +9,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import axios from "axios";
+import * as env from "../../../config/env.config";
+import InsRow from "./InsRow";
+import { swal2Timing } from "../../../config/swal2.config";
+import AddInsModal from "../../CommonModal/AddInstructorModal";
 
 const useStyles = makeStyles({
   table: {
@@ -14,47 +21,92 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 export default function InstructorManagement() {
   const classes = useStyles();
+  const [instructors, setInstructors] = React.useState([]);
+  const [isComponentUpdate, setisComponentUpdate] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const config = {};
+
+  function getIns() {
+    const ins_url = `${env.DEV_URL}/api/instructor`;
+    axios.get(ins_url, config).then((ret) => {
+      setInstructors(ret.data.instructors);
+    });
+  }
+
+  const handleDelIns = (id) => {
+    const del_ins_url = `${env.DEV_URL}/api/instructor/${id}`;
+    axios
+      .delete(del_ins_url, config)
+      .then((ret) => {
+        setisComponentUpdate(!isComponentUpdate);
+        const title = "Success!";
+        const html = "Instructor was deleted !";
+        const timer = 2500;
+        const icon = "success";
+        swal2Timing(title, html, timer, icon);
+
+        return;
+      })
+      .catch((er) => {
+        setisComponentUpdate(!isComponentUpdate);
+
+        const title = "error!";
+        const html = "Something broke!";
+        const timer = 2500;
+        const icon = "error";
+        swal2Timing(title, html, timer, icon);
+      });
+  };
+
+  React.useEffect(() => {
+    getIns();
+  }, [isComponentUpdate]);
 
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell> </TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell align="left">Id</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="left">Email</TableCell>
+            <TableCell align="left">Date of birth</TableCell>
+            <TableCell align="left">Is verified</TableCell>
+            <TableCell align="right">Features</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow hover key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
+          {instructors.map((row) => (
+            <InsRow
+              setisComponentUpdate={setisComponentUpdate}
+              isComponentUpdate={isComponentUpdate}
+              handleDelIns={handleDelIns}
+              row={row}
+              key={row.user_id}
+            />
           ))}
         </TableBody>
+        <TableFooter>
+          <Button
+            onClick={() => {
+              setOpen(true);
+            }}
+            fullWidth
+            variant="contained"
+            color="default"
+          >
+            New account
+          </Button>
+        </TableFooter>
       </Table>
+      <AddInsModal
+        isComponentUpdate={isComponentUpdate}
+        setisComponentUpdate={setisComponentUpdate}
+        open={open}
+        setOpen={setOpen}
+      />
     </TableContainer>
   );
 }

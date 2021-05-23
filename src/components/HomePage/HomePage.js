@@ -236,7 +236,7 @@ function HomePage(props) {
       let second_4 = [];
       let third_2 = [];
 
-      if (ret.data.ten_newest_courses.length >= 0) {
+      if (ret.data.ten_newest_courses.length >= 10) {
         for (let i = 0; i < 4; ++i) {
           first_4.push(ret.data.ten_newest_courses[i]);
         }
@@ -391,7 +391,7 @@ function HomePage(props) {
             {/* first 4 newest courses */}
             <Grid container spacing={4}>
               {newest_courses_1_4 !== undefined && newest_courses_1_4.length > 0
-                ? newest_courses_1_4.map((card, i) => (
+                ? newest_courses_1_4?.map((card, i) => (
                     <Grid
                       item
                       key={card.course_id}

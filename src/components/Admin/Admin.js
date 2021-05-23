@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import DashboardSidebar from "./DashboardSidebar";
 import AdminContent from "./AdminContent";
-
+import { Redirect } from "react-router-dom";
 export default function Admin({ match }) {
   const scrollbar_styles = {
     "*::-webkit-scrollbar": {
@@ -25,8 +25,12 @@ export default function Admin({ match }) {
     },
   };
 
+  const [isLoggedIn, setisLoggedIn] = React.useState(false);
+  const [email, set_email] = React.useState("");
+
+  const [user_name, set_user_name] = React.useState("");
+
   const scrollbar = match.path.includes("/admin") ? scrollbar_styles : {};
-  console.log(scrollbar);
 
   const styles = makeStyles((theme) => ({
     scrollbar,
@@ -73,9 +77,25 @@ export default function Admin({ match }) {
 
   const [page, setPage] = React.useState("");
 
-  React.useEffect(() => {}, [match]);
+  React.useEffect(() => {
+    let user_name = sessionStorage.getItem("user_name");
+    let email = sessionStorage.getItem("email");
 
-  return (
+    if (user_name === "") {
+      return set_user_name(undefined);
+    } else if (user_name === undefined) {
+      return set_user_name(undefined);
+    } else if (user_name === null) {
+      return set_user_name(undefined);
+    }
+    user_name = user_name.substring(1, user_name.length - 1);
+    email = email.substring(1, email.length - 1);
+
+    set_user_name(user_name);
+    set_email(email);
+  }, [match, isLoggedIn]);
+
+  return user_name !== undefined ? (
     <div className={classes.root}>
       <Container>
         <Box minHeight="97vh">
@@ -90,5 +110,7 @@ export default function Admin({ match }) {
         </Box>
       </Container>
     </div>
+  ) : (
+    <Redirect to="/" />
   );
 }
