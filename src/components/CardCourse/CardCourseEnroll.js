@@ -173,6 +173,25 @@ function CardCourseEnroll(props) {
   }
 
   useEffect(() => {
+    // sale
+    debounce(() => {
+      const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
+      const config = {};
+      axios.get(all_sales_url, config).then((ret) => {
+        set_all_sales(ret.data.all_sales);
+
+        if (ret.data.all_sales !== undefined) {
+          for (let i = 0; i < ret.data.all_sales.length; ++i) {
+            if (course_id === ret.data.all_sales[i].course_id) {
+              set_is_sales(true);
+              set_sale(+ret.data.all_sales[i].sale_percent);
+              break;
+            }
+          }
+        }
+      });
+    }, 500)();
+    //
     const email = sessionStorage.getItem("email");
     if (email === null) {
       return set_email(undefined);
