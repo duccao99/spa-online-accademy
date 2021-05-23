@@ -17,6 +17,7 @@ import validator from "validator";
 import * as env_config from "../../config/env.config";
 import Copyright from "./../Copyright/Copyright";
 import ReactFacebookLogin from "./ReactFacebookLogin";
+import { swal2Timing } from "../../config/swal2.config";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -105,7 +106,13 @@ export default function SignIn() {
 
         history.push(ret.data.href);
       })
-      .catch((er) => {});
+      .catch((er) => {
+        const title = "Error!";
+        const html = "Incorrect information";
+        const timer = 2500;
+        const icon = "error";
+        swal2Timing(title, html, timer, icon);
+      });
   };
 
   return (

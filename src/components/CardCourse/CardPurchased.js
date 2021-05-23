@@ -155,17 +155,6 @@ function CardPurchased(props) {
               image={`${course_avatar_url}`}
               title="Image title"
             />
-            <Box display="flex" px={8} justifyContent="flex-start" width="100%">
-              <Badge
-                className={classes.badge}
-                variant="standard"
-                badgeContent="New"
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-              />
-            </Box>
 
             <CardContent className={classes.cardContent}>
               <Typography

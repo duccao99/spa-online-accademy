@@ -11,6 +11,7 @@ import SignUp from "./components/SignUp/SignUp";
 import UserProfile from "./components/User/UserProfile";
 import Verify from "./components/User/Verify";
 import { getToken } from "./config/accessToken";
+import Admin from "./components/Admin/Admin";
 
 function App() {
   const [is_logged_in, set_is_logged_in] = useState(false);
@@ -59,6 +60,16 @@ function App() {
           component={CoursesList}
         />
         <Route exact path="/course/:course_id" component={CourseDetail} />
+        <Route exact path="/admin/" component={Admin}></Route>
+        <Route exact path="/admin/cat-management" component={Admin}></Route>
+        <Route exact path="/admin/delete-course" component={Admin}></Route>
+        <Route exact path="/admin/student-management" component={Admin}></Route>
+        <Route
+          exact
+          path="/admin/instructor-management"
+          component={Admin}
+        ></Route>
+
         <Route exact path="/:id" component={Verify} />
       </Switch>
     </Router>

@@ -1,9 +1,15 @@
 import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as env from "../../config/env.config";
 import axios from "axios";
 
+import cn from "classnames";
+import { debounce } from "lodash";
+
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
   course_detail_wrapper: {},
@@ -73,7 +79,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-export default function CatPrice({ course_detail }) {
+function CatPrice({ course_detail, dispatchAddToCart }) {
   const classes = styles();
   const [course_fee, setcourse_fee] = useState("");
   const [subject_name, setsubject_name] = useState("");
@@ -82,6 +88,21 @@ export default function CatPrice({ course_detail }) {
   const [num_stu_rate, setnum_stu_rate] = useState("");
   const [num_stu_enrolls, setnum_stu_enrolls] = useState("");
   const { course_id } = useParams();
+  const [isAddToCart, setIsAddToCart] = useState(false);
+
+  const handleAddToCart = (e) => {
+    const curr_user_id = sessionStorage.getItem("user_login_id");
+
+    dispatchAddToCart(
+      course_detail.course_id,
+      +curr_user_id,
+      course_detail.course_fee,
+      course_detail.course_avatar_url,
+      course_detail.course_name,
+      course_detail.course_title
+    );
+    setIsAddToCart(true);
+  };
 
   useEffect(() => {
     const config = {};
@@ -89,7 +110,6 @@ export default function CatPrice({ course_detail }) {
     axios
       .get(cat_price_num_url, config)
       .then((ret) => {
-        console.log(ret);
         setnum_stu_enrolls(ret.data.cat_price_num.num_stu_enrolls);
         setsubject_name(ret.data.cat_price_num.subject_name);
         setcourse_fee(ret.data.cat_price_num.course_fee);
@@ -108,7 +128,7 @@ export default function CatPrice({ course_detail }) {
         setnum_stu_rate(undefined);
         setnum_stu_enrolls(undefined);
       });
-  }, []);
+  }, [isAddToCart]);
 
   return (
     <Paper className={classes.paper}>
@@ -156,15 +176,42 @@ export default function CatPrice({ course_detail }) {
       </Box>
 
       <Box className={classes.box_cat}>
-        <Link
-          to={`/add-to-cart/course/${1}`}
-          className={classes.btn_add_to_cart}
+        <Button
+          onClick={handleAddToCart}
+          disabled={isAddToCart}
+          fullWidth
+          variant="contained"
         >
-          <Button fullWidth variant="contained">
-            Add to cart
-          </Button>
-        </Link>
+          Add to cart
+        </Button>
       </Box>
     </Paper>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchAddToCart: (
+      course_id,
+      user_id,
+      course_price,
+      course_ava,
+      course_name,
+      course_title
+    ) => {
+      dispatch({
+        type: ADD_COURSE_TO_CART,
+        payload: {
+          course_id: course_id,
+          course_price: course_price,
+          course_ava: course_ava,
+          course_name: course_name,
+          course_title: course_title,
+          user_id: user_id,
+        },
+      });
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(CatPrice);
