@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
+import { Button, TableFooter, Box } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -11,6 +11,10 @@ import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import * as env from "../../config/env.config";
 import { swal2Timing } from "../../config/swal2.config";
+import { Link } from "react-router-dom";
+import Modal from "@material-ui/core/Modal";
+import AddSubCatModal from "../CommonModal/AddSubCatModal";
+import RowSubCat from "./CategoryManagement/RowSubCat";
 
 const useStyles = makeStyles({
   table: {
@@ -19,26 +23,30 @@ const useStyles = makeStyles({
   btn: {
     marginLeft: 12,
   },
+  link: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
+  },
 });
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 export default function CatManagement() {
   const classes = useStyles();
   const [all_sub_cat, set_all_sub_cat] = React.useState([]);
   const [count_course, set_count_course] = React.useState([]);
-
+  const [open, setOpen] = React.useState(false);
   const config = {};
+
+  const openModal = (e) => {
+    setOpen(true);
+  };
 
   function getAllSubCat() {
     const all_sub_cat_url = `${env.DEV_URL}/api/sub-category`;
@@ -63,7 +71,7 @@ export default function CatManagement() {
       if (count_course[i].subject_id === subject_id) {
         const title = "Warning!";
         const html = "There is course exists in sub category!";
-        const timer = 2500;
+        const timer = 3500;
         const icon = "warning";
         swal2Timing(title, html, timer, icon);
         return;
@@ -87,11 +95,16 @@ export default function CatManagement() {
     getAllSubCat();
 
     getCountCourse();
-  }, [all_sub_cat]);
+  }, [all_sub_cat, open]);
 
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
+        <TableFooter>
+          <Button onClick={openModal} variant="contained">
+            Add sub category
+          </Button>
+        </TableFooter>
         <TableHead>
           <TableRow>
             <TableCell align="center">ID</TableCell>
@@ -100,34 +113,17 @@ export default function CatManagement() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {all_sub_cat.map((row) => (
-            <TableRow hover key={row.name}>
-              <TableCell align="center" component="th" scope="row">
-                {row.subject_id}
-              </TableCell>
-              <TableCell align="left">{row.subject_name}</TableCell>
-              <TableCell align="right">
-                <Button
-                  className={classes.btn}
-                  variant="contained"
-                  color="primary"
-                >
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => {
-                    handleDelSubCat(row.subject_id);
-                  }}
-                  className={classes.btn}
-                  variant="contained"
-                  color="secondary"
-                >
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {all_sub_cat.map((row) => {
+            return (
+              <RowSubCat
+                handleDelSubCat={handleDelSubCat}
+                key={row.subject_id}
+                row={row}
+              />
+            );
+          })}
         </TableBody>
+        <AddSubCatModal open={open} setOpen={setOpen} />
       </Table>
     </TableContainer>
   );

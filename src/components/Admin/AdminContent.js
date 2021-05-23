@@ -13,6 +13,7 @@ import CatManagement from "./CatManagement";
 import DeleteCourse from "./DeleteCourse";
 import InstructorManagement from "./InstructorManagement";
 import StudentManagement from "./StudentManagement";
+import SubCatDetail from "./SubCatDetail";
 
 const styles = makeStyles((theme) => ({
   root: {},
@@ -41,14 +42,34 @@ export default function AdminContent({ match }) {
   function renderCustom(path) {
     if (path === "/admin/cat-management") {
       return (
-        <div>
-          <CatManagement />
-        </div>
+        <Box>
+          <Box mb={3}>
+            <Typography variant="h6">Category management</Typography>
+          </Box>
+          <Box>
+            <CatManagement />
+          </Box>
+        </Box>
+      );
+    } else if (path === "/admin/cat-management/subcat/:id") {
+      return (
+        <Box>
+          <SubCatDetail />
+        </Box>
       );
     } else if (path === "/admin/delete-course") {
       return <DeleteCourse />;
     } else if (path === "/admin/student-management") {
-      return <StudentManagement />;
+      return (
+        <Box>
+          <Box mb={3}>
+            <Typography variant="h6">Student management</Typography>
+          </Box>
+          <Box>
+            <StudentManagement />
+          </Box>
+        </Box>
+      );
     } else if (path === "/admin/instructor-management") {
       return <InstructorManagement />;
     }

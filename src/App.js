@@ -62,6 +62,12 @@ function App() {
         <Route exact path="/course/:course_id" component={CourseDetail} />
         <Route exact path="/admin/" component={Admin}></Route>
         <Route exact path="/admin/cat-management" component={Admin}></Route>
+        <Route
+          exact
+          path="/admin/cat-management/subcat/:id"
+          component={Admin}
+        ></Route>
+
         <Route exact path="/admin/delete-course" component={Admin}></Route>
         <Route exact path="/admin/student-management" component={Admin}></Route>
         <Route

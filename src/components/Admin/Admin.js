@@ -38,9 +38,7 @@ export default function Admin({ match }) {
 
   const [page, setPage] = React.useState("");
 
-  React.useEffect(() => {
-    console.log("admin match", match);
-  }, [match]);
+  React.useEffect(() => {}, [match]);
 
   return (
     <div>
