@@ -107,7 +107,7 @@ export default function CatManagement() {
         </TableFooter>
         <TableHead>
           <TableRow>
-            <TableCell align="center">ID</TableCell>
+            <TableCell align="left">ID</TableCell>
             <TableCell align="left">Sub category name</TableCell>
             <TableCell align="right">Features</TableCell>
           </TableRow>

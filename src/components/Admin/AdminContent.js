@@ -58,7 +58,16 @@ export default function AdminContent({ match }) {
         </Box>
       );
     } else if (path === "/admin/delete-course") {
-      return <DeleteCourse />;
+      return (
+        <Box>
+          <Box mb={3}>
+            <Typography variant="h6">Delete course</Typography>
+          </Box>
+          <Box>
+            <DeleteCourse />
+          </Box>
+        </Box>
+      );
     } else if (path === "/admin/student-management") {
       return (
         <Box>
@@ -72,6 +81,17 @@ export default function AdminContent({ match }) {
       );
     } else if (path === "/admin/instructor-management") {
       return <InstructorManagement />;
+    } else {
+      return (
+        <Box>
+          <Box mb={3}>
+            <Typography variant="h6">Admin content</Typography>
+          </Box>
+          <Box>
+            <DeleteCourse />
+          </Box>
+        </Box>
+      );
     }
   }
 

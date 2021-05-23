@@ -69,7 +69,7 @@ export default function RowSubCat({ row, handleDelSubCat }) {
 
   return openEdit === true ? (
     <TableRow openEdit={openEdit} setOpenEdit={setOpenEdit} hover>
-      <TableCell align="center" component="th" scope="row">
+      <TableCell align="left" component="th" scope="row">
         {row.subject_id}
       </TableCell>
 
@@ -110,7 +110,7 @@ export default function RowSubCat({ row, handleDelSubCat }) {
     </TableRow>
   ) : (
     <TableRow openEdit={openEdit} setOpenEdit={setOpenEdit} hover>
-      <TableCell align="center" component="th" scope="row">
+      <TableCell align="left" component="th" scope="row">
         {row.subject_id}
       </TableCell>
 

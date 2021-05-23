@@ -235,19 +235,27 @@ function HomePage(props) {
       let first_4 = [];
       let second_4 = [];
       let third_2 = [];
-      for (let i = 0; i < 4; ++i) {
-        first_4.push(ret.data.ten_newest_courses[i]);
-      }
 
-      for (let i = 4; i < 8; ++i) {
-        second_4.push(ret.data.ten_newest_courses[i]);
+      if (ret.data.ten_newest_courses.length >= 0) {
+        for (let i = 0; i < 4; ++i) {
+          first_4.push(ret.data.ten_newest_courses[i]);
+        }
+
+        for (let i = 4; i < 8; ++i) {
+          second_4.push(ret.data.ten_newest_courses[i]);
+        }
+        for (let i = 8; i < 10; ++i) {
+          third_2.push(ret.data.ten_newest_courses[i]);
+        }
+        set_newest_courses_1_4(first_4);
+        set_newest_courses_2_4(second_4);
+        set_newest_courses_3_2(third_2);
+      } else {
+        for (let i = 0; i < ret.data.ten_newest_courses.length; ++i) {
+          first_4.push(ret.data.ten_newest_courses[i]);
+        }
+        set_newest_courses_1_4(first_4);
       }
-      for (let i = 8; i < 10; ++i) {
-        third_2.push(ret.data.ten_newest_courses[i]);
-      }
-      set_newest_courses_1_4(first_4);
-      set_newest_courses_2_4(second_4);
-      set_newest_courses_3_2(third_2);
     });
 
     // viewed
@@ -258,20 +266,28 @@ function HomePage(props) {
       let first_4 = [];
       let second_4 = [];
       let third_2 = [];
-      for (let i = 0; i < 4; ++i) {
-        first_4.push(ret.data.ten_most_viewed_courses[i]);
-      }
 
-      for (let i = 4; i < 8; ++i) {
-        second_4.push(ret.data.ten_most_viewed_courses[i]);
-      }
-      for (let i = 8; i < 10; ++i) {
-        third_2.push(ret.data.ten_most_viewed_courses[i]);
-      }
+      if (ret.data.ten_most_viewed_courses.length >= 10) {
+        for (let i = 0; i < 4; ++i) {
+          first_4.push(ret.data.ten_most_viewed_courses[i]);
+        }
 
-      set_most_viewed_courses_1_4(first_4);
-      set_most_viewed_courses_2_4(second_4);
-      set_most_viewed_courses_3_2(third_2);
+        for (let i = 4; i < 8; ++i) {
+          second_4.push(ret.data.ten_most_viewed_courses[i]);
+        }
+        for (let i = 8; i < 10; ++i) {
+          third_2.push(ret.data.ten_most_viewed_courses[i]);
+        }
+
+        set_most_viewed_courses_1_4(first_4);
+        set_most_viewed_courses_2_4(second_4);
+        set_most_viewed_courses_3_2(third_2);
+      } else {
+        for (let i = 0; i < ret.data.ten_most_viewed_courses.length; ++i) {
+          first_4.push(ret.data.ten_most_viewed_courses[i]);
+        }
+        set_most_viewed_courses_1_4(first_4);
+      }
     });
 
     // top sub cat
@@ -345,14 +361,23 @@ function HomePage(props) {
           </Typography>
 
           <Grid container spacing={4} justify={"center"}>
-            {outstanding_courses.map((card, i) => {
-              return (
-                <Grid item key={card.course_id} xs={12} sm={6} md={3} lg={3}>
-                  {/* <CardCourse {...card} /> */}
-                  <CardCourseEnroll isLogout={isLogout} {...card} />
-                </Grid>
-              );
-            })}
+            {outstanding_courses.length > 0
+              ? outstanding_courses.map((card, i) => {
+                  return (
+                    <Grid
+                      item
+                      key={card.course_id}
+                      xs={12}
+                      sm={6}
+                      md={3}
+                      lg={3}
+                    >
+                      {/* <CardCourse {...card} /> */}
+                      <CardCourseEnroll isLogout={isLogout} {...card} />
+                    </Grid>
+                  );
+                })
+              : ""}
           </Grid>
         </Container>
 
@@ -365,7 +390,7 @@ function HomePage(props) {
           <CommonCarousel>
             {/* first 4 newest courses */}
             <Grid container spacing={4}>
-              {newest_courses_1_4.length !== 0
+              {newest_courses_1_4 !== undefined && newest_courses_1_4.length > 0
                 ? newest_courses_1_4.map((card, i) => (
                     <Grid
                       item
@@ -382,7 +407,7 @@ function HomePage(props) {
             </Grid>
             <Grid container spacing={4}>
               {/* second 4 newest courses */}
-              {newest_courses_2_4.length !== 0
+              {newest_courses_2_4 && newest_courses_2_4.length > 0
                 ? newest_courses_2_4.map((card, i) => (
                     <Grid
                       item
@@ -401,7 +426,7 @@ function HomePage(props) {
 
             <Grid container spacing={4}>
               {/* third 2 newest courses */}
-              {newest_courses_3_2.length !== 0
+              {newest_courses_3_2 && newest_courses_3_2.length > 0
                 ? newest_courses_3_2.map((card, i) => (
                     <Grid
                       item
@@ -428,41 +453,61 @@ function HomePage(props) {
           <CommonCarousel>
             <Grid container spacing={4}>
               {/* ten_most_viewed_courses_first_4 */}
-              {most_viewed_courses_1_4.map((card, i) => {
-                return (
-                  <Grid
-                    className={classes.card_wrapper}
-                    item
-                    key={card.course_id}
-                    xs={12}
-                    sm={6}
-                    md={3}
-                    lg={3}
-                  >
-                    <CardCourse isLogout={isLogout} {...card} />
-                  </Grid>
-                );
-              })}
+              {most_viewed_courses_1_4.length > 0
+                ? most_viewed_courses_1_4.map((card, i) => {
+                    return (
+                      <Grid
+                        className={classes.card_wrapper}
+                        item
+                        key={card.course_id}
+                        xs={12}
+                        sm={6}
+                        md={3}
+                        lg={3}
+                      >
+                        <CardCourse isLogout={isLogout} {...card} />
+                      </Grid>
+                    );
+                  })
+                : ""}
             </Grid>
             <Grid container spacing={4}>
               {/* ten_most_viewed_courses_second_4 */}
-              {most_viewed_courses_2_4.map((card, i) => {
-                return (
-                  <Grid key={card.course_id} item xs={12} sm={6} md={3} lg={3}>
-                    <CardCourse isLogout={isLogout} {...card} />
-                  </Grid>
-                );
-              })}
+              {most_viewed_courses_2_4.length > 0
+                ? most_viewed_courses_2_4.map((card, i) => {
+                    return (
+                      <Grid
+                        key={card.course_id}
+                        item
+                        xs={12}
+                        sm={6}
+                        md={3}
+                        lg={3}
+                      >
+                        <CardCourse isLogout={isLogout} {...card} />
+                      </Grid>
+                    );
+                  })
+                : ""}
             </Grid>
             <Grid container spacing={4}>
               {/* ten_most_viewed_courses_third_2 */}
-              {most_viewed_courses_3_2.map((card, i) => {
-                return (
-                  <Grid key={card.course_id} item xs={12} sm={6} md={3} lg={3}>
-                    <CardCourse isLogout={isLogout} {...card} />
-                  </Grid>
-                );
-              })}
+              {most_viewed_courses_3_2.length > 0
+                ? most_viewed_courses_3_2.map((card, i) => {
+                    return (
+                      <Grid
+                        key={card.course_id}
+                        item
+                        xs={12}
+                        sm={6}
+                        md={3}
+                        lg={3}
+                      >
+                        <CardCourse isLogout={isLogout} {...card} />
+                      </Grid>
+                    );
+                  })
+                : ""}
             </Grid>
           </CommonCarousel>
         </Container>

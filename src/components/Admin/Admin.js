@@ -10,30 +10,43 @@ import {
 import DashboardSidebar from "./DashboardSidebar";
 import AdminContent from "./AdminContent";
 
-const styles = makeStyles((theme) => ({
-  root: {
-    overflowX: "hidden",
-  },
-  container: {
-    backgroundColor: "gray",
-  },
-  paper: {
-    padding: 32,
-    textAlign: "left",
-    color: theme.palette.text.secondary,
-    minHeight: 200,
-  },
-  link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
+export default function Admin({ match }) {
+  const styles = makeStyles((theme) => ({
+    "@global": {
+      "*::-webkit-scrollbar": {
+        display: "none",
+        width: "1em",
+      },
+      "*::-webkit-scrollbar-track": {
+        "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+      },
+      "*::-webkit-scrollbar-thumb": {
+        backgroundColor: `#455a64`,
+        outline: "1px solid slategrey",
+      },
+    },
+    root: {
+      overflowX: "hidden",
+    },
+    container: {
+      backgroundColor: "gray",
+    },
+    paper: {
+      padding: 32,
+      textAlign: "left",
+      color: theme.palette.text.secondary,
+      minHeight: 200,
+    },
+    link: {
       color: "inherit",
       textDecoration: "none",
+      "&:visited": {
+        color: "inherit",
+        textDecoration: "none",
+      },
     },
-  },
-}));
+  }));
 
-export default function Admin({ match }) {
   const classes = styles();
 
   const [page, setPage] = React.useState("");
