@@ -305,24 +305,7 @@ function CardCourse(props) {
                   }}
                 />
               </Box>
-            ) : is_most_view ? (
-              <Box
-                display="flex"
-                px={8}
-                justifyContent="flex-start"
-                width="100%"
-              >
-                <Badge
-                  className={classes.badge_mostView}
-                  variant="standard"
-                  badgeContent="Most view"
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                />
-              </Box>
-            ) : is_newest ? (
+            ) : (
               <Box
                 display="flex"
                 px={8}
@@ -339,8 +322,6 @@ function CardCourse(props) {
                   }}
                 />
               </Box>
-            ) : (
-              ""
             )}
 
             <CardContent className={classes.cardContent}>

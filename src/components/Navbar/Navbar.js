@@ -17,7 +17,8 @@ import { connect } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import Category from "../Category/Category";
 import NavbarMobile from "./NavbarMobile";
-
+import PublishIcon from "@material-ui/icons/Publish";
+import BrightnessAutoIcon from "@material-ui/icons/BrightnessAuto";
 const common_spacing = 32;
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   nav_root: {
+    "& a": {
+      textDecoration: "none",
+      color: "inherit",
+    },
+    "& a:hover": {
+      textDecoration: "none",
+      color: "inherit",
+    },
     [theme.breakpoints.down("xs")]: {
       display: "none",
     },
@@ -180,6 +189,8 @@ function Navbar(props) {
   const params = useParams();
   const history = useHistory();
 
+  const [update, setUpdate] = useState(false);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [quantity, set_quantity] = useState(0);
 
@@ -275,11 +286,23 @@ function Navbar(props) {
               </Typography>
             </Link>
 
+            {+user_role === 3 || +user_role === 4 ? (
+              <Link className={classes.link} to="/instructor/upload-course">
+                {" "}
+                <Typography variant="h6" className={classes.nav_typo}>
+                  <PublishIcon className={classes.icon_courses_list} />
+                  Upload-course
+                </Typography>
+              </Link>
+            ) : (
+              ""
+            )}
+
             {+user_role === 4 ? (
               <Link className={classes.link} to="/admin">
                 {" "}
                 <Typography variant="h6" className={classes.nav_typo}>
-                  <ListAltIcon className={classes.icon_courses_list} />
+                  <BrightnessAutoIcon className={classes.icon_courses_list} />
                   Admin Page
                 </Typography>
               </Link>

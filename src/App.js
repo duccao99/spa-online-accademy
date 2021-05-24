@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import CourseDetail from "./components/CourseDetail/CourseDetail";
@@ -12,7 +12,55 @@ import UserProfile from "./components/User/UserProfile";
 import Verify from "./components/User/Verify";
 import { getToken } from "./config/accessToken";
 import Admin from "./components/Admin/Admin";
+// import UploadCourse from "./components/Instructor/UploadCourse";
 
+const UploadCourse = React.lazy(() =>
+  import("./components/Instructor/UploadCourse")
+);
+
+const UploadCourseSuspense = (props) => {
+  return (
+    <Suspense fallback={<div>... loading</div>}>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        crossorigin="anonymous"
+      />
+      <link
+        href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/css/fileinput.min.css"
+        media="all"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        crossorigin="anonymous"
+      />
+      <script
+        src="https://code.jquery.com/jquery-3.5.1.min.js"
+        crossorigin="anonymous"
+      ></script>
+      <script
+        src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/plugins/piexif.min.js"
+        type="text/javascript"
+      ></script>
+      <script
+        src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/plugins/sortable.min.js"
+        type="text/javascript"
+      ></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+        crossorigin="anonymous"
+      ></script>
+      <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/fileinput.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/themes/fas/theme.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/locales/LANG.js"></script>
+      <UploadCourse {...props} />
+    </Suspense>
+  );
+};
 function App() {
   const [is_logged_in, set_is_logged_in] = useState(false);
   const [access_token, set_access_token] = useState("");
@@ -84,6 +132,12 @@ function App() {
           exact
           path="/admin/instructor-management/instructor/:id"
           component={Admin}
+        ></Route>
+
+        <Route
+          exact
+          path="/instructor/upload-course"
+          component={(props) => <UploadCourseSuspense {...props} />}
         ></Route>
 
         <Route exact path="/:id" component={Verify} />
