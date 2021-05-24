@@ -19,6 +19,17 @@ import Moment from "react-moment";
 
 const useStyles = makeStyles({
   table: {
+    "& *::-webkit-scrollbar": {
+      display: "none",
+      width: "1em",
+    },
+    "*::-webkit-scrollbar-track": {
+      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+    },
+    "*::-webkit-scrollbar-thumb": {
+      backgroundColor: `#455a64`,
+      outline: "1px solid slategrey",
+    },
     width: "100%",
   },
   btn: {
@@ -33,10 +44,6 @@ const useStyles = makeStyles({
     },
   },
 });
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
 export default function DeleteCourse() {
   const classes = useStyles();

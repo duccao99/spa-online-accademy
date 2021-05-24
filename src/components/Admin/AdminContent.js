@@ -16,9 +16,21 @@ import StudentManagement from "./StudentManagement/StudentManagement";
 import SubCatDetail from "./SubCatDetail";
 import StudentDetail from "./StudentManagement/StudentDetail";
 import InsDetail from "./InstructorManagement/InsDetail";
-
+import cn from "classnames";
 const styles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    "& *::-webkit-scrollbar": {
+      display: "none",
+      width: "1em",
+    },
+    "*::-webkit-scrollbar-track": {
+      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+    },
+    "*::-webkit-scrollbar-thumb": {
+      backgroundColor: `#455a64`,
+      outline: "1px solid slategrey",
+    },
+  },
   paper: {
     padding: 32,
     textAlign: "left",
@@ -118,5 +130,9 @@ export default function AdminContent({ match }) {
     }
   }
 
-  return <Paper className={classes.paper}>{renderCustom(match.path)}</Paper>;
+  return (
+    <Paper className={cn(classes.paper, classes.root)}>
+      {renderCustom(match.path)}
+    </Paper>
+  );
 }

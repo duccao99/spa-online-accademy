@@ -10,9 +10,12 @@ import {
 import DashboardSidebar from "./DashboardSidebar";
 import AdminContent from "./AdminContent";
 import { Redirect } from "react-router-dom";
-export default function Admin({ match }) {
+import { BRING_SCROLLBAR_BACK } from "../../actionTypes/home.type";
+import { connect } from "react-redux";
+
+function Admin({ match, bringScrollbarBack }) {
   const scrollbar_styles = {
-    "*::-webkit-scrollbar": {
+    "& *::-webkit-scrollbar": {
       display: "none",
       width: "1em",
     },
@@ -24,16 +27,7 @@ export default function Admin({ match }) {
       outline: "1px solid slategrey",
     },
   };
-
-  const [isLoggedIn, setisLoggedIn] = React.useState(false);
-  const [email, set_email] = React.useState("");
-
-  const [user_name, set_user_name] = React.useState("");
-
-  const scrollbar = match.path.includes("/admin") ? scrollbar_styles : {};
-
   const styles = makeStyles((theme) => ({
-    scrollbar,
     "@global": {
       "*::-webkit-scrollbar": {
         display: "none",
@@ -47,11 +41,8 @@ export default function Admin({ match }) {
         outline: "1px solid slategrey",
       },
     },
-    root: {
-      "& html": {
-        backgroundColor: "#fafafa",
-      },
 
+    root: {
       backgroundColor: "#fafafa",
     },
     container: {
@@ -73,11 +64,22 @@ export default function Admin({ match }) {
     },
   }));
 
+  const [isLoggedIn, setisLoggedIn] = React.useState(false);
+  const [email, set_email] = React.useState("");
+
+  const [user_name, set_user_name] = React.useState("");
+
+  const scrollbar = match.path.includes("/admin") ? scrollbar_styles : {};
+
   const classes = styles();
 
   const [page, setPage] = React.useState("");
 
   React.useEffect(() => {
+    // scrollbar
+    bringScrollbarBack();
+
+    // auth
     let user_name = sessionStorage.getItem("user_name");
     let email = sessionStorage.getItem("email");
 
@@ -114,3 +116,15 @@ export default function Admin({ match }) {
     <Redirect to="/" />
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    bringScrollbarBack: () => {
+      return dispatch({
+        type: BRING_SCROLLBAR_BACK,
+        payload: true,
+      });
+    },
+  };
+};
+export default connect(null, mapDispatchToProps)(Admin);

@@ -27,130 +27,9 @@ import CardCourse from "./../CardCourse/CardCourse";
 import CardNewestCourse from "./../CardCourse/CardNewestCourse";
 import Footer from "./../Footer/Footer";
 import CardCat from "./CardCat";
+import { BRING_SCROLLBAR_BACK } from "../../actionTypes/home.type";
 
 const common_spacing = 32;
-
-const useStyles = makeStyles((theme) => ({
-  "@global": {
-    "*::-webkit-scrollbar": {
-      width: "1em",
-    },
-    "*::-webkit-scrollbar-track": {
-      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
-    },
-    "*::-webkit-scrollbar-thumb": {
-      backgroundColor: `#455a64`,
-      outline: "1px solid slategrey",
-    },
-  },
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(12, 0, 12),
-    boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    display: "flex",
-  },
-
-  btn_sign_in: {
-    color: "inherit",
-    textDecoration: "none",
-    textTransform: "capitalize",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
-  ten_most_newest_courses: {
-    textAlign: "center",
-    marginTop: common_spacing,
-    marginBottom: common_spacing,
-  },
-  outstanding_courses: {
-    textAlign: "center",
-    marginTop: common_spacing,
-    marginBottom: common_spacing,
-  },
-  card_wrapper: {
-    // marginBottom: common_spacing * 2,
-  },
-  nav_typo: {
-    margin: 12,
-  },
-  btn_si: {
-    textTransform: "capitalize",
-  },
-  outstanding_course_wrapper: {
-    marginTop: 100,
-    marginBottom: 100,
-  },
-  link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
-  btn: {
-    textTransform: "capitalize",
-  },
-  cart_css: {
-    color: "white",
-  },
-  header: {
-    marginTop: 100,
-    marginBottom: 100,
-  },
-  list_cat_container: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  table: {
-    "&.MuiTableContainer-root": {
-      width: "unset",
-    },
-  },
-  box_cat: {
-    display: "flex;",
-    justifyContent: "center;",
-    alignItems: "center;",
-    width: "100%",
-  },
-}));
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -161,12 +40,131 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
 function HomePage(props) {
-  const { dispatchAddSales } = props;
+  const useStyles = makeStyles((theme) => ({
+    "@global": {
+      "*::-webkit-scrollbar": {
+        width: "1em",
+        display: "initial",
+      },
+      "*::-webkit-scrollbar-track": {
+        "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+      },
+      "*::-webkit-scrollbar-thumb": {
+        backgroundColor: `#455a64`,
+        outline: "1px solid slategrey",
+      },
+    },
+    icon: {
+      marginRight: theme.spacing(2),
+    },
+    heroContent: {
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(12, 0, 12),
+      boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
+    },
+    heroButtons: {
+      marginTop: theme.spacing(4),
+    },
+    cardGrid: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(8),
+    },
+    card: {
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
+    },
+    cardMedia: {
+      paddingTop: "56.25%", // 16:9
+    },
+    cardContent: {
+      flexGrow: 1,
+    },
+    footer: {
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(6),
+    },
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+      display: "flex",
+    },
+
+    btn_sign_in: {
+      color: "inherit",
+      textDecoration: "none",
+      textTransform: "capitalize",
+      "&:visited": {
+        color: "inherit",
+        textDecoration: "none",
+      },
+    },
+    ten_most_newest_courses: {
+      textAlign: "center",
+      marginTop: common_spacing,
+      marginBottom: common_spacing,
+    },
+    outstanding_courses: {
+      textAlign: "center",
+      marginTop: common_spacing,
+      marginBottom: common_spacing,
+    },
+    card_wrapper: {
+      // marginBottom: common_spacing * 2,
+    },
+    nav_typo: {
+      margin: 12,
+    },
+    btn_si: {
+      textTransform: "capitalize",
+    },
+    outstanding_course_wrapper: {
+      marginTop: 100,
+      marginBottom: 100,
+    },
+    link: {
+      color: "inherit",
+      textDecoration: "none",
+      "&:visited": {
+        color: "inherit",
+        textDecoration: "none",
+      },
+    },
+    btn: {
+      textTransform: "capitalize",
+    },
+    cart_css: {
+      color: "white",
+    },
+    header: {
+      marginTop: 100,
+      marginBottom: 100,
+    },
+    list_cat_container: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    table: {
+      "&.MuiTableContainer-root": {
+        width: "unset",
+      },
+    },
+    box_cat: {
+      display: "flex;",
+      justifyContent: "center;",
+      alignItems: "center;",
+      width: "100%",
+    },
+  }));
+
+  const { dispatchAddSales, bringScrollbarBack } = props;
   const classes = useStyles();
   const [is_logged_in, set_is_logged_in] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -183,6 +181,8 @@ function HomePage(props) {
   const [is_verified, set_is_verified] = useState(false);
 
   useEffect(() => {
+    // bring scrollbar back
+    bringScrollbarBack();
     // check is verify account
     let email = sessionStorage.getItem("email");
 
@@ -562,6 +562,13 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: ADD_SALES_INTO_GLOBAL_STATE,
         payload: sales,
+      });
+    },
+
+    bringScrollbarBack: () => {
+      dispatch({
+        type: BRING_SCROLLBAR_BACK,
+        payload: true,
       });
     },
   };
