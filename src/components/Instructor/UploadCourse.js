@@ -13,7 +13,7 @@ import {
 import * as env from "../../config/env.config";
 import axios from "axios";
 import cn from "classnames";
-import { debounce } from "lodash";
+import { debounce, reject } from "lodash";
 import { swal2Timing } from "../../config/swal2.config";
 import Footer from "./../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
@@ -200,6 +200,28 @@ export default function UploadCourse({ match }) {
   const [image, setimage] = useState("");
   const [image_name, setimage_name] = useState("");
   const [isComponentUpdate, setisComponentUpdate] = React.useState(false);
+  const [base64Image, setBase64Image] = useState("");
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (er) => {
+        reject(er);
+      };
+    });
+  };
+
+  const uploadImageChange = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setBase64Image(base64);
+  };
 
   const handleFileInputChange = (e) => {
     setfile(e.target.files[0]);
@@ -258,6 +280,7 @@ export default function UploadCourse({ match }) {
     const formAvaData = new FormData();
 
     formAvaData.append("ava", selectedFile);
+    // formAvaData.append("ava", base64Image);
     formAvaData.append("course_name", course_state.course_name);
     formAvaData.append("course_title", course_state.course_title);
     formAvaData.append("course_fee", course_state.course_fee);
@@ -521,6 +544,7 @@ export default function UploadCourse({ match }) {
                   type="file"
                   className="file"
                   onChange={(e) => handleFileInputChange(e)}
+                  // onChange={(e) => uploadImageChange(e)}
                   data-browse-on-zone-click="true"
                 ></input>
                 {/* <FileUploader onFileSelect={(f) => setSelectedFile(f)} /> */}

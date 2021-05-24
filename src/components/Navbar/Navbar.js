@@ -349,12 +349,28 @@ function Navbar(props) {
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                 </Link>
 
-                <Link
-                  className={classes.link}
-                  to={`/user/purchased-course/${email}`}
-                >
-                  <MenuItem onClick={handleClose}>Purchased course</MenuItem>
-                </Link>
+                {+user_role === 2 ? (
+                  <Link
+                    className={classes.link}
+                    to={`/user/purchased-course/${email}`}
+                  >
+                    <MenuItem onClick={handleClose}>Purchased course</MenuItem>
+                  </Link>
+                ) : (
+                  ""
+                )}
+
+                {+user_role === 3 ? (
+                  <Link
+                    className={classes.link}
+                    to={`/instructor/uploaded-course/${email}`}
+                  >
+                    <MenuItem onClick={handleClose}>Uploaded course</MenuItem>
+                  </Link>
+                ) : (
+                  ""
+                )}
+
                 <MenuItem
                   className={classes.btn_signout}
                   onClick={handleSignOutClick}

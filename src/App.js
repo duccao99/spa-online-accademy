@@ -28,6 +28,9 @@ const PurchasedCourse = lazy(() =>
 );
 const Cart = lazy(() => import("./components/Cart/Cart"));
 const Admin = lazy(() => import("./components/Admin/Admin"));
+const UploadedCourse = lazy(() =>
+  import("./components/Instructor/UploadedCourse")
+);
 
 const UploadCourseSuspense = (props) => {
   return (
@@ -122,6 +125,29 @@ function App() {
             exact
             path="/instructor/upload-course"
             component={(props) => <UploadCourseSuspense {...props} />}
+          ></Route>
+
+          <Route
+            exact
+            path="/instructor/uploaded-course/:id"
+            component={UploadedCourse}
+          ></Route>
+
+          <Route
+            exact
+            path="/ins/case/uploaded/:id"
+            component={UploadedCourse}
+          ></Route>
+          <Route
+            exact
+            path="/ins/case/upload-chapter/:id"
+            component={UploadedCourse}
+          ></Route>
+
+          <Route
+            exact
+            path="/ins/case/upload-lesson/:id"
+            component={UploadedCourse}
           ></Route>
 
           <Route exact path="/:id" component={Verify} />
