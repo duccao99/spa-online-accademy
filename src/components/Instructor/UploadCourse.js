@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Container,
@@ -21,6 +21,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import * as bi from "bootstrap-fileinput";
 
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+
+import Select from "@material-ui/core/Select";
+import FileUploader from "./FileUploader";
 const common_spacing = 32;
 
 const CdnFileInput = () => {
@@ -40,6 +46,13 @@ const styles = makeStyles((theme) => ({
       backgroundColor: `#455a64`,
       outline: "1px solid slategrey",
     },
+  },
+  formControl: {
+    // margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
   },
   container: {
     backgroundColor: "#fafafa",
@@ -161,8 +174,11 @@ export default function UploadCourse({ match }) {
   const [isLogout, setisLogout] = useState(true);
   const [isUpdate, setIsUpdate] = useState(false);
 
-  const [shortDes, setShortDes] = useState("true");
+  const [shortDes, setShortDes] = useState("");
   const [fullDes, setFullDes] = useState("");
+
+  const [subCatChoosen, setSubCatChoosen] = useState("");
+  const [subCatArr, setSubCatArr] = useState([1, 2, 3]);
 
   const [course_state, set_course_state] = useState({
     course_name: "",
@@ -170,6 +186,50 @@ export default function UploadCourse({ match }) {
     course_avatar_url: "",
     course_fee: "",
   });
+
+  //---------------------------
+  // file input handle
+  //---------------------------
+  // const [name, setName] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  // const fileInput = useRef(null);
+  // const handleFileInput = (e) => {
+  //   onFileSel;
+  // };
+  const [file, setfile] = useState("");
+  const [image, setimage] = useState("");
+  const [image_name, setimage_name] = useState("");
+  const [isComponentUpdate, setisComponentUpdate] = React.useState(false);
+
+  const handleFileInputChange = (e) => {
+    setfile(e.target.files[0]);
+    let reader = new FileReader();
+
+    let file = e.target.files[0];
+
+    reader.onload = () => {
+      setSelectedFile(file);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  //---------------------------
+  // end file input handle
+  //---------------------------
+
+  function getSubCat() {
+    const url = `${env.DEV_URL}/api/sub-category`;
+    const config = {};
+    axios.get(url, config).then((ret) => {
+      setSubCatArr(ret.data.all_sub_cats);
+    });
+  }
+
+  const handleSubCatChange = (e) => {
+    setSubCatChoosen(e.target.value);
+  };
+
   const handleKeypress = (e) => {
     setIsUpdate(!isUpdate);
     if (e.which === 13) {
@@ -186,9 +246,60 @@ export default function UploadCourse({ match }) {
   };
 
   const handleSubmit = (ev) => {
-    alert(
-      `${course_state.course_name}\n${course_state.course_title}\n${course_state.course_fee}\n${fullDes}\n${shortDes}`
-    );
+    // alert(
+    //   `${course_state.course_name}\n${course_state.course_title}\n${course_state.course_fee}\n${fullDes}\n${shortDes}`
+    // );
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+
+    const formAvaData = new FormData();
+
+    formAvaData.append("ava", selectedFile);
+    formAvaData.append("course_name", course_state.course_name);
+    formAvaData.append("course_title", course_state.course_title);
+    formAvaData.append("course_fee", course_state.course_fee);
+    formAvaData.append("course_full_description", fullDes);
+    formAvaData.append("course_short_description", shortDes);
+    formAvaData.append("subject_id", subCatChoosen);
+    formAvaData.append("user_id", +sessionStorage.getItem("user_login_id"));
+
+    console.log(formAvaData);
+
+    const upload_course_url = `${env.DEV_URL}/api/instructor/upload-course`;
+
+    axios
+      .post(upload_course_url, formAvaData, config)
+      .then((ret) => {
+        // alert("ok");
+        setisComponentUpdate(!isComponentUpdate);
+        const title = "Success!";
+        const html = "Course add success!";
+        const timer = 2500;
+        const icon = "success";
+        swal2Timing(title, html, timer, icon);
+      })
+      .catch((er) => {
+        // alert("not ok");
+
+        setisComponentUpdate(!isComponentUpdate);
+
+        if (er.response !== undefined) {
+          const title = "error!";
+          const html = er.response.data.message;
+          const timer = 2500;
+          const icon = "error";
+          swal2Timing(title, html, timer, icon);
+        } else {
+          const title = "error!";
+          const html = "Something broke!";
+          const timer = 2500;
+          const icon = "error";
+          swal2Timing(title, html, timer, icon);
+        }
+      });
   };
   const handleClick = (ev) => {
     handleSubmit(ev);
@@ -268,7 +379,10 @@ export default function UploadCourse({ match }) {
     } else {
       setisLogout(isLg);
     }
-  }, [match.path, isUpdate]);
+
+    // get subcat
+    getSubCat();
+  }, [match.path, isUpdate, isComponentUpdate]);
 
   return (
     <React.Fragment>
@@ -276,9 +390,13 @@ export default function UploadCourse({ match }) {
         <Navbar setisLogout={setisLogout} />
         <Container maxWidth="sm">
           <Box my={12} p={3} component={Paper}>
-            <form onSubmit={handleSubmit} onKeyPress={handleKeypress}>
+            <form
+              encType="multipart/form-data"
+              onSubmit={handleSubmit}
+              onKeyPress={handleKeypress}
+            >
               <Box my={3}>
-                <Typography variant="h5" component="p">
+                <Typography variant="h4" component="p">
                   Upload course
                 </Typography>
               </Box>
@@ -306,6 +424,43 @@ export default function UploadCourse({ match }) {
                     value={course_state.course_title}
                     onChange={handleCourseStateChange}
                   />
+                </FormControl>
+              </Box>
+
+              <Box my={3}>
+                <Box my={3}>
+                  <Typography variant="h5" component="p">
+                    Category
+                  </Typography>
+                </Box>
+                <FormControl
+                  fullWidth
+                  variant="filled"
+                  className={classes.formControl}
+                >
+                  <InputLabel id="demo-simple-select-filled-label">
+                    Category
+                  </InputLabel>
+                  <Select
+                    fullWidth
+                    labelId="demo-simple-select-filled-label"
+                    id="demo-simple-select-filled"
+                    value={subCatChoosen}
+                    onChange={handleSubCatChange}
+                  >
+                    {subCatArr.length > 0
+                      ? subCatArr.map((ele) => {
+                          return (
+                            <MenuItem
+                              key={ele.subject_id}
+                              value={ele.subject_id}
+                            >
+                              {ele.subject_name}
+                            </MenuItem>
+                          );
+                        })
+                      : ""}
+                  </Select>
                 </FormControl>
               </Box>
 
@@ -365,8 +520,10 @@ export default function UploadCourse({ match }) {
                   name="input-b1"
                   type="file"
                   className="file"
+                  onChange={(e) => handleFileInputChange(e)}
                   data-browse-on-zone-click="true"
                 ></input>
+                {/* <FileUploader onFileSelect={(f) => setSelectedFile(f)} /> */}
               </Box>
 
               <Box my={3}>
