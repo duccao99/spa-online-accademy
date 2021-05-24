@@ -218,11 +218,11 @@ function CardCourse(props) {
     }
 
     if (email === null) {
-      return set_email(undefined);
+      set_email(undefined);
     } else if (email === undefined) {
-      return set_email(undefined);
+      set_email(undefined);
     } else if (email === "") {
-      return set_email(undefined);
+      set_email(undefined);
     }
     set_email(email);
 
@@ -239,8 +239,16 @@ function CardCourse(props) {
     if (most_stu_enroll !== undefined) {
       for (let i = 0; i < most_stu_enroll.length; ++i) {
         if (course_id === most_stu_enroll[i].course_id) {
-          set_is_best_seller(true);
-          break;
+          return set_is_best_seller(true);
+        }
+      }
+    }
+
+    if (newest_courses !== undefined) {
+      for (let i = 0; i < newest_courses.length; ++i) {
+        if (course_id === newest_courses[i].course_id) {
+          return set_is_newest(true);
+          // break;
         }
       }
     }
@@ -249,15 +257,6 @@ function CardCourse(props) {
       for (let i = 0; i < most_view_courses.length; ++i) {
         if (course_id === most_view_courses[i].course_id) {
           set_is_most_view(true);
-          break;
-        }
-      }
-    }
-
-    if (newest_courses !== undefined) {
-      for (let i = 0; i < newest_courses.length; ++i) {
-        if (course_id === newest_courses[i].course_id) {
-          set_is_newest(true);
           break;
         }
       }
@@ -273,6 +272,8 @@ function CardCourse(props) {
     email,
     isLogout,
     show_btn,
+    // is_best_seller,
+    // is_newest,
   ]);
 
   const classes = useStyles();
@@ -305,7 +306,7 @@ function CardCourse(props) {
                   }}
                 />
               </Box>
-            ) : (
+            ) : is_newest ? (
               <Box
                 display="flex"
                 px={8}
@@ -322,6 +323,8 @@ function CardCourse(props) {
                   }}
                 />
               </Box>
+            ) : (
+              <Box></Box>
             )}
 
             <CardContent className={classes.cardContent}>
