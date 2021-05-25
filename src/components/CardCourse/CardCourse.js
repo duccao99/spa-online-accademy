@@ -412,17 +412,23 @@ function CardCourse(props) {
                 Buy
               </Button>
             ) : (
-              <FormControlLabel
-                className={classes.checkbox}
-                control={
-                  <GreenCheckbox
-                    checked={checked}
-                    onChange={handleChangeCheck}
-                    name="checkedG"
+              <div>
+                {user_role === 3 ? (
+                  <FormControlLabel
+                    className={classes.checkbox}
+                    control={
+                      <GreenCheckbox
+                        checked={checked}
+                        onChange={handleChangeCheck}
+                        name="checkedG"
+                      />
+                    }
+                    label="Is finished"
                   />
-                }
-                label="Is finished"
-              />
+                ) : (
+                  ""
+                )}
+              </div>
             )}
             <Link className={classes.link} to={`/course/${course_id}`}>
               <Button variant="outlined" size="small" color="primary">

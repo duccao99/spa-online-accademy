@@ -63,14 +63,8 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const lessons = [
-  {
-    chap_id: 1,
-    lesson_name: "lesson 1",
-  },
-];
 // get lesson by chap id and it will be okay
-export default function Chapter({ name }) {
+export default function Chapter({ chap_name, chap_id, lessons }) {
   const classes = styles();
   const [open, setOpen] = React.useState(true);
 
@@ -84,11 +78,15 @@ export default function Chapter({ name }) {
         <ListItemIcon>
           <CallToActionIcon />
         </ListItemIcon>
-        <ListItemText primary={name} />
+        <ListItemText primary={chap_name} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       {lessons.map((ele, i) => {
-        return <Lesson key={i} open={open} />;
+        return ele.chap_id === chap_id ? (
+          <Lesson {...ele} key={i} open={open} />
+        ) : (
+          ""
+        );
       })}
     </React.Fragment>
   );

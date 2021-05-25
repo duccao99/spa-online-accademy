@@ -1,9 +1,12 @@
 import { Paper, Typography } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import { makeStyles, Box } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import Chapter from "./Chapter";
+import { useParams } from "react-router-dom";
+import * as env from "../../config/env.config";
+import axios from "axios";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -59,19 +62,66 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const chapters = [
-  {
-    name: "chap 1",
-    chap_id: 1,
-  },
-  {
-    name: "chap 2",
-    chap_id: 2,
-  },
-];
+function unique(vl, i, self) {
+  return self.indexOf(vl) === i;
+}
 
 export default function Syllabus({ course_detail }) {
   const classes = styles();
+
+  const { course_id } = useParams();
+  const [syllabus, setsyllabus] = useState([1, 2]);
+  const [update, setupdate] = useState(false);
+  const [chapters, setchapters] = useState([]);
+  const [lessons, setlessons] = useState([]);
+
+  console.log(course_id);
+
+  function getSyllabus() {
+    const url = `${env.DEV_URL}/api/course/detail/syllabus/${+course_id}`;
+    axios.get(url, {}).then((ret) => {
+      console.log(ret.data.course_syllabus);
+      setsyllabus(ret.data.course_syllabus);
+
+      let array = ret.data.course_syllabus;
+      var flags = [],
+        unique_chapter = [],
+        lesson_of_chap = [],
+        l = ret.data.course_syllabus.length,
+        i;
+
+      for (i = 0; i < l; ++i) {
+        lesson_of_chap.push({
+          lesson_id: array[i].lesson_id,
+          lesson_name: array[i].lesson_name,
+          lesson_video_url: array[i].lesson_video_url,
+          flag_reviewable: array[i].flag_reviewable,
+          lesson_content: array[i].lesson_content,
+
+          chap_id: array[i].chap_id,
+        });
+        if (flags[array[i].chap_id]) continue;
+
+        flags[array[i].chap_id] = true;
+        unique_chapter.push({
+          chap_id: array[i].chap_id,
+          chap_name: array[i].chap_name,
+        });
+      }
+      console.log(unique_chapter);
+
+      setchapters(unique_chapter);
+      setlessons(lesson_of_chap);
+
+      // for(let i=0;i<ret.data.course_syllabus.length;++i){
+      //   chapter_arr.push(ret.data.course_syllabus[i].chap_id)
+      // }
+    });
+  }
+
+  useEffect(() => {
+    getSyllabus();
+  }, [update]);
 
   return (
     <Paper className={classes.paper}>
@@ -85,9 +135,13 @@ export default function Syllabus({ course_detail }) {
         }
         className={classes.root}
       >
-        {chapters.map((ele, i) => {
-          return <Chapter key={i} {...ele} />;
-        })}
+        {chapters !== undefined ? (
+          chapters.map((ele, i) => {
+            return <Chapter lessons={lessons} key={ele.chapter_id} {...ele} />;
+          })
+        ) : (
+          <Box>No syllabus</Box>
+        )}
       </List>
     </Paper>
   );
