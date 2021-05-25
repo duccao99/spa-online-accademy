@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function CaseUploadedCourse() {
+export default function CaseUploadChapter() {
   return <div>case chapter</div>;
 }

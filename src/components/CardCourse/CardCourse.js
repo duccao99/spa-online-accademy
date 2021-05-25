@@ -16,8 +16,23 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
 import * as env from "../../config/env.config";
+import { green } from "@material-ui/core/colors";
+import Checkbox from "@material-ui/core/Checkbox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import { withStyles, FormControlLabel } from "@material-ui/core";
 
 const common_spacing = 32;
+
+const GreenCheckbox = withStyles({
+  root: {
+    color: green[400],
+    "&$checked": {
+      color: green[600],
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -119,6 +134,10 @@ const useStyles = makeStyles((theme) => ({
   sale: {
     textDecoration: "line-through;",
   },
+  checkbox: {
+    margin: 0,
+    marginBottom: -5,
+  },
 }));
 
 const defaultProps = {
@@ -134,6 +153,7 @@ function CardCourse(props) {
     course_id,
     subject_name,
     user_name,
+    is_finished,
     user_id,
     avg_rate,
     most_stu_enroll,
@@ -143,6 +163,7 @@ function CardCourse(props) {
     cart_global_state,
     isLogout,
   } = props;
+  console.log(props);
 
   const [is_best_seller, set_is_best_seller] = useState(false);
   const [is_most_view, set_is_most_view] = useState(false);
@@ -155,6 +176,23 @@ function CardCourse(props) {
   const [email, set_email] = useState("");
   const [show_btn, set_show_btn] = useState(false);
   const [user_role, setUser_role] = useState(0);
+  const [checked, setChecked] = useState(is_finished);
+  const [isUpdate, setisUpdate] = useState(false);
+
+  const handleChangeCheck = (e) => {
+    const curr_user_id = sessionStorage.getItem("user_login_id");
+
+    setChecked(e.target.checked);
+    const data = {
+      is_finished: e.target.checked,
+      course_id: course_id,
+      user_id: curr_user_id,
+    };
+
+    const finished_url = `${env.DEV_URL}/api/instructor/toggle-finished-course/`;
+    axios.patch(finished_url, data, {}).then((ret) => {});
+    setisUpdate(!isUpdate);
+  };
 
   const handleBuyClick = (e) => {
     const curr_user_id = sessionStorage.getItem("user_login_id");
@@ -277,6 +315,7 @@ function CardCourse(props) {
     show_btn,
     // is_best_seller,
     // is_newest,
+    isUpdate,
   ]);
 
   const classes = useStyles();
@@ -374,7 +413,17 @@ function CardCourse(props) {
                 Buy
               </Button>
             ) : (
-              ""
+              <FormControlLabel
+                className={classes.checkbox}
+                control={
+                  <GreenCheckbox
+                    checked={checked}
+                    onChange={handleChangeCheck}
+                    name="checkedG"
+                  />
+                }
+                label="Is finished"
+              />
             )}
             <Link className={classes.link} to={`/course/${course_id}`}>
               <Button variant="outlined" size="small" color="primary">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import {
   Box,
   Container,
@@ -21,9 +21,13 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { swal2Timing } from "../../config/swal2.config";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
-import CaseUploadedCourse from "./CaseUploadedCourse";
-import CaseUploadChapter from "./CaseUploadChapter";
-import CaseUploadLesson from "./CaseUploadLesson";
+// import CaseUploadedCourse from "./CaseUploadedCourse";
+// import CaseUploadChapter from "./CaseUploadChapter";
+// import CaseUploadLesson from "./CaseUploadLesson";
+
+const CaseUploadedCourse = lazy(() => import("./CaseUploadedCourse"));
+const CaseUploadChapter = lazy(() => import("./CaseUploadChapter"));
+const CaseUploadLesson = lazy(() => import("./CaseUploadLesson"));
 
 const common_spacing = 32;
 const styles = makeStyles((theme) => ({
@@ -184,13 +188,29 @@ export default function UploadedCourse({ match }) {
 
   function checkPathToRender(path) {
     if (path === `/ins/case/uploaded/:id`) {
-      return <CaseUploadedCourse email={id} />;
+      return (
+        <Suspense fallback={<div>... loading</div>}>
+          <CaseUploadedCourse email={id} />
+        </Suspense>
+      );
     } else if (path === `/ins/case/upload-chapter/:id`) {
-      return <CaseUploadChapter />;
-    } else if (path === `/ins/case/upload-chapter/:id`) {
-      return <CaseUploadLesson />;
+      return (
+        <Suspense fallback={<div>... loading</div>}>
+          <CaseUploadChapter email={id} />
+        </Suspense>
+      );
+    } else if (path === `/ins/case/upload-lesson/:id`) {
+      return (
+        <Suspense fallback={<div>... loading</div>}>
+          <CaseUploadLesson email={id} />
+        </Suspense>
+      );
     } else {
-      return <CaseUploadedCourse email={id} />;
+      return (
+        <Suspense fallback={<div>... loading</div>}>
+          <CaseUploadedCourse email={id} />
+        </Suspense>
+      );
     }
   }
 

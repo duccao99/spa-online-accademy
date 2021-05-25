@@ -138,15 +138,15 @@ function App() {
             path="/ins/case/uploaded/:id"
             component={UploadedCourse}
           ></Route>
-          <Route
-            exact
-            path="/ins/case/upload-chapter/:id"
-            component={UploadedCourse}
-          ></Route>
 
           <Route
             exact
             path="/ins/case/upload-lesson/:id"
+            component={UploadedCourse}
+          ></Route>
+          <Route
+            exact
+            path="/ins/case/upload-chapter/:id"
             component={UploadedCourse}
           ></Route>
 
