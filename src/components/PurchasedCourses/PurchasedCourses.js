@@ -57,7 +57,7 @@ export default function PurchasedCourse() {
     const purchase_url = `${env.DEV_URL}/api/student/purchased-courses/${email}`;
     axios.get(purchase_url, config).then((ret) => {
       console.log(ret);
-      if (ret.data.purchased_courses.length !== 0) {
+      if (ret.data !== undefined) {
         set_purchased_courses(ret.data.purchased_courses);
       } else {
         set_purchased_courses(undefined);
@@ -82,7 +82,7 @@ export default function PurchasedCourse() {
                 </Box>
 
                 <Grid container spacing={4}>
-                  {purchased_courses.length > 0
+                  {purchased_courses !== undefined
                     ? purchased_courses.map((ele, i) => {
                         return (
                           <Grid xs={12} md={3} item key={i}>

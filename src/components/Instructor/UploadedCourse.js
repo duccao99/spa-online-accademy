@@ -190,7 +190,7 @@ export default function UploadedCourse({ match }) {
     } else if (path === `/ins/case/upload-chapter/:id`) {
       return <CaseUploadLesson />;
     } else {
-      return <CaseUploadedCourse />;
+      return <CaseUploadedCourse email={id} />;
     }
   }
 

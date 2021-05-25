@@ -89,6 +89,7 @@ function CatPrice({ course_detail, dispatchAddToCart }) {
   const [num_stu_enrolls, setnum_stu_enrolls] = useState("");
   const { course_id } = useParams();
   const [isAddToCart, setIsAddToCart] = useState(false);
+  const [user_role, setUser_role] = useState(0);
 
   const handleAddToCart = (e) => {
     const curr_user_id = sessionStorage.getItem("user_login_id");
@@ -105,6 +106,9 @@ function CatPrice({ course_detail, dispatchAddToCart }) {
   };
 
   useEffect(() => {
+    // role
+    const user_role = sessionStorage.getItem("user_role");
+    setUser_role(+user_role);
     const config = {};
     const cat_price_num_url = `${env.DEV_URL}/api/course/detail/cat-price-num/${course_id}`;
     axios
@@ -176,14 +180,18 @@ function CatPrice({ course_detail, dispatchAddToCart }) {
       </Box>
 
       <Box className={classes.box_cat}>
-        <Button
-          onClick={handleAddToCart}
-          disabled={isAddToCart}
-          fullWidth
-          variant="contained"
-        >
-          Add to cart
-        </Button>
+        {user_role === 2 || user_role === 4 ? (
+          <Button
+            onClick={handleAddToCart}
+            disabled={isAddToCart}
+            fullWidth
+            variant="contained"
+          >
+            Add to cart
+          </Button>
+        ) : (
+          ""
+        )}
       </Box>
     </Paper>
   );

@@ -314,13 +314,17 @@ function Navbar(props) {
           {user_name !== undefined ? (
             <div>
               {/* Cart */}
-              <Link to="/user/cart">
-                <IconButton className={classes.cart_css}>
-                  <StyledBadge badgeContent={quantity} color="secondary">
-                    <ShoppingCartIcon />
-                  </StyledBadge>
-                </IconButton>
-              </Link>
+              {+user_role === 2 || +user_role === 4 ? (
+                <Link to="/user/cart">
+                  <IconButton className={classes.cart_css}>
+                    <StyledBadge badgeContent={quantity} color="secondary">
+                      <ShoppingCartIcon />
+                    </StyledBadge>
+                  </IconButton>
+                </Link>
+              ) : (
+                ""
+              )}
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"

@@ -27,6 +27,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 
 import Select from "@material-ui/core/Select";
 import FileUploader from "./FileUploader";
+import { Suspense } from "react";
 const common_spacing = 32;
 
 const CdnFileInput = () => {
@@ -165,6 +166,9 @@ const styles = makeStyles((theme) => ({
     alignItems: "center;",
     width: "100%",
   },
+  opa05: {
+    opacity: 0.5,
+  },
 }));
 
 export default function UploadCourse({ match }) {
@@ -201,6 +205,46 @@ export default function UploadCourse({ match }) {
   const [image_name, setimage_name] = useState("");
   const [isComponentUpdate, setisComponentUpdate] = React.useState(false);
   const [base64Image, setBase64Image] = useState("");
+  const [img_upload, setImg_upload] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const onUploadAva = (e) => {
+    let count = 0;
+    const file_one = e.target.files[0];
+
+    if (!file_one) {
+      return;
+    }
+
+    for (const file of e.target.files) {
+      const reader = new FileReader();
+      console.log("read file");
+
+      reader.fileName = file.name;
+      reader.onloadstart = () => {
+        setImg_upload([]);
+      };
+
+      reader.onloadend = (readerEvt) => {
+        var base64Ret = reader.result.split(",")[1];
+        const new_upload = [
+          ...img_upload,
+          {
+            imageUrl: reader.result,
+            enc: base64Ret,
+            fileName: readerEvt.target.fileName,
+          },
+        ];
+
+        const new_img = reader.result;
+        setimage(new_img);
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+        count++;
+      }
+    }
+  };
 
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -279,8 +323,9 @@ export default function UploadCourse({ match }) {
 
     const formAvaData = new FormData();
 
-    formAvaData.append("ava", selectedFile);
+    // formAvaData.append("ava", image);
     // formAvaData.append("ava", base64Image);
+    formAvaData.append("ava", selectedFile);
     formAvaData.append("course_name", course_state.course_name);
     formAvaData.append("course_title", course_state.course_title);
     formAvaData.append("course_fee", course_state.course_fee);
@@ -292,11 +337,12 @@ export default function UploadCourse({ match }) {
     console.log(formAvaData);
 
     const upload_course_url = `${env.DEV_URL}/api/instructor/upload-course`;
-
+    setLoading(true);
     axios
       .post(upload_course_url, formAvaData, config)
       .then((ret) => {
         // alert("ok");
+        setLoading(false);
         setisComponentUpdate(!isComponentUpdate);
         const title = "Success!";
         const html = "Course add success!";
@@ -306,12 +352,13 @@ export default function UploadCourse({ match }) {
       })
       .catch((er) => {
         // alert("not ok");
+        setLoading(false);
 
         setisComponentUpdate(!isComponentUpdate);
 
         if (er.response !== undefined) {
           const title = "error!";
-          const html = er.response.data.message;
+          const html = "Something broke!";
           const timer = 2500;
           const icon = "error";
           swal2Timing(title, html, timer, icon);
@@ -405,7 +452,7 @@ export default function UploadCourse({ match }) {
 
     // get subcat
     getSubCat();
-  }, [match.path, isUpdate, isComponentUpdate]);
+  }, [match.path, isUpdate, isComponentUpdate, loading]);
 
   return (
     <React.Fragment>
@@ -544,6 +591,7 @@ export default function UploadCourse({ match }) {
                   type="file"
                   className="file"
                   onChange={(e) => handleFileInputChange(e)}
+                  // onChange={(e) => onUploadAva(e)}
                   // onChange={(e) => uploadImageChange(e)}
                   data-browse-on-zone-click="true"
                 ></input>
@@ -551,14 +599,26 @@ export default function UploadCourse({ match }) {
               </Box>
 
               <Box my={3}>
-                <Button
-                  onClick={handleClick}
-                  className={classes.btn}
-                  variant="contained"
-                  color="primary"
-                >
-                  Upload
-                </Button>
+                {loading ? (
+                  <Button
+                    fullWidth
+                    onClick={handleClick}
+                    className={classes.btn}
+                    variant="outlined"
+                    color="primary"
+                  >
+                    Loading ...
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleClick}
+                    className={classes.btn}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Upload
+                  </Button>
+                )}
               </Box>
             </form>{" "}
           </Box>

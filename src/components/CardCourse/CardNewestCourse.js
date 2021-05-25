@@ -118,6 +118,7 @@ function CardNewestCourse(props) {
   const [is_in_cart, set_is_in_cart] = useState(false);
   const [toggle_buy_click, set_toggle_buy_click] = useState(false);
   const [email, set_email] = useState(undefined);
+  const [user_role, setUser_role] = useState(0);
 
   const handleBuyClick = (e) => {
     const curr_user_id = sessionStorage.getItem("user_login_id");
@@ -133,6 +134,9 @@ function CardNewestCourse(props) {
   };
 
   useEffect(() => {
+    // role
+    const user_role = sessionStorage.getItem("user_role");
+    setUser_role(+user_role);
     const email = sessionStorage.getItem("email");
     if (email === null) {
       return set_email(undefined);
@@ -195,15 +199,20 @@ function CardNewestCourse(props) {
 
         {email !== undefined ? (
           <CardActions className={classes.card_action}>
-            <Button
-              disabled={is_in_cart === true}
-              onClick={handleBuyClick}
-              variant="contained"
-              size="small"
-              color="primary"
-            >
-              Buy
-            </Button>
+            {user_role === 2 || user_role === 4 ? (
+              <Button
+                disabled={is_in_cart === true}
+                onClick={handleBuyClick}
+                variant="contained"
+                size="small"
+                color="primary"
+              >
+                Buy
+              </Button>
+            ) : (
+              ""
+            )}
+
             <Link className={classes.link} to={`/course/${course_id}`}>
               <Button variant="outlined" size="small" color="primary">
                 Detail

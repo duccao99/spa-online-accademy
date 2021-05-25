@@ -95,6 +95,17 @@ export default function SignUp() {
       email: email,
       password: password,
     };
+
+    if (data.user_name === "" || data.email === "" || data.password === "") {
+      const title = "Error!";
+      const html = "Cannot empty!";
+      const timer = 2000;
+      const icon = "error";
+
+      swal2Timing(title, html, timer, icon);
+      return;
+    }
+
     const config = {};
     axios
       .post(url, data, config)

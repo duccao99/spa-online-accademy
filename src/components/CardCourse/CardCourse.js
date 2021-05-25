@@ -154,6 +154,7 @@ function CardCourse(props) {
   const [toggle_buy_click, set_toggle_buy_click] = useState(false);
   const [email, set_email] = useState("");
   const [show_btn, set_show_btn] = useState(false);
+  const [user_role, setUser_role] = useState(0);
 
   const handleBuyClick = (e) => {
     const curr_user_id = sessionStorage.getItem("user_login_id");
@@ -188,7 +189,9 @@ function CardCourse(props) {
   }
 
   useEffect(() => {
-    // sales
+    // role
+    const user_role = sessionStorage.getItem("user_role");
+    setUser_role(+user_role);
     // sale
     debounce(() => {
       const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
@@ -360,15 +363,19 @@ function CardCourse(props) {
 
         {email !== undefined ? (
           <CardActions className={classes.card_action}>
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              disabled={is_in_cart === true}
-              onClick={handleBuyClick}
-            >
-              Buy
-            </Button>
+            {user_role === 2 || user_role === 4 ? (
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                disabled={is_in_cart === true}
+                onClick={handleBuyClick}
+              >
+                Buy
+              </Button>
+            ) : (
+              ""
+            )}
             <Link className={classes.link} to={`/course/${course_id}`}>
               <Button variant="outlined" size="small" color="primary">
                 Detail
