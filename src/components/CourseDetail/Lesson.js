@@ -139,7 +139,7 @@ export default function Lesson({ open }) {
           />
           <ReactPlayer
             config={react_player_config}
-            url="https://www.youtube.com/watch?v=wWFkdOGLyEc"
+            url="https://res.cloudinary.com/duccao/raw/upload/v1621926742/1"
           />
         </Box>
       </Box>

@@ -334,8 +334,6 @@ export default function UploadCourse({ match }) {
     formAvaData.append("subject_id", subCatChoosen);
     formAvaData.append("user_id", +sessionStorage.getItem("user_login_id"));
 
-    console.log(formAvaData);
-
     const upload_course_url = `${env.DEV_URL}/api/instructor/upload-course`;
     setLoading(true);
     axios
