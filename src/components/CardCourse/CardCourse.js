@@ -163,7 +163,6 @@ function CardCourse(props) {
     cart_global_state,
     isLogout,
   } = props;
-  console.log(props);
 
   const [is_best_seller, set_is_best_seller] = useState(false);
   const [is_most_view, set_is_most_view] = useState(false);

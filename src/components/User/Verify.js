@@ -30,11 +30,18 @@ export default function Verify() {
   const handleVerify = (e) => {
     const verify_url = `${env.DEV_URL}/api/user/access-link-otp/${id}`;
     const config = {};
-    axios.get(verify_url, config).then((ret) => {
-      if (+ret.data.verify_status.affectedRows === 1) {
+    axios
+      .get(verify_url, config)
+      .then((ret) => {
+        if (+ret.data.verify_status.affectedRows === 1) {
+          window.close();
+        } else {
+          window.close();
+        }
+      })
+      .catch((er) => {
         window.close();
-      }
-    });
+      });
   };
   useEffect(() => {
     console.log(id);
