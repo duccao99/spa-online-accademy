@@ -162,6 +162,7 @@ function CardCourse(props) {
     dispatchAddToCart,
     cart_global_state,
     isLogout,
+    isUpdateFromPagi,
   } = props;
 
   const [is_best_seller, set_is_best_seller] = useState(false);
@@ -225,6 +226,8 @@ function CardCourse(props) {
     }, 500)();
   }
 
+  async function checkBestseller() {}
+
   useEffect(() => {
     // role
     const user_role = sessionStorage.getItem("user_role");
@@ -270,6 +273,7 @@ function CardCourse(props) {
       for (let i = 0; i < cart_global_state.length; ++i) {
         if (cart_global_state[i].course_id === course_id) {
           set_is_in_cart(true);
+
           set_toggle_buy_click(!toggle_buy_click);
           break;
         }
@@ -277,28 +281,39 @@ function CardCourse(props) {
     }
 
     if (most_stu_enroll !== undefined) {
+      let flag = false;
+
       for (let i = 0; i < most_stu_enroll.length; ++i) {
-        if (course_id === most_stu_enroll[i].course_id) {
-          return set_is_best_seller(true);
+        if (+course_id === +most_stu_enroll[i].course_id) {
+          flag = true;
+          break;
         }
+      }
+
+      if (flag === true) {
+        set_is_best_seller(true);
+        return;
+      } else {
+        set_is_best_seller(false);
       }
     }
 
     if (newest_courses !== undefined) {
-      for (let i = 0; i < newest_courses.length; ++i) {
-        if (course_id === newest_courses[i].course_id) {
-          return set_is_newest(true);
-          // break;
-        }
-      }
-    }
+      let flag = false;
 
-    if (most_view_courses !== undefined) {
-      for (let i = 0; i < most_view_courses.length; ++i) {
-        if (course_id === most_view_courses[i].course_id) {
-          set_is_most_view(true);
+      for (let i = 0; i < newest_courses.length; ++i) {
+        if (+course_id === +newest_courses[i].course_id) {
+          flag = true;
+          set_is_newest(true);
           break;
         }
+      }
+
+      if (flag === true) {
+        set_is_newest(true);
+        return;
+      } else {
+        set_is_newest(false);
       }
     }
 
@@ -312,9 +327,11 @@ function CardCourse(props) {
     email,
     isLogout,
     show_btn,
+    // bestseller problem
     // is_best_seller,
     // is_newest,
     isUpdate,
+    isUpdateFromPagi,
   ]);
 
   const classes = useStyles();
@@ -329,7 +346,7 @@ function CardCourse(props) {
               title="Image title"
             />
 
-            {is_best_seller ? (
+            {is_best_seller === true ? (
               <Box
                 display="flex"
                 px={8}
@@ -347,7 +364,7 @@ function CardCourse(props) {
                   }}
                 />
               </Box>
-            ) : is_newest ? (
+            ) : is_newest === true ? (
               <Box
                 display="flex"
                 px={8}

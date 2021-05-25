@@ -75,7 +75,6 @@ export default function RowExistsLesson({ row }) {
       <TableCell align="left">{row.lesson_name}</TableCell>
 
       <TableCell align="left">
-        {row.flag_reviewable}
         <FormControlLabel
           className={classes.checkbox}
           control={

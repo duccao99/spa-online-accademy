@@ -112,15 +112,16 @@ export default function CoursesList() {
   const [most_view_courses, set_most_view_courses] = useState([]);
   const [newest_courses, set_newest_courses] = useState([]);
   const [isLogout, setisLogout] = useState(true);
+  const [isUpdateFromPagi, setisUpdateFromPagi] = useState(false);
 
   const location = useLocation();
 
   function getMostStudentEnrollCourses() {
     debounce(() => {
-      const most_stu_rul = `${env.DEV_URL}/api/course/most-student-enroll`;
+      const most_stu_rul = `${env.DEV_URL}/api/course/outstanding-courses`;
       const config = {};
       axios.get(most_stu_rul, config).then((ret) => {
-        set_most_stu_enroll(ret.data.most_student_enroll);
+        set_most_stu_enroll(ret.data.outstanding_courses);
       });
     }, 500)();
   }
@@ -216,6 +217,12 @@ export default function CoursesList() {
 
   const handlePagiChange = (event, value) => {
     set_curr_page(value);
+    setisUpdateFromPagi(!isUpdateFromPagi);
+
+    getMostStudentEnrollCourses();
+    getMostViewCourses();
+    getNewestCourses();
+
     const config = {
       params: {
         pagi: value,
@@ -334,6 +341,7 @@ export default function CoursesList() {
                         <Grid key={i} item xs={12} sm={6} md={4} lg={4}>
                           <CardCourse
                             {...ele}
+                            isUpdateFromPagi={isUpdateFromPagi}
                             most_stu_enroll={most_stu_enroll}
                             most_view_courses={most_view_courses}
                             newest_courses={newest_courses}
