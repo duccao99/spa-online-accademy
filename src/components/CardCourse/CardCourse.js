@@ -413,7 +413,8 @@ function CardCourse(props) {
               </Button>
             ) : (
               <div>
-                {user_role === 3 ? (
+                {user_role === 3 &&
+                user_id === +sessionStorage.getItem("user_login_id") ? (
                   <FormControlLabel
                     className={classes.checkbox}
                     control={

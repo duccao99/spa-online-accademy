@@ -23,6 +23,22 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { green } from "@material-ui/core/colors";
+import Checkbox from "@material-ui/core/Checkbox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import { withStyles, FormControlLabel } from "@material-ui/core";
+import RowExistsLesson from "./RowExistsLesson";
+
+const GreenCheckbox = withStyles({
+  root: {
+    color: green[400],
+    "&$checked": {
+      color: green[600],
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -35,7 +51,6 @@ export default function CaseUploadLesson({ email }) {
   const classes = useStyles();
   const [age, setAge] = React.useState("");
   const [lessonName, setlessonName] = React.useState("");
-
   const [courses, setCourses] = useState([]);
   const [courseSelected, setcourseSelected] = useState("");
   const [user_id, setuser_id] = useState(0);
@@ -264,23 +279,16 @@ export default function CaseUploadLesson({ email }) {
                 <TableRow>
                   <TableCell align="left">Lesson id</TableCell>
                   <TableCell align="left">Lesson name</TableCell>
+                  <TableCell align="left">Is allow preview</TableCell>
                   <TableCell align="left">Chap id</TableCell>
 
                   <TableCell align="left">Chap name</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {lesson_exists.map((row) => (
-                  <TableRow hover key={row.lesson_id}>
-                    <TableCell align="left" component="th" scope="row">
-                      {row.lesson_id}
-                    </TableCell>
-                    <TableCell align="left">{row.lesson_name}</TableCell>
-                    <TableCell align="left">{row.chap_id}</TableCell>
-
-                    <TableCell align="left">{row.chap_name}</TableCell>
-                  </TableRow>
-                ))}
+                {lesson_exists.map((row) => {
+                  return <RowExistsLesson row={row} key={row.lesson_id} />;
+                })}
               </TableBody>
             </Table>
           </TableContainer>

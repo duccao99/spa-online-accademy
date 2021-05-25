@@ -49,9 +49,8 @@ export default function CaseUploadedCourse({ email }) {
           {courses.length > 0
             ? courses.map((card) => {
                 return (
-                  <Grid item xs={12} md={4}>
-                    {" "}
-                    <CardCourse key={card.course_id} {...card} />
+                  <Grid key={card.course_id} item xs={12} md={4}>
+                    <CardCourse {...card} />
                   </Grid>
                 );
               })

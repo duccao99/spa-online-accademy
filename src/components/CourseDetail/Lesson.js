@@ -179,6 +179,10 @@ export default function Lesson({
           [classes.d_none]: isCloseVideo,
         })}
       >
+        <Box my={3}>
+          <Typography variant="h6"> {lesson_name} </Typography>
+        </Box>
+
         <Box>
           <VideoPreview muted={muted} lesson_video_url={lesson_video_url} />
         </Box>
