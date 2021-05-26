@@ -9,6 +9,9 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { Link, useParams } from "react-router-dom";
 import { Button, FormGroup, TextField } from "@material-ui/core";
+import * as env from "../../config/env.config";
+import axios from "axios";
+import { swal2Timing } from "../../config/swal2.config";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   btn: {
-    fontSize: 12,
     textTransform: "initial",
     justifyContent: "flex-end",
   },
@@ -68,11 +70,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Change() {
+export default function Change({ setupdate, update }) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [is_name_error, set_is_name_error] = useState(false);
+  const [user_name, setuser_name] = useState("");
+  const [maile, setmaile] = useState("");
+  const [user_id, setuser_id] = useState(0);
+  const [newpass, setnewpass] = useState("");
+  const [oldpass, setoldpass] = useState("");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -81,6 +88,87 @@ export default function Change() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+
+  const handleUpdateName = function (e) {
+    const url_update_name = `${env.DEV_URL}/api/user/change-name`;
+    const data = {
+      user_name: user_name,
+      user_id: user_id,
+    };
+    axios
+      .patch(url_update_name, data, {})
+      .then(function (ret) {
+        setupdate(!update);
+        const title = "Success!";
+        const html = "Changed!";
+        const timer = 2500;
+        const icon = "success";
+        swal2Timing(title, html, timer, icon);
+      })
+      .catch((er) => {
+        const title = "error!";
+        const html = "Something broke!";
+        const timer = 2500;
+        const icon = "error";
+        swal2Timing(title, html, timer, icon);
+      });
+  };
+
+  const handleUpdateMaile = function (e) {
+    const url_update_maile = `${env.DEV_URL}/api/user/change-email`;
+    const data = {
+      email: maile,
+      user_id: user_id,
+    };
+    axios
+      .patch(url_update_maile, data, {})
+      .then(function (ret) {
+        setupdate(!update);
+        const title = "Success!";
+        const html = "Changed!";
+        const timer = 2500;
+        const icon = "success";
+        swal2Timing(title, html, timer, icon);
+      })
+      .catch((er) => {
+        const title = "error!";
+        const html = "Something broke!";
+        const timer = 2500;
+        const icon = "error";
+        swal2Timing(title, html, timer, icon);
+      });
+  };
+
+  const handleUpdatePassword = function (e) {
+    const url_update_pass = `${env.DEV_URL}/api/user/change-password`;
+    const data = {
+      user_id: user_id,
+      old_pass: oldpass,
+      new_pass: newpass,
+    };
+    axios
+      .patch(url_update_pass, data, {})
+      .then(function (ret) {
+        setupdate(!update);
+        const title = "Success!";
+        const html = "Changed!";
+        const timer = 2500;
+        const icon = "success";
+        swal2Timing(title, html, timer, icon);
+      })
+      .catch((er) => {
+        console.log(er.response);
+        const title = "error!";
+        const html = "Something broke!";
+        const timer = 2500;
+        const icon = "error";
+        swal2Timing(title, html, timer, icon);
+      });
+  };
+  useEffect(() => {
+    const curr_user_id = sessionStorage.getItem("user_login_id");
+    setuser_id(+curr_user_id);
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -116,13 +204,18 @@ export default function Change() {
             <TextField
               label="Username"
               fullWidth
+              value={user_name}
+              onChange={(e) => setuser_name(e.target.value)}
               error={is_name_error}
-              helperText={
-                is_name_error === true ? "You don't have a name?" : ""
-              }
+              helperText={is_name_error === true ? "Cannot empty" : ""}
             />
             <Box my={2}>
-              <Button className={classes.btn} variant="contained">
+              <Button
+                color="primary"
+                className={classes.btn}
+                variant="contained"
+                onClick={handleUpdateName}
+              >
                 Change
               </Button>
             </Box>
@@ -133,14 +226,20 @@ export default function Change() {
             <TextField
               label="Email"
               type="email"
+              type="email"
               fullWidth
+              value={maile}
+              onChange={(e) => setmaile(e.target.value)}
               error={is_name_error}
-              helperText={
-                is_name_error === true ? "You don't have a name?" : ""
-              }
+              helperText={is_name_error === true ? "Cannot empty?" : ""}
             />
             <Box my={2}>
-              <Button className={classes.btn} variant="contained">
+              <Button
+                onClick={handleUpdateMaile}
+                className={classes.btn}
+                color="primary"
+                variant="contained"
+              >
                 Change
               </Button>
             </Box>
@@ -148,32 +247,38 @@ export default function Change() {
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <Link className={classes.link} to="/user/profile/change-password">
-            <Box my={2}>
+            <Box my={3}>
               <FormGroup>
                 <TextField
                   label="Old password"
                   type="password"
                   fullWidth
+                  value={oldpass}
+                  onChange={(e) => setoldpass(e.target.value)}
                   error={is_name_error}
-                  helperText={is_name_error === true ? "Name is?" : ""}
+                  helperText={is_name_error === true ? "Error" : ""}
                 />
               </FormGroup>
             </Box>
-            <Box my={2}>
+            <Box my={3}>
               <FormGroup>
                 <TextField
                   label="New password"
                   type="password"
                   fullWidth
+                  value={newpass}
+                  onChange={(e) => setnewpass(e.target.value)}
                   error={is_name_error}
-                  helperText={
-                    is_name_error === true ? "You don't have a name?" : ""
-                  }
+                  helperText={is_name_error === true ? "Cannot empty?" : ""}
                 />
               </FormGroup>
             </Box>
             <Box mt={1}>
-              <Button className={classes.btn} variant="contained">
+              <Button
+                className={classes.btn}
+                color="primary"
+                variant="contained"
+              >
                 Change
               </Button>
             </Box>

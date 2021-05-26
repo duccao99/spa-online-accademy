@@ -11,6 +11,10 @@ import { Redirect, useParams } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import Change from "./Change";
+import cn from "classnames";
+import * as env from "../../config/env.config";
+import axios from "axios";
+import { swal2Timing } from "../../config/swal2.config";
 
 const styles = makeStyles((theme) => ({
   paper: {
@@ -32,9 +36,12 @@ const styles = makeStyles((theme) => ({
     },
   },
   btn: {
-    fontSize: 12,
+    fontSize: 32,
     textTransform: "initial",
     justifyContent: "flex-end",
+  },
+  change: {
+    height: 370,
   },
 }));
 
@@ -44,40 +51,36 @@ export default function UserProfile() {
   const [user_name, set_user_name] = useState("");
   const [email, set_email] = useState("");
   const [isLogout, setisLogout] = useState(true);
+  const [update, setupdate] = useState(false);
+  const [user_id, setuser_id] = useState(0);
+
+  function getNameMaile(id) {
+    const url_maile_name = `${env.DEV_URL}/api/user/${id}`;
+    axios.get(url_maile_name, {}).then((ret) => {
+      set_user_name(ret.data.user_detail.user_name);
+      set_email(ret.data.user_detail.email);
+    });
+  }
 
   useEffect(() => {
-    let user_name = sessionStorage.getItem("user_name");
-    let email = sessionStorage.getItem("email");
+    const curr_user_id = sessionStorage.getItem("user_login_id");
+    setuser_id(+curr_user_id);
 
     const isLg = sessionStorage.getItem("isLogout", false);
 
-    if (isLg !== null) {
-      setisLogout(isLg);
-    } else {
-      setisLogout(isLg);
-    }
-
-    if (user_name === "") {
-      return set_user_name(undefined);
-    } else if (user_name === undefined) {
-      return set_user_name(undefined);
-    } else if (user_name === null) {
-      return set_user_name(undefined);
-    }
-    user_name = user_name.substring(1, user_name.length - 1);
-    email = email.substring(1, email.length - 1);
+    getNameMaile(+curr_user_id);
 
     set_user_name(user_name);
     set_email(email);
-  }, []);
-  return user_name === undefined ? (
+  }, [update]);
+  return user_id === undefined || user_id === null ? (
     <Redirect to="/" />
   ) : (
     <React.Fragment>
       <Navbar setisLogout={setisLogout} />
 
       <Container>
-        <Box my={12}>
+        <Box mt={12} mb={4}>
           <Grid container spacing={4}>
             <Grid item xs={12} sm={4}>
               <Paper className={classes.paper}>
@@ -94,8 +97,8 @@ export default function UserProfile() {
               </Paper>
             </Grid>
             <Grid item xs={12} sm={8}>
-              <Paper className={classes.paper}>
-                <Change />
+              <Paper className={cn(classes.paper, classes.change)}>
+                <Change setupdate={setupdate} update={update} />
               </Paper>
             </Grid>
           </Grid>
