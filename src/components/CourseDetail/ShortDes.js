@@ -16,6 +16,8 @@ import axios from "axios";
 import cn from "classnames";
 import { debounce, reject } from "lodash";
 import { swal2Timing } from "../../config/swal2.config";
+import { useParams } from "react-router-dom";
+
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
   course_detail_wrapper: {},
@@ -71,7 +73,6 @@ const styles = makeStyles((theme) => ({
 }));
 
 export default function ShortDes({
-  course_detail,
   setUpdateCourseDetail,
   updateCourseDetail,
 }) {
@@ -81,6 +82,27 @@ export default function ShortDes({
   const [isEdit, setIsEdit] = useState(false);
   const [shortDes, setshortDes] = useState();
   const [loadDing, setLoadDing] = useState(false);
+
+  const [course_detail, set_course_detail] = React.useState({});
+  const [last_updated, set_last_updated] = useState("");
+  const { course_id } = useParams();
+
+  function getCourseDetail() {
+    const url = `${env.DEV_URL}/api/course/${course_id}`;
+    const config = {};
+    axios
+      .get(url, config)
+      .then((ret) => {
+        set_course_detail(ret.data.course_detail);
+        const last_updated = new Date(
+          `${ret.data.course_detail.course_last_updated}`
+        );
+        set_last_updated(last_updated);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  }
 
   const handleEditShortDes = (e) => {
     setIsEdit(false);
@@ -120,6 +142,8 @@ export default function ShortDes({
 
     setUserRole(+curr_user_role);
     setInsId(+user_login_id);
+
+    getCourseDetail();
   }, [isEdit]);
 
   return isEdit === true ? (

@@ -76,6 +76,23 @@ export default function CourseDetail({ match }) {
     params: { course_id },
   } = match;
 
+  function getCourseDetail() {
+    const url = `${env.DEV_URL}/api/course/${course_id}`;
+    const config = {};
+    axios
+      .get(url, config)
+      .then((ret) => {
+        set_course_detail(ret.data.course_detail);
+        const last_updated = new Date(
+          `${ret.data.course_detail.course_last_updated}`
+        );
+        set_last_updated(last_updated);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  }
+
   useEffect(() => {
     // nav
     const isLg = sessionStorage.getItem("isLogout", false);
@@ -86,16 +103,7 @@ export default function CourseDetail({ match }) {
       setisLogout(isLg);
     }
 
-    const ins_url = `${env.DEV_URL}/api/course/detail/instructor/${course_id}`;
-    const ins_config = ``;
-    axios
-      .get(ins_url, ins_config)
-      .then((ret) => {
-        set_instructor(ret.data.course_instructor[0]);
-      })
-      .catch((er) => {
-        console.log(er);
-      });
+    getCourseDetail();
 
     const relative_url = `${env.DEV_URL}/api/course/detail/five-relative/${course_id}`;
     const relative_url_config = ``;
@@ -145,10 +153,7 @@ export default function CourseDetail({ match }) {
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <InstructorDes
-                instructor={instructor}
-                course_detail={course_detail}
-              />
+              <InstructorDes />
             </Grid>
           </Grid>
         </Container>

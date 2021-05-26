@@ -14,6 +14,7 @@ import ReactQuill from "react-quill";
 import * as env from "../../config/env.config";
 import axios from "axios";
 import { swal2Timing } from "../../config/swal2.config";
+import { useParams } from "react-router-dom";
 
 import cn from "classnames";
 import { debounce, reject } from "lodash";
@@ -71,11 +72,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-export default function FullDes({
-  course_detail,
-  updateCourseDetail,
-  setUpdateCourseDetail,
-}) {
+export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
   const classes = styles();
 
   const [user_role, setUserRole] = useState(0);
@@ -83,6 +80,26 @@ export default function FullDes({
   const [isEdit, setIsEdit] = useState(false);
   const [fullDes, setFullDes] = useState();
   const [loadDing, setLoadDing] = useState(false);
+  const [course_detail, set_course_detail] = React.useState({});
+  const [last_updated, set_last_updated] = useState("");
+  const { course_id } = useParams();
+
+  function getCourseDetail() {
+    const url = `${env.DEV_URL}/api/course/${course_id}`;
+    const config = {};
+    axios
+      .get(url, config)
+      .then((ret) => {
+        set_course_detail(ret.data.course_detail);
+        const last_updated = new Date(
+          `${ret.data.course_detail.course_last_updated}`
+        );
+        set_last_updated(last_updated);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  }
 
   const handleEditFulDes = (e) => {
     setIsEdit(false);
@@ -122,7 +139,9 @@ export default function FullDes({
 
     setUserRole(+curr_user_role);
     setInsId(+user_login_id);
-  }, [isEdit]);
+
+    getCourseDetail();
+  }, [isEdit, course_id]);
 
   return isEdit === true ? (
     <Paper className={classes.paper}>

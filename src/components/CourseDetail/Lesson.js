@@ -12,7 +12,12 @@ import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import VideoPreview from "../CommonVideo/VideoPreview";
-
+import * as env from "../../config/env.config";
+import axios from "axios";
+import { swal2Timing } from "../../config/swal2.config";
+import { useParams } from "react-router-dom";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
 import { Player, Video } from "video-react";
 const common_fontsize = 18;
 
@@ -117,7 +122,7 @@ const styles = makeStyles((theme) => ({
     },
   },
 }));
-
+// "Lesson is not completed"
 export default function Lesson({
   open,
   chap_id,
@@ -126,11 +131,71 @@ export default function Lesson({
   lesson_video_url,
   flag_reviewable,
   lesson_content,
+  isLessonCompleted,
 }) {
   const classes = styles();
   const [is_close_video, set_is_close_video] = useState(true);
   const [isCloseVideo, setisCloseVideo] = useState(true);
   const [muted, setmuted] = useState(true);
+
+  const [user_role, setUserRole] = useState(0);
+  const [insId, setInsId] = useState(0);
+  const [isEdit, setIsEdit] = useState(false);
+  const [course_detail, set_course_detail] = React.useState({});
+  const [last_updated, set_last_updated] = useState("");
+  const [lessContent, setlessContent] = useState("");
+  const [update, setupdate] = useState(false);
+  const { course_id } = useParams();
+
+  const [real_les_content, setreal_les_content] = useState("");
+
+  const handleEditContent = (e) => {
+    setIsEdit(false);
+
+    const url = `${env.DEV_URL}/api/instructor/edit-lesson-content`;
+    const data = {
+      user_id: insId,
+      lesson_content: lessContent,
+      lesson_id: lesson_id,
+    };
+
+    axios
+      .patch(url, data, {})
+      .then((ret) => {
+        const title = "Success!";
+        const html = "Edited!";
+        const timer = 2500;
+        const icon = "success";
+        swal2Timing(title, html, timer, icon);
+        getCourseDetail();
+        setreal_les_content(data.lesson_content);
+      })
+      .catch((er) => {
+        const title = "error!";
+        const html = "Something broke!";
+        const timer = 2500;
+        const icon = "error";
+        swal2Timing(title, html, timer, icon);
+        getCourseDetail();
+      });
+  };
+
+  function getCourseDetail() {
+    const url = `${env.DEV_URL}/api/course/${course_id}`;
+    const config = {};
+    axios
+      .get(url, config)
+      .then((ret) => {
+        set_course_detail(ret.data.course_detail);
+        const last_updated = new Date(
+          `${ret.data.course_detail.course_last_updated}`
+        );
+        set_last_updated(last_updated);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  }
 
   const handleCloseVideo = (e) => {
     setisCloseVideo(!isCloseVideo);
@@ -142,8 +207,16 @@ export default function Lesson({
     },
   };
   useEffect(() => {
-    console.log(lesson_name);
-  }, []);
+    const curr_user_role = sessionStorage.getItem("user_role");
+    const user_login_id = sessionStorage.getItem("user_login_id");
+
+    setUserRole(+curr_user_role);
+    setInsId(+user_login_id);
+
+    setreal_les_content(lesson_content);
+
+    getCourseDetail();
+  }, [isEdit, update]);
   return (
     <React.Fragment>
       <Collapse in={open} timeout="auto" unmountOnExit>
@@ -154,11 +227,13 @@ export default function Lesson({
             </ListItemIcon>
             <ListItemText
               primary={`${
-                lesson_name === null ? "Lesson is not completed" : lesson_name
+                isLessonCompleted === false
+                  ? "Lesson is not completed"
+                  : lesson_name
               }`}
             />
 
-            {+flag_reviewable === 1 ? (
+            {+flag_reviewable === 1 && isLessonCompleted === true ? (
               <Button onClick={handleCloseVideo}>Preview</Button>
             ) : (
               ""
@@ -198,15 +273,63 @@ export default function Lesson({
         <Box>
           <VideoPreview muted={muted} lesson_video_url={lesson_video_url} />
         </Box>
-        <Box my={3}>
-          <Typography variant="h6">Lesson content</Typography>
-        </Box>
 
-        <Box
-          dangerouslySetInnerHTML={{
-            __html: lesson_content,
-          }}
-        ></Box>
+        {isEdit === true ? (
+          <Box>
+            <Box my={3}>
+              <Typography variant="h6">Lesson content</Typography>
+            </Box>
+
+            <Box my={3}>
+              <ReactQuill
+                theme="snow"
+                value={lessContent || ""}
+                onChange={setlessContent}
+              />
+            </Box>
+            <Box>
+              {+user_role === 3 && +course_detail.user_id === +insId ? (
+                <Button
+                  onClick={handleEditContent}
+                  className={classes.btn}
+                  variant="contained"
+                  color="secondary"
+                >
+                  Save
+                </Button>
+              ) : (
+                ""
+              )}
+            </Box>
+          </Box>
+        ) : (
+          <Box>
+            <Box my={3}>
+              <Typography variant="h6">Lesson content</Typography>
+            </Box>
+
+            <Box
+              dangerouslySetInnerHTML={{
+                __html: real_les_content,
+              }}
+            ></Box>
+
+            <Box>
+              {+user_role === 3 && +course_detail.user_id === +insId ? (
+                <Button
+                  onClick={() => setIsEdit(true)}
+                  className={classes.btn}
+                  variant="contained"
+                  color="primary"
+                >
+                  Edit
+                </Button>
+              ) : (
+                ""
+              )}
+            </Box>
+          </Box>
+        )}
       </Box>
     </React.Fragment>
   );

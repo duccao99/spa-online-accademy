@@ -1,6 +1,9 @@
 import { makeStyles, Paper, Typography } from "@material-ui/core";
-import React from "react";
 
+import axios from "axios";
+import * as env from "../../config/env.config";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
   course_detail_wrapper: {},
@@ -61,8 +64,27 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-export default function InstructorDes({ course_detail, instructor }) {
+export default function InstructorDes({}) {
   const classes = styles();
+  const [instructor, set_instructor] = useState({});
+
+  const { course_id } = useParams();
+  function getInstructor() {
+    const ins_url = `${env.DEV_URL}/api/course/detail/instructor/${course_id}`;
+    const ins_config = ``;
+    axios
+      .get(ins_url, ins_config)
+      .then((ret) => {
+        set_instructor(ret.data.course_instructor[0]);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  }
+
+  useEffect(() => {
+    getInstructor();
+  }, [course_id]);
 
   return (
     <Paper className={classes.paper}>

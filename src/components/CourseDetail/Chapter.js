@@ -84,13 +84,13 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
 
-      {lessons.length === 0
+      {lessons.length === 0 || lessons === null || lessons === undefined
         ? "Chap is not completed"
         : lessons.map((ele, i) => {
             return ele.chap_id === chap_id ? (
-              <Lesson {...ele} key={i} open={open} />
+              <Lesson {...ele} key={i} open={open} isLessonCompleted={true} />
             ) : (
-              ""
+              <Lesson {...ele} key={i} open={open} isLessonCompleted={false} />
             );
           })}
     </React.Fragment>
