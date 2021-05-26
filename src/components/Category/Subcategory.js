@@ -97,6 +97,7 @@ export default function Subcategory({
           ? sub_web_cat.map((ele, i) => {
               return (
                 <Link
+                  key={ele.subject_name}
                   onClick={() => {
                     set_cat_close(true);
                   }}
@@ -104,7 +105,7 @@ export default function Subcategory({
                   to={`/courses-list/${ele.subject_name}`}
                 >
                   <StyledMenuItem>
-                    <ListItemText key={i} primary={ele.subject_name} />
+                    <ListItemText primary={ele.subject_name} />
                   </StyledMenuItem>
                 </Link>
               );
@@ -114,6 +115,7 @@ export default function Subcategory({
           ? sub_mobi_cat.map((ele, i) => {
               return (
                 <Link
+                  key={ele.subject_name}
                   onClick={() => {
                     set_cat_close(true);
                   }}
@@ -121,7 +123,7 @@ export default function Subcategory({
                   to={`/courses-list/${ele.subject_name}`}
                 >
                   <StyledMenuItem>
-                    <ListItemText key={i} primary={ele.subject_name} />
+                    <ListItemText primary={ele.subject_name} />
                   </StyledMenuItem>
                 </Link>
               );

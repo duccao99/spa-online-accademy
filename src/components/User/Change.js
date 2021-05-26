@@ -107,7 +107,7 @@ export default function Change({ setupdate, update }) {
       })
       .catch((er) => {
         const title = "error!";
-        const html = "Something broke!";
+        const html = er.response.data.message || "Something broke!";
         const timer = 2500;
         const icon = "error";
         swal2Timing(title, html, timer, icon);
@@ -132,7 +132,7 @@ export default function Change({ setupdate, update }) {
       })
       .catch((er) => {
         const title = "error!";
-        const html = "Something broke!";
+        const html = er.response.data.message || "Something broke!";
         const timer = 2500;
         const icon = "error";
         swal2Timing(title, html, timer, icon);
@@ -159,7 +159,7 @@ export default function Change({ setupdate, update }) {
       .catch((er) => {
         console.log(er.response);
         const title = "error!";
-        const html = "Something broke!";
+        const html = er.response.data.message || "Something broke!";
         const timer = 2500;
         const icon = "error";
         swal2Timing(title, html, timer, icon);
@@ -205,6 +205,11 @@ export default function Change({ setupdate, update }) {
               label="Username"
               fullWidth
               value={user_name}
+              onKeyPress={(e) => {
+                if (e.which === 13) {
+                  handleUpdateName(e);
+                }
+              }}
               onChange={(e) => setuser_name(e.target.value)}
               error={is_name_error}
               helperText={is_name_error === true ? "Cannot empty" : ""}
@@ -226,7 +231,11 @@ export default function Change({ setupdate, update }) {
             <TextField
               label="Email"
               type="email"
-              type="email"
+              onKeyPress={(e) => {
+                if (e.which === 13) {
+                  handleUpdateMaile(e);
+                }
+              }}
               fullWidth
               value={maile}
               onChange={(e) => setmaile(e.target.value)}
@@ -250,6 +259,11 @@ export default function Change({ setupdate, update }) {
             <Box my={3}>
               <FormGroup>
                 <TextField
+                  onKeyPress={(e) => {
+                    if (e.which === 13) {
+                      handleUpdatePassword(e);
+                    }
+                  }}
                   label="Old password"
                   type="password"
                   fullWidth
@@ -278,6 +292,7 @@ export default function Change({ setupdate, update }) {
                 className={classes.btn}
                 color="primary"
                 variant="contained"
+                onClick={handleUpdatePassword}
               >
                 Change
               </Button>

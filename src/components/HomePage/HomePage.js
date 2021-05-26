@@ -183,12 +183,15 @@ function HomePage(props) {
   const [top_sub_cat, set_top_sub_cat] = useState([]);
   const [isLogout, setisLogout] = useState(true);
   const [is_verified, set_is_verified] = useState(false);
+  const [user_id, set_user_id] = useState(null);
 
   useEffect(() => {
     // bring scrollbar back
-    bringScrollbarBack();
+    // bringScrollbarBack();
     // check is verify account
     let email = sessionStorage.getItem("email");
+    let curr_user_id = sessionStorage.getItem("user_login_id");
+    set_user_id(curr_user_id);
 
     if (email !== null) {
       set_is_logged_in(true);
@@ -339,18 +342,22 @@ function HomePage(props) {
                     </Button>
                   </Link>
                 </Grid> */}
-                <Grid item>
-                  <Link to="/user/sign-in" className={classes.link}>
-                    <Button
-                      className={classes.btn_join}
-                      variant="contained"
-                      color="primary"
-                    >
-                      {/* If you are student */}
-                      Go
-                    </Button>
-                  </Link>
-                </Grid>
+                {user_id === null ? (
+                  <Grid item>
+                    <Link to="/user/sign-in" className={classes.link}>
+                      <Button
+                        className={classes.btn_join}
+                        variant="contained"
+                        color="primary"
+                      >
+                        {/* If you are student */}
+                        Go
+                      </Button>
+                    </Link>
+                  </Grid>
+                ) : (
+                  ""
+                )}
               </Grid>
             </div>
           </Container>
@@ -535,7 +542,7 @@ function HomePage(props) {
                 </TableHead>
                 <TableBody>
                   {top_sub_cat.map((cat, i) => {
-                    return <CardCat key={cat.cat_id} cat={cat} />;
+                    return <CardCat key={i} cat={cat} />;
                   })}
                 </TableBody>
               </TableContainer>

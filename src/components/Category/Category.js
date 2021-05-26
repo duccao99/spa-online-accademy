@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as env_config from "../../config/env.config";
-import Popover from "./PopoverCat";
+import PopoverCat from "./PopoverCat";
 const useStyles = makeStyles((theme) => ({
   typography: {
     padding: theme.spacing(2),
@@ -58,7 +58,7 @@ export default function Category() {
 
   return (
     <div>
-      <Popover
+      <PopoverCat
         title="Categories"
         sub_web_cat={sub_web_cat}
         sub_mobi_cat={sub_mobi_cat}

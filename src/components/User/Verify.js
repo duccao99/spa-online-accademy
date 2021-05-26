@@ -43,10 +43,7 @@ export default function Verify() {
         window.close();
       });
   };
-  useEffect(() => {
-    console.log(id);
-    console.log(history);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <Box className={classes.root}>
       <Typography variant="h5">Verify your account!</Typography>

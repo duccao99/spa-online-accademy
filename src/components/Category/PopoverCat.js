@@ -120,7 +120,7 @@ export default function PopoverCat({
           return (
             <Subcategory
               classes={classes}
-              key={i}
+              key={e.cat_id}
               set_cat_close={set_close}
               sub_mobi_cat={e.cat_id === 2 ? sub_mobi_cat : []}
               sub_web_cat={e.cat_id === 1 ? sub_web_cat : []}
