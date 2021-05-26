@@ -10,7 +10,10 @@ import {
 } from "@material-ui/core";
 import cn from "classnames";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Moment from "react-moment";
+import axios from "axios";
+import * as env from "../../config/env.config";
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
   course_detail_wrapper: {},
@@ -64,9 +67,32 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-export default function Avatar({ course_detail, last_updated }) {
+export default function Avatar({}) {
   const classes = styles();
+  const { course_id } = useParams();
+  const [course_detail, setcourse_detail] = useState({});
+  const [last_updated, set_last_updated] = useState("");
 
+  function getAva() {
+    const url = `${env.DEV_URL}/api/course/${course_id}`;
+    const config = {};
+    axios
+      .get(url, config)
+      .then((ret) => {
+        setcourse_detail(ret.data.course_detail);
+        const last_updated = new Date(
+          `${ret.data.course_detail.course_last_updated}`
+        );
+        set_last_updated(last_updated);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+  }
+
+  useEffect(() => {
+    getAva();
+  }, [course_id]);
   return (
     <Paper
       style={{

@@ -1,7 +1,7 @@
 import { Container, Grid, makeStyles } from "@material-ui/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
 import * as env from "../../config/env.config";
+import React, { useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import Avatar from "./Avatar";
@@ -69,7 +69,6 @@ export default function CourseDetail({ match }) {
   const [last_updated, set_last_updated] = useState("");
   const [instructor, set_instructor] = React.useState({});
   const [five_relative_course, set_five_relative_course] = React.useState([]);
-  const [feedback, set_feedback] = useState([]);
   const [isLogout, setisLogout] = useState(true);
   const [updateCourseDetail, setUpdateCourseDetail] = useState(false);
 
@@ -86,21 +85,6 @@ export default function CourseDetail({ match }) {
     } else {
       setisLogout(isLg);
     }
-
-    const url = `${env.DEV_URL}/api/course/${course_id}`;
-    const config = {};
-    axios
-      .get(url, config)
-      .then((ret) => {
-        set_course_detail(ret.data.course_detail);
-        const last_updated = new Date(
-          `${ret.data.course_detail.course_last_updated}`
-        );
-        set_last_updated(last_updated);
-      })
-      .catch((er) => {
-        console.log(er);
-      });
 
     const ins_url = `${env.DEV_URL}/api/course/detail/instructor/${course_id}`;
     const ins_config = ``;
@@ -123,17 +107,6 @@ export default function CourseDetail({ match }) {
       .catch((er) => {
         console.log(er);
       });
-
-    const feedback_url = `${env.DEV_URL}/api/course/detail/course-review/${course_id}`;
-    const feedback_url_config = ``;
-    axios
-      .get(feedback_url, feedback_url_config)
-      .then((ret) => {
-        set_feedback(ret.data.course_reviews);
-      })
-      .catch((er) => {
-        console.log(er);
-      });
   }, [updateCourseDetail]);
 
   return (
@@ -143,10 +116,7 @@ export default function CourseDetail({ match }) {
         <Container className={classes.section_header}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={12}>
-              <Avatar
-                last_updated={last_updated}
-                course_detail={course_detail}
-              />
+              <Avatar />
             </Grid>
           </Grid>
         </Container>
@@ -209,7 +179,7 @@ export default function CourseDetail({ match }) {
       <Container className={classes.section_feedback}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={8}>
-            <Feedback match={match} feedback={feedback} />
+            <Feedback match={match} />
           </Grid>
         </Grid>
       </Container>

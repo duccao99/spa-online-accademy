@@ -164,8 +164,8 @@ function CardCourse(props) {
     isLogout,
     isUpdateFromPagi,
     // course detail problem
-    setUpdateCourseDetail,
-    updateCourseDetail,
+    // setUpdateCourseDetail,
+    // updateCourseDetail,
   } = props;
 
   const [is_best_seller, set_is_best_seller] = useState(false);
@@ -338,7 +338,7 @@ function CardCourse(props) {
   ]);
 
   const handleLinkClick = (e) => {
-    setUpdateCourseDetail(!updateCourseDetail);
+    // setUpdateCourseDetail(!updateCourseDetail);
   };
 
   const classes = useStyles();
