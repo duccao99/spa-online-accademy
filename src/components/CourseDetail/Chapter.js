@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CallToActionIcon from "@material-ui/icons/CallToAction";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import React from "react";
+import React, { useEffect } from "react";
 import Lesson from "./Lesson";
 
 const common_fontsize = 18;
@@ -72,6 +72,8 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
     setOpen(!open);
   };
 
+  useEffect(() => {}, []);
+
   return (
     <React.Fragment>
       <ListItem button onClick={handleClick}>
@@ -81,13 +83,16 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
         <ListItemText primary={chap_name} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      {lessons.map((ele, i) => {
-        return ele.chap_id === chap_id ? (
-          <Lesson {...ele} key={i} open={open} />
-        ) : (
-          ""
-        );
-      })}
+
+      {lessons.length === 0
+        ? "Chap is not completed"
+        : lessons.map((ele, i) => {
+            return ele.chap_id === chap_id ? (
+              <Lesson {...ele} key={i} open={open} />
+            ) : (
+              ""
+            );
+          })}
     </React.Fragment>
   );
 }

@@ -63,8 +63,6 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const course_detail = {};
-
 export default function CourseDetail({ match }) {
   const classes = styles();
   const [course_detail, set_course_detail] = React.useState({});
@@ -73,6 +71,7 @@ export default function CourseDetail({ match }) {
   const [five_relative_course, set_five_relative_course] = React.useState([]);
   const [feedback, set_feedback] = useState([]);
   const [isLogout, setisLogout] = useState(true);
+  const [updateCourseDetail, setUpdateCourseDetail] = useState(false);
 
   const {
     params: { course_id },
@@ -135,7 +134,7 @@ export default function CourseDetail({ match }) {
       .catch((er) => {
         console.log(er);
       });
-  }, []);
+  }, [updateCourseDetail]);
 
   return (
     <React.Fragment>
@@ -154,7 +153,11 @@ export default function CourseDetail({ match }) {
         <Container className={classes.section_short_des}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={8}>
-              <ShortDes course_detail={course_detail} />
+              <ShortDes
+                setUpdateCourseDetail={setUpdateCourseDetail}
+                updateCourseDetail={updateCourseDetail}
+                course_detail={course_detail}
+              />
             </Grid>
             <Grid item xs={12} md={4}>
               <CatPrice course_detail={course_detail} />
@@ -165,7 +168,11 @@ export default function CourseDetail({ match }) {
         <Container className={classes.section_description}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={8}>
-              <FullDes course_detail={course_detail} />
+              <FullDes
+                setUpdateCourseDetail={setUpdateCourseDetail}
+                updateCourseDetail={updateCourseDetail}
+                course_detail={course_detail}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <InstructorDes
@@ -189,6 +196,8 @@ export default function CourseDetail({ match }) {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <FiveRelativeCourse
+              setUpdateCourseDetail={setUpdateCourseDetail}
+              updateCourseDetail={updateCourseDetail}
               match={match}
               course_detail={course_detail}
               five_relative_course={five_relative_course}

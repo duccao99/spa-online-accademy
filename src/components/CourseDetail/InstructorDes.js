@@ -53,6 +53,12 @@ const styles = makeStyles((theme) => ({
     paddingTop: 12,
     paddingBottom: 12,
   },
+  title: {
+    paddingTop: 12,
+    paddingBottom: 12,
+    color: "black",
+    fontWeight: 500,
+  },
 }));
 
 export default function InstructorDes({ course_detail, instructor }) {
@@ -60,12 +66,13 @@ export default function InstructorDes({ course_detail, instructor }) {
 
   return (
     <Paper className={classes.paper}>
-      <Typography className={classes.ins_title} variant="h6">
+      <Typography className={classes.title} variant="h6">
         <strong>Instructor information</strong>
       </Typography>
       <Typography className={classes.ins_title} variant="h6">
-        <strong>Name: </strong> {instructor.user_name}
+        <strong>Name: {instructor.user_name} </strong>
       </Typography>
+
       <Typography className={classes.ins_title} variant="h6">
         <strong>Email: </strong> {instructor.email}
       </Typography>

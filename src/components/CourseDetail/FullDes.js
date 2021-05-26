@@ -1,6 +1,22 @@
-import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
-import React from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  FormControl,
+  TextField,
+  makeStyles,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+import * as env from "../../config/env.config";
+import axios from "axios";
+import { swal2Timing } from "../../config/swal2.config";
 
+import cn from "classnames";
+import { debounce, reject } from "lodash";
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
   course_detail_wrapper: {},
@@ -49,21 +65,119 @@ const styles = makeStyles((theme) => ({
       fontSize: common_fontsize,
     },
   },
+  title: {
+    color: "black",
+    fontWeight: 500,
+  },
 }));
 
-export default function FullDes({ course_detail }) {
+export default function FullDes({
+  course_detail,
+  updateCourseDetail,
+  setUpdateCourseDetail,
+}) {
   const classes = styles();
 
-  return (
+  const [user_role, setUserRole] = useState(0);
+  const [insId, setInsId] = useState(0);
+  const [isEdit, setIsEdit] = useState(false);
+  const [fullDes, setFullDes] = useState();
+  const [loadDing, setLoadDing] = useState(false);
+
+  const handleEditFulDes = (e) => {
+    setIsEdit(false);
+    setLoadDing(true);
+    const url = `${env.DEV_URL}/api/instructor/edit-full-des`;
+    const data = {
+      user_id: insId,
+      course_full_description: fullDes,
+      course_id: course_detail.course_id,
+    };
+
+    axios
+      .patch(url, data, {})
+      .then((ret) => {
+        setUpdateCourseDetail(!updateCourseDetail);
+        setLoadDing(false);
+        const title = "Success!";
+        const html = "Edited!";
+        const timer = 2500;
+        const icon = "success";
+        swal2Timing(title, html, timer, icon);
+      })
+      .catch((er) => {
+        setUpdateCourseDetail(!updateCourseDetail);
+
+        const title = "error!";
+        const html = "Something broke!";
+        const timer = 2500;
+        const icon = "error";
+        swal2Timing(title, html, timer, icon);
+      });
+  };
+
+  useEffect(() => {
+    const curr_user_role = sessionStorage.getItem("user_role");
+    const user_login_id = sessionStorage.getItem("user_login_id");
+
+    setUserRole(+curr_user_role);
+    setInsId(+user_login_id);
+  }, [isEdit]);
+
+  return isEdit === true ? (
     <Paper className={classes.paper}>
-      <Typography className={classes.pb16} component="strong" variant="h4">
+      <Typography className={classes.title} variant="h5">
+        Full description
+      </Typography>
+      <Box my={3}>
+        <ReactQuill theme="snow" value={fullDes || ""} onChange={setFullDes} />
+      </Box>
+
+      {+user_role === 3 && +course_detail.user_id === +insId ? (
+        <div>
+          {loadDing === true ? (
+            <Button className={classes.btn} variant="outlined" color="primary">
+              ... Loading
+            </Button>
+          ) : (
+            <Button
+              onClick={handleEditFulDes}
+              className={classes.btn}
+              variant="contained"
+              color="secondary"
+            >
+              Save
+            </Button>
+          )}
+        </div>
+      ) : (
+        ""
+      )}
+    </Paper>
+  ) : (
+    <Paper className={classes.paper}>
+      <Typography className={classes.title} variant="h5">
         Full description
       </Typography>
       <Box
+        my={3}
         dangerouslySetInnerHTML={{
           __html: course_detail.course_full_description,
         }}
       ></Box>
+
+      {+user_role === 3 && +course_detail.user_id === +insId ? (
+        <Button
+          onClick={() => setIsEdit(true)}
+          className={classes.btn}
+          variant="contained"
+          color="primary"
+        >
+          Edit
+        </Button>
+      ) : (
+        ""
+      )}
     </Paper>
   );
 }

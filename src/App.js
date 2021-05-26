@@ -13,6 +13,8 @@ import Verify from "./components/User/Verify";
 import { getToken } from "./config/accessToken";
 // import Admin from "./components/Admin/Admin";
 // import UploadCourse from "./components/Instructor/UploadCourse";
+// const SignIn = lazy(() => import("./components/SignIn/SignIn"));
+// const SignUp = lazy(() => import("./components/SignUp/SignUp"));
 
 const HomePage = lazy(() => import("./components/HomePage/HomePage"));
 const CoursesList = lazy(() => import("./components/CoursesList/CoursesList"));
@@ -149,6 +151,7 @@ function App() {
             path="/ins/case/upload-chapter/:id"
             component={UploadedCourse}
           ></Route>
+          <Route exact path="/join-with-ins" component={SignIn}></Route>
 
           <Route exact path="/:id" component={Verify} />
         </Switch>

@@ -17,6 +17,10 @@ const useStyles = makeStyles({
   media: {
     height: 140,
   },
+  title: {
+    color: "black",
+    fontWeight: 500,
+  },
 });
 
 export default function CardFeedback({
@@ -48,9 +52,9 @@ export default function CardFeedback({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        {/* <Button size="small" color="primary">
           Like
-        </Button>
+        </Button> */}
         {/* <Button size="small" color="primary">
           Share
         </Button> */}

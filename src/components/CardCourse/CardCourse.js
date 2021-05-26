@@ -163,6 +163,9 @@ function CardCourse(props) {
     cart_global_state,
     isLogout,
     isUpdateFromPagi,
+    // course detail problem
+    setUpdateCourseDetail,
+    updateCourseDetail,
   } = props;
 
   const [is_best_seller, set_is_best_seller] = useState(false);
@@ -334,11 +337,19 @@ function CardCourse(props) {
     isUpdateFromPagi,
   ]);
 
+  const handleLinkClick = (e) => {
+    setUpdateCourseDetail(!updateCourseDetail);
+  };
+
   const classes = useStyles();
   return (
     <React.Fragment>
       <Card className={classes.card}>
-        <Link className={classes.link} to={`/course/${course_id}`}>
+        <Link
+          onClick={handleLinkClick}
+          className={classes.link}
+          to={`/course/${course_id}`}
+        >
           <CardActionArea>
             <CardMedia
               className={classes.cardMedia}
@@ -448,7 +459,11 @@ function CardCourse(props) {
                 )}
               </div>
             )}
-            <Link className={classes.link} to={`/course/${course_id}`}>
+            <Link
+              onClick={handleLinkClick}
+              className={classes.link}
+              to={`/course/${course_id}`}
+            >
               <Button variant="outlined" size="small" color="primary">
                 Detail
               </Button>

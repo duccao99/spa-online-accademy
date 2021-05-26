@@ -1,6 +1,15 @@
-import { makeStyles, Paper, Typography } from "@material-ui/core";
+import {
+  makeStyles,
+  Paper,
+  Typography,
+  Button,
+  Grid,
+  Box,
+  FormControl,
+  TextField,
+} from "@material-ui/core";
 import cn from "classnames";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -17,7 +26,7 @@ const styles = makeStyles((theme) => ({
     textAlign: "left",
     paddingTop: 12,
     paddingBottom: 12,
-    color: "white",
+    color: "black",
   },
   section_short_des: {
     minHeight: 100,
@@ -49,6 +58,9 @@ const styles = makeStyles((theme) => ({
     "& .MuiTypography-root": {
       fontSize: common_fontsize,
     },
+  },
+  btn: {
+    textTransform: "capitalize",
   },
 }));
 

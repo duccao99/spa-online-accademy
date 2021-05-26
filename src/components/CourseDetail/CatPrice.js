@@ -132,27 +132,31 @@ function CatPrice({ course_detail, dispatchAddToCart }) {
         setnum_stu_rate(undefined);
         setnum_stu_enrolls(undefined);
       });
-  }, [isAddToCart]);
+  }, [isAddToCart, course_id]);
 
   return (
     <Paper className={classes.paper}>
       <Box className={classes.box_cat}>
         <Typography>
           <strong>Number student enroll: </strong>{" "}
-          {num_stu_enrolls === undefined ? 0 : num_stu_enrolls}
+          {num_stu_enrolls === undefined || num_stu_enrolls === null
+            ? 0
+            : num_stu_enrolls}
         </Typography>
       </Box>
 
       <Box className={classes.box_cat}>
         <Typography>
           <strong>Number student rating: </strong>{" "}
-          {num_stu_rate === undefined ? 0 : num_stu_enrolls}
+          {num_stu_rate === undefined || num_stu_rate === null
+            ? 0
+            : num_stu_rate}
         </Typography>
       </Box>
       <Box className={classes.box_cat}>
         <Typography>
           <strong>Average rating: </strong>
-          {avg_rate === undefined ? 0 : num_stu_enrolls}
+          {avg_rate === undefined || avg_rate === null ? 0 : avg_rate}
         </Typography>
       </Box>
       <Box className={classes.box_cat}>
@@ -163,18 +167,20 @@ function CatPrice({ course_detail, dispatchAddToCart }) {
       <Box className={classes.box_cat}>
         <Typography>
           <strong>Price: </strong>
-          {course_fee === undefined ? 0 : num_stu_enrolls}
+          {course_fee === undefined || course_fee === null ? 0 : course_fee}
         </Typography>
       </Box>
       <Box className={classes.box_cat}>
         <Typography>
-          {sale_percent !== undefined && sale_percent !== "0" ? (
+          {sale_percent === undefined || sale_percent === null ? (
+            <div>
+              <strong>Sale: </strong>0
+            </div>
+          ) : (
             <React.Fragment>
               <strong>Sale: </strong>
               {sale_percent}
             </React.Fragment>
-          ) : (
-            ""
           )}
         </Typography>
       </Box>

@@ -60,6 +60,10 @@ const styles = makeStyles((theme) => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
+  title: {
+    color: "black",
+    fontWeight: 500,
+  },
 }));
 
 function unique(vl, i, self) {
@@ -70,17 +74,14 @@ export default function Syllabus({ course_detail }) {
   const classes = styles();
 
   const { course_id } = useParams();
-  const [syllabus, setsyllabus] = useState([1, 2]);
+  const [syllabus, setsyllabus] = useState([]);
   const [update, setupdate] = useState(false);
   const [chapters, setchapters] = useState([]);
   const [lessons, setlessons] = useState([]);
 
-  console.log(course_id);
-
   function getSyllabus() {
     const url = `${env.DEV_URL}/api/course/detail/syllabus/${+course_id}`;
     axios.get(url, {}).then((ret) => {
-      console.log(ret.data.course_syllabus);
       setsyllabus(ret.data.course_syllabus);
 
       let array = ret.data.course_syllabus;
@@ -91,24 +92,35 @@ export default function Syllabus({ course_detail }) {
         i;
 
       for (i = 0; i < l; ++i) {
-        lesson_of_chap.push({
-          lesson_id: array[i].lesson_id,
-          lesson_name: array[i].lesson_name,
-          lesson_video_url: array[i].lesson_video_url,
-          flag_reviewable: array[i].flag_reviewable,
-          lesson_content: array[i].lesson_content,
+        if (
+          array[i].lesson_id !== null &&
+          array[i].lesson_name !== null &&
+          array[i].lesson_video_url !== null &&
+          array[i].flag_reviewable !== null &&
+          array[i].lesson_content !== null &&
+          array[i].chap_id !== null
+        ) {
+          lesson_of_chap.push({
+            lesson_id: array[i].lesson_id,
+            lesson_name: array[i].lesson_name,
+            lesson_video_url: array[i].lesson_video_url,
+            flag_reviewable: array[i].flag_reviewable,
+            lesson_content: array[i].lesson_content,
+            chap_id: array[i].chap_id,
+          });
+        }
 
-          chap_id: array[i].chap_id,
-        });
         if (flags[array[i].chap_id]) continue;
 
         flags[array[i].chap_id] = true;
-        unique_chapter.push({
-          chap_id: array[i].chap_id,
-          chap_name: array[i].chap_name,
-        });
+
+        if (array[i].chap_id !== null && array[i].chap_name !== null) {
+          unique_chapter.push({
+            chap_id: array[i].chap_id,
+            chap_name: array[i].chap_name,
+          });
+        }
       }
-      console.log(unique_chapter);
 
       setchapters(unique_chapter);
       setlessons(lesson_of_chap);
@@ -121,7 +133,7 @@ export default function Syllabus({ course_detail }) {
 
   useEffect(() => {
     getSyllabus();
-  }, [update]);
+  }, [update, course_id]);
 
   return (
     <Paper className={classes.paper}>
@@ -129,9 +141,11 @@ export default function Syllabus({ course_detail }) {
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
-          <Typography component="strong" variant="h4">
-            Course syllabus
-          </Typography>
+          <Box mb={3}>
+            <Typography className={classes.title} variant="h5">
+              Course syllabus
+            </Typography>
+          </Box>
         }
         className={classes.root}
       >

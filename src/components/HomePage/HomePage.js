@@ -162,6 +162,10 @@ function HomePage(props) {
       alignItems: "center;",
       width: "100%",
     },
+    btn_join: {
+      width: "100px",
+      textTransform: "capitalize",
+    },
   }));
 
   const { dispatchAddSales, bringScrollbarBack } = props;
@@ -324,7 +328,7 @@ function HomePage(props) {
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
-                <Grid item>
+                {/* <Grid item>
                   <Link to="/join-with-ins" className={classes.link}>
                     <Button
                       className={classes.btn}
@@ -334,15 +338,16 @@ function HomePage(props) {
                       If you are instructor
                     </Button>
                   </Link>
-                </Grid>
+                </Grid> */}
                 <Grid item>
                   <Link to="/user/sign-in" className={classes.link}>
                     <Button
-                      className={classes.btn}
-                      variant="outlined"
+                      className={classes.btn_join}
+                      variant="contained"
                       color="primary"
                     >
-                      If you are student
+                      {/* If you are student */}
+                      Go
                     </Button>
                   </Link>
                 </Grid>

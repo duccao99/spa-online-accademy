@@ -60,6 +60,10 @@ const styles = makeStyles((theme) => ({
   mb16: {
     marginBottom: 16,
   },
+  title: {
+    color: "black",
+    fontWeight: 500,
+  },
 }));
 
 export default function Feedback({ match }) {
@@ -92,12 +96,12 @@ export default function Feedback({ match }) {
 
   useEffect(() => {
     getFeedback();
-  }, []);
+  }, [course_id]);
   return (
     <Paper className={classes.paper}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Typography component="strong" variant="h4">
+          <Typography className={classes.title} variant="h5">
             Feedbacks
           </Typography>
         </Grid>

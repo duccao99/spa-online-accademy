@@ -58,9 +58,17 @@ const styles = makeStyles((theme) => ({
   pb16: {
     paddingBottom: 16,
   },
+  title: {
+    color: "black",
+    fontWeight: 500,
+  },
 }));
 
-export default function FiveRelativeCourse({ match }) {
+export default function FiveRelativeCourse({
+  match,
+  setUpdateCourseDetail,
+  updateCourseDetail,
+}) {
   const classes = styles();
   const { id } = useParams();
 
@@ -89,30 +97,25 @@ export default function FiveRelativeCourse({ match }) {
           return;
         }
 
-        if (ret.data.five_relative_cat_course.length < 4) {
+        if (ret.data.five_relative_cat_course.length <= 4) {
           for (let i = 0; i < ret.data.five_relative_cat_course.length; ++i) {
             first_4.push(ret.data.five_relative_cat_course[i]);
           }
           set_first_4_courses(first_4);
-          set_second_1_course(undefined);
 
-          return;
-        }
-
-        for (let i = 0; i < 4; ++i) {
-          first_4.push(ret.data.five_relative_cat_course[i]);
-        }
-        set_first_4_courses(first_4);
-
-        if (ret.data.five_relative_cat_course.length <= 4) {
           set_second_1_course(undefined);
           return;
-        }
+        } else {
+          for (let i = 0; i < 4; ++i) {
+            first_4.push(ret.data.five_relative_cat_course[i]);
+          }
+          set_first_4_courses(first_4);
 
-        for (let i = 4; i < 5; ++i) {
-          sec_1.push(ret.data.five_relative_cat_course[i]);
+          for (let i = 4; i < 5; ++i) {
+            sec_1.push(ret.data.five_relative_cat_course[i]);
+          }
+          set_second_1_course(sec_1);
         }
-        set_second_1_course(sec_1);
       });
     }
     return;
@@ -120,14 +123,15 @@ export default function FiveRelativeCourse({ match }) {
 
   useEffect(() => {
     getFiveRelativeCourseCatBoughtMost();
-  }, []);
+  }, [course_id]);
 
   return (
     <Paper className={classes.paper}>
-      <Typography className={classes.pb16} component="strong" variant="h4">
-        Courses relative category
-      </Typography>
-
+      <Box mb={3}>
+        <Typography className={classes.title} variant="h5">
+          Courses relative category
+        </Typography>
+      </Box>
       {is_empty ? (
         <Box>There is no course</Box>
       ) : (
@@ -137,8 +141,12 @@ export default function FiveRelativeCourse({ match }) {
               <Grid container spacing={4}>
                 {first_4_courses.map((ele, i) => {
                   return (
-                    <Grid key={i} item xs={12} sm={12} md={3}>
-                      <CardCourse {...ele} />
+                    <Grid key={ele.course_id} item xs={12} sm={12} md={3}>
+                      <CardCourse
+                        setUpdateCourseDetail={setUpdateCourseDetail}
+                        updateCourseDetail={updateCourseDetail}
+                        {...ele}
+                      />
                     </Grid>
                   );
                 })}
@@ -149,8 +157,12 @@ export default function FiveRelativeCourse({ match }) {
               <Grid container spacing={4}>
                 {first_4_courses.map((ele, i) => {
                   return (
-                    <Grid key={i} item xs={12} sm={12} md={3}>
-                      <CardCourse {...ele} />
+                    <Grid key={ele.course_id} item xs={12} sm={12} md={3}>
+                      <CardCourse
+                        setUpdateCourseDetail={setUpdateCourseDetail}
+                        updateCourseDetail={updateCourseDetail}
+                        {...ele}
+                      />
                     </Grid>
                   );
                 })}
@@ -159,8 +171,12 @@ export default function FiveRelativeCourse({ match }) {
               <Grid container spacing={4}>
                 {second_1_course.map((ele, i) => {
                   return (
-                    <Grid key={i} item xs={12} sm={12} md={3}>
-                      <CardCourse {...ele} />
+                    <Grid key={ele.course_id} item xs={12} sm={12} md={3}>
+                      <CardCourse
+                        updateCourseDetail={updateCourseDetail}
+                        updateCourseDetail={updateCourseDetail}
+                        {...ele}
+                      />
                     </Grid>
                   );
                 })}

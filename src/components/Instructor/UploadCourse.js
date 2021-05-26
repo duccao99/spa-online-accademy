@@ -464,9 +464,7 @@ export default function UploadCourse({ match }) {
               onKeyPress={handleKeypress}
             >
               <Box my={3}>
-                <Typography variant="h4" component="p">
-                  Upload course
-                </Typography>
+                <Typography variant="h5">Upload course</Typography>
               </Box>
               <Box my={3}>
                 <FormControl fullWidth>

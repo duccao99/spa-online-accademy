@@ -8,7 +8,7 @@ import { makeStyles, Button, Typography, Paper } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import FlashOnIcon from "@material-ui/icons/FlashOn";
 import cn from "classnames";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import VideoPreview from "../CommonVideo/VideoPreview";
@@ -102,9 +102,9 @@ const styles = makeStyles((theme) => ({
     display: "none",
   },
   video: {
-    backgroundColor: "#8c8c8c30",
+    backgroundColor: "#fafafa",
     padding: 120,
-    paddingTop: 62,
+    paddingTop: 32,
     borderRadius: 5,
     "& .video-react-video": {
       // height: "200px!important",
@@ -141,6 +141,9 @@ export default function Lesson({
       playerVars: { showinfo: 1 },
     },
   };
+  useEffect(() => {
+    console.log(lesson_name);
+  }, []);
   return (
     <React.Fragment>
       <Collapse in={open} timeout="auto" unmountOnExit>
@@ -149,7 +152,11 @@ export default function Lesson({
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>
-            <ListItemText primary={`${lesson_name}`} />
+            <ListItemText
+              primary={`${
+                lesson_name === null ? "Lesson is not completed" : lesson_name
+              }`}
+            />
 
             {+flag_reviewable === 1 ? (
               <Button onClick={handleCloseVideo}>Preview</Button>
@@ -180,7 +187,12 @@ export default function Lesson({
         })}
       >
         <Box my={3}>
-          <Typography variant="h6"> {lesson_name} </Typography>
+          <Typography variant="h6">
+            {" "}
+            {lesson_name === null
+              ? "Chapter is not completed! "
+              : lesson_name}{" "}
+          </Typography>
         </Box>
 
         <Box>
