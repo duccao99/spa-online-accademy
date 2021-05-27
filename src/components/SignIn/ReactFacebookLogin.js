@@ -10,7 +10,6 @@ export default function ReactFacebookLogin({}) {
 
   let history = useHistory();
   function signIn(username, email) {
-    console.log('func sign in ', username, email);
     const fb_sign_in_url = `${env.DEV_URL}/api/user/facebook/sign-in`;
     const config = {};
     const data = {
@@ -38,8 +37,6 @@ export default function ReactFacebookLogin({}) {
   }
 
   const responseFacebook = (res) => {
-    console.log(res);
-
     signIn(res.name, res.email);
   };
 

@@ -9,7 +9,6 @@ import { swal2Timing } from '../../config/swal2.config';
 export default function ReactGoogleLogin() {
   const history = useHistory();
   const responseGoogle = (res) => {
-    console.log(res);
     const url = `${env.DEV_URL}/api/user/google/sign-in`;
     const data = {
       user_name: `${res.profileObj.name}`,

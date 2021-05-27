@@ -20,7 +20,7 @@ import ReactFacebookLogin from './ReactFacebookLogin';
 import { swal2Timing } from '../../config/swal2.config';
 import GoogleSignInButton from './GoogleSignInButton';
 import ReactGoogleLogin from './ReactGoogleLogin';
-
+import ReactGithubLogin from './ReactGithubLogin';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -194,7 +194,9 @@ export default function SignIn() {
           >
             <FacebookSignInButton />
           </Box> */}
+        </form>
 
+        <Box>
           <Box
             width='100%'
             display='none'
@@ -209,7 +211,8 @@ export default function SignIn() {
             display='flex'
             justifyContent='center'
             alignItems='center'
-            my={1}
+            mb={3}
+            mt={1}
           >
             <ReactFacebookLogin />
           </Box>
@@ -219,9 +222,19 @@ export default function SignIn() {
             display='flex'
             justifyContent='center'
             alignItems='center'
-            my={1}
+            my={3}
           >
             <ReactGoogleLogin />
+          </Box>
+
+          <Box
+            width='100%'
+            display='flex'
+            justifyContent='center'
+            alignItems='center'
+            my={3}
+          >
+            <ReactGithubLogin />
           </Box>
 
           <Grid container>
@@ -240,7 +253,7 @@ export default function SignIn() {
               </Link>
             </Grid>
           </Grid>
-        </form>
+        </Box>
       </div>
       <Box mt={8}>
         <Copyright />
