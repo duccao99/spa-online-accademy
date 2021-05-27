@@ -6,56 +6,58 @@ import {
   CssBaseline,
   Grid,
   TextField,
-  Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import validator from "validator";
-import * as env_config from "../../config/env.config";
-import Copyright from "./../Copyright/Copyright";
-import ReactFacebookLogin from "./ReactFacebookLogin";
-import { swal2Timing } from "../../config/swal2.config";
+  Typography
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import validator from 'validator';
+import * as env_config from '../../config/env.config';
+import Copyright from './../Copyright/Copyright';
+import ReactFacebookLogin from './ReactFacebookLogin';
+import { swal2Timing } from '../../config/swal2.config';
+import GoogleSignInButton from './GoogleSignInButton';
+import ReactGoogleLogin from './ReactGoogleLogin';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 2)
   },
   helperText: {
-    color: "red",
+    color: 'red'
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 }));
 
 export default function SignIn() {
   const classes = useStyles();
   const [is_error_email, set_is_error_email] = useState(false);
   const [is_error_password, set_is_error_password] = useState(false);
-  const [email, set_email] = useState("");
-  const [password, set_password] = useState("");
+  const [email, set_email] = useState('');
+  const [password, set_password] = useState('');
   const history = useHistory();
 
   useEffect(() => {}, [history]);
@@ -90,7 +92,7 @@ export default function SignIn() {
     const url = `${env_config.DEV_URL}/api/user/sign-in`;
     const data = {
       email,
-      password,
+      password
     };
     const config = {};
 
@@ -98,32 +100,32 @@ export default function SignIn() {
       .post(url, data, config)
       .then((ret) => {
         const user = ret.data.user_info;
-        sessionStorage.setItem("user_name", JSON.stringify(user.user_name));
-        sessionStorage.setItem("email", JSON.stringify(user.email));
-        sessionStorage.setItem("isLogout", false);
+        sessionStorage.setItem('user_name', JSON.stringify(user.user_name));
+        sessionStorage.setItem('email', JSON.stringify(user.email));
+        sessionStorage.setItem('isLogout', false);
 
-        sessionStorage.setItem("user_role", ret.data.user_info.role_id);
-        sessionStorage.setItem("user_login_id", ret.data.user_info.user_id);
+        sessionStorage.setItem('user_role', ret.data.user_info.role_id);
+        sessionStorage.setItem('user_login_id', ret.data.user_info.user_id);
 
         history.push(ret.data.href);
       })
       .catch((er) => {
-        const title = "Error!";
-        const html = "Incorrect information";
+        const title = 'Error!';
+        const html = 'Incorrect information';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
         <form
@@ -133,50 +135,50 @@ export default function SignIn() {
           onKeyPress={handleFormOnkeypress}
         >
           <TextField
-            variant="outlined"
-            margin="normal"
+            variant='outlined'
+            margin='normal'
             required
             fullWidth
-            id="email"
+            id='email'
             value={email}
             onChange={handleEmailChange}
             FormHelperTextProps={{
-              className: classes.helperText,
+              className: classes.helperText
             }}
-            helperText={is_error_email === true ? "Email invalid!" : ""}
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            helperText={is_error_email === true ? 'Email invalid!' : ''}
+            label='Email Address'
+            name='email'
+            autoComplete='email'
             autoFocus
           />
           <TextField
-            variant="outlined"
-            margin="normal"
+            variant='outlined'
+            margin='normal'
             required
             fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
+            name='password'
+            label='Password'
+            type='password'
+            id='password'
             value={password}
             onChange={handlePasswordChange}
             FormHelperTextProps={{
-              className: classes.helperText,
+              className: classes.helperText
             }}
             helperText={
-              is_error_password === true ? "At least 6 characters!" : ""
+              is_error_password === true ? 'At least 6 characters!' : ''
             }
-            autoComplete="current-password"
+            autoComplete='current-password'
           />
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           /> */}
           <Button
-            type="submit"
+            type='submit'
             fullWidth
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             className={classes.submit}
             onClick={handleBtnSignInClick}
           >
@@ -194,22 +196,32 @@ export default function SignIn() {
           </Box> */}
 
           <Box
-            width="100%"
-            display="none"
-            justifyContent="center"
-            alignItems="center"
+            width='100%'
+            display='none'
+            justifyContent='center'
+            alignItems='center'
             my={1}
           >
             <ReactFacebookLogin />
           </Box>
           <Box
-            width="100%"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+            width='100%'
+            display='flex'
+            justifyContent='center'
+            alignItems='center'
             my={1}
           >
             <ReactFacebookLogin />
+          </Box>
+
+          <Box
+            width='100%'
+            display='flex'
+            justifyContent='center'
+            alignItems='center'
+            my={1}
+          >
+            <ReactGoogleLogin />
           </Box>
 
           <Grid container>
@@ -223,7 +235,7 @@ export default function SignIn() {
               </Link>
             </Grid> */}
             <Grid item>
-              <Link className={classes.link} to="/user/sign-up" variant="body2">
+              <Link className={classes.link} to='/user/sign-up' variant='body2'>
                 {"Don't have an account? Sign up"}
               </Link>
             </Grid>
