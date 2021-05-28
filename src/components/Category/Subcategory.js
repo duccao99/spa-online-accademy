@@ -1,38 +1,38 @@
-import { Box } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import ListItemText from "@material-ui/core/ListItemText";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { withStyles } from "@material-ui/core/styles";
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Box } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 const StyledMenu = withStyles({
   paper: {
-    border: "1px solid #d3d4d5",
+    border: '1px solid #d3d4d5'
   },
   btn_cat_name: {
-    padding: 12,
+    padding: 12
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 })((props) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "center",
+      vertical: 'bottom',
+      horizontal: 'center'
     }}
     transformOrigin={{
-      vertical: "top",
-      horizontal: "left",
+      vertical: 'top',
+      horizontal: 'left'
     }}
     {...props}
   />
@@ -40,21 +40,21 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles((theme) => ({
   root: {
-    "&:focus": {
+    '&:focus': {
       backgroundColor: theme.palette.primary.main,
-      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-        color: theme.palette.common.white,
-      },
-    },
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white
+      }
+    }
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 }))(MenuItem);
 
 export default function Subcategory({
@@ -62,7 +62,7 @@ export default function Subcategory({
   set_cat_close,
   sub_web_cat,
   sub_mobi_cat,
-  classes,
+  classes
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -74,17 +74,17 @@ export default function Subcategory({
   return (
     <div>
       <Button
-        aria-controls="customized-menu"
-        aria-haspopup="true"
-        variant="text"
-        color="primary"
+        aria-controls='customized-menu'
+        aria-haspopup='true'
+        variant='text'
+        color='primary'
         className={classes.cat_name}
         onClick={handleClick}
       >
         <Box p={1}>{cat_name}</Box>
       </Button>
       <StyledMenu
-        id="customized-menu"
+        id='customized-menu'
         anchorEl={anchorEl}
         keepMounted
         className={classes.popover_cat}
@@ -110,7 +110,7 @@ export default function Subcategory({
                 </Link>
               );
             })
-          : ""}
+          : ''}
         {sub_mobi_cat.length !== 0
           ? sub_mobi_cat.map((ele, i) => {
               return (
@@ -128,7 +128,7 @@ export default function Subcategory({
                 </Link>
               );
             })
-          : ""}
+          : ''}
       </StyledMenu>
     </div>
   );

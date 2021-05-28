@@ -1,12 +1,12 @@
-import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import * as env_config from "../../config/env.config";
-import PopoverCat from "./PopoverCat";
+import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import * as env_config from '../../config/env.config';
+import PopoverCat from './PopoverCat';
 const useStyles = makeStyles((theme) => ({
   typography: {
-    padding: theme.spacing(2),
-  },
+    padding: theme.spacing(2)
+  }
 }));
 
 export default function Category() {
@@ -25,16 +25,16 @@ export default function Category() {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
   const categories = [
     {
       cat_id: 1,
-      cat_name: "Web application development",
+      cat_name: 'Web application development'
     },
     {
       cat_id: 2,
-      cat_name: "Mobile application development",
-    },
+      cat_name: 'Mobile application development'
+    }
   ];
 
   useEffect(() => {
@@ -59,17 +59,17 @@ export default function Category() {
   return (
     <div>
       <PopoverCat
-        title="Categories"
+        title='Categories'
         sub_web_cat={sub_web_cat}
         sub_mobi_cat={sub_mobi_cat}
         categories={categories}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center'
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
+          vertical: 'top',
+          horizontal: 'left'
         }}
       />
     </div>

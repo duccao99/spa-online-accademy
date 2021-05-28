@@ -4,35 +4,31 @@ import {
   Grid,
   makeStyles,
   Paper,
-  Typography,
-} from "@material-ui/core";
-import axios from "axios";
-import cn from "classnames";
-import { debounce } from "lodash";
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import * as env from "../../config/env.config";
-import CardCourse from "../CardCourse/CardCourse";
-import Footer from "../Footer/Footer";
-import LeftCat from "../LeftCat/LeftCat";
-import Navbar from "../Navbar/Navbar";
-import CardPurchased from "../CardCourse/CardPurchased";
+  Typography
+} from '@material-ui/core';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import * as env from '../../config/env.config';
+import CardPurchased from '../CardCourse/CardPurchased';
+import Footer from '../Footer/Footer';
+import Navbar from '../Navbar/Navbar';
 
 const style = makeStyles((theme) => ({
   paper: {
     padding: 32,
-    textAlign: "center",
-    color: theme.palette.text.secondary,
+    textAlign: 'center',
+    color: theme.palette.text.secondary
   },
 
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 }));
 
 export default function PurchasedCourse() {
@@ -45,7 +41,7 @@ export default function PurchasedCourse() {
   useEffect(() => {
     const config = {};
     // nav
-    const isLg = sessionStorage.getItem("isLogout", false);
+    const isLg = sessionStorage.getItem('isLogout', false);
 
     if (isLg !== null) {
       setisLogout(isLg);
@@ -63,20 +59,20 @@ export default function PurchasedCourse() {
         set_purchased_courses(undefined);
       }
     });
-  }, [purchased_courses]);
+  }, []);
 
   return (
     <React.Fragment>
       <Navbar setisLogout={setisLogout} />
 
-      <Container maxWidth="lg">
+      <Container maxWidth='lg'>
         <Box my={12}>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Box mb={6} display="flex" maxWidth justifyContent="flex-start">
-                  {" "}
-                  <Typography variant="h4" component="p">
+                <Box mb={6} display='flex' maxWidth justifyContent='flex-start'>
+                  {' '}
+                  <Typography variant='h4' component='p'>
                     Purchased course
                   </Typography>
                 </Box>
@@ -90,7 +86,7 @@ export default function PurchasedCourse() {
                           </Grid>
                         );
                       })
-                    : "There is no course!"}
+                    : 'There is no course!'}
                 </Grid>
               </Paper>
             </Grid>

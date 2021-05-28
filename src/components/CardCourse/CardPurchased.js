@@ -172,15 +172,17 @@ function CardPurchased(props) {
 
         {email !== undefined ? (
           <CardActions className={classes.card_action}>
-            <Button
-              disabled={is_in_cart === true}
-              onClick={handleEnroll}
-              variant='contained'
-              size='small'
-              color='secondary'
-            >
-              Enroll
-            </Button>
+            <Link to={`/student/enroll/course/${course_id}`}>
+              <Button
+                disabled={is_in_cart === true}
+                onClick={handleEnroll}
+                variant='contained'
+                size='small'
+                color='secondary'
+              >
+                Enroll
+              </Button>
+            </Link>
             <Link className={classes.link} to={`/course/${course_id}`}>
               <Button variant='outlined' size='small' color='primary'>
                 Detail

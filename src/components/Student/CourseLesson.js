@@ -104,8 +104,8 @@ const styles = makeStyles((theme) => ({
   },
   video: {
     backgroundColor: '#fafafa',
-    padding: 120,
-    paddingTop: 32,
+    padding: 32,
+    paddingTop: 12,
     borderRadius: 5,
     '& .video-react-video': {
       // height: "200px!important",
@@ -221,19 +221,9 @@ export default function Lesson({
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>
-            <ListItemText
-              primary={`${
-                isLessonCompleted === false
-                  ? 'Lesson is not completed'
-                  : lesson_name
-              }`}
-            />
+            <ListItemText primary={`${lesson_name}`} />
 
-            {+flag_reviewable === 1 && isLessonCompleted === true ? (
-              <Button onClick={handleCloseVideo}>Preview</Button>
-            ) : (
-              ''
-            )}
+            <Button onClick={handleCloseVideo}>Learn</Button>
           </ListItem>
         </List>
       </Collapse>

@@ -1,17 +1,17 @@
-import { Container, Grid, makeStyles } from "@material-ui/core";
-import axios from "axios";
-import * as env from "../../config/env.config";
-import React, { useEffect, useState } from "react";
-import Footer from "../Footer/Footer";
-import Navbar from "../Navbar/Navbar";
-import Avatar from "./Avatar";
-import CatPrice from "./CatPrice";
-import Feedback from "./Feedback";
-import FiveRelativeCourse from "./FiveRelativeCourse";
-import FullDes from "./FullDes";
-import InstructorDes from "./InstructorDes";
-import ShortDes from "./ShortDes";
-import Syllabus from "./Syllabus";
+import { Container, Grid, makeStyles } from '@material-ui/core';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import * as env from '../../config/env.config';
+import Footer from '../Footer/Footer';
+import Navbar from '../Navbar/Navbar';
+import Avatar from './Avatar';
+import CatPrice from './CatPrice';
+import Feedback from './Feedback';
+import FiveRelativeCourse from './FiveRelativeCourse';
+import FullDes from './FullDes';
+import InstructorDes from './InstructorDes';
+import ShortDes from './ShortDes';
+import Syllabus from './Syllabus';
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -19,61 +19,61 @@ const styles = makeStyles((theme) => ({
   ava_course: {},
   section_header: {
     minHeight: 100,
-    marginTop: 100,
+    marginTop: 100
   },
   course_name: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   course_header_title: {
-    textAlign: "left",
+    textAlign: 'left',
     paddingTop: 12,
     paddingBottom: 12,
-    color: "white",
+    color: 'white'
   },
   section_short_des: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   des: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   section_description: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_syllabus: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_rating: {},
   section_feedback: {
-    marginBottom: 16,
+    marginBottom: 16
   },
   paper: {
     padding: 32,
-    textAlign: "left",
+    textAlign: 'left',
     color: theme.palette.text.secondary,
-    marginBottom: 16,
+    marginBottom: 16
   },
   box_cat: {
     padding: 12,
-    "& .MuiTypography-root": {
-      fontSize: common_fontsize,
-    },
-  },
+    '& .MuiTypography-root': {
+      fontSize: common_fontsize
+    }
+  }
 }));
 
 export default function CourseDetail({ match }) {
   const classes = styles();
   const [course_detail, set_course_detail] = React.useState({});
-  const [last_updated, set_last_updated] = useState("");
+  const [last_updated, set_last_updated] = useState('');
   const [instructor, set_instructor] = React.useState({});
   const [five_relative_course, set_five_relative_course] = React.useState([]);
   const [isLogout, setisLogout] = useState(true);
   const [updateCourseDetail, setUpdateCourseDetail] = useState(false);
 
   const {
-    params: { course_id },
+    params: { course_id }
   } = match;
 
   function getCourseDetail() {
@@ -95,7 +95,7 @@ export default function CourseDetail({ match }) {
 
   useEffect(() => {
     // nav
-    const isLg = sessionStorage.getItem("isLogout", false);
+    const isLg = sessionStorage.getItem('isLogout', false);
 
     if (isLg !== null) {
       setisLogout(isLg);

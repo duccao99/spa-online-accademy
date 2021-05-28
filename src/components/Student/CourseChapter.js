@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import CallToActionIcon from '@material-ui/icons/CallToAction';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import React, { useEffect } from 'react';
-import Lesson from './Lesson';
+import React, { useEffect, useState } from 'react';
+import CourseLesson from './CourseLesson';
 
 const common_fontsize = 18;
 
@@ -67,12 +67,30 @@ const styles = makeStyles((theme) => ({
 export default function Chapter({ chap_name, chap_id, lessons }) {
   const classes = styles();
   const [open, setOpen] = React.useState(true);
+  const [uniqueLessons, setUniqueLessons] = useState([]);
+
+  function truncateLessons() {
+    var ret = [],
+      flags = [],
+      len = lessons.length,
+      i;
+    for (i = 0; i < len; ++i) {
+      // console.log(lessons[i]);
+      // if (flags[lessons[i].lesson_name]) continue;
+      // flags[lessons[i].lesson_name] = true;
+      // ret.push(lessons[i]);
+    }
+
+    setUniqueLessons(ret);
+  }
 
   const handleClick = () => {
     setOpen(!open);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // truncateLessons();
+  }, []);
 
   return (
     <React.Fragment>
@@ -83,16 +101,47 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
         <ListItemText primary={chap_name} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-
       {lessons.length === 0 || lessons === null || lessons === undefined
-        ? 'Chap is not completed'
+        ? 'Lesson not completed'
         : lessons.map((ele, i) => {
             return ele.chap_id === chap_id ? (
-              <Lesson {...ele} key={i} open={open} isLessonCompleted={true} />
+              <CourseLesson
+                {...ele}
+                key={i}
+                open={open}
+                isLessonCompleted={true}
+              />
             ) : (
-              <Lesson {...ele} key={i} open={open} isLessonCompleted={false} />
+              <CourseLesson
+                {...ele}
+                key={i}
+                open={open}
+                isLessonCompleted={false}
+              />
             );
           })}
+
+      {/* {uniqueLessons.length === 0 ||
+      uniqueLessons === null ||
+      uniqueLessons === undefined
+        ? 'Chap is not completed'
+        : uniqueLessons.map((ele, i) => {
+            return ele.chap_id === chap_id ? (
+              <CourseLesson
+                {...ele}
+                key={i}
+                open={open}
+                isLessonCompleted={true}
+              />
+            ) : (
+              <CourseLesson
+                {...ele}
+                key={i}
+                open={open}
+                isLessonCompleted={false}
+              />
+            );
+          })} */}
     </React.Fragment>
   );
 }

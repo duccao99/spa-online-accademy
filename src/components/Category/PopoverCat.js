@@ -1,69 +1,69 @@
-import Box from "@material-ui/core/Box";
-import Popover from "@material-ui/core/Popover";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import CategoryIcon from "@material-ui/icons/Category";
-import React, { useEffect, useState } from "react";
-import Subcategory from "./Subcategory";
+import Box from '@material-ui/core/Box';
+import Popover from '@material-ui/core/Popover';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import CategoryIcon from '@material-ui/icons/Category';
+import React, { useEffect, useState } from 'react';
+import Subcategory from './Subcategory';
 const useStyles = makeStyles((theme) => ({
   typography: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(2)
   },
   popover: {
-    boxShadow: "none!important",
-    textTransform: "initial",
-    "&.MuiButton-root": {
-      padding: "0!important",
-      transition: "0!important",
+    boxShadow: 'none!important',
+    textTransform: 'initial',
+    '&.MuiButton-root': {
+      padding: '0!important',
+      transition: '0!important'
     },
-    "&.MuiPaper-root": {
+    '&.MuiPaper-root': {
       transition: 0,
-      transition: "0!important",
-    },
+      transition: '0!important'
+    }
   },
   popover_cat: {
-    "&:hover": {
-      cursor: "pointer",
+    '&:hover': {
+      cursor: 'pointer'
     },
-    transition: "0!important",
-    "&.MuiButton-root": {
-      transition: "0!important",
+    transition: '0!important',
+    '&.MuiButton-root': {
+      transition: '0!important'
     },
-    "&.MuiPaper-root": {
-      transition: "0!important",
-    },
+    '&.MuiPaper-root': {
+      transition: '0!important'
+    }
   },
   cat_name: {
-    width: "100%!important",
-    "&.MuiButton-root": {
-      transition: "0!important",
+    width: '100%!important',
+    '&.MuiButton-root': {
+      transition: '0!important'
     },
-    "&.MuiPaper-root": {
-      transition: "0!important",
-    },
+    '&.MuiPaper-root': {
+      transition: '0!important'
+    }
   },
   cat_icon: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center'
   },
   icon_category: {
-    marginRight: 6,
+    marginRight: 6
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 }));
 
 export default function PopoverCat({
   title,
   categories,
   sub_mobi_cat,
-  sub_web_cat,
+  sub_web_cat
 }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -79,7 +79,7 @@ export default function PopoverCat({
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
 
   useEffect(() => {
     if (close === true) {
@@ -91,13 +91,13 @@ export default function PopoverCat({
     <div>
       <Box
         aria-describedby={id}
-        variant="text"
-        color="inherit"
+        variant='text'
+        color='inherit'
         className={classes.popover}
         onClick={handleClick}
       >
-        <Typography variant="h6" className={classes.cat_icon}>
-          {" "}
+        <Typography variant='h6' className={classes.cat_icon}>
+          {' '}
           <CategoryIcon className={classes.icon_category} /> {title}
         </Typography>
       </Box>
@@ -108,12 +108,12 @@ export default function PopoverCat({
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center'
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center'
         }}
       >
         {categories.map((e, i) => {

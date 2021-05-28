@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { MDBFileInput } from "mdbreact";
+import { MDBFileInput } from 'mdbreact';
+import React, { Component } from 'react';
 
 class InputPage extends Component {
   render() {

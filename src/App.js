@@ -37,6 +37,8 @@ const FavoriteCourse = lazy(() =>
   import('./components/FavoriteCourse/FavoriteCourse')
 );
 
+const EnrollCourse = lazy(() => import('./components/Student/EnrollCourse'));
+
 const UploadCourseSuspense = (props) => {
   return (
     <Suspense fallback={<div>... loading</div>}>
@@ -129,6 +131,12 @@ function App() {
             exact
             path='/admin/instructor-management/instructor/:id'
             component={Admin}
+          ></Route>
+
+          <Route
+            exact
+            path='/student/enroll/course/:course_id'
+            component={EnrollCourse}
           ></Route>
 
           <Route
