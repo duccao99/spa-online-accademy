@@ -1,147 +1,153 @@
-import { Box } from "@material-ui/core";
-import Badge from "@material-ui/core/Badge";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import axios from "axios";
-import cn from "classnames";
-import { debounce } from "lodash";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
-import * as env from "../../config/env.config";
-import { green } from "@material-ui/core/colors";
-import Checkbox from "@material-ui/core/Checkbox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import { withStyles, FormControlLabel } from "@material-ui/core";
+import { Box, FormControlLabel, withStyles } from '@material-ui/core';
+import Badge from '@material-ui/core/Badge';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Checkbox from '@material-ui/core/Checkbox';
+import { green } from '@material-ui/core/colors';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import axios from 'axios';
+import cn from 'classnames';
+import { debounce } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { ADD_COURSE_TO_CART } from '../../actionTypes/cart.type';
+import * as env from '../../config/env.config';
 
 const common_spacing = 32;
 
 const GreenCheckbox = withStyles({
   root: {
     color: green[400],
-    "&$checked": {
-      color: green[600],
-    },
+    '&$checked': {
+      color: green[600]
+    }
   },
-  checked: {},
-})((props) => <Checkbox color="default" {...props} />);
+  checked: {}
+})((props) => <Checkbox color='default' {...props} />);
 
 const useStyles = makeStyles((theme) => ({
   icon: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(8, 0, 6)
   },
   heroButtons: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(4)
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingBottom: theme.spacing(8)
   },
   card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    boxShadow: '0 4px 8px rgb(0 1 1 / 10%)'
   },
   cardMedia: {
-    paddingTop: "56.25%", // 16:9
+    paddingTop: '56.25%' // 16:9
   },
   cardContent: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
+    padding: theme.spacing(6)
   },
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   btn_sign_in: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   ten_most_newest_courses: {
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: common_spacing,
-    marginBottom: common_spacing,
+    marginBottom: common_spacing
   },
   outstanding_courses: {
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: common_spacing,
-    marginBottom: common_spacing,
+    marginBottom: common_spacing
   },
   card_wrapper: {
     // marginBottom: common_spacing * 2,
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   typo: {
-    textAlign: "left",
+    textAlign: 'left'
   },
   card_action: {
-    display: "flex",
-    alignItems: "flex-end",
-    height: "100%",
+    display: 'flex',
+    alignItems: 'flex-end',
+    height: '100%',
+    position: 'relative'
   },
   badge_bestSeller: {
-    "& .MuiBadge-anchorOriginBottomLeftRectangle": {
-      width: "100px",
-    },
+    '& .MuiBadge-anchorOriginBottomLeftRectangle': {
+      width: '100px'
+    }
   },
   badge_mostView: {
-    "& .MuiBadge-anchorOriginBottomLeftRectangle": {
-      width: "100px",
-      backgroundColor: "lightskyblue",
-      color: "lightyellow",
-      display: "none",
-    },
+    '& .MuiBadge-anchorOriginBottomLeftRectangle': {
+      width: '100px',
+      backgroundColor: 'lightskyblue',
+      color: 'lightyellow',
+      display: 'none'
+    }
   },
   badge_newest: {
-    "& .MuiBadge-anchorOriginBottomLeftRectangle": {
-      width: "100px",
+    '& .MuiBadge-anchorOriginBottomLeftRectangle': {
+      width: '100px',
 
-      backgroundColor: "#e2e27a",
-    },
+      backgroundColor: '#e2e27a'
+    }
   },
   sale: {
-    textDecoration: "line-through;",
+    textDecoration: 'line-through;'
   },
   checkbox: {
     margin: 0,
-    marginBottom: -5,
+    marginBottom: -5
   },
+  favo: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: '1500!important'
+  }
 }));
 
 const defaultProps = {
-  color: "secondary",
+  color: 'secondary'
 };
 
 function CardCourse(props) {
@@ -166,6 +172,10 @@ function CardCourse(props) {
     // course detail problem
     // setUpdateCourseDetail,
     // updateCourseDetail,
+    setFavoComponentUpdate,
+    favoComponentUpdate,
+    course_favo_id,
+    course_favo_status
   } = props;
 
   const [is_best_seller, set_is_best_seller] = useState(false);
@@ -176,20 +186,21 @@ function CardCourse(props) {
   const [all_sales, set_all_sales] = useState([]);
   const [is_in_cart, set_is_in_cart] = useState(false);
   const [toggle_buy_click, set_toggle_buy_click] = useState(false);
-  const [email, set_email] = useState("");
+  const [email, set_email] = useState('');
   const [show_btn, set_show_btn] = useState(false);
   const [user_role, setUser_role] = useState(0);
   const [checked, setChecked] = useState(is_finished);
   const [isUpdate, setisUpdate] = useState(false);
+  const [is_favorite, set_is_favorite] = useState(false);
 
   const handleChangeCheck = (e) => {
-    const curr_user_id = sessionStorage.getItem("user_login_id");
+    const curr_user_id = sessionStorage.getItem('user_login_id');
 
     setChecked(e.target.checked);
     const data = {
       is_finished: e.target.checked,
       course_id: course_id,
-      user_id: curr_user_id,
+      user_id: curr_user_id
     };
 
     const finished_url = `${env.DEV_URL}/api/instructor/toggle-finished-course/`;
@@ -198,7 +209,7 @@ function CardCourse(props) {
   };
 
   const handleBuyClick = (e) => {
-    const curr_user_id = sessionStorage.getItem("user_login_id");
+    const curr_user_id = sessionStorage.getItem('user_login_id');
 
     dispatchAddToCart(
       course_id,
@@ -229,11 +240,54 @@ function CardCourse(props) {
     }, 500)();
   }
 
-  async function checkBestseller() {}
+  function getIsFavorite(user_id, course_id) {
+    let url_is_favo = '';
+    if (course_favo_id !== undefined) {
+      url_is_favo = `${env.DEV_URL}/api/student/is-favorite?course_id=${course_favo_id}&user_id=${user_id}`;
+    } else {
+      url_is_favo = `${env.DEV_URL}/api/student/is-favorite?course_id=${course_id}&user_id=${user_id}`;
+    }
+
+    axios
+      .get(url_is_favo, {})
+      .then((ret) => {
+        set_is_favorite(ret.data.is_favorite);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
+  }
+
+  const handleFavoriteClick = (e) => {
+    const toggle_favorite_url = `${env.DEV_URL}/api/student/toggle-favorite`;
+    const data = {
+      user_id: +sessionStorage.getItem('user_login_id'),
+      course_id: course_id,
+      is_favorite: is_favorite
+    };
+
+    if (
+      setFavoComponentUpdate !== undefined &&
+      setFavoComponentUpdate !== null
+    ) {
+      setFavoComponentUpdate(!favoComponentUpdate);
+    }
+
+    axios.patch(toggle_favorite_url, data, {}).then((ret) => {
+      getIsFavorite(data.user_id, data.course_id);
+    });
+  };
 
   useEffect(() => {
+    // favo
+
+    if (course_favo_status !== undefined) {
+      set_is_favorite(course_favo_status);
+    } else {
+      getIsFavorite(+sessionStorage.getItem('user_login_id'), course_id);
+    }
     // role
-    const user_role = sessionStorage.getItem("user_role");
+    const user_role = sessionStorage.getItem('user_role');
     setUser_role(+user_role);
     // sale
     debounce(() => {
@@ -255,7 +309,7 @@ function CardCourse(props) {
     }, 500)();
     // This stuff make app broken !!!
 
-    const email = sessionStorage.getItem("email");
+    const email = sessionStorage.getItem('email');
 
     if (isLogout === true) {
       set_show_btn(false);
@@ -267,7 +321,7 @@ function CardCourse(props) {
       set_email(undefined);
     } else if (email === undefined) {
       set_email(undefined);
-    } else if (email === "") {
+    } else if (email === '') {
       set_email(undefined);
     }
     set_email(email);
@@ -317,6 +371,7 @@ function CardCourse(props) {
         return;
       } else {
         set_is_newest(false);
+        return;
       }
     }
 
@@ -335,6 +390,8 @@ function CardCourse(props) {
     // is_newest,
     isUpdate,
     isUpdateFromPagi,
+    is_favorite,
+    favoComponentUpdate
   ]);
 
   const handleLinkClick = (e) => {
@@ -345,50 +402,75 @@ function CardCourse(props) {
   return (
     <React.Fragment>
       <Card className={classes.card}>
-        <Link
-          onClick={handleLinkClick}
-          className={classes.link}
-          to={`/course/${course_id}`}
-        >
+        <Box onClick={handleLinkClick}>
           <CardActionArea>
-            <CardMedia
-              className={classes.cardMedia}
-              image={`${course_avatar_url}`}
-              title="Image title"
-            />
+            <Link className={classes.link} to={`/course/${course_id}`}>
+              <CardMedia
+                className={classes.cardMedia}
+                image={`${course_avatar_url}`}
+                title='Image title'
+              />
+            </Link>
+            {+user_role === 2 ? (
+              <Box>
+                {+is_favorite === 1 ? (
+                  <Link
+                    onClick={handleFavoriteClick}
+                    className={cn(classes.link, classes.favo)}
+                    // to={`/course/${course_id}`}
+                  >
+                    <Button variant='outlined' size='small' color='primary'>
+                      <FavoriteIcon />
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link
+                    onClick={handleFavoriteClick}
+                    className={cn(classes.link, classes.favo)}
+                    // to={`/course/${course_id}`}
+                  >
+                    <Button variant='outlined' size='small' color='primary'>
+                      <FavoriteBorderIcon />
+                    </Button>
+                  </Link>
+                )}
+              </Box>
+            ) : (
+              ''
+            )}
 
             {is_best_seller === true ? (
               <Box
-                display="flex"
+                display='flex'
                 px={8}
-                justifyContent="flex-start"
-                width="100%"
+                justifyContent='flex-start'
+                width='100%'
               >
                 <Badge
                   className={classes.badge_bestSeller}
-                  variant="standard"
-                  badgeContent="Best seller"
+                  variant='standard'
+                  badgeContent='Best seller'
                   {...defaultProps}
                   anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
+                    vertical: 'bottom',
+                    horizontal: 'left'
                   }}
                 />
               </Box>
             ) : is_newest === true ? (
               <Box
-                display="flex"
+                display='flex'
                 px={8}
-                justifyContent="flex-start"
-                width="100%"
+                justifyContent='flex-start'
+                width='100%'
               >
                 <Badge
                   className={classes.badge_newest}
-                  variant="standard"
-                  badgeContent="New"
+                  variant='standard'
+                  badgeContent='New'
                   anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
+                    vertical: 'bottom',
+                    horizontal: 'left'
                   }}
                 />
               </Box>
@@ -400,8 +482,8 @@ function CardCourse(props) {
               <Typography
                 className={classes.typo}
                 gutterBottom
-                variant="h6"
-                component="p"
+                variant='h6'
+                component='p'
               >
                 {course_name}
               </Typography>
@@ -415,9 +497,9 @@ function CardCourse(props) {
                     {course_fee}$
                   </Typography>
                   <Typography className={classes.typo}>
-                    {" "}
+                    {' '}
                     Sale: {course_fee -
-                      Math.floor((course_fee * sale) / 100)}${" "}
+                      Math.floor((course_fee * sale) / 100)}${' '}
                   </Typography>
                 </React.Fragment>
               ) : (
@@ -425,15 +507,15 @@ function CardCourse(props) {
               )}
             </CardContent>
           </CardActionArea>
-        </Link>
+        </Box>
 
         {email !== undefined ? (
           <CardActions className={classes.card_action}>
             {user_role === 2 || user_role === 4 ? (
               <Button
-                variant="contained"
-                size="small"
-                color="primary"
+                variant='contained'
+                size='small'
+                color='primary'
                 disabled={is_in_cart === true}
                 onClick={handleBuyClick}
               >
@@ -442,20 +524,20 @@ function CardCourse(props) {
             ) : (
               <div>
                 {user_role === 3 &&
-                user_id === +sessionStorage.getItem("user_login_id") ? (
+                user_id === +sessionStorage.getItem('user_login_id') ? (
                   <FormControlLabel
                     className={classes.checkbox}
                     control={
                       <GreenCheckbox
                         checked={checked}
                         onChange={handleChangeCheck}
-                        name="checkedG"
+                        name='checkedG'
                       />
                     }
-                    label="Is finished"
+                    label='Is finished'
                   />
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
             )}
@@ -464,10 +546,10 @@ function CardCourse(props) {
               className={classes.link}
               to={`/course/${course_id}`}
             >
-              <Button variant="outlined" size="small" color="primary">
+              <Button variant='outlined' size='small' color='primary'>
                 Detail
               </Button>
-            </Link>{" "}
+            </Link>
           </CardActions>
         ) : (
           <React.Fragment></React.Fragment>
@@ -479,7 +561,7 @@ function CardCourse(props) {
 
 const mapStateToProps = (state) => {
   return {
-    cart_global_state: state.cartReducer.cart,
+    cart_global_state: state.cartReducer.cart
   };
 };
 
@@ -501,10 +583,10 @@ const mapDispatchToProps = (dispatch) => {
           course_ava: course_ava,
           course_name: course_name,
           course_title: course_title,
-          user_id: user_id,
-        },
+          user_id: user_id
+        }
       });
-    },
+    }
   };
 };
 

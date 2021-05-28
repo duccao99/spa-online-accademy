@@ -15,12 +15,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import validator from 'validator';
 import * as env_config from '../../config/env.config';
+import { swal2Timing } from '../../config/swal2.config';
 import Copyright from './../Copyright/Copyright';
 import ReactFacebookLogin from './ReactFacebookLogin';
-import { swal2Timing } from '../../config/swal2.config';
-import GoogleSignInButton from './GoogleSignInButton';
 import ReactGoogleLogin from './ReactGoogleLogin';
-import ReactGithubLogin from './ReactGithubLogin';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -220,6 +218,7 @@ export default function SignIn() {
           <Box
             width='100%'
             display='flex'
+            display='none'
             justifyContent='center'
             alignItems='center'
             my={3}
@@ -234,8 +233,18 @@ export default function SignIn() {
             alignItems='center'
             my={3}
           >
-            <ReactGithubLogin />
+            <ReactGoogleLogin />
           </Box>
+
+          {/* <Box
+            width='100%'
+            display='flex'
+            justifyContent='center'
+            alignItems='center'
+            my={3}
+          >
+            <ReactGithubLogin />
+          </Box> */}
 
           <Grid container>
             {/* <Grid item xs>

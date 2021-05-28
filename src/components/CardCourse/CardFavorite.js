@@ -1,5 +1,3 @@
-import { Box } from '@material-ui/core';
-import Badge from '@material-ui/core/Badge';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -9,9 +7,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { ADD_COURSE_TO_CART } from '../../actionTypes/cart.type';
 
 const common_spacing = 32;
 
@@ -100,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function CardNewestCourse(props) {
+function CardFavorite(props) {
   const {
     course_avatar_url,
     course_fee,
@@ -109,6 +105,7 @@ function CardNewestCourse(props) {
     course_id,
     subject_name,
     user_name,
+    ins_name,
     user_id,
     avg_rate,
     dispatchAddToCart,
@@ -118,45 +115,20 @@ function CardNewestCourse(props) {
   const [is_in_cart, set_is_in_cart] = useState(false);
   const [toggle_buy_click, set_toggle_buy_click] = useState(false);
   const [email, set_email] = useState(undefined);
-  const [user_role, setUser_role] = useState(0);
 
-  const handleBuyClick = (e) => {
-    const curr_user_id = sessionStorage.getItem('user_login_id');
-
-    dispatchAddToCart(
-      course_id,
-      +curr_user_id,
-      course_fee,
-      course_avatar_url,
-      course_name,
-      course_title
-    );
-  };
+  const handleEnroll = (e) => {};
 
   useEffect(() => {
-    // role
-    const user_role = sessionStorage.getItem('user_role');
-    setUser_role(+user_role);
     const email = sessionStorage.getItem('email');
     if (email === null) {
-      return set_email(undefined);
+      set_email(undefined);
     } else if (email === undefined) {
-      return set_email(undefined);
+      set_email(undefined);
     } else if (email === '') {
-      return set_email(undefined);
+      set_email(undefined);
     }
     set_email(email);
-
-    if (cart_global_state !== undefined) {
-      for (let i = 0; i < cart_global_state.length; ++i) {
-        if (cart_global_state[i].course_id === course_id) {
-          set_is_in_cart(true);
-          set_toggle_buy_click(!toggle_buy_click);
-          break;
-        }
-      }
-    }
-  }, [cart_global_state, email, isLogout]);
+  }, [email, isLogout]);
 
   const classes = useStyles();
   return (
@@ -169,17 +141,6 @@ function CardNewestCourse(props) {
               image={`${course_avatar_url}`}
               title='Image title'
             />
-            <Box display='flex' px={8} justifyContent='flex-start' width='100%'>
-              <Badge
-                className={classes.badge}
-                variant='standard'
-                badgeContent='New'
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left'
-                }}
-              />
-            </Box>
 
             <CardContent className={classes.cardContent}>
               <Typography
@@ -191,28 +152,23 @@ function CardNewestCourse(props) {
                 {course_name}
               </Typography>
               <Typography className={classes.typo}>{subject_name}</Typography>
-              <Typography className={classes.typo}> {user_name}</Typography>
-              <Typography className={classes.typo}>{course_fee}$</Typography>
+              {/* <Typography className={classes.typo}> {ins_name}</Typography> */}
+              {/* <Typography className={classes.typo}>{course_fee}$</Typography> */}
             </CardContent>
           </CardActionArea>
         </Link>
 
         {email !== undefined ? (
           <CardActions className={classes.card_action}>
-            {user_role === 2 || user_role === 4 ? (
-              <Button
-                disabled={is_in_cart === true}
-                onClick={handleBuyClick}
-                variant='contained'
-                size='small'
-                color='primary'
-              >
-                Buy
-              </Button>
-            ) : (
-              ''
-            )}
-
+            <Button
+              disabled={is_in_cart === true}
+              onClick={handleEnroll}
+              variant='contained'
+              size='small'
+              color='secondary'
+            >
+              Enroll
+            </Button>
             <Link className={classes.link} to={`/course/${course_id}`}>
               <Button variant='outlined' size='small' color='primary'>
                 Detail
@@ -227,35 +183,4 @@ function CardNewestCourse(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    cart_global_state: state.cartReducer.cart
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatchAddToCart: (
-      course_id,
-      user_id,
-      course_price,
-      course_ava,
-      course_name,
-      course_title
-    ) => {
-      dispatch({
-        type: ADD_COURSE_TO_CART,
-        payload: {
-          course_id: course_id,
-          course_price: course_price,
-          course_ava: course_ava,
-          course_name: course_name,
-          course_title: course_title,
-          user_id: user_id
-        }
-      });
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardNewestCourse);
+export default CardFavorite;
