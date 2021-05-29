@@ -1,29 +1,29 @@
-import React from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 
 const useStyles = makeStyles((theme) => ({
   carousel_dot_css: {
     minHeight: 500,
     // overflow: "hidden",
 
-    "& li.dot": {
-      backgroundColor: "black!important",
+    '& li.dot': {
+      backgroundColor: 'black!important'
     },
-    "& div.carousel.carousel-slider": {
-      overflow: "initial",
+    '& div.carousel.carousel-slider': {
+      overflow: 'initial'
     },
-    "& div.carousel.slider-wrapper": {
-      overflow: "initial",
+    '& div.carousel.slider-wrapper': {
+      overflow: 'initial'
     },
-    "& li.slide.selected": {
-      minHeight: 400,
+    '& li.slide.selected': {
+      minHeight: 400
     },
-    "& ul.control-dots": {
-      bottom: -32,
-    },
-  },
+    '& ul.control-dots': {
+      bottom: -32
+    }
+  }
 }));
 
 export default function CommonCarousel(props) {

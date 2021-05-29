@@ -1,25 +1,25 @@
-import { Box, makeStyles } from "@material-ui/core";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import * as env from "../../config/env.config";
-import Cat from "./Cat";
+import { Box, makeStyles } from '@material-ui/core';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import * as env from '../../config/env.config';
+import Cat from './Cat';
 
 const style = makeStyles((theme) => ({
   left_cat_wrapper: {},
   nested: {
-    paddingLeft: theme.spacing(4),
-  },
+    paddingLeft: theme.spacing(4)
+  }
 }));
 
 const categories = [
   {
     cat_id: 1,
-    cat_name: "Web development",
+    cat_name: 'Web development'
   },
   {
     cat_id: 2,
-    cat_name: "Mobile development",
-  },
+    cat_name: 'Mobile development'
+  }
 ];
 
 export default function LeftCat() {

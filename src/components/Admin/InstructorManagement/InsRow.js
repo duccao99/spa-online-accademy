@@ -1,53 +1,51 @@
-import React from "react";
 import {
-  makeStyles,
   Button,
-  TableFooter,
-  Box,
-  TextField,
   FormControl,
+  makeStyles,
   TableCell,
   TableRow,
-} from "@material-ui/core";
-import Moment from "react-moment";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import * as env from "../../../config/env.config";
-import { swal2Timing } from "../../../config/swal2.config";
+  TextField
+} from '@material-ui/core';
+import axios from 'axios';
+import React from 'react';
+import Moment from 'react-moment';
+import { Link } from 'react-router-dom';
+import * as env from '../../../config/env.config';
+import { swal2Timing } from '../../../config/swal2.config';
 
 const styles = makeStyles((theme) => ({
   table: {
-    width: "100%",
+    width: '100%'
   },
   btn: {
-    marginLeft: 12,
+    marginLeft: 12
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
     },
-    "&:hover": {
-      textDecoration: "underline",
-    },
+    '&:hover': {
+      textDecoration: 'underline'
+    }
   },
   TextField: {
-    height: "100%",
-  },
+    height: '100%'
+  }
 }));
 
 export default function InsRow({
   row,
   handleDelIns,
   setisComponentUpdate,
-  isComponentUpdate,
+  isComponentUpdate
 }) {
   const classes = styles();
   const [openEdit, setopenEdit] = React.useState(false);
-  const [username, setusername] = React.useState("");
-  const [maile, setmaile] = React.useState("");
+  const [username, setusername] = React.useState('');
+  const [maile, setmaile] = React.useState('');
   const config = {};
 
   const handleMaileChange = (e) => {
@@ -61,17 +59,17 @@ export default function InsRow({
     const edit_ins_url = `${env.DEV_URL}/api/instructor/${id}`;
     const data = {
       user_name: username,
-      email: maile,
+      email: maile
     };
     axios
       .patch(edit_ins_url, data, config)
       .then((ret) => {
         setopenEdit(false);
         setisComponentUpdate(!isComponentUpdate);
-        const title = "Success!";
-        const html = "Edited!";
+        const title = 'Success!';
+        const html = 'Edited!';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
 
         return;
@@ -80,56 +78,56 @@ export default function InsRow({
         setopenEdit(false);
         setisComponentUpdate(!isComponentUpdate);
 
-        const title = "error!";
-        const html = "Something broke!";
+        const title = 'error!';
+        const html = 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
 
   return openEdit === true ? (
     <TableRow>
-      <TableCell align="left">{row.user_id}</TableCell>
-      <TableCell align="left">
+      <TableCell align='left'>{row.user_id}</TableCell>
+      <TableCell align='left'>
         <FormControl fullWidth>
           <TextField
             className={classes.TextField}
             fullWidth
-            id="username"
+            id='username'
             onChange={handleUsernameChange}
             value={username}
-            label="Username"
-            name="username"
+            label='Username'
+            name='username'
           />
         </FormControl>
       </TableCell>
-      <TableCell align="left">
-        {" "}
+      <TableCell align='left'>
+        {' '}
         <FormControl fullWidth>
           <TextField
             className={classes.TextField}
             fullWidth
-            id="catValue"
-            type="email"
+            id='catValue'
+            type='email'
             onChange={handleMaileChange}
             value={maile}
-            label="Email"
-            name="catValue"
+            label='Email'
+            name='catValue'
           />
         </FormControl>
       </TableCell>
-      <TableCell align="left">
-        <Moment format="MM/DD/YYYY">{row.date_of_birth}</Moment>
+      <TableCell align='left'>
+        <Moment format='MM/DD/YYYY'>{row.date_of_birth}</Moment>
       </TableCell>
-      <TableCell align="left">{row.is_verified}</TableCell>
-      <TableCell align="right">
+      <TableCell align='left'>{row.is_verified}</TableCell>
+      <TableCell align='right'>
         <Button
           onClick={() => {
             handleEditIns(row.user_id);
           }}
-          variant="contained"
-          color="secondary"
+          variant='contained'
+          color='secondary'
           className={classes.btn}
         >
           Save
@@ -138,8 +136,8 @@ export default function InsRow({
           onClick={() => {
             setopenEdit(false);
           }}
-          variant="contained"
-          color="default"
+          variant='contained'
+          color='default'
           className={classes.btn}
         >
           Back
@@ -148,8 +146,8 @@ export default function InsRow({
     </TableRow>
   ) : (
     <TableRow>
-      <TableCell align="left">{row.user_id}</TableCell>
-      <TableCell align="left">
+      <TableCell align='left'>{row.user_id}</TableCell>
+      <TableCell align='left'>
         <Link
           className={classes.link}
           to={`/admin/instructor-management/instructor/${row.user_id}`}
@@ -157,18 +155,18 @@ export default function InsRow({
           {row.user_name}
         </Link>
       </TableCell>
-      <TableCell align="left">{row.email}</TableCell>
-      <TableCell align="left">
-        <Moment format="MM/DD/YYYY">{row.date_of_birth}</Moment>
+      <TableCell align='left'>{row.email}</TableCell>
+      <TableCell align='left'>
+        <Moment format='MM/DD/YYYY'>{row.date_of_birth}</Moment>
       </TableCell>
-      <TableCell align="left">{row.is_verified}</TableCell>
-      <TableCell align="right">
+      <TableCell align='left'>{row.is_verified}</TableCell>
+      <TableCell align='right'>
         <Button
           onClick={() => {
             setopenEdit(true);
           }}
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
           className={classes.btn}
         >
           Edit
@@ -177,8 +175,8 @@ export default function InsRow({
           onClick={() => {
             handleDelIns(row.user_id);
           }}
-          variant="contained"
-          color="secondary"
+          variant='contained'
+          color='secondary'
           className={classes.btn}
         >
           Delete

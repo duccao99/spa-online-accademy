@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 
 export default function FileUploader({ onFileSelect }) {
   const fileInput = useRef(null);
@@ -8,12 +8,12 @@ export default function FileUploader({ onFileSelect }) {
   };
   return (
     <input
-      id="input-b1"
-      name="input-b1"
-      type="file"
-      className="file"
+      id='input-b1'
+      name='input-b1'
+      type='file'
+      className='file'
       onChange={handleFileInput}
-      data-browse-on-zone-click="true"
+      data-browse-on-zone-click='true'
     ></input>
   );
 }

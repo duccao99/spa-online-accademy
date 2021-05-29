@@ -1,21 +1,17 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import {
-  Player,
   ControlBar,
-  ReplayControl,
-  ForwardControl,
   CurrentTimeDisplay,
-  TimeDivider,
+  ForwardControl,
   PlaybackRateMenuButton,
-  VolumeMenuButton,
-  playerReducer,
-  Bezel,
-  Video
+  Player,
+  ReplayControl,
+  TimeDivider,
+  VolumeMenuButton
 } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css
-import { connect } from 'react-redux';
-import { handlePlay } from 'video-react/lib/actions/video';
-import axios from 'axios';
 import * as env from '../../config/env.config';
 
 function VideoStudy(props) {

@@ -1,48 +1,43 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Button, TableFooter, Box } from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import axios from "axios";
-import * as env from "../../config/env.config";
-import { swal2Timing } from "../../config/swal2.config";
-import { Link } from "react-router-dom";
-import Modal from "@material-ui/core/Modal";
-import AddSubCatModal from "../CommonModal/AddSubCatModal";
-import RowSubCat from "./CategoryManagement/RowSubCat";
-import Moment from "react-moment";
+import { Button } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+import React from 'react';
+import * as env from '../../config/env.config';
+import { swal2Timing } from '../../config/swal2.config';
 
 const useStyles = makeStyles({
   table: {
-    "& *::-webkit-scrollbar": {
-      display: "none",
-      width: "1em",
+    '& *::-webkit-scrollbar': {
+      display: 'none',
+      width: '1em'
     },
-    "*::-webkit-scrollbar-track": {
-      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+    '*::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
     },
-    "*::-webkit-scrollbar-thumb": {
+    '*::-webkit-scrollbar-thumb': {
       backgroundColor: `#455a64`,
-      outline: "1px solid slategrey",
+      outline: '1px solid slategrey'
     },
-    width: "100%",
+    width: '100%'
   },
   btn: {
-    marginLeft: 12,
+    marginLeft: 12
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 });
 
 export default function DeleteCourse() {
@@ -64,10 +59,10 @@ export default function DeleteCourse() {
     const del_url = `${env.DEV_URL}/api/course/${id}`;
 
     axios.delete(del_url, config).then((ret) => {
-      const title2 = "Success!";
-      const html2 = "Course was deleted !";
+      const title2 = 'Success!';
+      const html2 = 'Course was deleted !';
       const timer2 = 2500;
-      const icon2 = "success";
+      const icon2 = 'success';
       swal2Timing(title2, html2, timer2, icon2);
       setisDel(!isDel);
     });
@@ -80,35 +75,35 @@ export default function DeleteCourse() {
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
+      <Table className={classes.table} aria-label='simple table'>
         <TableHead>
           <TableRow>
-            <TableCell align="left">ID</TableCell>
-            <TableCell align="left">Course name</TableCell>
+            <TableCell align='left'>ID</TableCell>
+            <TableCell align='left'>Course name</TableCell>
 
-            <TableCell align="left">Course fee</TableCell>
-            <TableCell align="left">Course views</TableCell>
+            <TableCell align='left'>Course fee</TableCell>
+            <TableCell align='left'>Course views</TableCell>
             {/* <TableCell align="left">Is finished</TableCell> */}
             {/* <TableCell align="left">Last updated</TableCell> */}
-            <TableCell align="right">Features</TableCell>
+            <TableCell align='right'>Features</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {courses.map((row) => {
             return (
               <TableRow key={row.course_id} hover>
-                <TableCell align="left" component="th" scope="row">
+                <TableCell align='left' component='th' scope='row'>
                   {row.course_id}
                 </TableCell>
 
-                <TableCell align="left" component="th" scope="row">
+                <TableCell align='left' component='th' scope='row'>
                   {row.course_name}
                 </TableCell>
 
-                <TableCell align="left" component="th" scope="row">
+                <TableCell align='left' component='th' scope='row'>
                   {row.course_fee}
                 </TableCell>
-                <TableCell align="left" component="th" scope="row">
+                <TableCell align='left' component='th' scope='row'>
                   {row.views}
                 </TableCell>
                 {/* <TableCell align="left" component="th" scope="row">
@@ -120,14 +115,14 @@ export default function DeleteCourse() {
                   </Moment>
                 </TableCell> */}
 
-                <TableCell align="right">
+                <TableCell align='right'>
                   <Button
                     onClick={() => {
                       handleDelCourse(row.course_id);
                     }}
                     className={classes.btn}
-                    variant="contained"
-                    color="secondary"
+                    variant='contained'
+                    color='secondary'
                   >
                     Delete
                   </Button>

@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 import {
-  Player,
   ControlBar,
-  ReplayControl,
-  ForwardControl,
   CurrentTimeDisplay,
-  TimeDivider,
+  ForwardControl,
   PlaybackRateMenuButton,
-  VolumeMenuButton,
-} from "video-react";
+  Player,
+  ReplayControl,
+  TimeDivider,
+  VolumeMenuButton
+} from 'video-react';
 
 export default (props) => {
   return (
-    <Player poster="/assets/poster.png">
-      <source src="http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4" />
-      <source src="http://mirrorblender.top-ix.org/movies/sintel-1024-surround.mp4" />
+    <Player poster='/assets/poster.png'>
+      <source src='http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4' />
+      <source src='http://mirrorblender.top-ix.org/movies/sintel-1024-surround.mp4' />
 
       <ControlBar>
         <ReplayControl seconds={10} order={1.1} />

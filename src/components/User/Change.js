@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import { Link, useParams } from "react-router-dom";
-import { Button, FormGroup, TextField } from "@material-ui/core";
-import * as env from "../../config/env.config";
-import axios from "axios";
-import { swal2Timing } from "../../config/swal2.config";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import SwipeableViews from 'react-swipeable-views';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { Link, useParams } from 'react-router-dom';
+import { Button, FormGroup, TextField } from '@material-ui/core';
+import * as env from '../../config/env.config';
+import axios from 'axios';
+import { swal2Timing } from '../../config/swal2.config';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
@@ -36,38 +36,38 @@ function TabPanel(props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`
   };
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   tab: {
-    textTransform: "initial",
+    textTransform: 'initial'
   },
   appbar: {
-    width: "100%",
+    width: '100%'
   },
   btn: {
-    textTransform: "initial",
-    justifyContent: "flex-end",
+    textTransform: 'initial',
+    justifyContent: 'flex-end'
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 }));
 
 export default function Change({ setupdate, update }) {
@@ -75,11 +75,11 @@ export default function Change({ setupdate, update }) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [is_name_error, set_is_name_error] = useState(false);
-  const [user_name, setuser_name] = useState("");
-  const [maile, setmaile] = useState("");
+  const [user_name, setuser_name] = useState('');
+  const [maile, setmaile] = useState('');
   const [user_id, setuser_id] = useState(0);
-  const [newpass, setnewpass] = useState("");
-  const [oldpass, setoldpass] = useState("");
+  const [newpass, setnewpass] = useState('');
+  const [oldpass, setoldpass] = useState('');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -93,23 +93,23 @@ export default function Change({ setupdate, update }) {
     const url_update_name = `${env.DEV_URL}/api/user/change-name`;
     const data = {
       user_name: user_name,
-      user_id: user_id,
+      user_id: user_id
     };
     axios
       .patch(url_update_name, data, {})
       .then(function (ret) {
         setupdate(!update);
-        const title = "Success!";
-        const html = "Changed!";
+        const title = 'Success!';
+        const html = 'Changed!';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
       })
       .catch((er) => {
-        const title = "error!";
-        const html = er.response.data.message || "Something broke!";
+        const title = 'error!';
+        const html = er.response.data.message || 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
@@ -118,23 +118,23 @@ export default function Change({ setupdate, update }) {
     const url_update_maile = `${env.DEV_URL}/api/user/change-email`;
     const data = {
       email: maile,
-      user_id: user_id,
+      user_id: user_id
     };
     axios
       .patch(url_update_maile, data, {})
       .then(function (ret) {
         setupdate(!update);
-        const title = "Success!";
-        const html = "Changed!";
+        const title = 'Success!';
+        const html = 'Changed!';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
       })
       .catch((er) => {
-        const title = "error!";
-        const html = er.response.data.message || "Something broke!";
+        const title = 'error!';
+        const html = er.response.data.message || 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
@@ -144,65 +144,65 @@ export default function Change({ setupdate, update }) {
     const data = {
       user_id: user_id,
       old_pass: oldpass,
-      new_pass: newpass,
+      new_pass: newpass
     };
     axios
       .patch(url_update_pass, data, {})
       .then(function (ret) {
         setupdate(!update);
-        const title = "Success!";
-        const html = "Changed!";
+        const title = 'Success!';
+        const html = 'Changed!';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
       })
       .catch((er) => {
         console.log(er.response);
-        const title = "error!";
-        const html = er.response.data.message || "Something broke!";
+        const title = 'error!';
+        const html = er.response.data.message || 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
   useEffect(() => {
-    const curr_user_id = sessionStorage.getItem("user_login_id");
+    const curr_user_id = sessionStorage.getItem('user_login_id');
     setuser_id(+curr_user_id);
   }, []);
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default" className={classes.appbar}>
+      <AppBar position='static' color='default' className={classes.appbar}>
         <Tabs
           value={value}
           onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
+          indicatorColor='primary'
+          textColor='primary'
+          variant='fullWidth'
+          aria-label='full width tabs example'
         >
           <Tab
             className={classes.tab}
-            label="Change username"
+            label='Change username'
             {...a11yProps(0)}
           />
-          <Tab className={classes.tab} label="Change email" {...a11yProps(1)} />
+          <Tab className={classes.tab} label='Change email' {...a11yProps(1)} />
           <Tab
             className={classes.tab}
-            label="Change password"
+            label='Change password'
             {...a11yProps(2)}
           />
         </Tabs>
       </AppBar>
       <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Link className={classes.link} to="/user/profile/change-name">
+          <Link className={classes.link} to='/user/profile/change-name'>
             <TextField
-              label="Username"
+              label='Username'
               fullWidth
               value={user_name}
               onKeyPress={(e) => {
@@ -212,13 +212,13 @@ export default function Change({ setupdate, update }) {
               }}
               onChange={(e) => setuser_name(e.target.value)}
               error={is_name_error}
-              helperText={is_name_error === true ? "Cannot empty" : ""}
+              helperText={is_name_error === true ? 'Cannot empty' : ''}
             />
             <Box my={2}>
               <Button
-                color="primary"
+                color='primary'
                 className={classes.btn}
-                variant="contained"
+                variant='contained'
                 onClick={handleUpdateName}
               >
                 Change
@@ -227,10 +227,10 @@ export default function Change({ setupdate, update }) {
           </Link>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Link className={classes.link} to="/user/profile/change-email">
+          <Link className={classes.link} to='/user/profile/change-email'>
             <TextField
-              label="Email"
-              type="email"
+              label='Email'
+              type='email'
               onKeyPress={(e) => {
                 if (e.which === 13) {
                   handleUpdateMaile(e);
@@ -240,14 +240,14 @@ export default function Change({ setupdate, update }) {
               value={maile}
               onChange={(e) => setmaile(e.target.value)}
               error={is_name_error}
-              helperText={is_name_error === true ? "Cannot empty?" : ""}
+              helperText={is_name_error === true ? 'Cannot empty?' : ''}
             />
             <Box my={2}>
               <Button
                 onClick={handleUpdateMaile}
                 className={classes.btn}
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
               >
                 Change
               </Button>
@@ -255,7 +255,7 @@ export default function Change({ setupdate, update }) {
           </Link>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <Link className={classes.link} to="/user/profile/change-password">
+          <Link className={classes.link} to='/user/profile/change-password'>
             <Box my={3}>
               <FormGroup>
                 <TextField
@@ -264,34 +264,34 @@ export default function Change({ setupdate, update }) {
                       handleUpdatePassword(e);
                     }
                   }}
-                  label="Old password"
-                  type="password"
+                  label='Old password'
+                  type='password'
                   fullWidth
                   value={oldpass}
                   onChange={(e) => setoldpass(e.target.value)}
                   error={is_name_error}
-                  helperText={is_name_error === true ? "Error" : ""}
+                  helperText={is_name_error === true ? 'Error' : ''}
                 />
               </FormGroup>
             </Box>
             <Box my={3}>
               <FormGroup>
                 <TextField
-                  label="New password"
-                  type="password"
+                  label='New password'
+                  type='password'
                   fullWidth
                   value={newpass}
                   onChange={(e) => setnewpass(e.target.value)}
                   error={is_name_error}
-                  helperText={is_name_error === true ? "Cannot empty?" : ""}
+                  helperText={is_name_error === true ? 'Cannot empty?' : ''}
                 />
               </FormGroup>
             </Box>
             <Box mt={1}>
               <Button
                 className={classes.btn}
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={handleUpdatePassword}
               >
                 Change

@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
-import banner1 from "./../../assets/images/banner/1.jpg";
-import banner2 from "./../../assets/images/banner/2.jpg";
-import banner3 from "./../../assets/images/banner/3.png";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import banner1 from './../../assets/images/banner/1.jpg';
+import banner2 from './../../assets/images/banner/2.jpg';
+import banner3 from './../../assets/images/banner/3.png';
 
 const useStyles = makeStyles((theme) => ({
   carousel: {
     maxHeight: 401,
-    overflow: "hidden",
-  },
+    overflow: 'hidden'
+  }
 }));
 
 export default function Banner() {

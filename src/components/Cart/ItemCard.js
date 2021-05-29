@@ -3,60 +3,60 @@ import {
   makeStyles,
   TableCell,
   TableRow,
-  Typography,
-} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardMedia from "@material-ui/core/CardMedia";
-import cn from "classnames";
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { REMOVE_COURSE } from "../../actionTypes/course.type";
+  Typography
+} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
+import cn from 'classnames';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { REMOVE_COURSE } from '../../actionTypes/course.type';
 
 const styles = makeStyles((theme) => ({
   card_wrapper: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   ava_wrapper: {
     height: 80,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
 
   ava: {},
   full_hw: {
-    height: "100%",
-    width: "200px",
+    height: '100%',
+    width: '200px'
   },
   media: {
-    maxWidth: "200px",
-    width: "200px",
-    height: 140,
+    maxWidth: '200px',
+    width: '200px',
+    height: 140
   },
 
   course_name_wrap: {
-    textAlign: "left",
-    width: "100%",
-    justifyContent: "flex-start",
+    textAlign: 'left',
+    width: '100%',
+    justifyContent: 'flex-start',
     paddingLeft: 18,
-    paddingRight: 32,
+    paddingRight: 32
   },
   course_name: {
-    textAlign: "left",
+    textAlign: 'left'
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 }));
 
 function ItemCard(props) {
@@ -67,7 +67,7 @@ function ItemCard(props) {
     course_ava,
     course_name,
     course_title,
-    dispatchRemoveCourse,
+    dispatchRemoveCourse
   } = props;
   const classes = styles();
 
@@ -77,7 +77,7 @@ function ItemCard(props) {
 
   return (
     <TableRow hover>
-      <TableCell component="th" scope="row">
+      <TableCell component='th' scope='row'>
         <Box className={classes.ava_wrapper}>
           <Box className={cn(classes.ava, classes.full_hw)}>
             <Card className={classes.full_hw}>
@@ -96,8 +96,8 @@ function ItemCard(props) {
             <Box mb={1}>
               <Typography
                 className={classes.course_name}
-                variant="h6"
-                component="p"
+                variant='h6'
+                component='p'
               >
                 {course_name}
               </Typography>
@@ -108,9 +108,9 @@ function ItemCard(props) {
           </Box>
         </Box>
       </TableCell>
-      <TableCell align="center">{course_price} $</TableCell>
-      <TableCell align="right">
-        <Button onClick={handleRemoveItem} variant="contained">
+      <TableCell align='center'>{course_price} $</TableCell>
+      <TableCell align='right'>
+        <Button onClick={handleRemoveItem} variant='contained'>
           Remove
         </Button>
       </TableCell>
@@ -123,9 +123,9 @@ const mapDispatchToProps = (dispatch) => {
     dispatchRemoveCourse: (course_id) => {
       dispatch({
         type: REMOVE_COURSE,
-        payload: course_id,
+        payload: course_id
       });
-    },
+    }
   };
 };
 

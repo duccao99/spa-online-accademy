@@ -1,66 +1,64 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import { Box, Grid, TextField, Typography } from "@material-ui/core";
-import * as env from "../../config/env.config";
-import axios from "axios";
-import cn from "classnames";
-import { debounce } from "lodash";
-import { useParams, useHistory, Link } from "react-router-dom";
-import { swal2Timing } from "../../config/swal2.config";
-import { Button } from "@material-ui/core";
-
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import { green } from "@material-ui/core/colors";
-import Checkbox from "@material-ui/core/Checkbox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import { withStyles, FormControlLabel } from "@material-ui/core";
-import RowExistsLesson from "./RowExistsLesson";
+import {
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  withStyles
+} from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+import { green } from '@material-ui/core/colors';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
+import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import * as env from '../../config/env.config';
+import { swal2Timing } from '../../config/swal2.config';
+import RowExistsLesson from './RowExistsLesson';
 
 const GreenCheckbox = withStyles({
   root: {
     color: green[400],
-    "&$checked": {
-      color: green[600],
-    },
+    '&$checked': {
+      color: green[600]
+    }
   },
-  checked: {},
-})((props) => <Checkbox color="default" {...props} />);
+  checked: {}
+})((props) => <Checkbox color='default' {...props} />);
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    minWidth: 120,
+    minWidth: 120
   },
-  selectEmpty: {},
+  selectEmpty: {}
 }));
 
 export default function CaseUploadLesson({ email }) {
   const classes = useStyles();
-  const [age, setAge] = React.useState("");
-  const [lessonName, setlessonName] = React.useState("");
+  const [age, setAge] = React.useState('');
+  const [lessonName, setlessonName] = React.useState('');
   const [courses, setCourses] = useState([]);
-  const [courseSelected, setcourseSelected] = useState("");
+  const [courseSelected, setcourseSelected] = useState('');
   const [user_id, setuser_id] = useState(0);
   const [isUpdate, setisUpdate] = useState(false);
-  const [lesson_content, setlesson_content] = useState("");
+  const [lesson_content, setlesson_content] = useState('');
   const [chap_exists, setchap_exists] = useState([1, 2, 3]);
   const [lesson_exists, setlesson_exists] = useState([]);
   const [chapSelected, setchapSelected] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [file, setfile] = useState("");
+  const [file, setfile] = useState('');
   const [loadingUploadVideo, setloadingUploadVideo] = useState(false);
 
   const config = {};
@@ -79,7 +77,7 @@ export default function CaseUploadLesson({ email }) {
   }
 
   useEffect(() => {
-    const user_id_ss = sessionStorage.getItem("user_login_id");
+    const user_id_ss = sessionStorage.getItem('user_login_id');
     setuser_id(+user_id_ss);
     getUploadedCourse();
   }, []);
@@ -137,30 +135,30 @@ export default function CaseUploadLesson({ email }) {
   const handleUpload = (e) => {
     const data = {
       course_id: +courseSelected,
-      user_id: user_id,
+      user_id: user_id
     };
     const formData = new FormData();
 
     if (
-      courseSelected === "" ||
-      lessonName === "" ||
-      lesson_content === "" ||
-      user_id === ""
+      courseSelected === '' ||
+      lessonName === '' ||
+      lesson_content === '' ||
+      user_id === ''
     ) {
-      const title = "error!";
-      const html = "Cannot empty!";
+      const title = 'error!';
+      const html = 'Cannot empty!';
       const timer = 2500;
-      const icon = "error";
+      const icon = 'error';
       swal2Timing(title, html, timer, icon);
       return;
     }
 
-    formData.append("lesson_video", selectedFile);
-    formData.append("course_id", +courseSelected);
-    formData.append("chap_id", +chapSelected);
-    formData.append("lesson_name", lessonName);
-    formData.append("lesson_content", lesson_content);
-    formData.append("user_id", user_id);
+    formData.append('lesson_video', selectedFile);
+    formData.append('course_id', +courseSelected);
+    formData.append('chap_id', +chapSelected);
+    formData.append('lesson_name', lessonName);
+    formData.append('lesson_content', lesson_content);
+    formData.append('user_id', user_id);
 
     setloadingUploadVideo(true);
     const url_upload_lesson = `${env.DEV_URL}/api/instructor/upload-lesson`;
@@ -169,10 +167,10 @@ export default function CaseUploadLesson({ email }) {
       .then((ret) => {
         setloadingUploadVideo(false);
         setisUpdate(!isUpdate);
-        const title = "Success!";
-        const html = "Lesson upload success!";
+        const title = 'Success!';
+        const html = 'Lesson upload success!';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
       })
       .catch((er) => {
@@ -180,10 +178,10 @@ export default function CaseUploadLesson({ email }) {
 
         setisUpdate(!isUpdate);
 
-        const title = "error!";
-        const html = "Something broke!";
+        const title = 'error!';
+        const html = 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
@@ -197,13 +195,13 @@ export default function CaseUploadLesson({ email }) {
     <Grid container>
       <Grid item xs={12}>
         <FormControl fullWidth className={classes.formControl}>
-          <InputLabel id="demo-simple-select-error-label">
+          <InputLabel id='demo-simple-select-error-label'>
             Course uploaded
           </InputLabel>
           <Select
             fullWidth
-            labelId="demo-simple-select-error-label"
-            id="demo-simple-select-error"
+            labelId='demo-simple-select-error-label'
+            id='demo-simple-select-error'
             value={courseSelected}
             onChange={handleChange}
           >
@@ -225,26 +223,26 @@ export default function CaseUploadLesson({ email }) {
 
       <Grid item xs={12}>
         <Box my={3}>
-          <Typography variant="h6">Chapter exists information</Typography>
+          <Typography variant='h6'>Chapter exists information</Typography>
         </Box>
         <Box my={3}>
           <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
+            <Table className={classes.table} aria-label='simple table'>
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Chap id</TableCell>
-                  <TableCell align="left">Chap name</TableCell>
-                  <TableCell align="left">Course name</TableCell>
+                  <TableCell align='left'>Chap id</TableCell>
+                  <TableCell align='left'>Chap name</TableCell>
+                  <TableCell align='left'>Course name</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {chap_exists.map((row) => (
                   <TableRow hover key={row.chap_id}>
-                    <TableCell align="left" component="th" scope="row">
+                    <TableCell align='left' component='th' scope='row'>
                       {row.chap_id}
                     </TableCell>
-                    <TableCell align="left">{row.chap_name}</TableCell>
-                    <TableCell align="left">{row.course_name}</TableCell>
+                    <TableCell align='left'>{row.chap_name}</TableCell>
+                    <TableCell align='left'>{row.course_name}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -270,19 +268,19 @@ export default function CaseUploadLesson({ email }) {
 
       <Grid item xs={12}>
         <Box my={3}>
-          <Typography variant="h6">Lesson exists information</Typography>
+          <Typography variant='h6'>Lesson exists information</Typography>
         </Box>
         <Box my={3}>
           <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
+            <Table className={classes.table} aria-label='simple table'>
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Lesson id</TableCell>
-                  <TableCell align="left">Lesson name</TableCell>
-                  <TableCell align="left">Is allow preview</TableCell>
-                  <TableCell align="left">Chap id</TableCell>
+                  <TableCell align='left'>Lesson id</TableCell>
+                  <TableCell align='left'>Lesson name</TableCell>
+                  <TableCell align='left'>Is allow preview</TableCell>
+                  <TableCell align='left'>Chap id</TableCell>
 
-                  <TableCell align="left">Chap name</TableCell>
+                  <TableCell align='left'>Chap name</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -305,7 +303,7 @@ export default function CaseUploadLesson({ email }) {
                   handleUpload(e);
                 }
               }}
-              label="Lesson name"
+              label='Lesson name'
               value={lessonName}
               onChange={(e) => setlessonName(e.target.value)}
             />
@@ -315,13 +313,13 @@ export default function CaseUploadLesson({ email }) {
 
       <Grid item xs={12}>
         <Box my={3}>
-          <Typography variant="h6" component="p">
+          <Typography variant='h6' component='p'>
             Lesson content
           </Typography>
         </Box>
         <FormControl fullWidth>
           <ReactQuill
-            theme="snow"
+            theme='snow'
             value={lesson_content}
             onChange={setlesson_content}
           />
@@ -330,20 +328,20 @@ export default function CaseUploadLesson({ email }) {
 
       <Grid item xs={12}>
         <Box my={3}>
-          <Typography variant="h6" component="p">
+          <Typography variant='h6' component='p'>
             Lesson video
           </Typography>
         </Box>
         <FormControl fullWidth>
           <input
-            id="input-b2"
-            name="input-b2"
-            type="file"
-            className="file"
+            id='input-b2'
+            name='input-b2'
+            type='file'
+            className='file'
             onChange={(e) => handleFileInputChange(e)}
             // onChange={(e) => onUploadAva(e)}
             // onChange={(e) => uploadImageChange(e)}
-            data-browse-on-zone-click="true"
+            data-browse-on-zone-click='true'
           ></input>
         </FormControl>
       </Grid>
@@ -354,8 +352,8 @@ export default function CaseUploadLesson({ email }) {
             <Button
               className={classes.btn}
               fullWidth
-              variant="outlined"
-              color="primary"
+              variant='outlined'
+              color='primary'
               onClick={handleUpload}
             >
               Loading ...
@@ -363,11 +361,11 @@ export default function CaseUploadLesson({ email }) {
           ) : (
             <Button
               className={classes.btn}
-              variant="contained"
-              color="primary"
+              variant='contained'
+              color='primary'
               onClick={handleUpload}
             >
-              Upload{" "}
+              Upload{' '}
             </Button>
           )}
         </Box>

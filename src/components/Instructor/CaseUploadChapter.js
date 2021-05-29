@@ -1,41 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import { Box, Grid, TextField, Typography } from "@material-ui/core";
-import * as env from "../../config/env.config";
-import axios from "axios";
-import cn from "classnames";
-import { debounce } from "lodash";
-import { useParams, useHistory, Link } from "react-router-dom";
-import { swal2Timing } from "../../config/swal2.config";
-import { Button } from "@material-ui/core";
-
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import { Box, Button, Grid, TextField, Typography } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
+import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import * as env from '../../config/env.config';
+import { swal2Timing } from '../../config/swal2.config';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    minWidth: 120,
+    minWidth: 120
   },
-  selectEmpty: {},
+  selectEmpty: {}
 }));
 
 export default function CaseUploadChapter({ email }) {
   const classes = useStyles();
-  const [age, setAge] = React.useState("");
-  const [chap_name, setchap_name] = React.useState("");
+  const [age, setAge] = React.useState('');
+  const [chap_name, setchap_name] = React.useState('');
 
   const [courses, setCourses] = useState([]);
-  const [courseSelected, setcourseSelected] = useState("");
+  const [courseSelected, setcourseSelected] = useState('');
   const [user_id, setuser_id] = useState(0);
   const [isUpdate, setisUpdate] = useState(false);
 
@@ -50,7 +44,7 @@ export default function CaseUploadChapter({ email }) {
   }
 
   useEffect(() => {
-    const user_id_ss = sessionStorage.getItem("user_login_id");
+    const user_id_ss = sessionStorage.getItem('user_login_id');
     setuser_id(+user_id_ss);
     getUploadedCourse();
   }, []);
@@ -80,14 +74,14 @@ export default function CaseUploadChapter({ email }) {
     const data = {
       chap_name: chap_name,
       course_id: +courseSelected,
-      user_id: user_id,
+      user_id: user_id
     };
 
-    if (data.chap_name === "" || data.course_id === "" || data.user_id === "") {
-      const title = "error!";
-      const html = "Cannot empty!";
+    if (data.chap_name === '' || data.course_id === '' || data.user_id === '') {
+      const title = 'error!';
+      const html = 'Cannot empty!';
       const timer = 2500;
-      const icon = "error";
+      const icon = 'error';
       swal2Timing(title, html, timer, icon);
       return;
     }
@@ -96,18 +90,18 @@ export default function CaseUploadChapter({ email }) {
     axios
       .post(upload_chap_url, data, config)
       .then((ret) => {
-        const title = "Success!";
-        const html = "Chapter added!";
+        const title = 'Success!';
+        const html = 'Chapter added!';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
         setisUpdate(!isUpdate);
       })
       .catch((er) => {
-        const title = "error!";
-        const html = "Something broke!";
+        const title = 'error!';
+        const html = 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
         setisUpdate(!isUpdate);
         return;
@@ -122,13 +116,13 @@ export default function CaseUploadChapter({ email }) {
     <Grid container>
       <Grid item xs={12}>
         <FormControl fullWidth className={classes.formControl}>
-          <InputLabel id="demo-simple-select-error-label">
+          <InputLabel id='demo-simple-select-error-label'>
             Course uploaded
           </InputLabel>
           <Select
             fullWidth
-            labelId="demo-simple-select-error-label"
-            id="demo-simple-select-error"
+            labelId='demo-simple-select-error-label'
+            id='demo-simple-select-error'
             value={courseSelected}
             onChange={handleChange}
           >
@@ -150,26 +144,26 @@ export default function CaseUploadChapter({ email }) {
 
       <Grid item xs={12}>
         <Box my={3}>
-          <Typography variant="h6">Chapter exists information</Typography>
+          <Typography variant='h6'>Chapter exists information</Typography>
         </Box>
         <Box my={3}>
           <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
+            <Table className={classes.table} aria-label='simple table'>
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Chap id</TableCell>
-                  <TableCell align="left">Chap name</TableCell>
-                  <TableCell align="left">Course name</TableCell>
+                  <TableCell align='left'>Chap id</TableCell>
+                  <TableCell align='left'>Chap name</TableCell>
+                  <TableCell align='left'>Course name</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {chap_exists.map((row) => (
                   <TableRow hover key={row.chap_id}>
-                    <TableCell align="left" component="th" scope="row">
+                    <TableCell align='left' component='th' scope='row'>
                       {row.chap_id}
                     </TableCell>
-                    <TableCell align="left">{row.chap_name}</TableCell>
-                    <TableCell align="left">{row.course_name}</TableCell>
+                    <TableCell align='left'>{row.chap_name}</TableCell>
+                    <TableCell align='left'>{row.course_name}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -188,7 +182,7 @@ export default function CaseUploadChapter({ email }) {
                   handleUpload(e);
                 }
               }}
-              label="Chapter name"
+              label='Chapter name'
               value={chap_name}
               onChange={(e) => setchap_name(e.target.value)}
             />
@@ -200,11 +194,11 @@ export default function CaseUploadChapter({ email }) {
         <Box my={3}>
           <Button
             className={classes.btn}
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             onClick={handleUpload}
           >
-            Upload{" "}
+            Upload{' '}
           </Button>
         </Box>
       </Grid>

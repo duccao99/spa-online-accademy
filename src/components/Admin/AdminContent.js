@@ -1,50 +1,42 @@
-import React from "react";
-import {
-  Box,
-  Grid,
-  Container,
-  Typography,
-  makeStyles,
-  Paper,
-} from "@material-ui/core";
-import DashboardSidebar from "./DashboardSidebar";
-import { useParams, useHistory } from "react-router-dom";
-import CatManagement from "./CategoryManagement/CatManagement";
-import DeleteCourse from "./DeleteCourse";
-import InstructorManagement from "./InstructorManagement/InstructorManagement";
-import StudentManagement from "./StudentManagement/StudentManagement";
-import SubCatDetail from "./SubCatDetail";
-import StudentDetail from "./StudentManagement/StudentDetail";
-import InsDetail from "./InstructorManagement/InsDetail";
-import cn from "classnames";
+import { Box, makeStyles, Paper, Typography } from '@material-ui/core';
+import cn from 'classnames';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import CatManagement from './CategoryManagement/CatManagement';
+import DeleteCourse from './DeleteCourse';
+import InsDetail from './InstructorManagement/InsDetail';
+import InstructorManagement from './InstructorManagement/InstructorManagement';
+import StudentDetail from './StudentManagement/StudentDetail';
+import StudentManagement from './StudentManagement/StudentManagement';
+import SubCatDetail from './SubCatDetail';
 const styles = makeStyles((theme) => ({
   root: {
-    "& *::-webkit-scrollbar": {
-      display: "none",
-      width: "1em",
+    '& *::-webkit-scrollbar': {
+      display: 'none',
+      width: '1em'
     },
-    "*::-webkit-scrollbar-track": {
-      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+    '*::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
     },
-    "*::-webkit-scrollbar-thumb": {
+    '*::-webkit-scrollbar-thumb': {
       backgroundColor: `#455a64`,
-      outline: "1px solid slategrey",
-    },
+      outline: '1px solid slategrey'
+    }
   },
   paper: {
     padding: 32,
-    textAlign: "left",
+    textAlign: 'left',
     color: theme.palette.text.secondary,
-    wordBreak: "break-all;",
+    wordBreak: 'break-all;'
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 }));
 
 export default function AdminContent({ match }) {
@@ -55,65 +47,65 @@ export default function AdminContent({ match }) {
   const classes = styles();
 
   function renderCustom(path) {
-    if (path === "/admin/cat-management") {
+    if (path === '/admin/cat-management') {
       return (
         <Box>
           <Box mb={3}>
-            <Typography variant="h6">Category management</Typography>
+            <Typography variant='h6'>Category management</Typography>
           </Box>
           <Box>
             <CatManagement />
           </Box>
         </Box>
       );
-    } else if (path === "/admin/cat-management/subcat/:id") {
+    } else if (path === '/admin/cat-management/subcat/:id') {
       return (
         <Box>
           <SubCatDetail />
         </Box>
       );
-    } else if (path === "/admin/delete-course") {
+    } else if (path === '/admin/delete-course') {
       return (
         <Box>
           <Box mb={3}>
-            <Typography variant="h6">Delete course</Typography>
+            <Typography variant='h6'>Delete course</Typography>
           </Box>
           <Box>
             <DeleteCourse />
           </Box>
         </Box>
       );
-    } else if (path === "/admin/student-management") {
+    } else if (path === '/admin/student-management') {
       return (
         <Box>
           <Box mb={3}>
-            <Typography variant="h6">Student management</Typography>
+            <Typography variant='h6'>Student management</Typography>
           </Box>
           <Box>
             <StudentManagement />
           </Box>
         </Box>
       );
-    } else if (path === "/admin/student-management/student/:id") {
+    } else if (path === '/admin/student-management/student/:id') {
       return (
         <Box>
           <StudentDetail />
         </Box>
       );
-    } else if (path === "/admin/instructor-management") {
+    } else if (path === '/admin/instructor-management') {
       return (
         <Box>
           <Box mb={3}>
-            <Typography variant="h6">Instructor management</Typography>{" "}
+            <Typography variant='h6'>Instructor management</Typography>{' '}
           </Box>
           <InstructorManagement />
         </Box>
       );
-    } else if (path === "/admin/instructor-management/instructor/:id") {
+    } else if (path === '/admin/instructor-management/instructor/:id') {
       return (
         <Box>
           <Box mb={3}>
-            <Typography variant="h6">Instructor management</Typography>{" "}
+            <Typography variant='h6'>Instructor management</Typography>{' '}
           </Box>
           <InsDetail />
         </Box>
@@ -122,7 +114,7 @@ export default function AdminContent({ match }) {
       return (
         <Box>
           <Box mb={3}>
-            <Typography variant="h6">Admin content</Typography>
+            <Typography variant='h6'>Admin content</Typography>
           </Box>
           <Box></Box>
         </Box>

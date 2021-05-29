@@ -1,32 +1,30 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import * as env from "../../../config/env.config";
-import { swal2Timing } from "../../../config/swal2.config";
-import { Link, useHistory } from "react-router-dom";
-import { Button, makeStyles, Box, Typography } from "@material-ui/core";
-import cn from "classnames";
-import Moment from "react-moment";
+import { Box, Button, makeStyles, Typography } from '@material-ui/core';
+import axios from 'axios';
+import cn from 'classnames';
+import React from 'react';
+import Moment from 'react-moment';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import * as env from '../../../config/env.config';
 
 const useStyles = makeStyles({
   table: {
-    width: "100%",
+    width: '100%'
   },
   btn: {
-    marginLeft: 12,
+    marginLeft: 12
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   my12: {
     marginTop: 12,
-    marginBottom: 12,
-  },
+    marginBottom: 12
+  }
 });
 export default function InstructorDetail() {
   const classes = useStyles();
@@ -34,7 +32,7 @@ export default function InstructorDetail() {
   const config = [];
   const [ins_detail, set_ins_detail] = React.useState({});
 
-  const [prevPath, setprevPath] = React.useState("");
+  const [prevPath, setprevPath] = React.useState('');
 
   const history = useHistory();
 
@@ -51,37 +49,37 @@ export default function InstructorDetail() {
 
   return (
     <Box>
-      <Typography variant="h5">Instructor detail</Typography>
+      <Typography variant='h5'>Instructor detail</Typography>
 
       <Box my={2}>
-        <Typography variant="h6">
-          Instructor id: {ins_detail.user_id}{" "}
+        <Typography variant='h6'>
+          Instructor id: {ins_detail.user_id}{' '}
         </Typography>
 
-        <Typography variant="h6">
-          Instructor name: {ins_detail.user_name}{" "}
+        <Typography variant='h6'>
+          Instructor name: {ins_detail.user_name}{' '}
         </Typography>
 
-        <Typography variant="h6">Email: {ins_detail.email} </Typography>
+        <Typography variant='h6'>Email: {ins_detail.email} </Typography>
 
-        <Typography variant="h6">Password: {ins_detail.password} </Typography>
-        <Typography variant="h6">
+        <Typography variant='h6'>Password: {ins_detail.password} </Typography>
+        <Typography variant='h6'>
           Date of birth:
-          <Moment format="MM/DD/YYYY">{ins_detail.date_of_birth}</Moment>
+          <Moment format='MM/DD/YYYY'>{ins_detail.date_of_birth}</Moment>
         </Typography>
-        <Typography variant="h6">
-          Is verified: {ins_detail.is_verified}{" "}
+        <Typography variant='h6'>
+          Is verified: {ins_detail.is_verified}{' '}
         </Typography>
-        <Typography variant="h6">
-          OTP verify URL: {ins_detail.otp_verify_url}{" "}
+        <Typography variant='h6'>
+          OTP verify URL: {ins_detail.otp_verify_url}{' '}
         </Typography>
-        <Typography variant="h6">Role ID: {ins_detail.role_id} </Typography>
+        <Typography variant='h6'>Role ID: {ins_detail.role_id} </Typography>
       </Box>
       <Link
-        to="/admin/instructor-management"
+        to='/admin/instructor-management'
         className={cn(classes.link, classes.my12)}
       >
-        <Button className={cn(classes.link, classes.my12)} variant="contained">
+        <Button className={cn(classes.link, classes.my12)} variant='contained'>
           Back
         </Button>
       </Link>

@@ -1,24 +1,23 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { TableFooter, Button, Typography } from "@material-ui/core";
-
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import axios from "axios";
-import * as env from "../../../config/env.config";
-import InsRow from "./InsRow";
-import { swal2Timing } from "../../../config/swal2.config";
-import AddInsModal from "../../CommonModal/AddInstructorModal";
+import { Button, TableFooter } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+import React from 'react';
+import * as env from '../../../config/env.config';
+import { swal2Timing } from '../../../config/swal2.config';
+import AddInsModal from '../../CommonModal/AddInstructorModal';
+import InsRow from './InsRow';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
-  },
+    minWidth: 650
+  }
 });
 
 export default function InstructorManagement() {
@@ -41,10 +40,10 @@ export default function InstructorManagement() {
       .delete(del_ins_url, config)
       .then((ret) => {
         setisComponentUpdate(!isComponentUpdate);
-        const title = "Success!";
-        const html = "Instructor was deleted !";
+        const title = 'Success!';
+        const html = 'Instructor was deleted !';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
 
         return;
@@ -52,10 +51,10 @@ export default function InstructorManagement() {
       .catch((er) => {
         setisComponentUpdate(!isComponentUpdate);
 
-        const title = "error!";
-        const html = "Something broke!";
+        const title = 'error!';
+        const html = 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
@@ -66,15 +65,15 @@ export default function InstructorManagement() {
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
+      <Table className={classes.table} aria-label='simple table'>
         <TableHead>
           <TableRow>
-            <TableCell align="left">Id</TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Date of birth</TableCell>
-            <TableCell align="left">Is verified</TableCell>
-            <TableCell align="right">Features</TableCell>
+            <TableCell align='left'>Id</TableCell>
+            <TableCell align='left'>Name</TableCell>
+            <TableCell align='left'>Email</TableCell>
+            <TableCell align='left'>Date of birth</TableCell>
+            <TableCell align='left'>Is verified</TableCell>
+            <TableCell align='right'>Features</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -94,8 +93,8 @@ export default function InstructorManagement() {
               setOpen(true);
             }}
             fullWidth
-            variant="contained"
-            color="default"
+            variant='contained'
+            color='default'
           >
             New account
           </Button>

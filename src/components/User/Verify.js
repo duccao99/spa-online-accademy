@@ -1,25 +1,25 @@
-import { Box, Typography } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import React, { useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import * as env from "../../config/env.config";
+import { Box, Typography } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import * as env from '../../config/env.config';
 const common_spacing = 32;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#fafafa",
-    height: "95vh",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#fafafa',
+    height: '95vh',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   btn: {
-    marginTop: 12,
-  },
+    marginTop: 12
+  }
 }));
 
 export default function Verify() {
@@ -46,10 +46,10 @@ export default function Verify() {
   useEffect(() => {}, []);
   return (
     <Box className={classes.root}>
-      <Typography variant="h5">Verify your account!</Typography>
+      <Typography variant='h5'>Verify your account!</Typography>
       <Button
         className={classes.btn}
-        variant="contained"
+        variant='contained'
         onClick={handleVerify}
       >
         Verify

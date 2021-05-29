@@ -4,52 +4,51 @@ import {
   Grid,
   makeStyles,
   Paper,
-  Typography,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { Redirect, useParams } from "react-router-dom";
-import Footer from "../Footer/Footer";
-import Navbar from "../Navbar/Navbar";
-import Change from "./Change";
-import cn from "classnames";
-import * as env from "../../config/env.config";
-import axios from "axios";
-import { swal2Timing } from "../../config/swal2.config";
+  Typography
+} from '@material-ui/core';
+import axios from 'axios';
+import cn from 'classnames';
+import React, { useEffect, useState } from 'react';
+import { Redirect, useParams } from 'react-router-dom';
+import * as env from '../../config/env.config';
+import Footer from '../Footer/Footer';
+import Navbar from '../Navbar/Navbar';
+import Change from './Change';
 
 const styles = makeStyles((theme) => ({
   paper: {
     padding: 32,
-    textAlign: "left",
-    color: theme.palette.text.secondary,
+    textAlign: 'left',
+    color: theme.palette.text.secondary
   },
   group_btn: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end'
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   btn: {
     fontSize: 32,
-    textTransform: "initial",
-    justifyContent: "flex-end",
+    textTransform: 'initial',
+    justifyContent: 'flex-end'
   },
   change: {
-    height: 370,
-  },
+    height: 370
+  }
 }));
 
 export default function UserProfile() {
   const classes = styles();
   let { id } = useParams();
-  const [user_name, set_user_name] = useState("");
-  const [email, set_email] = useState("");
+  const [user_name, set_user_name] = useState('');
+  const [email, set_email] = useState('');
   const [isLogout, setisLogout] = useState(true);
   const [update, setupdate] = useState(false);
   const [user_id, setuser_id] = useState(0);
@@ -63,10 +62,10 @@ export default function UserProfile() {
   }
 
   useEffect(() => {
-    const curr_user_id = sessionStorage.getItem("user_login_id");
+    const curr_user_id = sessionStorage.getItem('user_login_id');
     setuser_id(+curr_user_id);
 
-    const isLg = sessionStorage.getItem("isLogout", false);
+    const isLg = sessionStorage.getItem('isLogout', false);
 
     getNameMaile(+curr_user_id);
 
@@ -74,7 +73,7 @@ export default function UserProfile() {
     set_email(email);
   }, [update]);
   return user_id === undefined || user_id === null ? (
-    <Redirect to="/" />
+    <Redirect to='/' />
   ) : (
     <React.Fragment>
       <Navbar setisLogout={setisLogout} />
@@ -85,12 +84,12 @@ export default function UserProfile() {
             <Grid item xs={12} sm={4}>
               <Paper className={classes.paper}>
                 <Box my={3}>
-                  <Typography variant="h6" component="p">
+                  <Typography variant='h6' component='p'>
                     Username: {user_name}
                   </Typography>
                 </Box>
                 <Box my={3}>
-                  <Typography variant="h6" component="p">
+                  <Typography variant='h6' component='p'>
                     Email: {email}
                   </Typography>
                 </Box>

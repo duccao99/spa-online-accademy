@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  Player,
   ControlBar,
-  ReplayControl,
-  ForwardControl,
   CurrentTimeDisplay,
-  TimeDivider,
+  ForwardControl,
   PlaybackRateMenuButton,
+  Player,
+  ReplayControl,
+  TimeDivider,
   VolumeMenuButton
 } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css

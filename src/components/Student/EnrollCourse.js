@@ -1,24 +1,24 @@
 import {
   Box,
+  Button,
   Container,
   Grid,
   makeStyles,
   Paper,
-  Typography,
-  Button
+  Typography
 } from '@material-ui/core';
+import Rating from '@material-ui/lab/Rating';
 import axios from 'axios';
+import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
 import { useParams } from 'react-router-dom';
+import CardFeedback from '../CardFeedback/CardFeedback';
 import Footer from '../Footer/Footer';
 import * as env from './../../config/env.config';
+import { swal2Timing } from './../../config/swal2.config';
 import Navbar from './../Navbar/Navbar';
 import CourseChapter from './CourseChapter';
-import ReactQuill from 'react-quill';
-import Rating from '@material-ui/lab/Rating';
-import { swal2Timing } from './../../config/swal2.config';
-import CardFeedback from '../CardFeedback/CardFeedback';
-import cn from 'classnames';
 
 const styles = makeStyles((theme) => ({
   root: {

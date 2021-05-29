@@ -1,32 +1,30 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import * as env from "../../../config/env.config";
-import { swal2Timing } from "../../../config/swal2.config";
-import { Link, useHistory } from "react-router-dom";
-import { Button, makeStyles, Box, Typography } from "@material-ui/core";
-import cn from "classnames";
-import Moment from "react-moment";
+import { Box, Button, makeStyles, Typography } from '@material-ui/core';
+import axios from 'axios';
+import cn from 'classnames';
+import React from 'react';
+import Moment from 'react-moment';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import * as env from '../../../config/env.config';
 
 const useStyles = makeStyles({
   table: {
-    width: "100%",
+    width: '100%'
   },
   btn: {
-    marginLeft: 12,
+    marginLeft: 12
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   my12: {
     marginTop: 12,
-    marginBottom: 12,
-  },
+    marginBottom: 12
+  }
 });
 export default function StudentDetail() {
   const classes = useStyles();
@@ -34,7 +32,7 @@ export default function StudentDetail() {
   const config = [];
   const [studentDetail, setStudentDetail] = React.useState({});
 
-  const [prevPath, setprevPath] = React.useState("");
+  const [prevPath, setprevPath] = React.useState('');
 
   const history = useHistory();
 
@@ -51,39 +49,39 @@ export default function StudentDetail() {
 
   return (
     <Box>
-      <Typography variant="h5">Student detail</Typography>
+      <Typography variant='h5'>Student detail</Typography>
 
       <Box my={2}>
-        <Typography variant="h6">
-          Student id: {studentDetail.user_id}{" "}
+        <Typography variant='h6'>
+          Student id: {studentDetail.user_id}{' '}
         </Typography>
 
-        <Typography variant="h6">
-          Student name: {studentDetail.user_name}{" "}
+        <Typography variant='h6'>
+          Student name: {studentDetail.user_name}{' '}
         </Typography>
 
-        <Typography variant="h6">Email: {studentDetail.email} </Typography>
+        <Typography variant='h6'>Email: {studentDetail.email} </Typography>
 
-        <Typography variant="h6">
-          Password: {studentDetail.password}{" "}
+        <Typography variant='h6'>
+          Password: {studentDetail.password}{' '}
         </Typography>
-        <Typography variant="h6">
+        <Typography variant='h6'>
           Date of birth:
-          <Moment format="MM/DD/YYYY">{studentDetail.date_of_birth}</Moment>
+          <Moment format='MM/DD/YYYY'>{studentDetail.date_of_birth}</Moment>
         </Typography>
-        <Typography variant="h6">
-          Is verified: {studentDetail.is_verified}{" "}
+        <Typography variant='h6'>
+          Is verified: {studentDetail.is_verified}{' '}
         </Typography>
-        <Typography variant="h6">
-          OTP verify URL: {studentDetail.otp_verify_url}{" "}
+        <Typography variant='h6'>
+          OTP verify URL: {studentDetail.otp_verify_url}{' '}
         </Typography>
-        <Typography variant="h6">Role ID: {studentDetail.role_id} </Typography>
+        <Typography variant='h6'>Role ID: {studentDetail.role_id} </Typography>
       </Box>
       <Link
-        to="/admin/student-management"
+        to='/admin/student-management'
         className={cn(classes.link, classes.my12)}
       >
-        <Button className={cn(classes.link, classes.my12)} variant="contained">
+        <Button className={cn(classes.link, classes.my12)} variant='contained'>
           Back
         </Button>
       </Link>

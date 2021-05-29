@@ -1,15 +1,12 @@
 import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import * as env from "../../config/env.config";
 import axios from "axios";
-
-import cn from "classnames";
-import { debounce } from "lodash";
-
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
+import * as env from "../../config/env.config";
+
+
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
   course_detail_wrapper: {},

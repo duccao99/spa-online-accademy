@@ -1,11 +1,10 @@
+import axios from 'axios';
 import React from 'react';
+import GitHubLogin from 'react-github-login';
 import {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET
 } from '../../config/env.config';
-
-import GitHubLogin from 'react-github-login';
-import axios from 'axios';
 
 const onSuccess = (res) => {
   console.log(res);

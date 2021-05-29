@@ -1,9 +1,8 @@
 import axios from 'axios';
 import React from 'react';
-
 import GoogleLogin from 'react-google-login';
-import * as env from '../../config/env.config';
 import { useHistory } from 'react-router-dom';
+import * as env from '../../config/env.config';
 import { swal2Timing } from '../../config/swal2.config';
 
 export default function ReactGoogleLogin() {

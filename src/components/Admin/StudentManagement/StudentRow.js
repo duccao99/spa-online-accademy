@@ -1,59 +1,46 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  TableFooter,
-  Box,
-  TextField,
-  FormControl,
-} from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import axios from "axios";
-import * as env from "../../../config/env.config";
-import { swal2Timing } from "../../../config/swal2.config";
-import { Link } from "react-router-dom";
-import Modal from "@material-ui/core/Modal";
-import AddSubCatModal from "../../CommonModal/AddSubCatModal";
-import Moment from "react-moment";
+import { Button, FormControl, TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+import React from 'react';
+import Moment from 'react-moment';
+import { Link } from 'react-router-dom';
+import * as env from '../../../config/env.config';
+import { swal2Timing } from '../../../config/swal2.config';
 
 const useStyles = makeStyles({
   table: {
-    width: "100%",
+    width: '100%'
   },
   btn: {
-    marginLeft: 12,
+    marginLeft: 12
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
     },
-    "&:hover": {
-      textDecoration: "underline",
-    },
-  },
+    '&:hover': {
+      textDecoration: 'underline'
+    }
+  }
 });
 
 export default function StudentRow({
   row,
   handleDelStudent,
   setIsEdit,
-  isEdit,
+  isEdit
 }) {
   const classes = useStyles();
 
   const [openEdit, setOpenEdit] = React.useState(false);
-  const [vl, setvl] = React.useState("");
-  const [username, setUsername] = React.useState("");
-  const [maile, setMaile] = React.useState("");
+  const [vl, setvl] = React.useState('');
+  const [username, setUsername] = React.useState('');
+  const [maile, setMaile] = React.useState('');
 
   const config = {};
 
@@ -69,27 +56,27 @@ export default function StudentRow({
     const edit_url = `${env.DEV_URL}/api/student/${id}`;
     const data = {
       user_name: `${username}`,
-      email: `${maile}`,
+      email: `${maile}`
     };
 
     axios
       .patch(edit_url, data, config)
       .then((ret) => {
         setOpenEdit(false);
-        const title = "Success!";
-        const html = "Edited!";
+        const title = 'Success!';
+        const html = 'Edited!';
         const timer = 2000;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
 
         return;
       })
       .catch((er) => {
         setOpenEdit(false);
-        const title = "Error!";
-        const html = "Something broke";
+        const title = 'Error!';
+        const html = 'Something broke';
         const timer = 2000;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
@@ -102,45 +89,45 @@ export default function StudentRow({
   React.useEffect(() => {}, [openEdit]);
   return openEdit === true ? (
     <TableRow openEdit={openEdit} setOpenEdit={setOpenEdit} hover>
-      <TableCell align="left" component="th" scope="row">
+      <TableCell align='left' component='th' scope='row'>
         {row.user_id}
       </TableCell>
-      <TableCell align="left" component="th" scope="row">
+      <TableCell align='left' component='th' scope='row'>
         <FormControl
           onKeyPress={(e) => {
             handleKeypress(e, row.user_id);
           }}
         >
           <TextField
-            label="username"
+            label='username'
             value={username}
             onChange={handleNewNameChange}
           />
         </FormControl>
       </TableCell>
-      <TableCell align="left" component="th" scope="row">
+      <TableCell align='left' component='th' scope='row'>
         <FormControl
           onKeyPress={(e) => {
             handleKeypress(e, row.user_id);
           }}
         >
-          <TextField label="Email" value={maile} onChange={handleMaileChange} />
+          <TextField label='Email' value={maile} onChange={handleMaileChange} />
         </FormControl>
-      </TableCell>{" "}
-      <TableCell align="left" component="th" scope="row">
+      </TableCell>{' '}
+      <TableCell align='left' component='th' scope='row'>
         {row.is_verified}
-      </TableCell>{" "}
-      <TableCell align="left" component="th" scope="row">
-        <Moment format="MM/DD/YYYY">{row.date_of_birth}</Moment>
+      </TableCell>{' '}
+      <TableCell align='left' component='th' scope='row'>
+        <Moment format='MM/DD/YYYY'>{row.date_of_birth}</Moment>
       </TableCell>
-      <TableCell align="right" component="th" scope="row">
+      <TableCell align='right' component='th' scope='row'>
         <Button
           onClick={() => {
             handleEditStudent(row.user_id);
           }}
           className={classes.btn}
-          variant="contained"
-          color="secondary"
+          variant='contained'
+          color='secondary'
         >
           Save
         </Button>
@@ -149,8 +136,8 @@ export default function StudentRow({
             setOpenEdit(false);
           }}
           className={classes.btn}
-          variant="contained"
-          color="default"
+          variant='contained'
+          color='default'
         >
           Back
         </Button>
@@ -158,10 +145,10 @@ export default function StudentRow({
     </TableRow>
   ) : (
     <TableRow openEdit={openEdit} setOpenEdit={setOpenEdit} hover>
-      <TableCell align="left" component="th" scope="row">
+      <TableCell align='left' component='th' scope='row'>
         {row.user_id}
       </TableCell>
-      <TableCell align="left" component="th" scope="row">
+      <TableCell align='left' component='th' scope='row'>
         <Link
           className={classes.link}
           to={`/admin/student-management/student/${row.user_id}`}
@@ -169,23 +156,23 @@ export default function StudentRow({
           {row.user_name}
         </Link>
       </TableCell>
-      <TableCell align="left" component="th" scope="row">
+      <TableCell align='left' component='th' scope='row'>
         {row.email}
-      </TableCell>{" "}
-      <TableCell align="left" component="th" scope="row">
+      </TableCell>{' '}
+      <TableCell align='left' component='th' scope='row'>
         {row.is_verified}
-      </TableCell>{" "}
-      <TableCell align="left" component="th" scope="row">
-        <Moment format="MM/DD/YYYY">{row.date_of_birth}</Moment>
+      </TableCell>{' '}
+      <TableCell align='left' component='th' scope='row'>
+        <Moment format='MM/DD/YYYY'>{row.date_of_birth}</Moment>
       </TableCell>
-      <TableCell align="right" component="th" scope="row">
+      <TableCell align='right' component='th' scope='row'>
         <Button
           onClick={() => {
             setOpenEdit(true);
           }}
           className={classes.btn}
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
         >
           Edit
         </Button>
@@ -194,8 +181,8 @@ export default function StudentRow({
             handleDelStudent(row.user_id);
           }}
           className={classes.btn}
-          variant="contained"
-          color="secondary"
+          variant='contained'
+          color='secondary'
         >
           Delete
         </Button>

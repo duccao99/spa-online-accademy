@@ -1,25 +1,22 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Button, TableFooter, Box } from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import axios from "axios";
-import * as env from "../../../config/env.config";
-import { swal2Timing } from "../../../config/swal2.config";
-import { Link } from "react-router-dom";
-import Modal from "@material-ui/core/Modal";
-import AddSubCatModal from "../../CommonModal/AddSubCatModal";
-import StudentRow from "./StudentRow";
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+import React from 'react';
+import * as env from '../../../config/env.config';
+import { swal2Timing } from '../../../config/swal2.config';
+import AddSubCatModal from '../../CommonModal/AddSubCatModal';
+import StudentRow from './StudentRow';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
-  },
+    minWidth: 650
+  }
 });
 
 export default function StudentManagement() {
@@ -45,19 +42,19 @@ export default function StudentManagement() {
     axios
       .delete(del_url, config)
       .then((ret) => {
-        const title = "Success!";
-        const html = "Student was deleted !";
+        const title = 'Success!';
+        const html = 'Student was deleted !';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
         setIsDel(!isDel);
         return;
       })
       .catch((er) => {
-        const title = "error!";
-        const html = "Something broke!";
+        const title = 'error!';
+        const html = 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
         setIsDel(!isDel);
       });
@@ -69,15 +66,15 @@ export default function StudentManagement() {
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
+      <Table className={classes.table} aria-label='simple table'>
         <TableHead>
           <TableRow>
-            <TableCell align="left">ID</TableCell>
-            <TableCell align="left">Student name</TableCell>
-            <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Is verified</TableCell>
-            <TableCell align="left">Date of birth</TableCell>
-            <TableCell align="right">Features</TableCell>
+            <TableCell align='left'>ID</TableCell>
+            <TableCell align='left'>Student name</TableCell>
+            <TableCell align='left'>Email</TableCell>
+            <TableCell align='left'>Is verified</TableCell>
+            <TableCell align='left'>Date of birth</TableCell>
+            <TableCell align='right'>Features</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

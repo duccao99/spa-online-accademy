@@ -1,24 +1,24 @@
-import { makeStyles } from "@material-ui/core";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import LanguageIcon from "@material-ui/icons/Language";
-import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
-import React from "react";
-import Subcat from "./Subcat";
+import { makeStyles } from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import LanguageIcon from '@material-ui/icons/Language';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import React from 'react';
+import Subcat from './Subcat';
 
 const style = makeStyles((theme) => ({
   left_cat_wrapper: {},
   nested: {
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(4)
   },
   cat_icon: {
-    "&.MuiListItemIcon-root": {
-      minWidth: 40,
-    },
-  },
+    '&.MuiListItemIcon-root': {
+      minWidth: 40
+    }
+  }
 }));
 
 export default function Cat({ cat_name, cat_id, all_subcat }) {

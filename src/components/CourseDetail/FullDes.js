@@ -1,75 +1,64 @@
-import {
-  Box,
-  Button,
-  Grid,
-  FormControl,
-  TextField,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import "react-quill/dist/quill.snow.css";
-import ReactQuill from "react-quill";
-import * as env from "../../config/env.config";
-import axios from "axios";
-import { swal2Timing } from "../../config/swal2.config";
-import { useParams } from "react-router-dom";
+import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useParams } from 'react-router-dom';
+import * as env from '../../config/env.config';
+import { swal2Timing } from '../../config/swal2.config';
 
-import cn from "classnames";
-import { debounce, reject } from "lodash";
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
   course_detail_wrapper: {},
   ava_course: {},
   section_header: {
     minHeight: 100,
-    marginTop: 100,
+    marginTop: 100
   },
   course_name: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   course_header_title: {
-    textAlign: "left",
+    textAlign: 'left',
     paddingTop: 12,
     paddingBottom: 12,
-    color: "white",
+    color: 'white'
   },
   section_short_des: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   des: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   section_description: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_syllabus: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_rating: {},
   section_feedback: {
-    marginBottom: 16,
+    marginBottom: 16
   },
   paper: {
     padding: 32,
-    textAlign: "left",
+    textAlign: 'left',
     color: theme.palette.text.secondary,
-    marginBottom: 16,
+    marginBottom: 16
   },
   box_cat: {
     padding: 12,
-    "& .MuiTypography-root": {
-      fontSize: common_fontsize,
-    },
+    '& .MuiTypography-root': {
+      fontSize: common_fontsize
+    }
   },
   title: {
-    color: "black",
-    fontWeight: 500,
-  },
+    color: 'black',
+    fontWeight: 500
+  }
 }));
 
 export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
@@ -81,7 +70,7 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
   const [fullDes, setFullDes] = useState();
   const [loadDing, setLoadDing] = useState(false);
   const [course_detail, set_course_detail] = React.useState({});
-  const [last_updated, set_last_updated] = useState("");
+  const [last_updated, set_last_updated] = useState('');
   const { course_id } = useParams();
 
   function getCourseDetail() {
@@ -108,7 +97,7 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
     const data = {
       user_id: insId,
       course_full_description: fullDes,
-      course_id: course_detail.course_id,
+      course_id: course_detail.course_id
     };
 
     axios
@@ -116,26 +105,26 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
       .then((ret) => {
         setUpdateCourseDetail(!updateCourseDetail);
         setLoadDing(false);
-        const title = "Success!";
-        const html = "Edited!";
+        const title = 'Success!';
+        const html = 'Edited!';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
       })
       .catch((er) => {
         setUpdateCourseDetail(!updateCourseDetail);
 
-        const title = "error!";
-        const html = "Something broke!";
+        const title = 'error!';
+        const html = 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
 
   useEffect(() => {
-    const curr_user_role = sessionStorage.getItem("user_role");
-    const user_login_id = sessionStorage.getItem("user_login_id");
+    const curr_user_role = sessionStorage.getItem('user_role');
+    const user_login_id = sessionStorage.getItem('user_login_id');
 
     setUserRole(+curr_user_role);
     setInsId(+user_login_id);
@@ -145,43 +134,43 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
 
   return isEdit === true ? (
     <Paper className={classes.paper}>
-      <Typography className={classes.title} variant="h5">
+      <Typography className={classes.title} variant='h5'>
         Full description
       </Typography>
       <Box my={3}>
-        <ReactQuill theme="snow" value={fullDes || ""} onChange={setFullDes} />
+        <ReactQuill theme='snow' value={fullDes || ''} onChange={setFullDes} />
       </Box>
 
       {+user_role === 3 && +course_detail.user_id === +insId ? (
         <div>
           {loadDing === true ? (
-            <Button className={classes.btn} variant="outlined" color="primary">
+            <Button className={classes.btn} variant='outlined' color='primary'>
               ... Loading
             </Button>
           ) : (
             <Button
               onClick={handleEditFulDes}
               className={classes.btn}
-              variant="contained"
-              color="secondary"
+              variant='contained'
+              color='secondary'
             >
               Save
             </Button>
           )}
         </div>
       ) : (
-        ""
+        ''
       )}
     </Paper>
   ) : (
     <Paper className={classes.paper}>
-      <Typography className={classes.title} variant="h5">
+      <Typography className={classes.title} variant='h5'>
         Full description
       </Typography>
       <Box
         my={3}
         dangerouslySetInnerHTML={{
-          __html: course_detail.course_full_description,
+          __html: course_detail.course_full_description
         }}
       ></Box>
 
@@ -189,13 +178,13 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
         <Button
           onClick={() => setIsEdit(true)}
           className={classes.btn}
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
         >
           Edit
         </Button>
       ) : (
-        ""
+        ''
       )}
     </Paper>
   );

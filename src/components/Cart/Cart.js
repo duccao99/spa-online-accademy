@@ -1,24 +1,24 @@
-import { Box, Container, Grid, makeStyles } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import Footer from "../Footer/Footer";
-import Navbar from "../Navbar/Navbar";
-import UserCart from "./UserCart";
-import UserPay from "./UserPay";
+import { Box, Container, Grid, makeStyles } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import Footer from '../Footer/Footer';
+import Navbar from '../Navbar/Navbar';
+import UserCart from './UserCart';
+import UserPay from './UserPay';
 
 const styles = makeStyles((theme) => ({
   cart_wrapper: {},
   paper: {
     padding: 32,
-    textAlign: "left",
-    color: theme.palette.text.secondary,
+    textAlign: 'left',
+    color: theme.palette.text.secondary
   },
   user_cart: {
-    minHeight: 300,
+    minHeight: 300
   },
   user_pay: {
-    minHeight: 300,
-  },
+    minHeight: 300
+  }
 }));
 
 function Cart(props) {
@@ -30,7 +30,7 @@ function Cart(props) {
 
   useEffect(() => {
     // navbar logout problem
-    const isLg = sessionStorage.getItem("isLogout", false);
+    const isLg = sessionStorage.getItem('isLogout', false);
 
     if (isLg !== null) {
       setisLogout(isLg);
@@ -63,7 +63,7 @@ function Cart(props) {
 
 const mapStateToProps = (state) => {
   return {
-    cart_global: state.cartReducer.cart,
+    cart_global: state.cartReducer.cart
   };
 };
 

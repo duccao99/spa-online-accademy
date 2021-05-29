@@ -1,25 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  Box,
-  Container,
-  Grid,
-  makeStyles,
-  FormControl,
-  TextField,
-  Paper,
-  Typography,
-  Button,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-} from "@material-ui/core";
-import * as env from "../../config/env.config";
-import axios from "axios";
-import cn from "classnames";
-import { debounce } from "lodash";
-import { useParams, useHistory, Link } from "react-router-dom";
-import { swal2Timing } from "../../config/swal2.config";
-import CardCourse from "../CardCourse/CardCourse";
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import * as env from '../../config/env.config';
+import CardCourse from '../CardCourse/CardCourse';
 
 const styles = makeStyles((theme) => ({}));
 
@@ -41,7 +24,7 @@ export default function CaseUploadedCourse({ email }) {
   return (
     <Grid container spacing={4}>
       <Grid item xs={12}>
-        <Typography variant="h6">Uploaded course</Typography>
+        <Typography variant='h6'>Uploaded course</Typography>
       </Grid>
 
       <Grid item xs={12}>
@@ -54,7 +37,7 @@ export default function CaseUploadedCourse({ email }) {
                   </Grid>
                 );
               })
-            : "There is no course"}
+            : 'There is no course'}
         </Grid>
       </Grid>
     </Grid>

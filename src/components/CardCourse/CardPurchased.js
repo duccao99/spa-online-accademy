@@ -6,10 +6,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ADD_COURSE_TO_CART } from '../../actionTypes/cart.type';
+import * as env from "../../config/env.config";
 
 const common_spacing = 32;
 
@@ -121,7 +123,14 @@ function CardPurchased(props) {
   const [toggle_buy_click, set_toggle_buy_click] = useState(false);
   const [email, set_email] = useState(undefined);
 
-  const handleEnroll = (e) => {};
+  const handleEnroll = (e) => {
+    const url=`${env.DEV_URL}/api/student/enroll`;
+    const data={
+      user_id:sessionStorage.getItem("user_login_id"),
+      course_id:course_id
+    }
+    axios.post(url,data,{}).then(ret=>{})
+  };
 
   useEffect(() => {
     const email = sessionStorage.getItem('email');
@@ -177,6 +186,7 @@ function CardPurchased(props) {
           <CardActions className={classes.card_action}>
             <Link to={`/student/enroll/course/${course_id}`}>
               <Button
+
                 className={classes.btn}
                 disabled={is_in_cart === true}
                 onClick={handleEnroll}

@@ -1,32 +1,27 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import { makeStyles } from "@material-ui/core/styles";
-import { Link, Route, useHistory } from "react-router-dom";
-import AdminContent from "./AdminContent";
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex'
   },
   paper: {
     padding: 32,
-    textAlign: "left",
+    textAlign: 'left',
     color: theme.palette.text.secondary,
-    minHeight: "80vh",
+    minHeight: '80vh'
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-  },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
+  }
 }));
 
 export default function DashboardSidebar({ setPage }) {
@@ -47,19 +42,19 @@ export default function DashboardSidebar({ setPage }) {
   };
 
   function handleListKeyDown(event) {
-    if (event.key === "Tab") {
+    if (event.key === 'Tab') {
       event.preventDefault();
       setOpen(false);
     }
   }
   const handleSignOutClick = (e) => {
-    sessionStorage.removeItem("user_name");
-    sessionStorage.removeItem("email");
+    sessionStorage.removeItem('user_name');
+    sessionStorage.removeItem('email');
     sessionStorage.clear();
 
-    sessionStorage.setItem("isLogout", true);
+    sessionStorage.setItem('isLogout', true);
 
-    return history.push("/");
+    return history.push('/');
   };
 
   // return focus to the button when we transitioned from !open -> open
