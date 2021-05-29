@@ -217,7 +217,7 @@ export default function SignIn() {
 
           <Box
             width='100%'
-            display='none'
+            display='flex'
             justifyContent='center'
             alignItems='center'
             my={3}
