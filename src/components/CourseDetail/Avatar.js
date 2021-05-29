@@ -65,7 +65,12 @@ const styles = makeStyles((theme) => ({
     position: 'absolute',
     bottom: 0,
     right: 0,
-    zIndex: '1500!important'
+    zIndex: '1500!important',
+    color: '#95f0ff',
+    '& .MuiButtonBase-root': {
+      border: 'none!important',
+      color: '#95f0ff'
+    }
   }
 }));
 

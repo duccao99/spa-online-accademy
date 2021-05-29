@@ -18,6 +18,7 @@ import ReactQuill from 'react-quill';
 import Rating from '@material-ui/lab/Rating';
 import { swal2Timing } from './../../config/swal2.config';
 import CardFeedback from '../CardFeedback/CardFeedback';
+import cn from 'classnames';
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -32,6 +33,13 @@ const styles = makeStyles((theme) => ({
   course_video: {},
   btn: {
     textTransform: 'capitalize'
+  },
+  chapter: {
+    // 'div.MuiPaper-root': {
+    //   backgroundColor: 'red!important',
+    //   transition: 'none!important;',
+    //   transitionDuration: '0s!important;'
+    // },
   }
 }));
 
@@ -50,6 +58,7 @@ export default function EnrollCourse() {
   const [detail, setDetail] = useState({});
   const [yourFeedback, setYourFeedback] = useState({});
   const [user_name, set_user_name] = useState('');
+  const [isUpdate, setIsUpdate] = useState(false);
 
   function getSyllabus() {
     const url = `${env.DEV_URL}/api/course/detail/syllabus/${+course_id}`;
@@ -114,6 +123,7 @@ export default function EnrollCourse() {
       star: rating
     };
     const url = `${env.DEV_URL}/api/student/upload-feedback`;
+    setIsUpdate(!isUpdate);
     axios
       .post(url, data, {})
       .then((ret) => {
@@ -138,9 +148,18 @@ export default function EnrollCourse() {
       'user_login_id'
     )}&course_id=${course_id}`;
 
-    axios.get(url, {}).then((ret) => {
-      setYourFeedback(ret.data.your_feedback);
-    });
+    axios
+      .get(url, {})
+      .then((ret) => {
+        if (ret.data.your_feedback === undefined) {
+          setYourFeedback(null);
+        } else {
+          setYourFeedback(ret.data.your_feedback);
+        }
+      })
+      .catch((er) => {
+        setYourFeedback(null);
+      });
   }
 
   useEffect(() => {
@@ -151,7 +170,7 @@ export default function EnrollCourse() {
     getSyllabus();
     courseDetail();
     getYourFeedback();
-  }, []);
+  }, [isUpdate]);
 
   return (
     <React.Fragment>
@@ -162,11 +181,13 @@ export default function EnrollCourse() {
             <Grid item xs={12} md={8}>
               <Paper className={classes.paper}>
                 <Typography variant='h6'>{detail.course_name} </Typography>
-                <Typography variant='h6'>{detail.course_title} </Typography>
+                <Box my={3}>
+                  <Typography variant='h6'>{detail.course_title} </Typography>
+                </Box>
               </Paper>
             </Grid>
             <Grid item xs={12} md={8}>
-              <Paper className={classes.paper}>
+              <Paper className={cn(classes.paper, classes.chapter)}>
                 <Typography variant='h6'>Chapter </Typography>
                 <Box className={classes.course_video}>
                   {chapters.map((ele, i) => {
@@ -180,12 +201,16 @@ export default function EnrollCourse() {
               <Paper className={classes.paper}>
                 <Typography variant='h6'>Your feedback </Typography>
                 <Box className={classes.course_video}>
-                  <CardFeedback
-                    user_id={yourFeedback.user_id}
-                    course_id={yourFeedback.course_id}
-                    review_content={yourFeedback.review_content}
-                    star={yourFeedback.star}
-                  />
+                  {yourFeedback === null ? (
+                    "You haven't feedback this course yet!"
+                  ) : (
+                    <CardFeedback
+                      user_id={yourFeedback.user_id}
+                      course_id={yourFeedback.course_id}
+                      review_content={yourFeedback.review_content}
+                      star={yourFeedback.star}
+                    />
+                  )}
                 </Box>
               </Paper>
             </Grid>

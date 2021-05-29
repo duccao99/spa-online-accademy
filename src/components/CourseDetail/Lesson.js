@@ -217,7 +217,7 @@ export default function Lesson({
     <React.Fragment>
       <Collapse in={open} timeout='auto' unmountOnExit>
         <List component='div' disablePadding>
-          <ListItem button className={classes.nested}>
+          <ListItem disableRipple={true} button className={classes.nested}>
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>

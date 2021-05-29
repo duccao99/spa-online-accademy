@@ -8,13 +8,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import axios from 'axios';
 import cn from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useParams } from 'react-router-dom';
 import * as env from '../../config/env.config';
 import { swal2Timing } from '../../config/swal2.config';
-import VideoPreview from '../CommonVideo/VideoPreview';
+import VideoStudy from '../CommonVideo/VideoStudy';
 const common_fontsize = 18;
 
 const styles = makeStyles((theme) => ({
@@ -66,7 +66,15 @@ const styles = makeStyles((theme) => ({
   },
 
   nested: {
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(4),
+    '&div.MuiMenu-paper': {
+      transition: ' none !important;',
+      transitionDuration: '0s !important;'
+    },
+    '&.MuiListItem-button': {
+      transition: ' none !important;',
+      transitionDuration: '0s !important;'
+    }
   },
   preview: {
     height: '100vh',
@@ -116,6 +124,16 @@ const styles = makeStyles((theme) => ({
       justifyContent: 'center',
       alignItems: 'center'
     }
+  },
+  list: {
+    'div.MuiMenu-paper': {
+      transition: ' none !important;',
+      transitionDuration: '0s !important;'
+    }
+  },
+  father: {},
+  btn: {
+    textTransform: 'capitalize'
   }
 }));
 // "Lesson is not completed"
@@ -197,11 +215,7 @@ export default function Lesson({
     setisCloseVideo(!isCloseVideo);
     setmuted(!muted);
   };
-  const react_player_config = {
-    youtube: {
-      playerVars: { showinfo: 1 }
-    }
-  };
+
   useEffect(() => {
     const curr_user_role = sessionStorage.getItem('user_role');
     const user_login_id = sessionStorage.getItem('user_login_id');
@@ -213,17 +227,29 @@ export default function Lesson({
 
     getCourseDetail();
   }, [isEdit, update]);
+
+  // try hard again to handle video timing
+  const videoRef = useRef();
+  // console.log(videoRef);
+
   return (
     <React.Fragment>
-      <Collapse in={open} timeout='auto' unmountOnExit>
-        <List component='div' disablePadding>
-          <ListItem button className={classes.nested}>
+      <Collapse
+        in={open}
+        timeout='auto'
+        unmountOnExit
+        className={classes.father}
+      >
+        <List className={classes.list} component='div' disablePadding>
+          <ListItem disableRipple={true} button className={classes.nested}>
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>
             <ListItemText primary={`${lesson_name}`} />
 
-            <Button onClick={handleCloseVideo}>Learn</Button>
+            <Button className={classes.btn} onClick={handleCloseVideo}>
+              Learn
+            </Button>
           </ListItem>
         </List>
       </Collapse>
@@ -257,7 +283,13 @@ export default function Lesson({
         </Box>
 
         <Box>
-          <VideoPreview muted={muted} lesson_video_url={lesson_video_url} />
+          <VideoStudy
+            user_id={+sessionStorage.getItem('user_login_id')}
+            lesson_id={lesson_id}
+            ref={videoRef}
+            muted={muted}
+            lesson_video_url={lesson_video_url}
+          />
         </Box>
 
         {isEdit === true ? (

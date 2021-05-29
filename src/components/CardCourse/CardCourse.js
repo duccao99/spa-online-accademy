@@ -142,7 +142,15 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 0,
     right: 0,
-    zIndex: '1500!important'
+    zIndex: '1500!important',
+    border: 'none!important',
+    '& .MuiButtonBase-root': {
+      border: 'none!important',
+      color: '#95f0ff'
+    },
+    '& .MuiButton-outlinedPrimary': {
+      border: 'none!important'
+    }
   }
 }));
 

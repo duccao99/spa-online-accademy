@@ -1,0 +1,10 @@
+1. Ripple error 
+- disableRipple = true 
+
+2. Pseudo CSS 
+- & div.className
+- &:hover ...
+
+3. How to save timing video ? 
+-> save those stuff user_id, lesson_id, min, hour, second in to database 
+-> when user login -> pull it from db then render

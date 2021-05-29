@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Player,
   ControlBar,
@@ -7,18 +7,18 @@ import {
   CurrentTimeDisplay,
   TimeDivider,
   PlaybackRateMenuButton,
-  VolumeMenuButton,
-} from "video-react";
-import "video-react/dist/video-react.css"; // import css
+  VolumeMenuButton
+} from 'video-react';
+import 'video-react/dist/video-react.css'; // import css
 
 export default function VideoPreview(props) {
   return (
-    <Player muted={props.muted} poster="/assets/poster.png">
+    <Player muted={props.muted} poster='/assets/poster.png'>
       <source
         src={
           props.lesson_video_url
             ? props.lesson_video_url
-            : "https://www.youtube.com/watch?v=hBudaNjwaoU"
+            : 'https://www.youtube.com/watch?v=hBudaNjwaoU'
         }
       />
 
