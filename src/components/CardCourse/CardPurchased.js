@@ -95,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
       width: '100px',
       backgroundColor: '#e2e27a'
     }
+  },
+  btn: {
+    textTransform: 'capitalize'
   }
 }));
 
@@ -174,6 +177,7 @@ function CardPurchased(props) {
           <CardActions className={classes.card_action}>
             <Link to={`/student/enroll/course/${course_id}`}>
               <Button
+                className={classes.btn}
                 disabled={is_in_cart === true}
                 onClick={handleEnroll}
                 variant='contained'

@@ -72,7 +72,9 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
     setOpen(!open);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(lessons);
+  }, []);
 
   return (
     <React.Fragment>
@@ -85,12 +87,14 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
       </ListItem>
 
       {lessons.length === 0 || lessons === null || lessons === undefined
-        ? 'Chap is not completed'
+        ? ''
         : lessons.map((ele, i) => {
-            return ele.chap_id === chap_id ? (
+            return +ele.chap_id === +chap_id &&
+              ele.lesson_name !== null &&
+              ele.chap_id !== null ? (
               <Lesson {...ele} key={i} open={open} isLessonCompleted={true} />
             ) : (
-              <Lesson {...ele} key={i} open={open} isLessonCompleted={false} />
+              ''
             );
           })}
     </React.Fragment>

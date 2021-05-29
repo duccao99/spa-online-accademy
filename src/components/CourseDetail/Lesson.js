@@ -222,11 +222,7 @@ export default function Lesson({
               <MenuBookIcon />
             </ListItemIcon>
             <ListItemText
-              primary={`${
-                isLessonCompleted === false
-                  ? 'Lesson is not completed'
-                  : lesson_name
-              }`}
+              primary={`${lesson_name === null ? '' : lesson_name}`}
             />
 
             {+flag_reviewable === 1 && isLessonCompleted === true ? (

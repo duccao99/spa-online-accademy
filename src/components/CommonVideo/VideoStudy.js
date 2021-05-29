@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Player,
   ControlBar,
@@ -20,19 +20,35 @@ import * as env from '../../config/env.config';
 
 function VideoStudy(props) {
   const { ref, video_state, lesson_id, user_id } = props;
+  const [historyTime, setHistoryTime] = useState(0);
   const handleChange = (e) => {
     // console.log(e);
   };
+
+  function getHistory() {
+    const url = `${env.DEV_URL}/api/student/history?user_id=${user_id}&lesson_id=${lesson_id}`;
+    axios.get(url, {}).then((ret) => {
+      console.log(ret);
+      setHistoryTime(+ret.data.history_time);
+    });
+  }
 
   const handleStore = (store) => {
     // console.log(store);
   };
   const handlePlaying = (e) => {
-    console.log(e);
-    console.log(e.target.currentTime);
+    // console.log(e);
+    // console.log(e.target.currentTime);
 
-    const url = `$`;
-    const data = {};
+    // console.log('lesson id:', lesson_id);
+    // console.log('user id ', user_id);
+
+    const url = `${env.DEV_URL}/api/student/history-watching`;
+    const data = {
+      user_id,
+      lesson_id,
+      start_time: e.target.currentTime
+    };
     axios.post(url, data, {}).then((ret) => {});
   };
 
@@ -42,13 +58,14 @@ function VideoStudy(props) {
     // console.log(Video);
     // console.log(Video);
     // console.log(video_state);
-    console.log(handlePlay);
-  }, [playerReducer]);
+    // console.log(handlePlay);
+    getHistory();
+  }, []);
   return (
     <Player
       ref={ref}
       onPlaying={handlePlaying}
-      startTime={4}
+      startTime={historyTime}
       poster='/assets/poster.png'
     >
       <source

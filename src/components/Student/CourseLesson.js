@@ -285,7 +285,7 @@ export default function Lesson({
         <Box>
           <VideoStudy
             user_id={+sessionStorage.getItem('user_login_id')}
-            lesson_id={lesson_id}
+            lesson_id={+lesson_id}
             ref={videoRef}
             muted={muted}
             lesson_video_url={lesson_video_url}

@@ -102,9 +102,9 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       {lessons.length === 0 || lessons === null || lessons === undefined
-        ? 'Lesson not completed'
+        ? ''
         : lessons.map((ele, i) => {
-            return ele.chap_id === chap_id ? (
+            return +ele.chap_id === +chap_id ? (
               <CourseLesson
                 {...ele}
                 key={i}
@@ -112,12 +112,7 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
                 isLessonCompleted={true}
               />
             ) : (
-              <CourseLesson
-                {...ele}
-                key={i}
-                open={open}
-                isLessonCompleted={false}
-              />
+              ''
             );
           })}
 
