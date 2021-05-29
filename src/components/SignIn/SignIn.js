@@ -217,18 +217,7 @@ export default function SignIn() {
 
           <Box
             width='100%'
-            display='flex'
             display='none'
-            justifyContent='center'
-            alignItems='center'
-            my={3}
-          >
-            <ReactGoogleLogin />
-          </Box>
-
-          <Box
-            width='100%'
-            display='flex'
             justifyContent='center'
             alignItems='center'
             my={3}
