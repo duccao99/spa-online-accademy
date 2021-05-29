@@ -21,6 +21,6 @@
 
 `MySQL`
 
-**Site: https://60b23c6f2f37478eccfcd7cf--spa-online-academy.netlify.app/courses-list**
+**Site: https://60b23c6f2f37478eccfcd7cf--spa-online-academy.netlify.app/**
 <br/>
 **Backend source:** https://github.com/ducccao/Online-Academy-API-Service
