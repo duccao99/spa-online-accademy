@@ -18,7 +18,10 @@ const styles = makeStyles((theme) => ({
     width: '100%'
   },
   btn: {
-    marginLeft: 12
+    marginLeft: 12,
+    fontSize: 'initial',
+    textTransform: 'initial',
+    width: 100
   },
   link: {
     color: 'inherit',
@@ -33,6 +36,9 @@ const styles = makeStyles((theme) => ({
   },
   TextField: {
     height: '100%'
+  },
+  group_btn: {
+    display: 'flex'
   }
 }));
 
@@ -160,7 +166,7 @@ export default function InsRow({
         <Moment format='MM/DD/YYYY'>{row.date_of_birth}</Moment>
       </TableCell>
       <TableCell align='left'>{row.is_verified}</TableCell>
-      <TableCell align='right'>
+      <TableCell className={classes.group_btn}>
         <Button
           onClick={() => {
             setopenEdit(true);
