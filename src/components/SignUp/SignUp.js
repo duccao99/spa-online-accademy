@@ -50,6 +50,13 @@ const useStyles = makeStyles((theme) => ({
       color: "inherit",
       textDecoration: "none",
     },
+    "&:hover": {
+      fontWeight: "550",
+      textDecoration: "none",
+    },
+  },
+  navigateLink: {
+    justifyContent: "center",
   },
 }));
 
@@ -254,7 +261,7 @@ export default function SignUp() {
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container className={classes.navigateLink}>
             <Grid item>
               <Link className={classes.link} to="/user/sign-in" variant="body2">
                 Already have an account? Sign in
