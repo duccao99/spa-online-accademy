@@ -34,14 +34,15 @@ export default function Verify() {
       .get(verify_url, config)
       .then((ret) => {
         if (+ret.data.verify_status.affectedRows === 1) {
-          window.close();
+          alert('Verify successfully!');
         } else {
-          window.close();
+          alert('Verify failed!');
         }
       })
       .catch((er) => {
         window.close();
       });
+    window.close();
   };
   useEffect(() => {}, []);
   return (
