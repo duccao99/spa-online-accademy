@@ -6,19 +6,19 @@ import {
   makeStyles,
   Paper,
   TextField,
-  Typography
-} from '@material-ui/core';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import axios from 'axios';
-import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import * as env from '../../config/env.config';
-import { swal2Timing } from '../../config/swal2.config';
-import Navbar from '../Navbar/Navbar';
-import Footer from './../Footer/Footer';
+  Typography,
+} from "@material-ui/core";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import axios from "axios";
+import React, { useState } from "react";
+import ReactQuill from "react-quill";
+// import 'react-quill/dist/quill.snow.css';
+import * as env from "../../config/env.config";
+import { swal2Timing } from "../../config/swal2.config";
+import Navbar from "../Navbar/Navbar";
+import Footer from "./../Footer/Footer";
 
 const common_spacing = 32;
 
@@ -27,140 +27,140 @@ const CdnFileInput = () => {
 };
 
 const styles = makeStyles((theme) => ({
-  '@global': {
-    '*::-webkit-scrollbar': {
-      width: '1em',
-      display: 'initial'
+  "@global": {
+    "*::-webkit-scrollbar": {
+      width: "1em",
+      display: "initial",
     },
-    '*::-webkit-scrollbar-track': {
-      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+    "*::-webkit-scrollbar-track": {
+      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
     },
-    '*::-webkit-scrollbar-thumb': {
+    "*::-webkit-scrollbar-thumb": {
       backgroundColor: `#455a64`,
-      outline: '1px solid slategrey'
-    }
+      outline: "1px solid slategrey",
+    },
   },
   formControl: {
     // margin: theme.spacing(1),
-    minWidth: 120
+    minWidth: 120,
   },
   selectEmpty: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   container: {
-    backgroundColor: '#fafafa'
+    backgroundColor: "#fafafa",
   },
   cdn: {},
   icon: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(12, 0, 12),
-    boxShadow: '0 4px 8px rgb(0 1 1 / 10%)'
+    boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
   },
   heroButtons: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
+    paddingBottom: theme.spacing(8),
   },
   card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    boxShadow: '0 4px 8px rgb(0 1 1 / 10%)'
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
   },
   cardMedia: {
-    paddingTop: '56.25%' // 16:9
+    paddingTop: "56.25%", // 16:9
   },
   cardContent: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6)
+    padding: theme.spacing(6),
   },
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
-    display: 'flex'
+    display: "flex",
   },
 
   btn_sign_in: {
-    color: 'inherit',
-    textDecoration: 'none',
-    textTransform: 'capitalize',
-    '&:visited': {
-      color: 'inherit',
-      textDecoration: 'none'
-    }
+    color: "inherit",
+    textDecoration: "none",
+    textTransform: "capitalize",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
   },
   ten_most_newest_courses: {
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: common_spacing,
-    marginBottom: common_spacing
+    marginBottom: common_spacing,
   },
   outstanding_courses: {
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: common_spacing,
-    marginBottom: common_spacing
+    marginBottom: common_spacing,
   },
   card_wrapper: {
     // marginBottom: common_spacing * 2,
   },
   nav_typo: {
-    margin: 12
+    margin: 12,
   },
   btn_si: {
-    textTransform: 'capitalize'
+    textTransform: "capitalize",
   },
   outstanding_course_wrapper: {
     marginTop: 100,
-    marginBottom: 100
+    marginBottom: 100,
   },
   link: {
-    color: 'inherit',
-    textDecoration: 'none',
-    '&:visited': {
-      color: 'inherit',
-      textDecoration: 'none'
-    }
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
   },
   btn: {
-    textTransform: 'capitalize'
+    textTransform: "capitalize",
   },
   cart_css: {
-    color: 'white'
+    color: "white",
   },
   header: {
     marginTop: 100,
-    marginBottom: 100
+    marginBottom: 100,
   },
   list_cat_container: {
-    display: 'flex',
-    justifyContent: 'center'
+    display: "flex",
+    justifyContent: "center",
   },
   table: {
-    '&.MuiTableContainer-root': {
-      width: 'unset'
-    }
+    "&.MuiTableContainer-root": {
+      width: "unset",
+    },
   },
   box_cat: {
-    display: 'flex;',
-    justifyContent: 'center;',
-    alignItems: 'center;',
-    width: '100%'
+    display: "flex;",
+    justifyContent: "center;",
+    alignItems: "center;",
+    width: "100%",
   },
   opa05: {
-    opacity: 0.5
-  }
+    opacity: 0.5,
+  },
 }));
 
 export default function UploadCourse({ match }) {
@@ -170,17 +170,17 @@ export default function UploadCourse({ match }) {
   const [isLogout, setisLogout] = useState(true);
   const [isUpdate, setIsUpdate] = useState(false);
 
-  const [shortDes, setShortDes] = useState('');
-  const [fullDes, setFullDes] = useState('');
+  const [shortDes, setShortDes] = useState("");
+  const [fullDes, setFullDes] = useState("");
 
-  const [subCatChoosen, setSubCatChoosen] = useState('');
+  const [subCatChoosen, setSubCatChoosen] = useState("");
   const [subCatArr, setSubCatArr] = useState([1, 2, 3]);
 
   const [course_state, set_course_state] = useState({
-    course_name: '',
-    course_title: '',
-    course_avatar_url: '',
-    course_fee: ''
+    course_name: "",
+    course_title: "",
+    course_avatar_url: "",
+    course_fee: "",
   });
 
   //---------------------------
@@ -192,11 +192,11 @@ export default function UploadCourse({ match }) {
   // const handleFileInput = (e) => {
   //   onFileSel;
   // };
-  const [file, setfile] = useState('');
-  const [image, setimage] = useState('');
-  const [image_name, setimage_name] = useState('');
+  const [file, setfile] = useState("");
+  const [image, setimage] = useState("");
+  const [image_name, setimage_name] = useState("");
   const [isComponentUpdate, setisComponentUpdate] = React.useState(false);
-  const [base64Image, setBase64Image] = useState('');
+  const [base64Image, setBase64Image] = useState("");
   const [img_upload, setImg_upload] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -210,7 +210,7 @@ export default function UploadCourse({ match }) {
 
     for (const file of e.target.files) {
       const reader = new FileReader();
-      console.log('read file');
+      console.log("read file");
 
       reader.fileName = file.name;
       reader.onloadstart = () => {
@@ -218,14 +218,14 @@ export default function UploadCourse({ match }) {
       };
 
       reader.onloadend = (readerEvt) => {
-        var base64Ret = reader.result.split(',')[1];
+        var base64Ret = reader.result.split(",")[1];
         const new_upload = [
           ...img_upload,
           {
             imageUrl: reader.result,
             enc: base64Ret,
-            fileName: readerEvt.target.fileName
-          }
+            fileName: readerEvt.target.fileName,
+          },
         ];
 
         const new_img = reader.result;
@@ -299,7 +299,7 @@ export default function UploadCourse({ match }) {
     const value = ev.target.value;
     set_course_state({
       ...course_state,
-      [ev.target.name]: value
+      [ev.target.name]: value,
     });
   };
 
@@ -309,22 +309,22 @@ export default function UploadCourse({ match }) {
     // );
     const config = {
       headers: {
-        'content-type': 'multipart/form-data'
-      }
+        "content-type": "multipart/form-data",
+      },
     };
 
     const formAvaData = new FormData();
 
     // formAvaData.append("ava", image);
     // formAvaData.append("ava", base64Image);
-    formAvaData.append('ava', selectedFile);
-    formAvaData.append('course_name', course_state.course_name);
-    formAvaData.append('course_title', course_state.course_title);
-    formAvaData.append('course_fee', course_state.course_fee);
-    formAvaData.append('course_full_description', fullDes);
-    formAvaData.append('course_short_description', shortDes);
-    formAvaData.append('subject_id', subCatChoosen);
-    formAvaData.append('user_id', +sessionStorage.getItem('user_login_id'));
+    formAvaData.append("ava", selectedFile);
+    formAvaData.append("course_name", course_state.course_name);
+    formAvaData.append("course_title", course_state.course_title);
+    formAvaData.append("course_fee", course_state.course_fee);
+    formAvaData.append("course_full_description", fullDes);
+    formAvaData.append("course_short_description", shortDes);
+    formAvaData.append("subject_id", subCatChoosen);
+    formAvaData.append("user_id", +sessionStorage.getItem("user_login_id"));
 
     const upload_course_url = `${env.DEV_URL}/api/instructor/upload-course`;
     setLoading(true);
@@ -334,10 +334,10 @@ export default function UploadCourse({ match }) {
         // alert("ok");
         setLoading(false);
         setisComponentUpdate(!isComponentUpdate);
-        const title = 'Success!';
-        const html = 'Course add success!';
+        const title = "Success!";
+        const html = "Course add success!";
         const timer = 2500;
-        const icon = 'success';
+        const icon = "success";
         swal2Timing(title, html, timer, icon);
       })
       .catch((er) => {
@@ -347,16 +347,16 @@ export default function UploadCourse({ match }) {
         setisComponentUpdate(!isComponentUpdate);
 
         if (er.response !== undefined) {
-          const title = 'error!';
-          const html = 'Something broke!';
+          const title = "error!";
+          const html = "Something broke!";
           const timer = 2500;
-          const icon = 'error';
+          const icon = "error";
           swal2Timing(title, html, timer, icon);
         } else {
-          const title = 'error!';
-          const html = 'Something broke!';
+          const title = "error!";
+          const html = "Something broke!";
           const timer = 2500;
-          const icon = 'error';
+          const icon = "error";
           swal2Timing(title, html, timer, icon);
         }
       });
@@ -369,42 +369,42 @@ export default function UploadCourse({ match }) {
     return (
       <Box className={classes.cdn}>
         <link
-          rel='stylesheet'
-          href='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css'
-          crossorigin='anonymous'
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          crossorigin="anonymous"
         />
         <link
-          href='https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/css/fileinput.min.css'
-          media='all'
-          rel='stylesheet'
-          type='text/css'
+          href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/css/fileinput.min.css"
+          media="all"
+          rel="stylesheet"
+          type="text/css"
         />
         <link
-          rel='stylesheet'
-          href='https://use.fontawesome.com/releases/v5.5.0/css/all.css'
-          crossorigin='anonymous'
+          rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          crossorigin="anonymous"
         />
 
         <script
-          src='https://code.jquery.com/jquery-3.5.1.min.js'
-          crossorigin='anonymous'
+          src="https://code.jquery.com/jquery-3.5.1.min.js"
+          crossorigin="anonymous"
         ></script>
         <script
-          src='https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/plugins/piexif.min.js'
-          type='text/javascript'
+          src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/plugins/piexif.min.js"
+          type="text/javascript"
         ></script>
         <script
-          src='https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/plugins/sortable.min.js'
-          type='text/javascript'
+          src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/plugins/sortable.min.js"
+          type="text/javascript"
         ></script>
-        <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js'></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         <script
-          src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js'
-          crossorigin='anonymous'
+          src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+          crossorigin="anonymous"
         ></script>
-        <script src='https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/fileinput.min.js'></script>
-        <script src='https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/themes/fas/theme.min.js'></script>
-        <script src='https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/locales/LANG.js'></script>
+        <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/fileinput.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/themes/fas/theme.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/locales/LANG.js"></script>
       </Box>
     );
   };
@@ -413,7 +413,7 @@ export default function UploadCourse({ match }) {
     //
     // console.log("upload course match ", match);
     // check is verify account
-    let email = sessionStorage.getItem('email');
+    let email = sessionStorage.getItem("email");
 
     if (email !== null) {
       set_is_logged_in(true);
@@ -423,16 +423,16 @@ export default function UploadCourse({ match }) {
       axios.get(verified_url, config).then((ret) => {
         set_is_verified(ret.data.isVerified);
         if (ret.data.isVerified === false) {
-          const icon = 'warning';
-          const title = 'Verify!';
-          const html = 'Please verify your email account!';
+          const icon = "warning";
+          const title = "Verify!";
+          const html = "Please verify your email account!";
           const timer = 3500;
           swal2Timing(title, html, timer, icon);
         }
       });
     }
 
-    const isLg = sessionStorage.getItem('isLogout', false);
+    const isLg = sessionStorage.getItem("isLogout", false);
 
     if (isLg !== null) {
       setisLogout(isLg);
@@ -448,24 +448,24 @@ export default function UploadCourse({ match }) {
     <React.Fragment>
       <Box className={classes.container}>
         <Navbar setisLogout={setisLogout} />
-        <Container maxWidth='sm'>
+        <Container maxWidth="sm">
           <Box my={12} p={3} component={Paper}>
             <form
-              encType='multipart/form-data'
+              encType="multipart/form-data"
               onSubmit={handleSubmit}
               onKeyPress={handleKeypress}
             >
               <Box my={3}>
-                <Typography variant='h5'>Upload course</Typography>
+                <Typography variant="h5">Upload course</Typography>
               </Box>
               <Box my={3}>
                 <FormControl fullWidth>
                   <TextField
                     fullWidth
-                    type='text'
-                    label='Course name'
-                    name='course_name'
-                    id='course_name'
+                    type="text"
+                    label="Course name"
+                    name="course_name"
+                    id="course_name"
                     value={course_state.course_name}
                     onChange={handleCourseStateChange}
                   />
@@ -475,10 +475,10 @@ export default function UploadCourse({ match }) {
                 <FormControl fullWidth>
                   <TextField
                     fullWidth
-                    type='text'
-                    label='Title'
-                    name='course_title'
-                    id='course_title'
+                    type="text"
+                    label="Title"
+                    name="course_title"
+                    id="course_title"
                     value={course_state.course_title}
                     onChange={handleCourseStateChange}
                   />
@@ -487,22 +487,22 @@ export default function UploadCourse({ match }) {
 
               <Box my={3}>
                 <Box my={3}>
-                  <Typography variant='h5' component='p'>
+                  <Typography variant="h5" component="p">
                     Category
                   </Typography>
                 </Box>
                 <FormControl
                   fullWidth
-                  variant='filled'
+                  variant="filled"
                   className={classes.formControl}
                 >
-                  <InputLabel id='demo-simple-select-filled-label'>
+                  <InputLabel id="demo-simple-select-filled-label">
                     Category
                   </InputLabel>
                   <Select
                     fullWidth
-                    labelId='demo-simple-select-filled-label'
-                    id='demo-simple-select-filled'
+                    labelId="demo-simple-select-filled-label"
+                    id="demo-simple-select-filled"
                     value={subCatChoosen}
                     onChange={handleSubCatChange}
                   >
@@ -517,7 +517,7 @@ export default function UploadCourse({ match }) {
                             </MenuItem>
                           );
                         })
-                      : ''}
+                      : ""}
                   </Select>
                 </FormControl>
               </Box>
@@ -526,10 +526,10 @@ export default function UploadCourse({ match }) {
                 <FormControl fullWidth>
                   <TextField
                     fullWidth
-                    type='number'
-                    label='Fee'
-                    name='course_fee'
-                    id='course_fee'
+                    type="number"
+                    label="Fee"
+                    name="course_fee"
+                    id="course_fee"
                     value={course_state.course_fee}
                     onChange={handleCourseStateChange}
                   />
@@ -538,13 +538,13 @@ export default function UploadCourse({ match }) {
 
               <Box my={3}>
                 <Box my={3}>
-                  <Typography variant='h5' component='p'>
+                  <Typography variant="h5" component="p">
                     Full description
                   </Typography>
                 </Box>
                 <FormControl fullWidth>
                   <ReactQuill
-                    theme='snow'
+                    theme="snow"
                     value={fullDes}
                     onChange={setFullDes}
                   />
@@ -553,13 +553,13 @@ export default function UploadCourse({ match }) {
 
               <Box my={3}>
                 <Box my={3}>
-                  <Typography variant='h5' component='p'>
+                  <Typography variant="h5" component="p">
                     Short description
                   </Typography>
                 </Box>
                 <FormControl fullWidth>
                   <ReactQuill
-                    theme='snow'
+                    theme="snow"
                     value={shortDes}
                     onChange={setShortDes}
                   />
@@ -568,20 +568,20 @@ export default function UploadCourse({ match }) {
 
               <Box my={3}>
                 <Box my={3}>
-                  <Typography variant='h5' component='p'>
+                  <Typography variant="h5" component="p">
                     Avatar
                   </Typography>
                 </Box>
 
                 <input
-                  id='input-b1'
-                  name='input-b1'
-                  type='file'
-                  className='file'
+                  id="input-b1"
+                  name="input-b1"
+                  type="file"
+                  className="file"
                   onChange={(e) => handleFileInputChange(e)}
                   // onChange={(e) => onUploadAva(e)}
                   // onChange={(e) => uploadImageChange(e)}
-                  data-browse-on-zone-click='true'
+                  data-browse-on-zone-click="true"
                 ></input>
                 {/* <FileUploader onFileSelect={(f) => setSelectedFile(f)} /> */}
               </Box>
@@ -592,8 +592,8 @@ export default function UploadCourse({ match }) {
                     fullWidth
                     onClick={handleClick}
                     className={classes.btn}
-                    variant='outlined'
-                    color='primary'
+                    variant="outlined"
+                    color="primary"
                   >
                     Loading ...
                   </Button>
@@ -601,14 +601,14 @@ export default function UploadCourse({ match }) {
                   <Button
                     onClick={handleClick}
                     className={classes.btn}
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                   >
                     Upload
                   </Button>
                 )}
               </Box>
-            </form>{' '}
+            </form>{" "}
           </Box>
           <Box className={classes.cdn}></Box>
         </Container>
