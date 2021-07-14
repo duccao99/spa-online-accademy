@@ -209,7 +209,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="Username"
-                label="Username"
+                label="Name"
                 autoFocus
                 onChange={handleUsernameChange}
               />

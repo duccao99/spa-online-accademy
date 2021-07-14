@@ -57,8 +57,9 @@ function HomePage(props) {
       marginRight: theme.spacing(2),
     },
     heroContent: {
-      backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(12, 0, 12),
+      // backgroundColor: theme.palette.background.paper,
+      backgroundImage: 'url("/banner.png")',
+      padding: theme.spacing(15, 0, 15),
       boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
     },
     heroButtons: {
@@ -163,6 +164,21 @@ function HomePage(props) {
     btn_join: {
       width: "100px",
       textTransform: "capitalize",
+    },
+    bannerContent: {
+      backgroundColor: "rgba(255, 255, 255, 0.85)",
+      justifyContent: "center",
+    },
+    bannerTextHeader: {
+      color: "black",
+      fontWeight: "500",
+    },
+    bannerText: {
+      textAlign: "center",
+    },
+    course_list_section: {
+      borderTop: "1px solid black",
+      paddingTop: "30px",
     },
   }));
 
@@ -308,26 +324,26 @@ function HomePage(props) {
       <Navbar setisLogout={setisLogout} />
       <main>
         {/* Hero unit */}
-        <div className={cn(classes.heroContent, classes.header)}>
-          <Container maxWidth="sm">
+        <div className={cn(classes.heroContent)}>
+          <Container maxWidth="sm" className={classes.bannerContent}>
             <Typography
               component="h1"
               variant="h2"
               align="center"
-              color="textPrimary"
+              className={(classes.bannerText, classes.bannerTextHeader)}
               gutterBottom
             >
               Study in COVID 19 ?
             </Typography>
             <Typography
+              className={classes.bannerText}
               variant="h5"
-              align="center"
               color="textSecondary"
               paragraph
             >
               Go study online
             </Typography>
-            <div className={classes.heroButtons}>
+            <div className={(classes.heroButtons, classes.bannerTextHeader)}>
               <Grid container spacing={2} justify="center">
                 {/* <Grid item>
                   <Link to="/join-with-ins" className={classes.link}>
@@ -366,7 +382,12 @@ function HomePage(props) {
           maxWith="lg"
         >
           {/* End hero unit */}
-          <Typography className={classes.outstanding_courses} variant="h4">
+          <Typography
+            className={
+              (classes.outstanding_courses, classes.course_list_section)
+            }
+            variant="h4"
+          >
             Outstanding courses
           </Typography>
 
