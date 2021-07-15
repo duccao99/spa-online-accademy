@@ -4,31 +4,31 @@ import {
   Grid,
   makeStyles,
   Paper,
-  Typography
-} from '@material-ui/core';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import * as env from '../../config/env.config';
-import CardPurchased from '../CardCourse/CardPurchased';
-import Footer from '../Footer/Footer';
-import Navbar from '../Navbar/Navbar';
+  Typography,
+} from "@material-ui/core";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import * as env from "../../config/env.config";
+import CardPurchased from "../CardCourse/CardPurchased";
+import Footer from "../Footer/Footer";
+import Navbar from "../Navbar/Navbar";
 
 const style = makeStyles((theme) => ({
   paper: {
     padding: 32,
-    textAlign: 'center',
-    color: theme.palette.text.secondary
+    textAlign: "center",
+    color: theme.palette.text.secondary,
   },
 
   link: {
-    color: 'inherit',
-    textDecoration: 'none',
-    '&:visited': {
-      color: 'inherit',
-      textDecoration: 'none'
-    }
-  }
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
+  },
 }));
 
 export default function PurchasedCourse() {
@@ -41,7 +41,7 @@ export default function PurchasedCourse() {
   useEffect(() => {
     const config = {};
     // nav
-    const isLg = sessionStorage.getItem('isLogout', false);
+    const isLg = sessionStorage.getItem("isLogout", false);
 
     if (isLg !== null) {
       setisLogout(isLg);
@@ -52,8 +52,9 @@ export default function PurchasedCourse() {
     // purchases courses
     const purchase_url = `${env.DEV_URL}/api/student/purchased-courses/${email}`;
     axios.get(purchase_url, config).then((ret) => {
-      console.log(ret);
+      // console.log(ret);
       if (ret.data !== undefined) {
+        // console.log(ret.data.purchased_courses);
         set_purchased_courses(ret.data.purchased_courses);
       } else {
         set_purchased_courses(undefined);
@@ -65,15 +66,15 @@ export default function PurchasedCourse() {
     <React.Fragment>
       <Navbar setisLogout={setisLogout} />
 
-      <Container maxWidth='lg'>
+      <Container maxWidth="lg">
         <Box my={12}>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Box mb={6} display='flex' maxWidth justifyContent='flex-start'>
-                  {' '}
-                  <Typography variant='h4' component='p'>
-                    Purchased course
+                <Box mb={6} display="flex" maxWidth justifyContent="flex-start">
+                  {" "}
+                  <Typography variant="h4" component="p">
+                    Purchased courses
                   </Typography>
                 </Box>
 
@@ -86,7 +87,7 @@ export default function PurchasedCourse() {
                           </Grid>
                         );
                       })
-                    : 'There is no course!'}
+                    : "You have not purchase any course yet..."}
                 </Grid>
               </Paper>
             </Grid>

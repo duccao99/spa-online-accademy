@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent: {
     flexGrow: 1,
+    textAlign: "left",
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -133,6 +134,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   course_name: {
+    display: "-webkit-box",
+    boxOrient: "vertical",
+    lineClamp: 2,
+    overflow: "hidden",
+    height: "2.5em",
     lineHeight: "24px",
   },
   subject_name: {
@@ -529,24 +535,29 @@ function CardCourse(props) {
               >
                 {course_name}
               </Typography>
-              <Typography className={(classes.typo, classes.subject_name)}>
+              <Typography
+                className={(classes.typo, classes.subject_name)}
+                textOverflow="ellipsis"
+              >
                 {subject_name}
               </Typography>
               <Typography className={(classes.typo, classes.instructor)}>
                 {" "}
                 {user_name}
               </Typography>
-              <Typography className={(classes.typo, classes.avg_rate)}>
-                <Typography className={(classes.typo, classes.avg_rate_num)}>
-                  {avg_rate}
+              {avg_rate && (
+                <Typography className={(classes.typo, classes.avg_rate)}>
+                  <Typography className={(classes.typo, classes.avg_rate_num)}>
+                    {avg_rate}
+                  </Typography>
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={avg_rate}
+                    precision={0.5}
+                    readOnly
+                  />
                 </Typography>
-                <Rating
-                  name="half-rating-read"
-                  defaultValue={avg_rate}
-                  precision={0.5}
-                  readOnly
-                />
-              </Typography>
+              )}
 
               {is_sales ? (
                 // <React.Fragment>
