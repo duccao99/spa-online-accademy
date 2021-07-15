@@ -27,7 +27,7 @@ import Navbar from "../Navbar/Navbar";
 import Footer from "./../Footer/Footer";
 import CardCat from "./CardCat";
 
-const common_spacing = 32;
+const common_spacing = 10;
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -42,7 +42,7 @@ function HomePage(props) {
   const useStyles = makeStyles((theme) => ({
     "@global": {
       "*::-webkit-scrollbar": {
-        width: "1em",
+        width: ".75em",
         display: "initial",
       },
       "*::-webkit-scrollbar-track": {
@@ -66,8 +66,8 @@ function HomePage(props) {
       marginTop: theme.spacing(4),
     },
     cardGrid: {
-      paddingTop: theme.spacing(8),
-      paddingBottom: theme.spacing(8),
+      paddingTop: theme.spacing(3),
+      paddingBottom: theme.spacing(3),
     },
     card: {
       height: "100%",
@@ -107,13 +107,11 @@ function HomePage(props) {
     },
     ten_most_newest_courses: {
       textAlign: "center",
-      marginTop: common_spacing,
-      marginBottom: common_spacing,
+      margin: common_spacing,
     },
     outstanding_courses: {
       textAlign: "center",
-      marginTop: common_spacing,
-      marginBottom: common_spacing,
+      margin: common_spacing,
     },
     card_wrapper: {
       // marginBottom: common_spacing * 2,
@@ -125,8 +123,7 @@ function HomePage(props) {
       textTransform: "capitalize",
     },
     outstanding_course_wrapper: {
-      marginTop: 100,
-      marginBottom: 100,
+      margin: "50px",
     },
     link: {
       color: "inherit",
@@ -144,7 +141,6 @@ function HomePage(props) {
     },
     header: {
       marginTop: 100,
-      marginBottom: 100,
     },
     list_cat_container: {
       display: "flex",
@@ -177,8 +173,8 @@ function HomePage(props) {
       textAlign: "center",
     },
     course_list_section: {
-      borderTop: "1px solid black",
-      paddingTop: "30px",
+      borderTop: "1px solid rgba(210, 210, 210)",
+      padding: "30px 0",
     },
   }));
 
@@ -418,7 +414,12 @@ function HomePage(props) {
 
         <Container className={classes.cardGrid} maxWidth="lg">
           {/* End hero unit */}
-          <Typography className={classes.ten_most_newest_courses} variant="h4">
+          <Typography
+            className={
+              (classes.ten_most_newest_courses, classes.course_list_section)
+            }
+            variant="h4"
+          >
             Newest courses
           </Typography>
 
@@ -490,7 +491,12 @@ function HomePage(props) {
 
         <Container className={classes.cardGrid} maxWith="lg">
           {/* End hero unit */}
-          <Typography className={classes.ten_most_newest_courses} variant="h4">
+          <Typography
+            className={
+              (classes.ten_most_newest_courses, classes.course_list_section)
+            }
+            variant="h4"
+          >
             Most viewed courses
           </Typography>
 
@@ -558,7 +564,12 @@ function HomePage(props) {
 
         <Container className={classes.cardGrid} maxWith="lg">
           {/* End hero unit */}
-          <Typography className={classes.ten_most_newest_courses} variant="h4">
+          <Typography
+            className={
+              (classes.ten_most_newest_courses, classes.course_list_section)
+            }
+            variant="h4"
+          >
             Top categories
           </Typography>
 
