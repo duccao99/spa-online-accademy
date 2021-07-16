@@ -85,6 +85,8 @@ const CourseDetail = ({
     params: { course_id },
   } = match;
 
+  const curr_user_id = sessionStorage.getItem("user_login_id");
+
   function getCourseDetail() {
     const url = `${env.DEV_URL}/api/course/${course_id}`;
     const config = {};
@@ -128,7 +130,6 @@ const CourseDetail = ({
 
   useEffect(() => {
     if (!purchased_id_list) {
-      const curr_user_id = sessionStorage.getItem("user_login_id");
       const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
       axios.get(url_pruchased_course_id, {}).then((ret) => {
         setPurchasedListId(ret.data.purchased_courses_id_list);
@@ -218,7 +219,7 @@ const CourseDetail = ({
       <Container className={classes.section_feedback}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12}>
-            <Feedback match={match} />
+            <Feedback match={match} curr_user_id={curr_user_id} />
           </Grid>
         </Grid>
       </Container>
