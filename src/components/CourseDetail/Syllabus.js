@@ -1,10 +1,10 @@
-import { Box, makeStyles, Paper, Typography } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import * as env from '../../config/env.config';
-import Chapter from './Chapter';
+import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
+import List from "@material-ui/core/List";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import * as env from "../../config/env.config";
+import Chapter from "./Chapter";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -12,56 +12,56 @@ const styles = makeStyles((theme) => ({
   ava_course: {},
   section_header: {
     minHeight: 100,
-    marginTop: 100
+    marginTop: 100,
   },
   course_name: {
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   course_header_title: {
-    textAlign: 'left',
+    textAlign: "left",
     paddingTop: 12,
     paddingBottom: 12,
-    color: 'white'
+    color: "white",
   },
   section_short_des: {
     minHeight: 100,
-    fontSize: common_fontsize
+    fontSize: common_fontsize,
   },
   des: {
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   section_description: {
     minHeight: 100,
-    fontSize: common_fontsize
+    fontSize: common_fontsize,
   },
   section_syllabus: {
     minHeight: 100,
-    fontSize: common_fontsize
+    fontSize: common_fontsize,
   },
   section_rating: {},
   section_feedback: {
-    marginBottom: 16
+    marginBottom: 16,
   },
   paper: {
     padding: 32,
-    textAlign: 'left',
+    textAlign: "left",
     color: theme.palette.text.secondary,
-    marginBottom: 16
+    marginBottom: 16,
   },
   box_cat: {
     padding: 12,
-    '& .MuiTypography-root': {
-      fontSize: common_fontsize
-    }
+    "& .MuiTypography-root": {
+      fontSize: common_fontsize,
+    },
   },
 
   nested: {
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(4),
   },
   title: {
-    color: 'black',
-    fontWeight: 500
-  }
+    color: "black",
+    fontWeight: 500,
+  },
 }));
 
 function unique(vl, i, self) {
@@ -104,7 +104,7 @@ export default function Syllabus({ course_detail }) {
             lesson_video_url: array[i].lesson_video_url,
             flag_reviewable: array[i].flag_reviewable,
             lesson_content: array[i].lesson_content,
-            chap_id: array[i].chap_id
+            chap_id: array[i].chap_id,
           });
         }
 
@@ -115,7 +115,7 @@ export default function Syllabus({ course_detail }) {
         if (array[i].chap_id !== null && array[i].chap_name !== null) {
           unique_chapter.push({
             chap_id: array[i].chap_id,
-            chap_name: array[i].chap_name
+            chap_name: array[i].chap_name,
           });
         }
       }
@@ -136,11 +136,11 @@ export default function Syllabus({ course_detail }) {
   return (
     <Paper className={classes.paper}>
       <List
-        component='nav'
-        aria-labelledby='nested-list-subheader'
+        component="nav"
+        aria-labelledby="nested-list-subheader"
         subheader={
           <Box mb={3}>
-            <Typography className={classes.title} variant='h5'>
+            <Typography className={classes.title} variant="h5">
               Course syllabus
             </Typography>
           </Box>
@@ -152,7 +152,7 @@ export default function Syllabus({ course_detail }) {
             return <Chapter lessons={lessons} key={ele.chapter_id} {...ele} />;
           })
         ) : (
-          <Box>No syllabus</Box>
+          <Box>No syllabus yet</Box>
         )}
       </List>
     </Paper>

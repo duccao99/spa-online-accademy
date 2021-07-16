@@ -202,7 +202,7 @@ function CatPrice({
     <Paper className={classes.paper}>
       <Box className={classes.box_cat}>
         <Typography>
-          <strong>Number student enroll: </strong>{" "}
+          <strong>Student enroll: </strong>{" "}
           {num_stu_enrolls === undefined || num_stu_enrolls === null
             ? 0
             : num_stu_enrolls}
@@ -211,7 +211,7 @@ function CatPrice({
 
       <Box className={classes.box_cat}>
         <Typography>
-          <strong>Number student rating: </strong>{" "}
+          <strong>Total review: </strong>{" "}
           {num_stu_rate === undefined || num_stu_rate === null
             ? 0
             : num_stu_rate}
