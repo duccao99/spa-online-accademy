@@ -218,11 +218,13 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   }, [id, search_value, sort_value, rate_value, price_value]);
 
   useEffect(() => {
-    const curr_user_id = sessionStorage.getItem("user_login_id");
-    const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
-    axios.get(url_pruchased_course_id, {}).then((ret) => {
-      setPurchasedListId(ret.data.purchased_courses_id_list);
-    });
+    if (!purchased_id_list) {
+      const curr_user_id = sessionStorage.getItem("user_login_id");
+      const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
+      axios.get(url_pruchased_course_id, {}).then((ret) => {
+        setPurchasedListId(ret.data.purchased_courses_id_list);
+      });
+    }
   });
 
   const handlePagiChange = (event, value) => {

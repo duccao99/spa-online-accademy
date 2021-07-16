@@ -2,10 +2,10 @@ import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
 import * as env from "../../config/env.config";
-
+import { SET_ALL_COURSES_PURCHASED } from "./../../actionTypes/purchase.type";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -74,9 +74,42 @@ const styles = makeStyles((theme) => ({
       textDecoration: "none",
     },
   },
+  sale: {
+    display: "flex",
+    alignItems: "center",
+    margin: "5px 0",
+    justifyContent: "flex-start",
+  },
+  price: {
+    fontWeight: "500",
+    marginRight: "10px",
+  },
+  del_free: {
+    textDecoration: "line-through;",
+    fontSize: "12px",
+  },
+  subject_name: {
+    width: "fit-content",
+    fontSize: "14px",
+    fontWeight: "550",
+    color: "grey",
+    margin: "5px 0",
+    paddingTop: "3px",
+
+    "&:hover": {
+      color: "darkGrey",
+    },
+  },
 }));
 
-function CatPrice({ course_detail, dispatchAddToCart }) {
+function CatPrice({
+  course_detail,
+  is_in_cart,
+  dispatchAddToCart,
+  setPurchasedListId,
+  cart_global_state,
+  purchased_id_list,
+}) {
   const classes = styles();
   const [course_fee, setcourse_fee] = useState("");
   const [subject_name, setsubject_name] = useState("");
@@ -86,21 +119,46 @@ function CatPrice({ course_detail, dispatchAddToCart }) {
   const [num_stu_enrolls, setnum_stu_enrolls] = useState("");
   const { course_id } = useParams();
   const [isAddToCart, setIsAddToCart] = useState(false);
+  const [is_in_cart2, set_is_in_cart2] = useState(is_in_cart);
+  const [toggle_buy_click, set_toggle_buy_click] = useState(false);
   const [user_role, setUser_role] = useState(0);
+
+  const { course_avatar_url, course_name, course_title } = course_detail;
 
   const handleAddToCart = (e) => {
     const curr_user_id = sessionStorage.getItem("user_login_id");
 
     dispatchAddToCart(
-      course_detail.course_id,
+      course_id,
       +curr_user_id,
-      course_detail.course_fee,
-      course_detail.course_avatar_url,
-      course_detail.course_name,
-      course_detail.course_title
+      course_fee,
+      course_avatar_url,
+      course_name,
+      course_title
     );
     setIsAddToCart(true);
   };
+
+  useEffect(() => {
+    if (purchased_id_list.length < 1) {
+      const curr_user_id = sessionStorage.getItem("user_login_id");
+      const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
+      axios.get(url_pruchased_course_id, {}).then((ret) => {
+        setPurchasedListId(ret.data.purchased_courses_id_list);
+      });
+    }
+
+    if (cart_global_state !== undefined) {
+      for (let i = 0; i < cart_global_state.length; ++i) {
+        if (cart_global_state[i].course_id === course_id) {
+          set_is_in_cart2(true);
+
+          set_toggle_buy_click(!toggle_buy_click);
+          break;
+        }
+      }
+    }
+  });
 
   useEffect(() => {
     // role
@@ -131,6 +189,15 @@ function CatPrice({ course_detail, dispatchAddToCart }) {
       });
   }, [isAddToCart, course_id]);
 
+  const handleEnroll = (e) => {
+    const url = `${env.DEV_URL}/api/student/enroll`;
+    const data = {
+      user_id: sessionStorage.getItem("user_login_id"),
+      course_id: course_id,
+    };
+    axios.post(url, data, {}).then((ret) => {});
+  };
+
   return (
     <Paper className={classes.paper}>
       <Box className={classes.box_cat}>
@@ -157,41 +224,58 @@ function CatPrice({ course_detail, dispatchAddToCart }) {
         </Typography>
       </Box>
       <Box className={classes.box_cat}>
-        <Typography>
-          <strong>Category: </strong> {course_detail.subject_name}
-        </Typography>
+        <Link to={`/courses-list/${subject_name}`}>
+          <strong>Category: </strong>
+          <Typography className={classes.subject_name} component="a">
+            {subject_name}
+          </Typography>
+        </Link>
       </Box>
       <Box className={classes.box_cat}>
-        <Typography>
-          <strong>Price: </strong>
-          {course_fee === undefined || course_fee === null ? 0 : course_fee}
-        </Typography>
-      </Box>
-      <Box className={classes.box_cat}>
-        <Typography>
-          {sale_percent === undefined || sale_percent === null ? (
-            <div>
-              <strong>Sale: </strong>0
-            </div>
-          ) : (
-            <React.Fragment>
-              <strong>Sale: </strong>
-              {sale_percent}
-            </React.Fragment>
-          )}
-        </Typography>
+        {sale_percent ? (
+          // <React.Fragment>
+          <Typography className={(classes.typo, classes.sale)}>
+            <Typography className={(classes.typo, classes.price)}>
+              Price: $
+              {course_fee - Math.floor((course_fee * sale_percent) / 100)}
+            </Typography>
+            <Typography className={(classes.typo, classes.del_free)}>
+              ${course_fee}
+            </Typography>
+          </Typography>
+        ) : (
+          <Typography className={(classes.typo, classes.price)}>
+            Price: ${course_fee}
+          </Typography>
+        )}
       </Box>
 
       <Box className={classes.box_cat}>
         {user_role === 2 || user_role === 4 ? (
-          <Button
-            onClick={handleAddToCart}
-            disabled={isAddToCart}
-            fullWidth
-            variant="contained"
-          >
-            Add to cart
-          </Button>
+          purchased_id_list && purchased_id_list.indexOf(+course_id) > -1 ? (
+            <Link to={`/student/enroll/course/${course_id}`}>
+              <Button
+                className={classes.btn}
+                disabled={is_in_cart2 === true}
+                onClick={handleEnroll}
+                variant="contained"
+                size="small"
+                color="secondary"
+              >
+                Enroll
+              </Button>
+            </Link>
+          ) : (
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              disabled={is_in_cart2 === true}
+              onClick={handleAddToCart}
+            >
+              {is_in_cart2 === true ? "Added to cart" : "Buy"}
+            </Button>
+          )
         ) : (
           ""
         )}
@@ -200,8 +284,21 @@ function CatPrice({ course_detail, dispatchAddToCart }) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    cart_global_state: state.cartReducer.cart,
+    purchased_id_list: state.purchasedCourseReducer.purchased_id_list,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
+    setPurchasedListId: (purchase_list_id) => {
+      dispatch({
+        type: SET_ALL_COURSES_PURCHASED,
+        payload: purchase_list_id,
+      });
+    },
     dispatchAddToCart: (
       course_id,
       user_id,
@@ -225,4 +322,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(CatPrice);
+export default connect(mapStateToProps, mapDispatchToProps)(CatPrice);

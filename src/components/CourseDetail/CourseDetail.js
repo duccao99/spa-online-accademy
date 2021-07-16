@@ -1,17 +1,19 @@
-import { Container, Grid, makeStyles } from '@material-ui/core';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import * as env from '../../config/env.config';
-import Footer from '../Footer/Footer';
-import Navbar from '../Navbar/Navbar';
-import Avatar from './Avatar';
-import CatPrice from './CatPrice';
-import Feedback from './Feedback';
-import FiveRelativeCourse from './FiveRelativeCourse';
-import FullDes from './FullDes';
-import InstructorDes from './InstructorDes';
-import ShortDes from './ShortDes';
-import Syllabus from './Syllabus';
+import { Container, Grid, makeStyles } from "@material-ui/core";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import * as env from "../../config/env.config";
+import Footer from "../Footer/Footer";
+import Navbar from "../Navbar/Navbar";
+import Avatar from "./Avatar";
+import CatPrice from "./CatPrice";
+import Feedback from "./Feedback";
+import FiveRelativeCourse from "./FiveRelativeCourse";
+import FullDes from "./FullDes";
+import InstructorDes from "./InstructorDes";
+import ShortDes from "./ShortDes";
+import Syllabus from "./Syllabus";
+import { SET_ALL_COURSES_PURCHASED } from "./../../actionTypes/purchase.type";
+import { connect } from "react-redux";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -19,61 +21,68 @@ const styles = makeStyles((theme) => ({
   ava_course: {},
   section_header: {
     minHeight: 100,
-    marginTop: 100
+    marginTop: 100,
   },
   course_name: {
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   course_header_title: {
-    textAlign: 'left',
+    textAlign: "left",
     paddingTop: 12,
     paddingBottom: 12,
-    color: 'white'
+    color: "white",
   },
   section_short_des: {
     minHeight: 100,
-    fontSize: common_fontsize
+    fontSize: common_fontsize,
   },
   des: {
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   section_description: {
     minHeight: 100,
-    fontSize: common_fontsize
+    fontSize: common_fontsize,
   },
   section_syllabus: {
     minHeight: 100,
-    fontSize: common_fontsize
+    fontSize: common_fontsize,
   },
   section_rating: {},
   section_feedback: {
-    marginBottom: 16
+    marginBottom: 16,
   },
   paper: {
     padding: 32,
-    textAlign: 'left',
+    textAlign: "left",
     color: theme.palette.text.secondary,
-    marginBottom: 16
+    marginBottom: 16,
   },
   box_cat: {
     padding: 12,
-    '& .MuiTypography-root': {
-      fontSize: common_fontsize
-    }
-  }
+    "& .MuiTypography-root": {
+      fontSize: common_fontsize,
+    },
+  },
 }));
 
-export default function CourseDetail({ match }) {
+const CourseDetail = ({
+  match,
+  setPurchasedListId,
+  purchased_id_list,
+  cart_global_state,
+}) => {
   const classes = styles();
   const [course_detail, set_course_detail] = React.useState({});
-  const [last_updated, set_last_updated] = useState('');
+  const [last_updated, set_last_updated] = useState("");
   const [instructor, set_instructor] = React.useState({});
   const [five_relative_course, set_five_relative_course] = React.useState([]);
   const [isLogout, setisLogout] = useState(true);
+  const [is_in_cart, set_is_in_cart] = useState(false);
+  const [toggle_buy_click, set_toggle_buy_click] = useState(false);
   const [updateCourseDetail, setUpdateCourseDetail] = useState(false);
 
   const {
-    params: { course_id }
+    params: { course_id },
   } = match;
 
   function getCourseDetail() {
@@ -95,7 +104,7 @@ export default function CourseDetail({ match }) {
 
   useEffect(() => {
     // nav
-    const isLg = sessionStorage.getItem('isLogout', false);
+    const isLg = sessionStorage.getItem("isLogout", false);
 
     if (isLg !== null) {
       setisLogout(isLg);
@@ -116,6 +125,27 @@ export default function CourseDetail({ match }) {
         console.log(er);
       });
   }, [updateCourseDetail]);
+
+  useEffect(() => {
+    if (!purchased_id_list) {
+      const curr_user_id = sessionStorage.getItem("user_login_id");
+      const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
+      axios.get(url_pruchased_course_id, {}).then((ret) => {
+        setPurchasedListId(ret.data.purchased_courses_id_list);
+      });
+    }
+
+    if (cart_global_state !== undefined) {
+      for (let i = 0; i < cart_global_state.length; ++i) {
+        if (cart_global_state[i].course_id === course_id) {
+          set_is_in_cart(true);
+
+          set_toggle_buy_click(!toggle_buy_click);
+          break;
+        }
+      }
+    }
+  });
 
   return (
     <React.Fragment>
@@ -138,7 +168,11 @@ export default function CourseDetail({ match }) {
               />
             </Grid>
             <Grid item xs={12} md={4}>
-              <CatPrice course_detail={course_detail} />
+              <CatPrice
+                course_detail={course_detail}
+                purchased_id_list={purchased_id_list}
+                is_in_cart={is_in_cart}
+              />
             </Grid>
           </Grid>
         </Container>
@@ -192,4 +226,24 @@ export default function CourseDetail({ match }) {
       <Footer />
     </React.Fragment>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  return {
+    cart_global_state: state.cartReducer.cart,
+    purchased_id_list: state.purchasedCourseReducer.purchased_id_list,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setPurchasedListId: (purchase_list_id) => {
+      dispatch({
+        type: SET_ALL_COURSES_PURCHASED,
+        payload: purchase_list_id,
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseDetail);
