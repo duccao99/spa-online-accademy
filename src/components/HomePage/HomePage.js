@@ -26,6 +26,7 @@ import CommonCarousel from "../Carousel/CommonCarousel";
 import Navbar from "../Navbar/Navbar";
 import Footer from "./../Footer/Footer";
 import CardCat from "./CardCat";
+import { SET_ALL_COURSES_PURCHASED } from "./../../actionTypes/purchase.type";
 
 const common_spacing = 10;
 
@@ -178,7 +179,12 @@ function HomePage(props) {
     },
   }));
 
-  const { dispatchAddSales, bringScrollbarBack } = props;
+  const {
+    dispatchAddSales,
+    bringScrollbarBack,
+    purchased_id_list,
+    setPurchasedListId,
+  } = props;
   const classes = useStyles();
   const [is_logged_in, set_is_logged_in] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -242,6 +248,12 @@ function HomePage(props) {
     const config = {};
     axios.get(url, config).then((ret) => {
       set_outstanding_courses(ret.data.outstanding_courses);
+    });
+
+    //purchases courses id list purchases-course-id/:user_id
+    const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${user_id}`;
+    axios.get(url_pruchased_course_id, config).then((ret) => {
+      setPurchasedListId(ret.data.purchased_courses_id_list);
     });
 
     // newest
@@ -404,6 +416,7 @@ function HomePage(props) {
                         most_stu_enroll={outstanding_courses}
                         isLogout={isLogout}
                         {...card}
+                        purchased_id_list={purchased_id_list}
                       />
                     </Grid>
                   );
@@ -439,6 +452,7 @@ function HomePage(props) {
                       <CardCourse
                         newest_courses={newest_courses_1_4}
                         isLogout={isLogout}
+                        purchased_id_list={purchased_id_list}
                         {...card}
                       />
                     </Grid>
@@ -461,6 +475,7 @@ function HomePage(props) {
                       <CardCourse
                         newest_courses={newest_courses_2_4}
                         isLogout={isLogout}
+                        purchased_id_list={purchased_id_list}
                         {...card}
                       />
                     </Grid>
@@ -515,7 +530,11 @@ function HomePage(props) {
                         md={3}
                         lg={3}
                       >
-                        <CardCourse isLogout={isLogout} {...card} />
+                        <CardCourse
+                          isLogout={isLogout}
+                          {...card}
+                          purchased_id_list={purchased_id_list}
+                        />
                       </Grid>
                     );
                   })
@@ -534,7 +553,11 @@ function HomePage(props) {
                         md={3}
                         lg={3}
                       >
-                        <CardCourse isLogout={isLogout} {...card} />
+                        <CardCourse
+                          isLogout={isLogout}
+                          {...card}
+                          purchased_id_list={purchased_id_list}
+                        />
                       </Grid>
                     );
                   })
@@ -553,7 +576,11 @@ function HomePage(props) {
                         md={3}
                         lg={3}
                       >
-                        <CardCourse isLogout={isLogout} {...card} />
+                        <CardCourse
+                          isLogout={isLogout}
+                          {...card}
+                          purchased_id_list={purchased_id_list}
+                        />
                       </Grid>
                     );
                   })
@@ -608,6 +635,7 @@ const mapStateToProps = (state) => {
   return {
     cart_global_state: state.cartReducer.cart,
     all_courses_sale_global_state: state.courseReducer.all_courses_sale,
+    purchased_id_list: state.purchasedCourseReducer.purchased_id_list,
   };
 };
 
@@ -621,6 +649,13 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: ADD_SALES_INTO_GLOBAL_STATE,
         payload: sales,
+      });
+    },
+
+    setPurchasedListId: (purchase_list_id) => {
+      dispatch({
+        type: SET_ALL_COURSES_PURCHASED,
+        payload: purchase_list_id,
       });
     },
 

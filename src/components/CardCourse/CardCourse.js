@@ -217,6 +217,7 @@ function CardCourse(props) {
     cart_global_state,
     isLogout,
     isUpdateFromPagi,
+    purchased_id_list,
     // course detail problem
     // setUpdateCourseDetail,
     // updateCourseDetail,
@@ -446,6 +447,15 @@ function CardCourse(props) {
     // setUpdateCourseDetail(!updateCourseDetail);
   };
 
+  const handleEnroll = (e) => {
+    const url = `${env.DEV_URL}/api/student/enroll`;
+    const data = {
+      user_id: sessionStorage.getItem("user_login_id"),
+      course_id: course_id,
+    };
+    axios.post(url, data, {}).then((ret) => {});
+  };
+
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -577,19 +587,33 @@ function CardCourse(props) {
             </CardContent>
           </CardActionArea>
         </Box>
-
         {email !== undefined ? (
           <CardActions className={classes.card_action}>
             {user_role === 2 || user_role === 4 ? (
-              <Button
-                variant="contained"
-                size="small"
-                color="primary"
-                disabled={is_in_cart === true}
-                onClick={handleBuyClick}
-              >
-                Buy
-              </Button>
+              purchased_id_list && purchased_id_list.indexOf(course_id) > -1 ? (
+                <Link to={`/student/enroll/course/${course_id}`}>
+                  <Button
+                    className={classes.btn}
+                    disabled={is_in_cart === true}
+                    onClick={handleEnroll}
+                    variant="contained"
+                    size="small"
+                    color="secondary"
+                  >
+                    Enroll
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  disabled={is_in_cart === true}
+                  onClick={handleBuyClick}
+                >
+                  {is_in_cart === true ? "Added to cart" : "Buy"}
+                </Button>
+              )
             ) : (
               <div>
                 {user_role === 3 &&
