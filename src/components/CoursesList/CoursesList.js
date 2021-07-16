@@ -20,6 +20,7 @@ import Pagination from "./Pagination";
 import Searchbar from "./Searchbar";
 import Sort from "./Sort";
 import { connect } from "react-redux";
+import { SET_ALL_COURSES_PURCHASED } from "./../../actionTypes/purchase.type";
 
 const style = makeStyles((theme) => ({
   main_course_list_wrapper: {
@@ -98,7 +99,7 @@ const sort_info = [
   },
 ];
 
-const CoursesList = ({ purchased_id_list }) => {
+const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   const classes = style();
   const [all_courses_finished, set_all_courses_finished] = useState([]);
   const [total_pagi_stuff, set_total_pagi_stuff] = useState([]);
@@ -215,6 +216,14 @@ const CoursesList = ({ purchased_id_list }) => {
       }
     }
   }, [id, search_value, sort_value, rate_value, price_value]);
+
+  useEffect(() => {
+    const curr_user_id = sessionStorage.getItem("user_login_id");
+    const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
+    axios.get(url_pruchased_course_id, {}).then((ret) => {
+      setPurchasedListId(ret.data.purchased_courses_id_list);
+    });
+  });
 
   const handlePagiChange = (event, value) => {
     set_curr_page(value);
@@ -393,4 +402,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(CoursesList);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setPurchasedListId: (purchase_list_id) => {
+      dispatch({
+        type: SET_ALL_COURSES_PURCHASED,
+        payload: purchase_list_id,
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesList);
