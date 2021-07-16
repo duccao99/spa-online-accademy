@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -25,7 +26,7 @@ export default function CardCat({ cat }) {
   const bull = <span className={classes.bullet}>•</span>;
 
   return (
-    <TableRow hover>
+    <TableRow hover component={Link} to={`/courses-list/${cat.subject_name}`}>
       <TableCell component="th" scope="row">
         {cat.cat_name}
       </TableCell>

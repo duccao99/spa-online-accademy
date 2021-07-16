@@ -615,9 +615,9 @@ function HomePage(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {top_sub_cat.map((cat, i) => {
-                    return <CardCat key={i} cat={cat} />;
-                  })}
+                  {top_sub_cat.map((cat, i) => (
+                    <CardCat key={i} cat={cat} />
+                  ))}
                 </TableBody>
               </TableContainer>
             </TableContainer>

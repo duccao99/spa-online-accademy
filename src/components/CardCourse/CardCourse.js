@@ -142,10 +142,15 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: "24px",
   },
   subject_name: {
+    width: "fit-content",
     fontSize: "14px",
     fontWeight: "550",
     color: "grey",
     margin: "5px 0",
+
+    "&:hover": {
+      color: "darkGrey",
+    },
   },
   instructor: {
     margin: "5px 0",
@@ -210,6 +215,7 @@ function CardCourse(props) {
     is_finished,
     user_id,
     avg_rate,
+    total_review,
     most_stu_enroll,
     most_view_courses,
     newest_courses,
@@ -545,12 +551,14 @@ function CardCourse(props) {
               >
                 {course_name}
               </Typography>
-              <Typography
-                className={(classes.typo, classes.subject_name)}
-                textOverflow="ellipsis"
-              >
-                {subject_name}
-              </Typography>
+              <Link to={`/courses-list/${subject_name}`}>
+                <Typography
+                  className={(classes.typo, classes.subject_name)}
+                  textOverflow="ellipsis"
+                >
+                  {subject_name}
+                </Typography>
+              </Link>
               <Typography className={(classes.typo, classes.instructor)}>
                 {" "}
                 {user_name}
@@ -566,6 +574,7 @@ function CardCourse(props) {
                     precision={0.5}
                     readOnly
                   />
+                  ({total_review})
                 </Typography>
               )}
 
