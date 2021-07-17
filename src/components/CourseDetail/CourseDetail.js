@@ -1,10 +1,9 @@
-import { Container, Grid, makeStyles } from "@material-ui/core";
+import { Container, Grid, makeStyles, Paper } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as env from "../../config/env.config";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
-import Avatar from "./Avatar";
 import CatPrice from "./CatPrice";
 import Feedback from "./Feedback";
 import FiveRelativeCourse from "./FiveRelativeCourse";
@@ -156,7 +155,16 @@ const CourseDetail = ({
         <Container className={classes.section_header}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={5}>
-              <Avatar />
+              <Paper
+                style={{
+                  height: "300px",
+                  backgroundImage: `url(${course_detail.course_avatar_url})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+                className={(classes.paper, classes.ava_course)}
+              ></Paper>
             </Grid>
             <Grid item xs={12} md={7}>
               <Title
@@ -213,6 +221,7 @@ const CourseDetail = ({
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <FiveRelativeCourse
+              purchased_id_list={purchased_id_list}
               setUpdateCourseDetail={setUpdateCourseDetail}
               updateCourseDetail={updateCourseDetail}
               match={match}
