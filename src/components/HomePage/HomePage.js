@@ -1,32 +1,32 @@
-import { Box } from "@material-ui/core";
-import Badge from "@material-ui/core/Badge";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
-import axios from "axios";
-import cn from "classnames";
-import { debounce } from "lodash";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { ADD_SALES_INTO_GLOBAL_STATE } from "../../actionTypes/course.type";
-import { BRING_SCROLLBAR_BACK } from "../../actionTypes/home.type";
-import * as env from "../../config/env.config";
-import { swal2Timing } from "../../config/swal2.config";
-import CardCourse from "../CardCourse/CardCourse";
-import CommonCarousel from "../Carousel/CommonCarousel";
-import Navbar from "../Navbar/Navbar";
-import Footer from "./../Footer/Footer";
-import CardCat from "./CardCat";
-import { SET_ALL_COURSES_PURCHASED } from "./../../actionTypes/purchase.type";
+import { Box } from '@material-ui/core';
+import Badge from '@material-ui/core/Badge';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
+import cn from 'classnames';
+import { debounce } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { ADD_SALES_INTO_GLOBAL_STATE } from '../../actionTypes/course.type';
+import { BRING_SCROLLBAR_BACK } from '../../actionTypes/home.type';
+import * as env from '../../config/env.config';
+import { swal2Timing } from '../../config/swal2.config';
+import CardCourse from '../CardCourse/CardCourse';
+import CommonCarousel from '../Carousel/CommonCarousel';
+import Navbar from '../Navbar/Navbar';
+import Footer from './../Footer/Footer';
+import CardCat from './CardCat';
+import { SET_ALL_COURSES_PURCHASED } from './../../actionTypes/purchase.type';
 
 const common_spacing = 10;
 
@@ -35,155 +35,170 @@ const StyledBadge = withStyles((theme) => ({
     right: -3,
     top: 0,
     border: `2px solid ${theme.palette.primary}`,
-    padding: "0 4px",
-  },
+    padding: '0 4px'
+  }
 }))(Badge);
 
 function HomePage(props) {
   const useStyles = makeStyles((theme) => ({
-    "@global": {
-      "*::-webkit-scrollbar": {
-        width: ".75em",
-        display: "initial",
+    root: {
+      '& h4': {
+        textAlign: 'center'
+      }
+    },
+    '@global': {
+      '*::-webkit-scrollbar': {
+        width: '.75em',
+        display: 'initial'
       },
-      "*::-webkit-scrollbar-track": {
-        "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+      '*::-webkit-scrollbar-track': {
+        '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
       },
-      "*::-webkit-scrollbar-thumb": {
+      '*::-webkit-scrollbar-thumb': {
         backgroundColor: `#455a64`,
-        outline: "1px solid slategrey",
-      },
+        outline: '1px solid slategrey'
+      }
     },
     icon: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(2)
     },
     heroContent: {
       // backgroundColor: theme.palette.background.paper,
       backgroundImage: 'url("/banner.png")',
       padding: theme.spacing(15, 0, 15),
-      boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
+      boxShadow: '0 4px 8px rgb(0 1 1 / 10%)',
+      marginBottom: '6vw',
+      '& div ': {
+        '& h4': {
+          textAlign: 'center'
+        }
+      }
     },
     heroButtons: {
-      marginTop: theme.spacing(4),
+      marginTop: theme.spacing(4)
     },
     cardGrid: {
       paddingTop: theme.spacing(3),
-      paddingBottom: theme.spacing(3),
+      paddingBottom: theme.spacing(3)
     },
     card: {
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      boxShadow: '0 4px 8px rgb(0 1 1 / 10%)'
     },
     cardMedia: {
-      paddingTop: "56.25%", // 16:9
+      paddingTop: '56.25%' // 16:9
     },
     cardContent: {
-      flexGrow: 1,
+      flexGrow: 1
     },
     footer: {
       backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(6),
+      padding: theme.spacing(6)
     },
     root: {
-      flexGrow: 1,
+      flexGrow: 1
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(2)
     },
     title: {
       flexGrow: 1,
-      display: "flex",
+      display: 'flex'
     },
-
+    text_center: {
+      textAlign: 'center',
+      paddingBottom: 24,
+      textShadow: '1px 2px 2px #0000006e;'
+    },
     btn_sign_in: {
-      color: "inherit",
-      textDecoration: "none",
-      textTransform: "capitalize",
-      "&:visited": {
-        color: "inherit",
-        textDecoration: "none",
-      },
+      color: 'inherit',
+      textDecoration: 'none',
+      textTransform: 'capitalize',
+      '&:visited': {
+        color: 'inherit',
+        textDecoration: 'none'
+      }
     },
     ten_most_newest_courses: {
-      textAlign: "center",
-      margin: common_spacing,
+      textAlign: 'center',
+      margin: common_spacing
     },
     outstanding_courses: {
-      textAlign: "center",
-      margin: common_spacing,
+      textAlign: 'center',
+      margin: common_spacing
     },
     card_wrapper: {
       // marginBottom: common_spacing * 2,
     },
     nav_typo: {
-      margin: 12,
+      margin: 12
     },
     btn_si: {
-      textTransform: "capitalize",
+      textTransform: 'capitalize'
     },
     outstanding_course_wrapper: {
-      margin: "50px",
+      marginBottom: '6vw'
     },
     link: {
-      color: "inherit",
-      textDecoration: "none",
-      "&:visited": {
-        color: "inherit",
-        textDecoration: "none",
-      },
+      color: 'inherit',
+      textDecoration: 'none',
+      '&:visited': {
+        color: 'inherit',
+        textDecoration: 'none'
+      }
     },
     btn: {
-      textTransform: "capitalize",
+      textTransform: 'capitalize'
     },
     cart_css: {
-      color: "white",
+      color: 'white'
     },
     header: {
-      marginTop: 100,
+      marginTop: 100
     },
     list_cat_container: {
-      display: "flex",
-      justifyContent: "center",
+      display: 'flex',
+      justifyContent: 'center'
     },
     table: {
-      "&.MuiTableContainer-root": {
-        width: "unset",
-      },
+      '&.MuiTableContainer-root': {
+        width: 'unset'
+      }
     },
     box_cat: {
-      display: "flex;",
-      justifyContent: "center;",
-      alignItems: "center;",
-      width: "100%",
+      display: 'flex;',
+      justifyContent: 'center;',
+      alignItems: 'center;',
+      width: '100%'
     },
     btn_join: {
-      width: "100px",
-      textTransform: "capitalize",
+      width: '100px',
+      textTransform: 'capitalize'
     },
     bannerContent: {
-      backgroundColor: "rgba(255, 255, 255, 0.85)",
-      justifyContent: "center",
+      backgroundColor: 'rgba(255, 255, 255, 0.85)',
+      justifyContent: 'center'
     },
     bannerTextHeader: {
-      color: "black",
-      fontWeight: "500",
+      color: 'black',
+      fontWeight: '500'
     },
     bannerText: {
-      textAlign: "center",
+      textAlign: 'center'
     },
     course_list_section: {
-      borderTop: "1px solid rgba(210, 210, 210)",
-      padding: "30px 0",
-    },
+      borderTop: '1px solid rgba(210, 210, 210)',
+      padding: '30px 0'
+    }
   }));
 
   const {
     dispatchAddSales,
     bringScrollbarBack,
     purchased_id_list,
-    setPurchasedListId,
+    setPurchasedListId
   } = props;
   const classes = useStyles();
   const [is_logged_in, set_is_logged_in] = React.useState(true);
@@ -205,8 +220,8 @@ function HomePage(props) {
     // bring scrollbar back
     // bringScrollbarBack();
     // check is verify account
-    let email = sessionStorage.getItem("email");
-    let curr_user_id = sessionStorage.getItem("user_login_id");
+    let email = sessionStorage.getItem('email');
+    let curr_user_id = sessionStorage.getItem('user_login_id');
     set_user_id(curr_user_id);
 
     if (email !== null) {
@@ -217,16 +232,16 @@ function HomePage(props) {
       axios.get(verified_url, config).then((ret) => {
         set_is_verified(ret.data.isVerified);
         if (ret.data.isVerified === false) {
-          const icon = "warning";
-          const title = "Verify!";
-          const html = "Please verify your email account!";
+          const icon = 'warning';
+          const title = 'Verify!';
+          const html = 'Please verify your email account!';
           const timer = 3500;
           swal2Timing(title, html, timer, icon);
         }
       });
     }
 
-    const isLg = sessionStorage.getItem("isLogout", false);
+    const isLg = sessionStorage.getItem('isLogout', false);
 
     if (isLg !== null) {
       setisLogout(isLg);
@@ -328,16 +343,16 @@ function HomePage(props) {
   }, [isLogout, is_logged_in]);
 
   return (
-    <React.Fragment>
+    <React.Fragment className={classes.root}>
       <Navbar setisLogout={setisLogout} />
       <main>
         {/* Hero unit */}
         <div className={cn(classes.heroContent)}>
-          <Container maxWidth="sm" className={classes.bannerContent}>
+          <Container maxWidth='sm' className={classes.bannerContent}>
             <Typography
-              component="h1"
-              variant="h2"
-              align="center"
+              component='h1'
+              variant='h2'
+              align='center'
               className={(classes.bannerText, classes.bannerTextHeader)}
               gutterBottom
             >
@@ -345,14 +360,14 @@ function HomePage(props) {
             </Typography>
             <Typography
               className={classes.bannerText}
-              variant="h5"
-              color="textSecondary"
+              variant='h5'
+              color='textSecondary'
               paragraph
             >
               Go study online
             </Typography>
             <div className={(classes.heroButtons, classes.bannerTextHeader)}>
-              <Grid container spacing={2} justify="center">
+              <Grid container spacing={2} justify='center'>
                 {/* <Grid item>
                   <Link to="/join-with-ins" className={classes.link}>
                     <Button
@@ -366,11 +381,11 @@ function HomePage(props) {
                 </Grid> */}
                 {user_id === null ? (
                   <Grid item>
-                    <Link to="/user/sign-in" className={classes.link}>
+                    <Link to='/user/sign-in' className={classes.link}>
                       <Button
                         className={classes.btn_join}
-                        variant="contained"
-                        color="primary"
+                        variant='contained'
+                        color='primary'
                       >
                         {/* If you are student */}
                         Go
@@ -378,7 +393,7 @@ function HomePage(props) {
                     </Link>
                   </Grid>
                 ) : (
-                  ""
+                  ''
                 )}
               </Grid>
             </div>
@@ -387,19 +402,21 @@ function HomePage(props) {
 
         <Container
           className={cn(classes.cardGrid, classes.outstanding_course_wrapper)}
-          maxWith="lg"
+          maxWith='lg'
         >
           {/* End hero unit */}
           <Typography
             className={
-              (classes.outstanding_courses, classes.course_list_section)
+              (classes.outstanding_courses,
+              classes.course_list_section,
+              classes.text_center)
             }
-            variant="h4"
+            variant='h4'
           >
             Outstanding courses
           </Typography>
 
-          <Grid container spacing={4} justify={"center"}>
+          <Grid container spacing={4} justify={'center'}>
             {outstanding_courses.length > 0
               ? outstanding_courses.map((card, i) => {
                   return (
@@ -421,17 +438,19 @@ function HomePage(props) {
                     </Grid>
                   );
                 })
-              : ""}
+              : ''}
           </Grid>
         </Container>
 
-        <Container className={classes.cardGrid} maxWidth="lg">
+        <Container className={classes.cardGrid} maxWidth='lg'>
           {/* End hero unit */}
           <Typography
             className={
-              (classes.ten_most_newest_courses, classes.course_list_section)
+              (classes.ten_most_newest_courses,
+              classes.course_list_section,
+              classes.text_center)
             }
-            variant="h4"
+            variant='h4'
           >
             Newest courses
           </Typography>
@@ -457,7 +476,7 @@ function HomePage(props) {
                       />
                     </Grid>
                   ))
-                : ""}
+                : ''}
             </Grid>
             <Grid container spacing={4}>
               {/* second 4 newest courses */}
@@ -480,7 +499,7 @@ function HomePage(props) {
                       />
                     </Grid>
                   ))
-                : ""}
+                : ''}
             </Grid>
 
             <Grid container spacing={4}>
@@ -499,18 +518,20 @@ function HomePage(props) {
                       <CardCourse isLogout={isLogout} {...card} />
                     </Grid>
                   ))
-                : ""}
+                : ''}
             </Grid>
           </CommonCarousel>
         </Container>
 
-        <Container className={classes.cardGrid} maxWith="lg">
+        <Container className={classes.cardGrid} maxWith='lg'>
           {/* End hero unit */}
           <Typography
             className={
-              (classes.ten_most_newest_courses, classes.course_list_section)
+              (classes.ten_most_newest_courses,
+              classes.course_list_section,
+              classes.text_center)
             }
-            variant="h4"
+            variant='h4'
           >
             Most viewed courses
           </Typography>
@@ -538,7 +559,7 @@ function HomePage(props) {
                       </Grid>
                     );
                   })
-                : ""}
+                : ''}
             </Grid>
             <Grid container spacing={4}>
               {/* ten_most_viewed_courses_second_4 */}
@@ -561,7 +582,7 @@ function HomePage(props) {
                       </Grid>
                     );
                   })
-                : ""}
+                : ''}
             </Grid>
             <Grid container spacing={4}>
               {/* ten_most_viewed_courses_third_2 */}
@@ -584,32 +605,34 @@ function HomePage(props) {
                       </Grid>
                     );
                   })
-                : ""}
+                : ''}
             </Grid>
           </CommonCarousel>
         </Container>
 
-        <Container className={classes.cardGrid} maxWith="lg">
+        <Container className={classes.cardGrid} maxWith='lg'>
           {/* End hero unit */}
           <Typography
             className={
-              (classes.ten_most_newest_courses, classes.course_list_section)
+              (classes.ten_most_newest_courses,
+              classes.course_list_section,
+              classes.text_center)
             }
-            variant="h4"
+            variant='h4'
           >
             Top categories
           </Typography>
 
           <Box className={classes.box_cat}>
             <TableContainer component={Paper} className={classes.table}>
-              <TableContainer aria-label="simple table">
+              <TableContainer aria-label='simple table'>
                 <TableHead>
                   <TableRow>
                     <TableCell style={{ minWidth: 200 }}>Category</TableCell>
-                    <TableCell align="right" style={{ minWidth: 200 }}>
+                    <TableCell align='right' style={{ minWidth: 200 }}>
                       Subcategory
                     </TableCell>
-                    <TableCell align="right" style={{ minWidth: 200 }}>
+                    <TableCell align='right' style={{ minWidth: 200 }}>
                       Total students
                     </TableCell>
                   </TableRow>
@@ -635,7 +658,7 @@ const mapStateToProps = (state) => {
   return {
     cart_global_state: state.cartReducer.cart,
     all_courses_sale_global_state: state.courseReducer.all_courses_sale,
-    purchased_id_list: state.purchasedCourseReducer.purchased_id_list,
+    purchased_id_list: state.purchasedCourseReducer.purchased_id_list
   };
 };
 
@@ -648,23 +671,23 @@ const mapDispatchToProps = (dispatch) => {
     dispatchAddSales: (sales) => {
       dispatch({
         type: ADD_SALES_INTO_GLOBAL_STATE,
-        payload: sales,
+        payload: sales
       });
     },
 
     setPurchasedListId: (purchase_list_id) => {
       dispatch({
         type: SET_ALL_COURSES_PURCHASED,
-        payload: purchase_list_id,
+        payload: purchase_list_id
       });
     },
 
     bringScrollbarBack: () => {
       dispatch({
         type: BRING_SCROLLBAR_BACK,
-        payload: true,
+        payload: true
       });
-    },
+    }
   };
 };
 
