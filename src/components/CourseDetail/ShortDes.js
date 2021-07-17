@@ -69,10 +69,13 @@ export default function ShortDes({
   const [user_role, setUserRole] = useState(0);
   const [insId, setInsId] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
-  const [shortDes, setshortDes] = useState();
+  const [course_detail, set_course_detail] = React.useState({});
+  const [shortDes, setshortDes] = useState(
+    course_detail.course_short_description
+  );
+
   const [loadDing, setLoadDing] = useState(false);
 
-  const [course_detail, set_course_detail] = React.useState({});
   const [last_updated, set_last_updated] = useState("");
   const { course_id } = useParams();
 
@@ -82,6 +85,7 @@ export default function ShortDes({
     axios
       .get(url, config)
       .then((ret) => {
+        console.log(ret.data);
         set_course_detail(ret.data.course_detail);
         const last_updated = new Date(
           `${ret.data.course_detail.course_last_updated}`
@@ -126,6 +130,10 @@ export default function ShortDes({
   };
 
   useEffect(() => {
+    setshortDes(course_detail.course_short_description);
+  }, [course_detail]);
+
+  useEffect(() => {
     const curr_user_role = sessionStorage.getItem("user_role");
     const user_login_id = sessionStorage.getItem("user_login_id");
 
@@ -135,6 +143,10 @@ export default function ShortDes({
     getCourseDetail();
   }, [isEdit]);
 
+  const handleQuillEdit = (value) => {
+    setshortDes(value);
+  };
+
   return isEdit === true ? (
     <Paper className={classes.paper}>
       <Typography className={classes.title} variant="h5">
@@ -143,8 +155,8 @@ export default function ShortDes({
       <Box my={3}>
         <ReactQuill
           theme="snow"
+          onChange={handleQuillEdit}
           value={shortDes || ""}
-          onChange={setshortDes}
         />
       </Box>
 
