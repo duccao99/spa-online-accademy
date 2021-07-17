@@ -11,6 +11,9 @@ import Moment from "react-moment";
 const styles = makeStyles((theme) => ({
   course_banner_info: {
     padding: "15px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   course_header_title: {
     color: "darkGrey",
@@ -24,15 +27,21 @@ export default function Title({ last_updated, course_detail }) {
   const classes = styles();
 
   return (
-    <Container className={classes.course_banner}>
-      <Box className={classes.course_banner_info}>
+    <Container className={classes.course_banner_info}>
+      <Box>
         <Typography variant="h4" className={cn(classes.course_name)}>
           {course_detail.course_name}
         </Typography>
         <Typography variant="h5" className={classes.course_header_title}>
           {course_detail.course_title}
         </Typography>
-        <Typography variant="p" className={classes.course_header_date}>
+      </Box>
+      <Box>
+        <Typography
+          variant="p"
+          className={classes.course_header_date}
+          style={{ marginTop: "15px !important" }}
+        >
           Last updated - &nbsp;
           <Moment format="MM/DD/YYYY HH:MM:SS">{last_updated}</Moment>
         </Typography>
