@@ -1,10 +1,10 @@
-import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import * as env from '../../config/env.config';
-import CardCourse from '../CardCourse/CardCourse';
-import CommonCarousel from '../Carousel/CommonCarousel';
+import { Box, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import * as env from "../../config/env.config";
+import CardCourse from "../CardCourse/CardCourse";
+import CommonCarousel from "../Carousel/CommonCarousel";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -12,67 +12,68 @@ const styles = makeStyles((theme) => ({
   ava_course: {},
   section_header: {
     minHeight: 100,
-    marginTop: 100
+    marginTop: 100,
   },
   course_name: {
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   course_header_title: {
-    textAlign: 'left',
+    textAlign: "left",
     paddingTop: 12,
     paddingBottom: 12,
-    color: 'white'
+    color: "white",
   },
   section_short_des: {
     minHeight: 100,
-    fontSize: common_fontsize
+    fontSize: common_fontsize,
   },
   des: {
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   section_description: {
     minHeight: 100,
-    fontSize: common_fontsize
+    fontSize: common_fontsize,
   },
   section_syllabus: {
     minHeight: 100,
-    fontSize: common_fontsize
+    fontSize: common_fontsize,
   },
   section_rating: {},
   section_feedback: {
-    marginBottom: 16
+    marginBottom: 16,
   },
   paper: {
     padding: 32,
-    textAlign: 'left',
+    textAlign: "left",
     color: theme.palette.text.secondary,
-    marginBottom: 16
+    marginBottom: 16,
   },
   box_cat: {
     padding: 12,
-    '& .MuiTypography-root': {
-      fontSize: common_fontsize
-    }
+    "& .MuiTypography-root": {
+      fontSize: common_fontsize,
+    },
   },
   pb16: {
-    paddingBottom: 16
+    paddingBottom: 16,
   },
   title: {
-    color: 'black',
-    fontWeight: 500
-  }
+    color: "black",
+    fontWeight: 500,
+  },
 }));
 
 export default function FiveRelativeCourse({
   match,
   setUpdateCourseDetail,
-  updateCourseDetail
+  purchased_id_list,
+  updateCourseDetail,
 }) {
   const classes = styles();
   const { id } = useParams();
 
   const {
-    params: { course_id }
+    params: { course_id },
   } = match;
 
   const [is_empty, set_is_empty] = useState(false);
@@ -127,7 +128,7 @@ export default function FiveRelativeCourse({
   return (
     <Paper className={classes.paper}>
       <Box mb={3}>
-        <Typography className={classes.title} variant='h5'>
+        <Typography className={classes.title} variant="h5">
           Courses relative category
         </Typography>
       </Box>
@@ -142,6 +143,7 @@ export default function FiveRelativeCourse({
                   return (
                     <Grid key={ele.course_id} item xs={12} sm={12} md={3}>
                       <CardCourse
+                        purchased_id_list={purchased_id_list}
                         setUpdateCourseDetail={setUpdateCourseDetail}
                         updateCourseDetail={updateCourseDetail}
                         {...ele}
@@ -158,6 +160,7 @@ export default function FiveRelativeCourse({
                   return (
                     <Grid key={ele.course_id} item xs={12} sm={12} md={3}>
                       <CardCourse
+                        purchased_id_list={purchased_id_list}
                         setUpdateCourseDetail={setUpdateCourseDetail}
                         updateCourseDetail={updateCourseDetail}
                         {...ele}
@@ -172,6 +175,7 @@ export default function FiveRelativeCourse({
                   return (
                     <Grid key={ele.course_id} item xs={12} sm={12} md={3}>
                       <CardCourse
+                        purchased_id_list={purchased_id_list}
                         updateCourseDetail={updateCourseDetail}
                         updateCourseDetail={updateCourseDetail}
                         {...ele}

@@ -64,6 +64,10 @@ const styles = makeStyles((theme) => ({
       textDecoration: "none",
     },
   },
+  button_wrapper: {
+    display: "flex",
+    alignItems: "center",
+  },
 
   btn_add_to_cart: {
     width: "100%",
@@ -122,6 +126,7 @@ function CatPrice({
   const [is_in_cart2, set_is_in_cart2] = useState(is_in_cart);
   const [toggle_buy_click, set_toggle_buy_click] = useState(false);
   const [user_role, setUser_role] = useState(0);
+  const [is_favorite, set_is_favorite] = useState(false);
 
   const { course_avatar_url, course_name, course_title } = course_detail;
 
@@ -159,6 +164,36 @@ function CatPrice({
       }
     }
   });
+
+  function getIsFavorite(user_id, course_id) {
+    let url_is_favo = `${env.DEV_URL}/api/student/is-favorite?course_id=${course_id}&user_id=${user_id}`;
+
+    axios
+      .get(url_is_favo, {})
+      .then((ret) => {
+        set_is_favorite(ret.data.is_favorite);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
+  }
+
+  const handleFavoriteClick = (e) => {
+    const toggle_favorite_url = `${env.DEV_URL}/api/student/toggle-favorite`;
+    const data = {
+      user_id: +sessionStorage.getItem("user_login_id"),
+      course_id: course_id,
+      is_favorite: is_favorite,
+    };
+
+    axios.patch(toggle_favorite_url, data, {}).then((ret) => {
+      getIsFavorite(data.user_id, data.course_id);
+    });
+  };
+
+  useEffect(() => {
+    getIsFavorite(+sessionStorage.getItem("user_login_id"), course_id);
+  }, [course_id]);
 
   useEffect(() => {
     // role
@@ -249,33 +284,61 @@ function CatPrice({
           </Typography>
         )}
       </Box>
-
-      <Box className={classes.box_cat}>
-        {user_role === 2 || user_role === 4 ? (
-          purchased_id_list && purchased_id_list.indexOf(+course_id) > -1 ? (
-            <Link to={`/student/enroll/course/${course_id}`}>
+      <Box className={(classes.box_cat, classes.button_wrapper)}>
+        <Box className={classes.box_cat} style={{ marginRight: "25px" }}>
+          {user_role === 2 || user_role === 4 ? (
+            purchased_id_list && purchased_id_list.indexOf(+course_id) > -1 ? (
+              <Link to={`/student/enroll/course/${course_id}`}>
+                <Button
+                  className={classes.btn}
+                  disabled={is_in_cart2 === true}
+                  onClick={handleEnroll}
+                  variant="contained"
+                  size="small"
+                  color="secondary"
+                >
+                  Enroll
+                </Button>
+              </Link>
+            ) : (
               <Button
-                className={classes.btn}
-                disabled={is_in_cart2 === true}
-                onClick={handleEnroll}
                 variant="contained"
                 size="small"
-                color="secondary"
+                color="primary"
+                disabled={is_in_cart2 === true}
+                onClick={handleAddToCart}
               >
-                Enroll
+                {is_in_cart2 === true ? "Added to cart" : "Buy"}
               </Button>
-            </Link>
+            )
           ) : (
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              disabled={is_in_cart2 === true}
-              onClick={handleAddToCart}
-            >
-              {is_in_cart2 === true ? "Added to cart" : "Buy"}
-            </Button>
-          )
+            ""
+          )}
+        </Box>
+        {+user_role === 2 ? (
+          <Box>
+            {+is_favorite === 1 ? (
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                disabled={is_in_cart2 === true}
+                onClick={handleFavoriteClick}
+              >
+                Remove from watchlist
+              </Button>
+            ) : (
+              <Link
+                onClick={handleFavoriteClick}
+                className={(classes.link, classes.favo)}
+                // to={`/course/${course_id}`}
+              >
+                <Button variant="outlined" size="small" color="secondary">
+                  Add to watchlist
+                </Button>
+              </Link>
+            )}
+          </Box>
         ) : (
           ""
         )}
