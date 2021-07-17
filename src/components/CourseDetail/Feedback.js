@@ -5,11 +5,13 @@ import {
   Typography,
   TextField,
   Button,
+  Box,
 } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as env from "../../config/env.config";
 import CardFeedback from "../CardFeedback/CardFeedback";
+import Rating from "@material-ui/lab/Rating";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -29,9 +31,8 @@ const styles = makeStyles((theme) => ({
     color: "white",
   },
   root: {
-    width: 200,
     display: "flex",
-    alignItems: "center",
+    flexDirection: "column",
   },
   section_short_des: {
     minHeight: 100,
@@ -72,13 +73,32 @@ const styles = makeStyles((theme) => ({
   },
   title: {
     color: "black",
-    fontWeight: 500,
+    fontWeight: 550,
+  },
+  send_feedback_wrapper: {
+    borderTop: "1px solid #ccc",
+    display: "flex",
+    flexDirection: "column",
+    marginTop: "30px",
+    padding: "15px",
+  },
+  input: {
+    width: "100%",
+    marginTop: "10px",
+  },
+  rating_wrapper: {
+    margin: "10px 0",
+    display: "flex",
+    alignItems: "center",
   },
 }));
 
 export default function Feedback({ match, curr_user_id }) {
   const classes = styles();
   const [feedback, set_feedback] = useState([]);
+  const [input, setInput] = useState("");
+  const [value, setValue] = React.useState(2);
+  const [hover, setHover] = React.useState(-1);
 
   const labels = {
     0.5: "Useless",
@@ -108,6 +128,11 @@ export default function Feedback({ match, curr_user_id }) {
     return;
   }
 
+  const handleSubmitReview = (e) => {
+    e.preventDefault();
+    console.log("submit!", input, " and ", value);
+  };
+
   useEffect(() => {
     getFeedback();
   }, [course_id]);
@@ -124,7 +149,6 @@ export default function Feedback({ match, curr_user_id }) {
         {feedback && feedback.length === 0
           ? "There is no feedback yet"
           : feedback.map((ele, i) => {
-              console.log(ele);
               return (
                 <Grid key={i} item xs={12}>
                   <CardFeedback key={i} {...ele} />
@@ -134,13 +158,48 @@ export default function Feedback({ match, curr_user_id }) {
       </Grid>
       {curr_user_id &&
         feedback.filter((ele) => ele.user_id === curr_user_id).length === 0 && (
-          <Grid container spacing={3}>
-            <Typography variant="h5">
-              Share your review about this course...
-            </Typography>
-            <form className={classes.root} noValidate autoComplete="off">
-              <TextField id="standard-basic" label="Standard" />
-              <Button>Submit</Button>
+          <Grid container spacing={3} className={classes.send_feedback_wrapper}>
+            <Box>
+              <Typography className={classes.title} variant="h5">
+                Share your review about this course
+              </Typography>
+            </Box>
+            <form
+              className={classes.root}
+              noValidate
+              autoComplete="off"
+              onSubmit={handleSubmitReview}
+            >
+              <TextField
+                id="standard-basic"
+                label="Type some review"
+                fullWidth
+                multiline
+                rows={4}
+                value={input}
+                variant="outlined"
+                onChange={(e) => setInput(e.target.value)}
+                className={classes.input}
+              />
+              <Box className={classes.rating_wrapper}>
+                <Rating
+                  name="hover-feedback"
+                  value={value}
+                  precision={0.5}
+                  onChange={(event, newValue) => {
+                    setValue(newValue);
+                  }}
+                  onChangeActive={(event, newHover) => {
+                    setHover(newHover);
+                  }}
+                />
+                {value !== null && (
+                  <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>
+                )}
+              </Box>
+              <Button variant="contained" color="primary" type="submit">
+                Review
+              </Button>
             </form>
           </Grid>
         )}
