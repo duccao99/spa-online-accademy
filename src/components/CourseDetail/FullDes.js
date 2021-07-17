@@ -103,9 +103,9 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
   const [user_role, setUserRole] = useState(0);
   const [insId, setInsId] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
-  const [fullDes, setFullDes] = useState();
-  const [loadDing, setLoadDing] = useState(false);
   const [course_detail, set_course_detail] = React.useState({});
+  const [fullDes, setFullDes] = useState(course_detail.course_full_description);
+  const [loadDing, setLoadDing] = useState(false);
   const [last_updated, set_last_updated] = useState("");
   const { course_id } = useParams();
   const [expanded, setExpanded] = React.useState(false);
@@ -164,6 +164,10 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
   };
 
   useEffect(() => {
+    setFullDes(course_detail.course_full_description);
+  }, [course_detail]);
+
+  useEffect(() => {
     const curr_user_role = sessionStorage.getItem("user_role");
     const user_login_id = sessionStorage.getItem("user_login_id");
 
@@ -173,13 +177,21 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
     getCourseDetail();
   }, [isEdit, course_id]);
 
+  const handleQuillEdit = (value) => {
+    setFullDes(value);
+  };
+
   return isEdit === true ? (
     <Paper className={classes.paper}>
       <Typography className={classes.title} variant="h5">
         Full description
       </Typography>
       <Box my={3}>
-        <ReactQuill theme="snow" value={fullDes || ""} onChange={setFullDes} />
+        <ReactQuill
+          theme="snow"
+          value={fullDes || ""}
+          onChange={handleQuillEdit}
+        />
       </Box>
 
       {+user_role === 3 && +course_detail.user_id === +insId ? (
