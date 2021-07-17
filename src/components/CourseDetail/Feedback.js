@@ -140,28 +140,29 @@ export default function Feedback({ match, curr_user_id, purchased_id_list }) {
       star: rating,
     };
     const url = `${env.DEV_URL}/api/student/upload-feedback`;
-    // axios
-    //   .post(url, data, {})
-    //   .then((ret) => {
-    //     const title = "Success!";
-    //     const html = ret.data.message || "Uploaded!";
-    //     const timer = 2500;
-    //     const icon = "success";
-    //     swal2Timing(title, html, timer, icon);
-    //   })
-    //   .catch((er) => {
-    //     const title = "error!";
-    //     const html = er.response.data.message || "Something broke!";
-    //     const timer = 2500;
-    //     const icon = "error";
-    //     swal2Timing(title, html, timer, icon);
-    //   });
-    setIsUpdate(!isUpdate);
+    axios
+      .post(url, data, {})
+      .then((ret) => {
+        const title = "Success!";
+        const html = ret.data.message || "Uploaded!";
+        const timer = 2500;
+        const icon = "success";
+        swal2Timing(title, html, timer, icon);
+        setIsUpdate(!isUpdate);
+      })
+      .catch((er) => {
+        const title = "error!";
+        const html = er.response.data.message || "Something broke!";
+        const timer = 2500;
+        const icon = "error";
+        swal2Timing(title, html, timer, icon);
+      });
+    // setIsUpdate(!isUpdate);
   };
 
   useEffect(() => {
     getFeedback();
-  }, [course_id]);
+  }, [course_id, isUpdate]);
 
   return (
     <Paper className={classes.paper}>
@@ -173,15 +174,19 @@ export default function Feedback({ match, curr_user_id, purchased_id_list }) {
         </Grid>
       </Grid>
       <Grid container spacing={3}>
-        {feedback && feedback.length === 0
-          ? "There is no feedback yet"
-          : feedback.map((ele, i) => {
-              return (
-                <Grid key={i} item xs={12}>
-                  <CardFeedback key={i} {...ele} />
-                </Grid>
-              );
-            })}
+        {feedback && feedback.length === 0 ? (
+          <Typography variant="h6" style={{ marginLeft: "15px" }}>
+            There is no feedback yet
+          </Typography>
+        ) : (
+          feedback.map((ele, i) => {
+            return (
+              <Grid key={i} item xs={12}>
+                <CardFeedback key={i} {...ele} />
+              </Grid>
+            );
+          })
+        )}
       </Grid>
       {curr_user_id &&
         feedback.filter((ele) => ele.user_id == curr_user_id).length === 0 &&

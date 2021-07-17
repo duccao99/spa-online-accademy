@@ -144,7 +144,6 @@ export default function EnrollCourse() {
       star: rating,
     };
     const url = `${env.DEV_URL}/api/student/upload-feedback`;
-    setIsUpdate(!isUpdate);
     axios
       .post(url, data, {})
       .then((ret) => {
@@ -153,6 +152,7 @@ export default function EnrollCourse() {
         const timer = 2500;
         const icon = "success";
         swal2Timing(title, html, timer, icon);
+        setIsUpdate(!isUpdate);
       })
       .catch((er) => {
         const title = "error!";
@@ -236,53 +236,57 @@ export default function EnrollCourse() {
               </Paper>
             </Grid>
             {yourFeedback === null && (
-              <Paper className={classes.paper}>
-                <form
-                  onKeyPress={(e) => {
-                    if (e.which === 13) {
-                      handleUploadFeedback(e);
-                    }
-                  }}
-                >
-                  <Typography variant="h6">Upload feedback </Typography>
-                  <Box
-                    my={3}
-                    className={(classes.course_video, classes.rating_wrapper)}
+              <Grid item xs={12} md={8}>
+                <Paper className={classes.paper}>
+                  <form
+                    onKeyPress={(e) => {
+                      if (e.which === 13) {
+                        handleUploadFeedback(e);
+                      }
+                    }}
                   >
-                    <Rating
-                      name="hover-feedback"
-                      value={rating}
-                      precision={0.5}
-                      onChange={(event, newValue) => {
-                        setRating(newValue);
-                      }}
-                      onChangeActive={(event, newHover) => {
-                        setHover(newHover);
-                      }}
-                    />
-                    {rating !== null && (
-                      <Box ml={2}>{labels[hover !== -1 ? hover : rating]}</Box>
-                    )}
-                  </Box>
-                  <Box my={3} className={classes.course_video}>
-                    <ReactQuill
-                      value={userFeedback}
-                      onChange={setUserFeedback}
-                    />
-                  </Box>
-
-                  <Box my={3} className={classes.course_video}>
-                    <Button
-                      onClick={handleUploadFeedback}
-                      className={classes.btn}
-                      variant="contained"
-                      color="primary"
+                    <Typography variant="h6">Upload feedback </Typography>
+                    <Box
+                      my={3}
+                      className={(classes.course_video, classes.rating_wrapper)}
                     >
-                      Feedback
-                    </Button>
-                  </Box>
-                </form>
-              </Paper>
+                      <Rating
+                        name="hover-feedback"
+                        value={rating}
+                        precision={0.5}
+                        onChange={(event, newValue) => {
+                          setRating(newValue);
+                        }}
+                        onChangeActive={(event, newHover) => {
+                          setHover(newHover);
+                        }}
+                      />
+                      {rating !== null && (
+                        <Box ml={2}>
+                          {labels[hover !== -1 ? hover : rating]}
+                        </Box>
+                      )}
+                    </Box>
+                    <Box my={3} className={classes.course_video}>
+                      <ReactQuill
+                        value={userFeedback}
+                        onChange={setUserFeedback}
+                      />
+                    </Box>
+
+                    <Box my={3} className={classes.course_video}>
+                      <Button
+                        onClick={handleUploadFeedback}
+                        className={classes.btn}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Feedback
+                      </Button>
+                    </Box>
+                  </form>
+                </Paper>
+              </Grid>
             )}
           </Grid>
         </Container>
