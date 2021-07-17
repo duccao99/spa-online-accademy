@@ -132,17 +132,18 @@ export default function Feedback({ match, curr_user_id }) {
               );
             })}
       </Grid>
-      {feedback.filter((ele) => ele.user_id === curr_user_id).length === 0 && (
-        <Grid container spacing={3}>
-          <Typography variant="h5">
-            Share your review about this course...
-          </Typography>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField id="standard-basic" label="Standard" />
-            <Button>Submit</Button>
-          </form>
-        </Grid>
-      )}
+      {curr_user_id &&
+        feedback.filter((ele) => ele.user_id === curr_user_id).length === 0 && (
+          <Grid container spacing={3}>
+            <Typography variant="h5">
+              Share your review about this course...
+            </Typography>
+            <form className={classes.root} noValidate autoComplete="off">
+              <TextField id="standard-basic" label="Standard" />
+              <Button>Submit</Button>
+            </form>
+          </Grid>
+        )}
     </Paper>
   );
 }
