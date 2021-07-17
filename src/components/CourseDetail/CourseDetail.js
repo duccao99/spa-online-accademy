@@ -129,12 +129,12 @@ const CourseDetail = ({
   }, [updateCourseDetail]);
 
   useEffect(() => {
-    if (!purchased_id_list) {
-      const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
-      axios.get(url_pruchased_course_id, {}).then((ret) => {
-        setPurchasedListId(ret.data.purchased_courses_id_list);
-      });
-    }
+    // if (!purchased_id_list) {
+    const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
+    axios.get(url_pruchased_course_id, {}).then((ret) => {
+      setPurchasedListId(ret.data.purchased_courses_id_list);
+    });
+    // }
 
     if (cart_global_state !== undefined) {
       for (let i = 0; i < cart_global_state.length; ++i) {
