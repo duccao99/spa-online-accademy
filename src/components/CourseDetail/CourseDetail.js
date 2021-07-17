@@ -14,6 +14,7 @@ import ShortDes from "./ShortDes";
 import Syllabus from "./Syllabus";
 import { SET_ALL_COURSES_PURCHASED } from "./../../actionTypes/purchase.type";
 import { connect } from "react-redux";
+import Title from "./Title";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -154,8 +155,14 @@ const CourseDetail = ({
       <main>
         <Container className={classes.section_header}>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={12} md={12}>
+            <Grid item xs={12} md={5}>
               <Avatar />
+            </Grid>
+            <Grid item xs={12} md={7}>
+              <Title
+                course_detail={course_detail}
+                last_updated={last_updated}
+              />
             </Grid>
           </Grid>
         </Container>
