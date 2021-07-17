@@ -62,7 +62,7 @@ function App() {
 
   return (
     <Router>
-      <Suspense fallback={<div>... loading</div>}>
+      <Suspense fallback={<div>........... loading</div>}>
         <Switch>
           <Route exact path='/' component={HomePage} />
 

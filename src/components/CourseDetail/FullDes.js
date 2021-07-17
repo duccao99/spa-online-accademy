@@ -1,4 +1,15 @@
-import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  makeStyles,
+  Paper,
+  Typography,
+  Card,
+  CardActions,
+  CardContent,
+  IconButton,
+  Collapse,
+} from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
@@ -6,6 +17,8 @@ import ReactQuill from "react-quill";
 import { useParams } from "react-router-dom";
 import * as env from "../../config/env.config";
 import { swal2Timing } from "../../config/swal2.config";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import clsx from "clsx";
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -28,6 +41,23 @@ const styles = makeStyles((theme) => ({
     minHeight: 100,
     fontSize: common_fontsize,
   },
+  root: {
+    width: "100%",
+  },
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
   des: {
     fontWeight: "bold",
   },
@@ -44,10 +74,16 @@ const styles = makeStyles((theme) => ({
     marginBottom: 16,
   },
   paper: {
-    padding: 32,
+    padding: 0,
     textAlign: "left",
     color: theme.palette.text.secondary,
     marginBottom: 16,
+  },
+  full_des: {
+    fontSize: "24px",
+    fontWeight: "550",
+    color: "black",
+    marginLeft: "10px",
   },
   box_cat: {
     padding: 12,
@@ -72,6 +108,11 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
   const [course_detail, set_course_detail] = React.useState({});
   const [last_updated, set_last_updated] = useState("");
   const { course_id } = useParams();
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   function getCourseDetail() {
     const url = `${env.DEV_URL}/api/course/${course_id}`;
@@ -164,7 +205,32 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
     </Paper>
   ) : (
     <Paper className={classes.paper}>
-      <Typography className={classes.title} variant="h5">
+      <Card className={classes.root}>
+        <CardActions disableSpacing>
+          <Typography className={classes.full_des}>Full Description</Typography>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Box
+              my={3}
+              dangerouslySetInnerHTML={{
+                __html: course_detail.course_full_description,
+              }}
+            ></Box>
+          </CardContent>
+        </Collapse>
+      </Card>
+      {/* <Typography className={classes.title} variant="h5">
         Full description
       </Typography>
       <Box
@@ -172,7 +238,7 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
         dangerouslySetInnerHTML={{
           __html: course_detail.course_full_description,
         }}
-      ></Box>
+      ></Box> */}
 
       {+user_role === 3 && +course_detail.user_id === +insId ? (
         <Button

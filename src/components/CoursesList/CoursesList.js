@@ -4,109 +4,111 @@ import {
   Grid,
   makeStyles,
   Paper,
-  Typography
-} from '@material-ui/core';
-import axios from 'axios';
-import cn from 'classnames';
-import { debounce } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import * as env from '../../config/env.config';
-import CardCourse from '../CardCourse/CardCourse';
-import Footer from '../Footer/Footer';
-import LeftCat from '../LeftCat/LeftCat';
-import Navbar from '../Navbar/Navbar';
-import Pagination from './Pagination';
-import Searchbar from './Searchbar';
-import Sort from './Sort';
+  Typography,
+} from "@material-ui/core";
+import axios from "axios";
+import cn from "classnames";
+import { debounce } from "lodash";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import * as env from "../../config/env.config";
+import CardCourse from "../CardCourse/CardCourse";
+import Footer from "../Footer/Footer";
+import LeftCat from "../LeftCat/LeftCat";
+import Navbar from "../Navbar/Navbar";
+import Pagination from "./Pagination";
+import Searchbar from "./Searchbar";
+import Sort from "./Sort";
+import { connect } from "react-redux";
+import { SET_ALL_COURSES_PURCHASED } from "./../../actionTypes/purchase.type";
 
 const style = makeStyles((theme) => ({
   main_course_list_wrapper: {
     flexGrow: 1,
     marginTop: 100,
-    marginBottom: 100
+    marginBottom: 100,
   },
 
   paper: {
     padding: 32,
-    textAlign: 'center',
-    color: theme.palette.text.secondary
+    textAlign: "center",
+    color: theme.palette.text.secondary,
   },
   course_list: {
     marginTop: 14,
-    marginBottom: 14
+    marginBottom: 14,
   },
   pagination: {
-    '& ul.MuiPagination-ul': {
-      justifyContent: 'flex-end'
-    }
+    "& ul.MuiPagination-ul": {
+      justifyContent: "flex-end",
+    },
   },
   left_cat: {
-    position: 'sticky',
+    position: "sticky",
     top: 32,
-    padding: 16
+    padding: 16,
   },
   nested: {
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(4),
   },
   cat_icon: {
-    '&.MuiListItemIcon-root': {
-      minWidth: 40
-    }
+    "&.MuiListItemIcon-root": {
+      minWidth: 40,
+    },
   },
   link: {
-    color: 'inherit',
-    textDecoration: 'none',
-    '&:visited': {
-      color: 'inherit',
-      textDecoration: 'none'
-    }
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
   },
   filter: {
-    textAlign: 'left'
-  }
+    textAlign: "left",
+  },
 }));
 
 const courses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const sort_info = [
   {
-    sort_name: 'Rate',
+    sort_name: "Rate",
     sub_sort: [
       {
         sub_id: 1,
-        sub_name: 'asc'
+        sub_name: "asc",
       },
       {
         sub_id: 2,
-        sub_name: 'desc'
-      }
-    ]
+        sub_name: "desc",
+      },
+    ],
   },
   {
-    sort_name: 'Price',
+    sort_name: "Price",
     sub_sort: [
       {
         sub_id: 1,
-        sub_name: 'asc'
+        sub_name: "asc",
       },
       {
         sub_id: 2,
-        sub_name: 'desc'
-      }
-    ]
-  }
+        sub_name: "desc",
+      },
+    ],
+  },
 ];
 
-export default function CoursesList() {
+const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   const classes = style();
   const [all_courses_finished, set_all_courses_finished] = useState([]);
   const [total_pagi_stuff, set_total_pagi_stuff] = useState([]);
   const [curr_page, set_curr_page] = useState([]);
-  const [search_value, set_search_value] = useState('');
+  const [search_value, set_search_value] = useState("");
   const { id, rate_value, price_value } = useParams();
   const [sort_value, set_sort_value] = useState({
-    sort_name: '',
-    is_checked: false
+    sort_name: "",
+    is_checked: false,
   });
   const [most_stu_enroll, set_most_stu_enroll] = useState([]);
   const [most_view_courses, set_most_view_courses] = useState([]);
@@ -146,7 +148,7 @@ export default function CoursesList() {
 
   useEffect(() => {
     // navbar logout problem
-    const isLg = sessionStorage.getItem('isLogout', false);
+    const isLg = sessionStorage.getItem("isLogout", false);
 
     if (isLg !== null) {
       setisLogout(isLg);
@@ -169,7 +171,7 @@ export default function CoursesList() {
       }, 500)();
     } else {
       if (id !== undefined) {
-        set_search_value('');
+        set_search_value("");
         debounce(() => {
           const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${id}`;
           const config = {};
@@ -215,6 +217,16 @@ export default function CoursesList() {
     }
   }, [id, search_value, sort_value, rate_value, price_value]);
 
+  useEffect(() => {
+    if (!purchased_id_list) {
+      const curr_user_id = sessionStorage.getItem("user_login_id");
+      const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
+      axios.get(url_pruchased_course_id, {}).then((ret) => {
+        setPurchasedListId(ret.data.purchased_courses_id_list);
+      });
+    }
+  });
+
   const handlePagiChange = (event, value) => {
     set_curr_page(value);
     setisUpdateFromPagi(!isUpdateFromPagi);
@@ -225,8 +237,8 @@ export default function CoursesList() {
 
     const config = {
       params: {
-        pagi: value
-      }
+        pagi: value,
+      },
     };
 
     if (search_value) {
@@ -241,7 +253,7 @@ export default function CoursesList() {
       }, 500)();
     } else {
       if (id !== undefined) {
-        set_search_value('');
+        set_search_value("");
         debounce(() => {
           const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${id}`;
 
@@ -292,7 +304,7 @@ export default function CoursesList() {
       <Navbar setisLogout={setisLogout} />
 
       <main>
-        <Container className={classes.main_course_list_wrapper} maxWidth='lg'>
+        <Container className={classes.main_course_list_wrapper} maxWidth="lg">
           <Grid container spacing={4}>
             <Grid item xs={12} sm={12} md={3} lg={3}>
               <Grid container spacing={4}>
@@ -305,8 +317,8 @@ export default function CoursesList() {
                   <Paper className={cn(classes.paper, classes.left_cat)}>
                     <Typography
                       className={classes.filter}
-                      variant='h6'
-                      component='p'
+                      variant="h6"
+                      component="p"
                     >
                       <Box px={2}>Filter</Box>
                     </Typography>
@@ -345,6 +357,7 @@ export default function CoursesList() {
                             most_stu_enroll={most_stu_enroll}
                             most_view_courses={most_view_courses}
                             newest_courses={newest_courses}
+                            purchased_id_list={purchased_id_list}
                           />
                         </Grid>
                       );
@@ -370,7 +383,7 @@ export default function CoursesList() {
                         total_pagi_stuff={total_pagi_stuff}
                       />
                     ) : (
-                      ''
+                      ""
                     )}
                   </Grid>
                 </Grid>
@@ -383,4 +396,23 @@ export default function CoursesList() {
       <Footer />
     </React.Fragment>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  return {
+    purchased_id_list: state.purchasedCourseReducer.purchased_id_list,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setPurchasedListId: (purchase_list_id) => {
+      dispatch({
+        type: SET_ALL_COURSES_PURCHASED,
+        payload: purchase_list_id,
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesList);
