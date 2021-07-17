@@ -14,7 +14,7 @@ import Select from '@material-ui/core/Select';
 import axios from 'axios';
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+// import 'react-quill/dist/quill.snow.css';
 import * as env from '../../config/env.config';
 import { swal2Timing } from '../../config/swal2.config';
 import Navbar from '../Navbar/Navbar';
