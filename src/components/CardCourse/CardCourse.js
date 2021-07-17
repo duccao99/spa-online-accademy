@@ -566,11 +566,11 @@ function CardCourse(props) {
               {avg_rate && (
                 <Typography className={(classes.typo, classes.avg_rate)}>
                   <Typography className={(classes.typo, classes.avg_rate_num)}>
-                    {avg_rate}
+                    {Math.round(avg_rate * 10) / 10}
                   </Typography>
                   <Rating
                     name="half-rating-read"
-                    defaultValue={avg_rate}
+                    defaultValue={Math.round(avg_rate * 10) / 10}
                     precision={0.5}
                     readOnly
                   />
