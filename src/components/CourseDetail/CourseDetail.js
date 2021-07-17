@@ -219,7 +219,11 @@ const CourseDetail = ({
       <Container className={classes.section_feedback}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12}>
-            <Feedback match={match} curr_user_id={curr_user_id} />
+            <Feedback
+              match={match}
+              curr_user_id={curr_user_id}
+              purchased_id_list={purchased_id_list}
+            />
           </Grid>
         </Grid>
       </Container>

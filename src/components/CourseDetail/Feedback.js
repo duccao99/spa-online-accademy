@@ -93,7 +93,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-export default function Feedback({ match, curr_user_id }) {
+export default function Feedback({ match, curr_user_id, purchased_id_list }) {
   const classes = styles();
   const [feedback, set_feedback] = useState([]);
   const [input, setInput] = useState("");
@@ -130,12 +130,27 @@ export default function Feedback({ match, curr_user_id }) {
 
   const handleSubmitReview = (e) => {
     e.preventDefault();
-    console.log("submit!", input, " and ", value);
+    const send_feedback_url = `${env.DEV_URL}/api/course/course-review`;
+    const data = {
+      course_id,
+      user_id: curr_user_id,
+      star: value,
+      review_content: input,
+    };
+    axios
+      .post(send_feedback_url, data)
+      .then((ret) => {
+        set_feedback(ret.data.feedback);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
   };
 
   useEffect(() => {
     getFeedback();
   }, [course_id]);
+
   return (
     <Paper className={classes.paper}>
       <Grid container spacing={3}>
@@ -157,7 +172,8 @@ export default function Feedback({ match, curr_user_id }) {
             })}
       </Grid>
       {curr_user_id &&
-        feedback.filter((ele) => ele.user_id === curr_user_id).length === 0 && (
+        feedback.filter((ele) => ele.user_id == curr_user_id).length === 0 &&
+        purchased_id_list.indexOf(+course_id) > -1 && (
           <Grid container spacing={3} className={classes.send_feedback_wrapper}>
             <Box>
               <Typography className={classes.title} variant="h5">
