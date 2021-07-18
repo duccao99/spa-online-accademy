@@ -239,20 +239,6 @@ function Admin({ match, bringScrollbarBack }) {
       </main>
     </div>
   ) : (
-    // <div className={classes.root}>
-    //   <Container>
-    //     <Box minHeight='97vh'>
-    //       <Grid container spacing={4}>
-    //         <Grid item xs={12} md={3}>
-    //           <DashboardSidebar match={match} setPage={setPage} />
-    //         </Grid>
-    //         <Grid item xs={12} md={9}>
-    //           <AdminContent match={match} />
-    //         </Grid>
-    //       </Grid>
-    //     </Box>
-    //   </Container>
-    // </div>
     <Redirect to="/" />
   );
 }

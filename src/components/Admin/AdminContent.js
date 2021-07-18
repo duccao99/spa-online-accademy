@@ -1,14 +1,15 @@
 import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
 import cn from "classnames";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import CatManagement from "./CategoryManagement/CatManagement";
-import DeleteCourse from "./DeleteCourse";
 import InsDetail from "./InstructorManagement/InsDetail";
 import InstructorManagement from "./InstructorManagement/InstructorManagement";
 import StudentDetail from "./StudentManagement/StudentDetail";
 import StudentManagement from "./StudentManagement/StudentManagement";
 import SubCatDetail from "./SubCatDetail";
+import CourseManagement from "./CoursesManagement/CourseManagement";
+import CourseDetails from "./CoursesManagement/CourseDetails";
 const styles = makeStyles((theme) => ({
   root: {
     "& *::-webkit-scrollbar": {
@@ -59,15 +60,17 @@ export default function AdminContent({ match }) {
           <SubCatDetail />
         </Box>
       );
-    } else if (path === "/admin/delete-course") {
+    } else if (path === "/admin/course-management") {
       return (
         <Box>
-          <Box mb={3}>
-            <Typography variant="h6">Delete course</Typography>
-          </Box>
-          <Box>
-            <DeleteCourse />
-          </Box>
+          <CourseManagement />
+        </Box>
+      );
+    } else if (path === "/admin/course-management/course/:id") {
+      return (
+        <Box>
+          {" "}
+          <CourseDetails />{" "}
         </Box>
       );
     } else if (path === "/admin/student-management") {
@@ -90,28 +93,19 @@ export default function AdminContent({ match }) {
     } else if (path === "/admin/instructor-management") {
       return (
         <Box>
-          <Box mb={3}>
-            <Typography variant="h6">Instructor management</Typography>{" "}
-          </Box>
           <InstructorManagement />
         </Box>
       );
     } else if (path === "/admin/instructor-management/instructor/:id") {
       return (
         <Box>
-          <Box mb={3}>
-            <Typography variant="h6">Instructor management</Typography>{" "}
-          </Box>
           <InsDetail />
         </Box>
       );
     } else {
       return (
         <Box>
-          <Box mb={3}>
-            <Typography variant="h6">Admin content</Typography>
-          </Box>
-          <Box></Box>
+          <Redirect to="/admin/course-management" />
         </Box>
       );
     }

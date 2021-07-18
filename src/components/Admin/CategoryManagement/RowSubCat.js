@@ -24,6 +24,9 @@ const useStyles = makeStyles({
       color: "inherit",
       textDecoration: "none",
     },
+    "&:hover": {
+      textDecoration: "underline",
+    },
   },
 });
 
@@ -139,12 +142,11 @@ export default function RowSubCat({ row, handleDelSubCat }) {
       </TableCell>
 
       <TableCell align="left">
-        {" "}
         <Link
           className={classes.link}
           to={`/admin/cat-management/subcat/${row.subject_id}`}
         >
-          {row.subject_name}{" "}
+          {row.subject_name}
         </Link>
       </TableCell>
 
