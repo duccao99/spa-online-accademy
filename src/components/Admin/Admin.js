@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { BRING_SCROLLBAR_BACK } from "../../actionTypes/home.type";
 import AdminContent from "./AdminContent";
-import DashboardSidebar from "./DashboardSidebar";
-
-// =========================
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -19,16 +16,10 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import ManagementItems from "./ManagementItems";
 import NonManagementItems from "./NonMangementItems";
 
 const drawerWidth = 240;
-// =========================
 
 function Admin({ match, bringScrollbarBack }) {
   const scrollbar_styles = {
