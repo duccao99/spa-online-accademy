@@ -110,7 +110,8 @@ function HomePage(props) {
     text_center: {
       textAlign: 'center',
       paddingBottom: 24,
-      textShadow: '1px 2px 2px #0000006e;'
+      fontFamily: 'unset',
+      fontWeight: 500
     },
     btn_sign_in: {
       color: 'inherit',

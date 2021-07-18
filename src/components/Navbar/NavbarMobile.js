@@ -44,24 +44,30 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between'
   },
   nav_mobile_wrapper: {
-    height: '100vw',
+    height: '100vh',
     width: '100vw',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     position: 'fixed',
-    zIndex: 10,
+    zIndex: 10000,
     padding: '4vw',
     backgroundColor: theme.palette.primary.main,
     color: '#ffffff',
     fontSize: 20
   },
   btn_sign_in: {
-    fontSize: 20
+    fontSize: 20,
+    padding: 0,
+    textTransform: 'initial'
   },
   nav_typo: {
     color: '#ffffff'
+  },
+  link: {
+    padding: '24px 0',
+    textTransform: 'initial'
   }
 }));
 
@@ -143,9 +149,11 @@ function NavbarMobile(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' color='inherit'>
-            Online Academy
-          </Typography>
+          <Link to='/'>
+            <Typography variant='h6' color='inherit'>
+              Online Academy
+            </Typography>
+          </Link>
         </Toolbar>
       </AppBar>
 
@@ -155,7 +163,6 @@ function NavbarMobile(props) {
             <Paper className={classes.nav_mobile_wrapper}>
               <Link className={classes.link} to='/courses-list'>
                 <Typography variant='h6' className={classes.nav_typo}>
-                  <ListAltIcon className={classes.icon_courses_list} />
                   Courses list
                 </Typography>
               </Link>

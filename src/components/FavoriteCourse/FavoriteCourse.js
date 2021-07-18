@@ -20,7 +20,10 @@ const style = makeStyles((theme) => ({
   paper: {
     padding: 32,
     textAlign: 'center',
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    [theme.breakpoints.down('sm')]: {
+      backgroundColor: 'transparent!important'
+    }
   },
 
   link: {
@@ -30,6 +33,11 @@ const style = makeStyles((theme) => ({
       color: 'inherit',
       textDecoration: 'none'
     }
+  },
+  favorite_title: {
+    fontWeight: 500,
+    fontFamily: 'unset;',
+    color: '#000000'
   }
 }));
 
@@ -78,7 +86,11 @@ export default function FavoriteCourse() {
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Box mb={6} display='flex' maxWidth justifyContent='flex-start'>
-                  <Typography variant='h4' component='p'>
+                  <Typography
+                    variant='h4'
+                    component='p'
+                    className={classes.favorite_title}
+                  >
                     Favorite course
                   </Typography>
                 </Box>
