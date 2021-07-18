@@ -3,12 +3,12 @@ import cn from "classnames";
 import React from "react";
 import { useParams } from "react-router-dom";
 import CatManagement from "./CategoryManagement/CatManagement";
-import DeleteCourse from "./DeleteCourse";
 import InsDetail from "./InstructorManagement/InsDetail";
 import InstructorManagement from "./InstructorManagement/InstructorManagement";
 import StudentDetail from "./StudentManagement/StudentDetail";
 import StudentManagement from "./StudentManagement/StudentManagement";
 import SubCatDetail from "./SubCatDetail";
+import CourseManagement from "./CoursesManagement/CourseManagement";
 const styles = makeStyles((theme) => ({
   root: {
     "& *::-webkit-scrollbar": {
@@ -66,7 +66,7 @@ export default function AdminContent({ match }) {
             <Typography variant="h6">Delete course</Typography>
           </Box>
           <Box>
-            <DeleteCourse />
+            <CourseManagement />
           </Box>
         </Box>
       );

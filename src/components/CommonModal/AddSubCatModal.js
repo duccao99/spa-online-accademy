@@ -97,11 +97,12 @@ export default function AddSubCatModal({ open, setOpen }) {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Adding new sub category</h2>
+      <h2 id="simple-modal-title">Add sub category</h2>
       <form onSubmit={handleAddSubCat} onKeyPress={handleKeyPress}>
         <p id="simple-modal-description">
           <FormControl fullWidth>
             <TextField
+              autoComplete={false}
               fullWidth
               id="txtSubCatName"
               onChange={handleSubCatNameChange}
