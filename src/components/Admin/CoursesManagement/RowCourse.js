@@ -24,6 +24,9 @@ const useStyles = makeStyles({
       color: "inherit",
       textDecoration: "none",
     },
+    "&:hover": {
+      textDecoration: "underline",
+    },
   },
 });
 
@@ -133,7 +136,12 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
       </TableCell>
 
       <TableCell align="left" component="th" scope="row">
-        {course.course_name}
+        <Link
+          className={classes.link}
+          to={`/admin/course-management/course/${course.course_id}`}
+        >
+          {course.course_name}
+        </Link>
       </TableCell>
 
       {onEdit ? (

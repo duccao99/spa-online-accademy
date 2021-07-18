@@ -35,7 +35,7 @@ function ManagementItems() {
     <List>
       {[
         ["Categories", "cat-management"],
-        ["Courses", "delete-course"],
+        ["Courses", "course-management"],
         ["Students", "student-management"],
         ["Instructors", "instructor-management"],
       ].map((text, index) => (
