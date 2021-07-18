@@ -254,7 +254,7 @@ function Navbar(props) {
     <React.Fragment>
       <CssBaseline />
       <Box className={classes.nav_mobi}>
-        <NavbarMobile />
+        <NavbarMobile setisLogout={setisLogout} />
       </Box>
       <AppBar position='static' className={classes.nav_root}>
         <Toolbar>
