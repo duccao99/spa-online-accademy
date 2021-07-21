@@ -52,6 +52,7 @@ export default function InsRow({
   const [openEdit, setopenEdit] = React.useState(false);
   const [username, setusername] = React.useState(row.user_name);
   const [maile, setmaile] = React.useState(row.email);
+  const [verify, setVerify] = React.useState(row.is_verified);
   const config = {};
 
   const handleMaileChange = (e) => {
@@ -66,6 +67,7 @@ export default function InsRow({
     const data = {
       user_name: username,
       email: maile,
+      is_verified: verify,
     };
     axios
       .patch(edit_ins_url, data, config)
@@ -126,7 +128,21 @@ export default function InsRow({
       <TableCell align="left">
         <Moment format="MM/DD/YYYY">{row.date_of_birth}</Moment>
       </TableCell>
-      <TableCell align="left">{row.is_verified}</TableCell>
+      <TableCell align="left">
+        <FormControl fullWidth>
+          <TextField
+            className={classes.TextField}
+            fullWidth
+            id="username"
+            onChange={(e) => {
+              setVerify(e.target.value);
+            }}
+            value={verify}
+            label="Username"
+            name="username"
+          />
+        </FormControl>
+      </TableCell>
       <TableCell align="right">
         <Button
           onClick={() => {
