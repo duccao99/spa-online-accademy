@@ -4,41 +4,48 @@ import {
   Grid,
   makeStyles,
   Paper,
-  Typography
-} from '@material-ui/core';
-import axios from 'axios';
-import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import * as env from '../../config/env.config';
-import Footer from '../Footer/Footer';
-import Navbar from '../Navbar/Navbar';
+  Typography,
+} from "@material-ui/core";
+import axios from "axios";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import * as env from "../../config/env.config";
+import Footer from "../Footer/Footer";
+import Navbar from "../Navbar/Navbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // import CardCourse from './../CardCourse/CardCourse';
-const CardCourse = lazy(() => import('./../CardCourse/CardCourse'));
+const CardCourse = lazy(() => import("./../CardCourse/CardCourse"));
 
 const style = makeStyles((theme) => ({
   paper: {
     padding: 32,
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
-    [theme.breakpoints.down('sm')]: {
-      backgroundColor: 'transparent!important'
-    }
+    [theme.breakpoints.down("sm")]: {
+      backgroundColor: "transparent!important",
+    },
   },
 
   link: {
-    color: 'inherit',
-    textDecoration: 'none',
-    '&:visited': {
-      color: 'inherit',
-      textDecoration: 'none'
-    }
+    color: "inherit",
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+      textDecoration: "none",
+    },
   },
   favorite_title: {
     fontWeight: 500,
-    fontFamily: 'unset;',
-    color: '#000000'
-  }
+    fontFamily: "unset;",
+    color: "#000000",
+  },
+  wating: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },
 }));
 
 export default function FavoriteCourse() {
@@ -64,8 +71,8 @@ export default function FavoriteCourse() {
 
   useEffect(() => {
     // nav
-    const isLg = sessionStorage.getItem('isLogout', false);
-    const user_id = +sessionStorage.getItem('user_login_id', false);
+    const isLg = sessionStorage.getItem("isLogout", false);
+    const user_id = +sessionStorage.getItem("user_login_id", false);
 
     if (isLg !== null) {
       setisLogout(isLg);
@@ -80,15 +87,15 @@ export default function FavoriteCourse() {
     <React.Fragment>
       <Navbar setisLogout={setisLogout} />
 
-      <Container maxWidth='lg'>
+      <Container maxWidth="lg">
         <Box my={12}>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Box mb={6} display='flex' maxWidth justifyContent='flex-start'>
+                <Box mb={6} display="flex" maxWidth justifyContent="flex-start">
                   <Typography
-                    variant='h4'
-                    component='p'
+                    variant="h4"
+                    component="p"
                     className={classes.favorite_title}
                   >
                     Favorite course
@@ -96,7 +103,14 @@ export default function FavoriteCourse() {
                 </Box>
 
                 <Grid container spacing={4}>
-                  <Suspense fallback={<div>...loading</div>}>
+                  <Suspense
+                    fallback={
+                      <CircularProgress
+                        className={classes.wating}
+                        color="secondary"
+                      />
+                    }
+                  >
                     {favorites.length !== 0
                       ? favorites.map((ele, i) => {
                           return (
@@ -111,7 +125,7 @@ export default function FavoriteCourse() {
                             </Grid>
                           );
                         })
-                      : 'There is no course!'}
+                      : "There is no course!"}
                   </Suspense>
                 </Grid>
               </Paper>
