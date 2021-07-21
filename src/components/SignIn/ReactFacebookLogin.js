@@ -59,6 +59,7 @@ export default function ReactFacebookLogin({}) {
   }
 
   const responseFacebook = (res) => {
+    console.log(res);
     signIn(res.name, res.email);
   };
 
