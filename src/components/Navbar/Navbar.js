@@ -181,7 +181,12 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 function Navbar(props) {
-  const { setisLogout, cart_global_state, quantity_global_state } = props;
+  const {
+    setisLogout,
+    cart_global_state,
+    quantity_global_state,
+    shouldNavUpdate
+  } = props;
   const classes = useStyles();
   const [user_name, set_user_name] = useState('');
   const [email, set_email] = useState('');
@@ -249,7 +254,7 @@ function Navbar(props) {
 
     set_user_name(user_name);
     set_email(email);
-  }, [user_name, quantity, quantity_global_state]);
+  }, [user_name, quantity, quantity_global_state, shouldNavUpdate]);
   return (
     <React.Fragment>
       <CssBaseline />

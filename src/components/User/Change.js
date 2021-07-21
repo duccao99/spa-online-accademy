@@ -95,6 +95,8 @@ export default function Change({ setupdate, update }) {
       user_name: user_name,
       user_id: user_id
     };
+    sessionStorage.setItem('user_name', JSON.stringify(data.user_name));
+
     axios
       .patch(url_update_name, data, {})
       .then(function (ret) {
@@ -120,6 +122,9 @@ export default function Change({ setupdate, update }) {
       email: maile,
       user_id: user_id
     };
+
+    sessionStorage.setItem('email', JSON.stringify(data.email));
+
     axios
       .patch(url_update_maile, data, {})
       .then(function (ret) {

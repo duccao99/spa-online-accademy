@@ -48,6 +48,10 @@ export default function UserProfile() {
   const classes = styles();
   let { id } = useParams();
   const [user_name, set_user_name] = useState('');
+  const [sessionUsername, setSessionUserName] = useState('');
+  const [sessionUserEmail, setSessionUserEmail] = useState('');
+  const [shouldNavUpdate, setShouldNavUpdate] = useState(false);
+
   const [email, set_email] = useState('');
   const [isLogout, setisLogout] = useState(true);
   const [update, setupdate] = useState(false);
@@ -65,7 +69,10 @@ export default function UserProfile() {
     const curr_user_id = sessionStorage.getItem('user_login_id');
     setuser_id(+curr_user_id);
 
-    const isLg = sessionStorage.getItem('isLogout', false);
+    const ssUsername = JSON.parse(sessionStorage.getItem('user_name'));
+    const ssEmail = JSON.parse(sessionStorage.getItem('email'));
+    setSessionUserEmail(ssEmail);
+    setSessionUserName(ssUsername);
 
     getNameMaile(+curr_user_id);
 
@@ -76,7 +83,7 @@ export default function UserProfile() {
     <Redirect to='/' />
   ) : (
     <React.Fragment>
-      <Navbar setisLogout={setisLogout} />
+      <Navbar setisLogout={setisLogout} shouldNavUpdate={update} />
 
       <Container>
         <Box mt={12} mb={4}>
@@ -85,12 +92,12 @@ export default function UserProfile() {
               <Paper className={classes.paper}>
                 <Box my={3}>
                   <Typography variant='h6' component='p'>
-                    Username: {user_name}
+                    Username: {user_name ? user_name : sessionUsername}
                   </Typography>
                 </Box>
                 <Box my={3}>
                   <Typography variant='h6' component='p'>
-                    Email: {email}
+                    Email: {email ? email : sessionUserEmail}
                   </Typography>
                 </Box>
               </Paper>
