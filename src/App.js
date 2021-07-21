@@ -11,6 +11,8 @@ import SignUp from "./components/SignUp/SignUp";
 import UserProfile from "./components/User/UserProfile";
 import Verify from "./components/User/Verify";
 import { getToken } from "./config/accessToken";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
 // import Admin from "./components/Admin/Admin";
 // import UploadCourse from "./components/Instructor/UploadCourse";
 // const SignIn = lazy(() => import("./components/SignIn/SignIn"));
@@ -40,13 +42,39 @@ const FavoriteCourse = lazy(() =>
 const EnrollCourse = lazy(() => import("./components/Student/EnrollCourse"));
 
 const UploadCourseSuspense = (props) => {
+  const useStyles = makeStyles((theme) => ({
+    wating: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
-    <Suspense fallback={<div>... loading</div>}>
+    <Suspense
+      fallback={
+        <CircularProgress className={classes.wating} color="secondary" />
+      }
+    >
       <UploadCourse {...props} />
     </Suspense>
   );
 };
 function App() {
+  const useStyles = makeStyles((theme) => ({
+    wating: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+    },
+  }));
+
+  const classes = useStyles();
+
   const [is_logged_in, set_is_logged_in] = useState(false);
   const [access_token, set_access_token] = useState("");
 
@@ -62,7 +90,11 @@ function App() {
 
   return (
     <Router>
-      <Suspense fallback={<div>........... loading</div>}>
+      <Suspense
+        fallback={
+          <CircularProgress className={classes.wating} color="secondary" />
+        }
+      >
         <Switch>
           <Route exact path="/" component={HomePage} />
 
