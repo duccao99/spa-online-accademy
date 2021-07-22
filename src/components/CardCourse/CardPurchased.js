@@ -222,7 +222,7 @@ function CardPurchased(props) {
               {avg_rate && (
                 <Typography className={(classes.typo, classes.avg_rate)}>
                   <Typography className={(classes.typo, classes.avg_rate_num)}>
-                    {avg_rate}
+                    {Math.round(avg_rate * 10) / 10}
                   </Typography>
                   <Rating
                     name="half-rating-read"

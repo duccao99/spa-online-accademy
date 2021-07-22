@@ -131,7 +131,10 @@ export default function CourseDetails() {
           <TableRow>
             <TableCell variant="head">Average rate</TableCell>
             <TableCell className={classes.cell_info}>
-              {course_detail.avg_rate ? course_detail.avg_rate : 0} out of{" "}
+              {course_detail.avg_rate
+                ? Math.round(course_detail.avg_rate * 10) / 10
+                : 0}{" "}
+              out of{" "}
               {course_detail.total_review ? course_detail.total_review : 0}{" "}
               reviews
             </TableCell>

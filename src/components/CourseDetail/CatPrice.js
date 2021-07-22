@@ -255,7 +255,9 @@ function CatPrice({
       <Box className={classes.box_cat}>
         <Typography>
           <strong>Average rating: </strong>
-          {avg_rate === undefined || avg_rate === null ? 0 : avg_rate}
+          {avg_rate === undefined || avg_rate === null
+            ? 0
+            : Math.round(avg_rate * 10) / 10}
         </Typography>
       </Box>
       <Box className={classes.box_cat}>
