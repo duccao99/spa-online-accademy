@@ -31,6 +31,10 @@
 
 `mysql`
 
+### Student account <br/>
+
+### Instructor account <br/>
+
 ### Admin account <br/>
 
 email: admin@gmail.com <br/>

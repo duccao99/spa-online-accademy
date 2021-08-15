@@ -509,14 +509,18 @@ function HomePage(props) {
                 ? newest_courses_3_2.map((card, i) => (
                     <Grid
                       item
-                      newest_courses={newest_courses_3_2}
                       key={card.course_id}
                       xs={12}
                       sm={6}
                       md={3}
                       lg={3}
                     >
-                      <CardCourse isLogout={isLogout} {...card} />
+                      <CardCourse
+                        newest_courses={newest_courses_3_2}
+                        isLogout={isLogout}
+                        purchased_id_list={purchased_id_list}
+                        {...card}
+                      />
                     </Grid>
                   ))
                 : ''}

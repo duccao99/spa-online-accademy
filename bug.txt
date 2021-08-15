@@ -1,0 +1,2 @@
++ combine sort + search by keyword
++ course detail: student buy course can view full course in syllabus
