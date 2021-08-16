@@ -1,2 +1,15 @@
 + combine sort + search by keyword
-+ course detail: student buy course can view full course in syllabus
+
+
+
++ admin module: filter course by category or instructor (duc)
+
++ disable course (tu)
+
++ authentication access token (tu)
++ authentication access token , refresh token (tu)
+
++ validate json schema (duc)
+
++ extra 10 course (tu)
+

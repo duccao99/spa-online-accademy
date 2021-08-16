@@ -1,0 +1,12 @@
+1. mo udemy de lay description 
+
+2. mo ngrok, set web hook url tren facebook, google 
+
+3. https://developers.facebook.com/apps/500824031046665/roles/roles/ 
+add tester cho thay 
+
+4. https://developers.facebook.com/apps/500824031046665/messenger/settings/
+link to web hook to add url from ngrok  (https)
++ example callback url:   https://8f9bcf590140.ngrok.io/api/chatbot
++ verify token: 12345
+

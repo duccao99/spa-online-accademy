@@ -33,7 +33,13 @@
 
 ### Student account <br/>
 
+email: caovanducs@gmail.com <br/>
+password: 123123 <br/>
+
 ### Instructor account <br/>
+
+email: khahuy@ins.com <br/>
+password: 123123 <br/>
 
 ### Admin account <br/>
 

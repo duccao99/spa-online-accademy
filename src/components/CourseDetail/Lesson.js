@@ -127,7 +127,8 @@ export default function Lesson({
   lesson_video_url,
   flag_reviewable,
   lesson_content,
-  isLessonCompleted
+  isLessonCompleted,
+  is_purchased
 }) {
   const classes = styles();
   const [is_close_video, set_is_close_video] = useState(true);
@@ -225,7 +226,9 @@ export default function Lesson({
               primary={`${lesson_name === null ? '' : lesson_name}`}
             />
 
-            {+flag_reviewable === 1 && isLessonCompleted === true ? (
+            {is_purchased ? (
+              <Button onClick={handleCloseVideo}>Watch</Button>
+            ) : +flag_reviewable === 1 && isLessonCompleted === true ? (
               <Button onClick={handleCloseVideo}>Preview</Button>
             ) : (
               ''

@@ -1,12 +1,12 @@
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles } from "@material-ui/core/styles";
-import CallToActionIcon from "@material-ui/icons/CallToAction";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import React, { useEffect } from "react";
-import Lesson from "./Lesson";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import { makeStyles } from '@material-ui/core/styles';
+import CallToActionIcon from '@material-ui/icons/CallToAction';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import React, { useEffect } from 'react';
+import Lesson from './Lesson';
 
 const common_fontsize = 18;
 
@@ -15,66 +15,62 @@ const styles = makeStyles((theme) => ({
   ava_course: {},
   section_header: {
     minHeight: 100,
-    marginTop: 100,
+    marginTop: 100
   },
   course_name: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   course_header_title: {
-    textAlign: "left",
+    textAlign: 'left',
     paddingTop: 12,
     paddingBottom: 12,
-    color: "white",
+    color: 'white'
   },
   section_short_des: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   des: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   section_description: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_syllabus: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_rating: {},
   section_feedback: {
-    marginBottom: 16,
+    marginBottom: 16
   },
   paper: {
     padding: 32,
-    textAlign: "left",
+    textAlign: 'left',
     color: theme.palette.text.secondary,
-    marginBottom: 16,
+    marginBottom: 16
   },
   box_cat: {
     padding: 12,
-    "& .MuiTypography-root": {
-      fontSize: common_fontsize,
-    },
+    '& .MuiTypography-root': {
+      fontSize: common_fontsize
+    }
   },
 
   nested: {
-    paddingLeft: theme.spacing(4),
-  },
+    paddingLeft: theme.spacing(4)
+  }
 }));
 
 // get lesson by chap id and it will be okay
-export default function Chapter({ chap_name, chap_id, lessons }) {
+export default function Chapter({ chap_name, chap_id, lessons, is_purchased }) {
   const classes = styles();
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
-
-  useEffect(() => {
-    console.log(lessons);
-  }, []);
 
   return (
     <React.Fragment>
@@ -87,14 +83,20 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
       </ListItem>
 
       {lessons.length === 0 || lessons === null || lessons === undefined
-        ? ""
+        ? ''
         : lessons.map((ele, i) => {
             return +ele.chap_id === +chap_id &&
               ele.lesson_name !== null &&
               ele.chap_id !== null ? (
-              <Lesson {...ele} key={i} open={open} isLessonCompleted={true} />
+              <Lesson
+                is_purchased={is_purchased}
+                {...ele}
+                key={i}
+                open={open}
+                isLessonCompleted={true}
+              />
             ) : (
-              ""
+              ''
             );
           })}
     </React.Fragment>
