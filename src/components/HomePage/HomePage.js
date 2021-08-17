@@ -266,11 +266,14 @@ function HomePage(props) {
       set_outstanding_courses(ret.data.outstanding_courses);
     });
 
-    //purchases courses id list purchases-course-id/:user_id
-    const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${user_id}`;
-    axios.get(url_pruchased_course_id, config).then((ret) => {
-      setPurchasedListId(ret.data.purchased_courses_id_list);
-    });
+    if (user_id) {
+      const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${user_id}`;
+      axios.get(url_pruchased_course_id, config).then((ret) => {
+        setPurchasedListId(ret.data.purchased_courses_id_list);
+      }).catch(err => {
+        setPurchasedListId([]);
+      });
+    }
 
     // newest
 

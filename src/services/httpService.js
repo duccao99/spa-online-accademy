@@ -7,16 +7,41 @@ axios.interceptors.response.use(null, (error) => {
   const expectedError =
     error.response && error.response.status >= 404 && error.response < 500;
 
-  if (!expectedError) {
-    // logger.log(error);
-    // toast.error("An unexpected error occurred.");
+  if (expectedError) {
+    return Promise.reject(error);
   }
-  return Promise.reject(error);
+
+  if (error.response && error.response.data.message === 'Access token not found!') {
+    const accessToken = sessionStorage.getItem('accessToken')
+    const refreshToken = sessionStorage.getItem('refreshToken')
+
+    const payload = {
+      accessToken,
+      refreshToken
+    }
+
+    return axios.post('/api/auth/refresh', payload).then(response => {
+        const {accessToken} = response.data
+        sessionStorage.getItem('accessToken', accessToken)
+        setJwt(accessToken)
+        error.response.config.headers['x-auth-token'] = accessToken;
+        return axios(error.response.config);
+    }).catch(error => {
+        sessionStorage.clear();
+        window.location.href = '/user/sign-in'
+        return Promise.reject(error);
+    });
+  }
 });
+
+function setJwt(jwt) {
+  axios.defaults.headers.common["x-auth-token"] = jwt;
+}
 
 export default {
   get: axios.get,
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
+  setJwt
 };

@@ -19,6 +19,8 @@ import { swal2Timing } from '../../config/swal2.config';
 import Copyright from './../Copyright/Copyright';
 import ReactFacebookLogin from './ReactFacebookLogin';
 import ReactGoogleLogin from './ReactGoogleLogin';
+import httpService from '../../services/httpService';
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -108,6 +110,11 @@ export default function SignIn() {
         sessionStorage.setItem('user_name', JSON.stringify(user.user_name));
         sessionStorage.setItem('email', JSON.stringify(user.email));
         sessionStorage.setItem('isLogout', false);
+
+        sessionStorage.setItem('accessToken', ret.data.accessToken);
+        sessionStorage.setItem('refreshToken', ret.data.refreshToken);
+
+        httpService.setJwt(ret.data.accessToken)
 
         sessionStorage.setItem('user_role', ret.data.user_info.role_id);
         sessionStorage.setItem('user_login_id', ret.data.user_info.user_id);
