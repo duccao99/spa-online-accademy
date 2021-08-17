@@ -33,9 +33,9 @@ function VideoStudy(props) {
   const handlePlaying = (time) => {
     const url = `${env.DEV_URL}/api/student/history-watching`;
     const data = {
-      user_id,
-      lesson_id,
-      start_time: time
+      user_id: +user_id,
+      lesson_id: +lesson_id,
+      start_time: +time
     };
     axios.post(url, data, {}).then((ret) => {});
   };

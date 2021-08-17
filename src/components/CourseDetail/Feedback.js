@@ -5,16 +5,16 @@ import {
   Typography,
   TextField,
   Button,
-  Box,
-} from "@material-ui/core";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import * as env from "../../config/env.config";
-import CardFeedback from "../CardFeedback/CardFeedback";
-import Rating from "@material-ui/lab/Rating";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import { swal2Timing } from "./../../config/swal2.config";
+  Box
+} from '@material-ui/core';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import * as env from '../../config/env.config';
+import CardFeedback from '../CardFeedback/CardFeedback';
+import Rating from '@material-ui/lab/Rating';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { swal2Timing } from './../../config/swal2.config';
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -22,78 +22,78 @@ const styles = makeStyles((theme) => ({
   ava_course: {},
   section_header: {
     minHeight: 100,
-    marginTop: 100,
+    marginTop: 100
   },
   course_name: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   course_header_title: {
-    textAlign: "left",
+    textAlign: 'left',
     paddingTop: 12,
     paddingBottom: 12,
-    color: "white",
+    color: 'white'
   },
   root: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column'
   },
   section_short_des: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   des: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   section_description: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_syllabus: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_rating: {},
   section_feedback: {
-    marginBottom: 16,
+    marginBottom: 16
   },
   paper: {
     padding: 32,
-    textAlign: "left",
+    textAlign: 'left',
     color: theme.palette.text.secondary,
-    marginBottom: 16,
+    marginBottom: 16
   },
   box_cat: {
     padding: 12,
-    "& .MuiTypography-root": {
-      fontSize: common_fontsize,
-    },
+    '& .MuiTypography-root': {
+      fontSize: common_fontsize
+    }
   },
   pb16: {
-    paddingBottom: 16,
+    paddingBottom: 16
   },
   mb16: {
-    marginBottom: 16,
+    marginBottom: 16
   },
   title: {
-    color: "black",
-    fontWeight: 550,
+    color: 'black',
+    fontWeight: 550
   },
   send_feedback_wrapper: {
-    borderTop: "1px solid #ccc",
-    display: "flex",
-    flexDirection: "column",
-    marginTop: "30px",
-    padding: "15px",
+    borderTop: '1px solid #ccc',
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '30px',
+    padding: '15px'
   },
   input: {
-    width: "100%",
-    marginTop: "10px",
+    width: '100%',
+    marginTop: '10px'
   },
   rating_wrapper: {
-    margin: "10px 0",
-    display: "flex",
-    alignItems: "center",
-  },
+    margin: '10px 0',
+    display: 'flex',
+    alignItems: 'center'
+  }
 }));
 
 export default function Feedback({ match, curr_user_id, purchased_id_list }) {
@@ -102,23 +102,23 @@ export default function Feedback({ match, curr_user_id, purchased_id_list }) {
   const [rating, setRating] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [userFeedback, setUserFeedback] = useState("");
+  const [userFeedback, setUserFeedback] = useState('');
 
   const labels = {
-    0.5: "Useless",
-    1: "Useless+",
-    1.5: "Poor",
-    2: "Poor+",
-    2.5: "Ok",
-    3: "Ok+",
-    3.5: "Good",
-    4: "Good+",
-    4.5: "Excellent",
-    5: "Excellent+",
+    0.5: 'Useless',
+    1: 'Useless+',
+    1.5: 'Poor',
+    2: 'Poor+',
+    2.5: 'Ok',
+    3: 'Ok+',
+    3.5: 'Good',
+    4: 'Good+',
+    4.5: 'Excellent',
+    5: 'Excellent+'
   };
 
   const {
-    params: { course_id },
+    params: { course_id }
   } = match;
 
   function getFeedback() {
@@ -134,27 +134,27 @@ export default function Feedback({ match, curr_user_id, purchased_id_list }) {
 
   const handleUploadFeedback = (e) => {
     const data = {
-      user_id: +sessionStorage.getItem("user_login_id"),
-      course_id: course_id,
+      user_id: +sessionStorage.getItem('user_login_id'),
+      course_id: +course_id,
       review_content: userFeedback,
-      star: rating,
+      star: +rating
     };
     const url = `${env.DEV_URL}/api/student/upload-feedback`;
     axios
       .post(url, data, {})
       .then((ret) => {
-        const title = "Success!";
-        const html = ret.data.message || "Uploaded!";
+        const title = 'Success!';
+        const html = ret.data.message || 'Uploaded!';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
         setIsUpdate(!isUpdate);
       })
       .catch((er) => {
-        const title = "error!";
-        const html = er.response.data.message || "Something broke!";
+        const title = 'error!';
+        const html = er.response.data.message || 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
     // setIsUpdate(!isUpdate);
@@ -168,14 +168,14 @@ export default function Feedback({ match, curr_user_id, purchased_id_list }) {
     <Paper className={classes.paper}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Typography className={classes.title} variant="h5">
+          <Typography className={classes.title} variant='h5'>
             Feedbacks about this course
           </Typography>
         </Grid>
       </Grid>
       <Grid container spacing={3}>
         {feedback && feedback.length === 0 ? (
-          <Typography variant="h6" style={{ marginLeft: "15px" }}>
+          <Typography variant='h6' style={{ marginLeft: '15px' }}>
             There is no feedback yet
           </Typography>
         ) : (
@@ -193,7 +193,7 @@ export default function Feedback({ match, curr_user_id, purchased_id_list }) {
         purchased_id_list.indexOf(+course_id) > -1 && (
           <Grid container spacing={3} className={classes.send_feedback_wrapper}>
             <Box>
-              <Typography className={classes.title} variant="h5">
+              <Typography className={classes.title} variant='h5'>
                 Share your feedback about this course
               </Typography>
             </Box>
@@ -205,13 +205,13 @@ export default function Feedback({ match, curr_user_id, purchased_id_list }) {
                   }
                 }}
               >
-                <Typography variant="h6">Upload feedback </Typography>
+                <Typography variant='h6'>Upload feedback </Typography>
                 <Box
                   my={3}
                   className={(classes.course_video, classes.rating_wrapper)}
                 >
                   <Rating
-                    name="hover-feedback"
+                    name='hover-feedback'
                     value={rating}
                     precision={0.5}
                     onChange={(event, newValue) => {
@@ -233,8 +233,8 @@ export default function Feedback({ match, curr_user_id, purchased_id_list }) {
                   <Button
                     onClick={handleUploadFeedback}
                     className={classes.btn}
-                    variant="contained"
-                    color="primary"
+                    variant='contained'
+                    color='primary'
                   >
                     Feedback
                   </Button>

@@ -5,40 +5,40 @@ import {
   Grid,
   makeStyles,
   Paper,
-  Typography,
-} from "@material-ui/core";
-import Rating from "@material-ui/lab/Rating";
-import axios from "axios";
-import cn from "classnames";
-import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import { useParams } from "react-router-dom";
-import CardFeedback from "../CardFeedback/CardFeedback";
-import Footer from "../Footer/Footer";
-import * as env from "./../../config/env.config";
-import { swal2Timing } from "./../../config/swal2.config";
-import Navbar from "./../Navbar/Navbar";
-import CourseChapter from "./CourseChapter";
+  Typography
+} from '@material-ui/core';
+import Rating from '@material-ui/lab/Rating';
+import axios from 'axios';
+import cn from 'classnames';
+import React, { useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useParams } from 'react-router-dom';
+import CardFeedback from '../CardFeedback/CardFeedback';
+import Footer from '../Footer/Footer';
+import * as env from './../../config/env.config';
+import { swal2Timing } from './../../config/swal2.config';
+import Navbar from './../Navbar/Navbar';
+import CourseChapter from './CourseChapter';
 
 const styles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   paper: {
     minHeight: 200,
-    padding: 32,
+    padding: 32
   },
   course_video: {},
   btn: {
-    textTransform: "capitalize",
+    textTransform: 'capitalize'
   },
   rating_wrapper: {
-    margin: "10px 0",
-    display: "flex",
-    alignItems: "center",
+    margin: '10px 0',
+    display: 'flex',
+    alignItems: 'center'
   },
   chapter: {
     // 'div.MuiPaper-root': {
@@ -46,7 +46,7 @@ const styles = makeStyles((theme) => ({
     //   transition: 'none!important;',
     //   transitionDuration: '0s!important;'
     // },
-  },
+  }
 }));
 
 export default function EnrollCourse() {
@@ -60,25 +60,25 @@ export default function EnrollCourse() {
   const [lessons, setlessons] = useState([]);
   const [isLogout, setisLogout] = useState(true);
   const [rating, setRating] = useState(3);
-  const [userFeedback, setUserFeedback] = useState("");
+  const [userFeedback, setUserFeedback] = useState('');
   const [detail, setDetail] = useState({});
   const [yourFeedback, setYourFeedback] = useState({});
-  const [user_name, set_user_name] = useState("");
+  const [user_name, set_user_name] = useState('');
   const [isUpdate, setIsUpdate] = useState(false);
   // const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
 
   const labels = {
-    0.5: "Useless",
-    1: "Useless+",
-    1.5: "Poor",
-    2: "Poor+",
-    2.5: "Ok",
-    3: "Ok+",
-    3.5: "Good",
-    4: "Good+",
-    4.5: "Excellent",
-    5: "Excellent+",
+    0.5: 'Useless',
+    1: 'Useless+',
+    1.5: 'Poor',
+    2: 'Poor+',
+    2.5: 'Ok',
+    3: 'Ok+',
+    3.5: 'Good',
+    4: 'Good+',
+    4.5: 'Excellent',
+    5: 'Excellent+'
   };
 
   function getSyllabus() {
@@ -108,7 +108,7 @@ export default function EnrollCourse() {
             lesson_video_url: array[i].lesson_video_url,
             flag_reviewable: array[i].flag_reviewable,
             lesson_content: array[i].lesson_content,
-            chap_id: array[i].chap_id,
+            chap_id: array[i].chap_id
           });
         }
 
@@ -119,7 +119,7 @@ export default function EnrollCourse() {
         if (array[i].chap_id !== null && array[i].chap_name !== null) {
           unique_chapter.push({
             chap_id: array[i].chap_id,
-            chap_name: array[i].chap_name,
+            chap_name: array[i].chap_name
           });
         }
       }
@@ -138,27 +138,27 @@ export default function EnrollCourse() {
 
   const handleUploadFeedback = (e) => {
     const data = {
-      user_id: +sessionStorage.getItem("user_login_id"),
-      course_id: course_id,
+      user_id: +sessionStorage.getItem('user_login_id'),
+      course_id: +course_id,
       review_content: userFeedback,
-      star: rating,
+      star: +rating
     };
     const url = `${env.DEV_URL}/api/student/upload-feedback`;
     axios
       .post(url, data, {})
       .then((ret) => {
-        const title = "Success!";
-        const html = ret.data.message || "Uploaded!";
+        const title = 'Success!';
+        const html = ret.data.message || 'Uploaded!';
         const timer = 2500;
-        const icon = "success";
+        const icon = 'success';
         swal2Timing(title, html, timer, icon);
         setIsUpdate(!isUpdate);
       })
       .catch((er) => {
-        const title = "error!";
-        const html = er.response.data.message || "Something broke!";
+        const title = 'error!';
+        const html = er.response.data.message || 'Something broke!';
         const timer = 2500;
-        const icon = "error";
+        const icon = 'error';
         swal2Timing(title, html, timer, icon);
       });
   };
@@ -166,7 +166,7 @@ export default function EnrollCourse() {
     const url = `${
       env.DEV_URL
     }/api/student/your-feedback?user_id=${+sessionStorage.getItem(
-      "user_login_id"
+      'user_login_id'
     )}&course_id=${course_id}`;
 
     axios
@@ -185,8 +185,8 @@ export default function EnrollCourse() {
 
   useEffect(() => {
     // nav
-    const isLg = sessionStorage.getItem("isLogout", false);
-    const user_id = sessionStorage.getItem("user_login_id");
+    const isLg = sessionStorage.getItem('isLogout', false);
+    const user_id = sessionStorage.getItem('user_login_id');
 
     getSyllabus();
     courseDetail();
@@ -201,15 +201,15 @@ export default function EnrollCourse() {
           <Grid container spacing={4} className={classes.root}>
             <Grid item xs={12} md={8}>
               <Paper className={classes.paper}>
-                <Typography variant="h6">{detail.course_name} </Typography>
+                <Typography variant='h6'>{detail.course_name} </Typography>
                 <Box my={3}>
-                  <Typography variant="h6">{detail.course_title} </Typography>
+                  <Typography variant='h6'>{detail.course_title} </Typography>
                 </Box>
               </Paper>
             </Grid>
             <Grid item xs={12} md={8}>
               <Paper className={cn(classes.paper, classes.chapter)}>
-                <Typography variant="h6">Chapter </Typography>
+                <Typography variant='h6'>Chapter </Typography>
                 <Box className={classes.course_video}>
                   {chapters.map((ele, i) => {
                     return <CourseChapter lessons={lessons} {...ele} key={i} />;
@@ -220,7 +220,7 @@ export default function EnrollCourse() {
 
             <Grid item xs={12} md={8}>
               <Paper className={classes.paper}>
-                <Typography variant="h6">Your feedback </Typography>
+                <Typography variant='h6'>Your feedback </Typography>
                 <Box className={classes.course_video}>
                   {yourFeedback === null ? (
                     "You haven't feedback this course yet!"
@@ -245,13 +245,13 @@ export default function EnrollCourse() {
                       }
                     }}
                   >
-                    <Typography variant="h6">Upload feedback </Typography>
+                    <Typography variant='h6'>Upload feedback </Typography>
                     <Box
                       my={3}
                       className={(classes.course_video, classes.rating_wrapper)}
                     >
                       <Rating
-                        name="hover-feedback"
+                        name='hover-feedback'
                         value={rating}
                         precision={0.5}
                         onChange={(event, newValue) => {
@@ -278,8 +278,8 @@ export default function EnrollCourse() {
                       <Button
                         onClick={handleUploadFeedback}
                         className={classes.btn}
-                        variant="contained"
-                        color="primary"
+                        variant='contained'
+                        color='primary'
                       >
                         Feedback
                       </Button>
