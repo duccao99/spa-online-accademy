@@ -111,44 +111,11 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
     sort_name: '',
     is_checked: false
   });
-  const [most_stu_enroll, set_most_stu_enroll] = useState([]);
-  const [most_view_courses, set_most_view_courses] = useState([]);
-  const [newest_courses, set_newest_courses] = useState([]);
+
   const [isLogout, setisLogout] = useState(true);
   const [isUpdateFromPagi, setisUpdateFromPagi] = useState(false);
 
   const location = useLocation();
-
-  function getMostStudentEnrollCourses() {
-    setIsLoading(true);
-
-    const most_stu_rul = `${env.DEV_URL}/api/course/outstanding-courses`;
-    const config = {};
-    axios.get(most_stu_rul, config).then((ret) => {
-      set_most_stu_enroll(ret.data.outstanding_courses);
-      setIsLoading(false);
-    });
-  }
-  function getMostViewCourses() {
-    setIsLoading(true);
-
-    const most_views_url = `${env.DEV_URL}/api/course/ten-most-viewed-courses`;
-    const config = {};
-    axios.get(most_views_url, config).then((ret) => {
-      set_most_view_courses(ret.data.ten_most_viewed_courses);
-      setIsLoading(false);
-    });
-  }
-  function getNewestCourses() {
-    setIsLoading(true);
-
-    const newest_url = `${env.DEV_URL}/api/course/ten-newest-courses`;
-    const config = {};
-    axios.get(newest_url, config).then((ret) => {
-      set_newest_courses(ret.data.ten_newest_courses);
-      setIsLoading(false);
-    });
-  }
 
   function fullTextSearchHandle(search_value) {
     setIsLoading(true);
@@ -225,10 +192,6 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
       setisLogout(isLg);
     }
 
-    getMostStudentEnrollCourses();
-    getMostViewCourses();
-    getNewestCourses();
-
     if (search_value.length !== 0) {
       fullTextSearchHandle(search_value);
 
@@ -280,10 +243,6 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   const handlePagiChange = (event, value) => {
     set_curr_page(value);
     setisUpdateFromPagi(!isUpdateFromPagi);
-
-    getMostStudentEnrollCourses();
-    getMostViewCourses();
-    getNewestCourses();
 
     const config = {
       params: {
@@ -398,9 +357,6 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
                             <CardCourse
                               {...ele}
                               isUpdateFromPagi={isUpdateFromPagi}
-                              most_stu_enroll={most_stu_enroll}
-                              most_view_courses={most_view_courses}
-                              newest_courses={newest_courses}
                               purchased_id_list={purchased_id_list}
                             />
                           </Grid>
