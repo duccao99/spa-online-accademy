@@ -221,7 +221,9 @@ export default function Lesson({
               primary={`${lesson_name === null ? '' : lesson_name}`}
             />
 
-            {is_purchased ? (
+            {user_role >= 3 ? (
+              <Button onClick={handleCloseVideo}>Check</Button>
+            ) : is_purchased ? (
               <Button onClick={handleCloseVideo}>Watch</Button>
             ) : +flag_reviewable === 1 && isLessonCompleted === true ? (
               <Button onClick={handleCloseVideo}>Preview</Button>

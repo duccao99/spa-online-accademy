@@ -110,6 +110,8 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
   const { course_id } = useParams();
   const [expanded, setExpanded] = React.useState(false);
 
+  const [isFullDesUpdated, setIsFullDesUpdated] = useState(false);
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -131,14 +133,16 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
     setLoadDing(true);
     const url = `${env.DEV_URL}/api/instructor/edit-full-des`;
     const data = {
-      user_id: insId,
+      user_id: +insId,
       course_full_description: fullDes,
-      course_id: course_detail.course_id
+      course_id: +course_detail.course_id
     };
 
     axios
       .patch(url, data, {})
       .then((ret) => {
+        setIsFullDesUpdated(!isFullDesUpdated);
+
         setUpdateCourseDetail(!updateCourseDetail);
         setLoadDing(false);
         const title = 'Success!';
@@ -148,6 +152,8 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
         swal2Timing(title, html, timer, icon);
       })
       .catch((er) => {
+        setIsFullDesUpdated(!isFullDesUpdated);
+
         setUpdateCourseDetail(!updateCourseDetail);
 
         const title = 'error!';
@@ -160,7 +166,7 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
 
   useEffect(() => {
     setFullDes(course_detail.course_full_description);
-  }, [course_detail]);
+  }, [course_detail, isFullDesUpdated]);
 
   useEffect(() => {
     const curr_user_role = sessionStorage.getItem('user_role');
@@ -170,7 +176,7 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
     setInsId(+user_login_id);
 
     getCourseDetail();
-  }, [isEdit, course_id]);
+  }, [isEdit, course_id, isFullDesUpdated]);
 
   const handleQuillEdit = (value) => {
     setFullDes(value);
