@@ -82,7 +82,7 @@ export default function InstructorDes({}) {
   const getOwnCourseQuantity = (instructor_id) => {
     if (instructor_id) {
       const ins_url = `${env.DEV_URL}/api/instructor/ownCourseQuantity`;
-      axios.post(ins_url, { instructor_id }).then((ret) => {
+      axios.post(ins_url, { instructor_id: +instructor_id }).then((ret) => {
         setOwnCourseQuantity(ret.data.own_course_quantity);
       });
     }

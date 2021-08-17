@@ -12,9 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
-import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
+import React, { useState, useEffect } from 'react';
 import * as env from '../../config/env.config';
 import { swal2Timing } from '../../config/swal2.config';
 import Navbar from '../Navbar/Navbar';
@@ -409,7 +407,6 @@ export default function UploadCourse({ match }) {
   };
 
   React.useEffect(() => {
-
     // check is verify account
     let email = sessionStorage.getItem('email');
 
@@ -441,6 +438,39 @@ export default function UploadCourse({ match }) {
     // get subcat
     getSubCat();
   }, [match.path, isUpdate, isComponentUpdate, loading]);
+
+  useEffect(() => {
+    const TinyShortDes = `
+      tinymce.init({
+          selector: '#txtShortDes',
+          plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+          toolbar_mode: 'floating',
+      });
+
+    `;
+
+    const TinytxtFullDes = `
+    tinymce.init({
+        selector: '#txtFullDes',
+        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+        toolbar_mode: 'floating',
+    });
+
+  `;
+    const script1 = document.createElement('script');
+    script1.textContent = TinyShortDes;
+
+    const script2 = document.createElement('script');
+    script2.textContent = TinytxtFullDes;
+
+    document.body.appendChild(script1);
+    document.body.appendChild(script2);
+
+    return () => {
+      document.body.removeChild(script1);
+      document.body.removeChild(script2);
+    };
+  }, []);
 
   return (
     <React.Fragment>
@@ -541,8 +571,8 @@ export default function UploadCourse({ match }) {
                   </Typography>
                 </Box>
                 <FormControl fullWidth>
-                  <ReactQuill
-                    theme='snow'
+                  <textarea
+                    id='txtFullDes'
                     value={fullDes}
                     onChange={setFullDes}
                   />
@@ -556,8 +586,8 @@ export default function UploadCourse({ match }) {
                   </Typography>
                 </Box>
                 <FormControl fullWidth>
-                  <ReactQuill
-                    theme='snow'
+                  <textarea
+                    id='txtShortDes'
                     value={shortDes}
                     onChange={setShortDes}
                   />

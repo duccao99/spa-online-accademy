@@ -74,7 +74,7 @@ export default function CaseUploadChapter({ email }) {
     const data = {
       chap_name: chap_name,
       course_id: +courseSelected,
-      user_id: user_id
+      user_id: +user_id
     };
 
     if (data.chap_name === '' || data.course_id === '' || data.user_id === '') {

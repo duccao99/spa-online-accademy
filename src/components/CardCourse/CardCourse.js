@@ -254,8 +254,8 @@ function CardCourse(props) {
     setChecked(e.target.checked);
     const data = {
       is_finished: e.target.checked,
-      course_id: course_id,
-      user_id: curr_user_id
+      course_id: +course_id,
+      user_id: +curr_user_id
     };
 
     const finished_url = `${env.DEV_URL}/api/instructor/toggle-finished-course/`;
