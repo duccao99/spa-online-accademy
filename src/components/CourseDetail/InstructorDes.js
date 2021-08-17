@@ -76,13 +76,27 @@ export default function InstructorDes({}) {
     const ins_config = ``;
     axios.get(ins_url, ins_config).then((ret) => {
       set_instructor(ret.data);
-      setOwnCourseQuantity(ret.data.total);
     });
   }
+
+  const getOwnCourseQuantity = (instructor_id) => {
+    if (instructor_id) {
+      const ins_url = `${env.DEV_URL}/api/instructor/ownCourseQuantity`;
+      axios.post(ins_url, { instructor_id }).then((ret) => {
+        setOwnCourseQuantity(ret.data.own_course_quantity);
+      });
+    }
+  };
 
   useEffect(() => {
     getInstructor();
   }, [course_id]);
+
+  useEffect(() => {
+    if (instructor && instructor.user_id) {
+      getOwnCourseQuantity(instructor.user_id);
+    }
+  }, [instructor]);
 
   return (
     <Paper className={classes.paper}>
