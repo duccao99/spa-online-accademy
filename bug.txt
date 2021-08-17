@@ -2,7 +2,8 @@
 
 
 
-+ admin module: filter course by category or instructor (duc)
++ admin module: filter course by category  (duc)
+
 
 + disable course (tu)
 
