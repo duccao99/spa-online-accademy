@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Category() {
+export default function Category({ setcourses }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [sub_cat, set_sub_cat] = useState([]);
@@ -45,25 +45,19 @@ export default function Category() {
   useEffect(() => {
     const url = `${env_config.DEV_URL}/api/sub-category`;
     const config = {};
-    axios
-      .get(url, config)
-      .then((ret) => {
-        set_sub_cat(ret.data.all_sub_cats);
-        const sub_web_cat = ret.data.all_sub_cats.filter((e) => e.cat_id === 1);
-        const sub_mobi_cat = ret.data.all_sub_cats.filter(
-          (e) => e.cat_id === 2
-        );
-        set_sub_web_cat(sub_web_cat);
-        set_sub_mobi_cat(sub_mobi_cat);
-      })
-      .catch((er) => {
-        console.log(er);
-      });
+    axios.get(url, config).then((ret) => {
+      set_sub_cat(ret.data.all_sub_cats);
+      const sub_web_cat = ret.data.all_sub_cats.filter((e) => e.cat_id === 1);
+      const sub_mobi_cat = ret.data.all_sub_cats.filter((e) => e.cat_id === 2);
+      set_sub_web_cat(sub_web_cat);
+      set_sub_mobi_cat(sub_mobi_cat);
+    });
   }, []);
 
   return (
     <Box px={3} className={classes.hover}>
       <PopoverCat
+        setcourses={setcourses}
         title='Filter by Categories'
         sub_web_cat={sub_web_cat}
         sub_mobi_cat={sub_mobi_cat}

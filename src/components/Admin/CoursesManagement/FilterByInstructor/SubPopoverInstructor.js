@@ -77,10 +77,6 @@ export default function SubPopoverInstructor(props) {
     });
   }
 
-  React.useEffect(() => {
-    console.log(props);
-  }, []);
-
   return (
     <Button
       aria-controls='customized-menu'

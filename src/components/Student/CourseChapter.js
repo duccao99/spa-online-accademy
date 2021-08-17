@@ -69,28 +69,9 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
   const [open, setOpen] = React.useState(true);
   const [uniqueLessons, setUniqueLessons] = useState([]);
 
-  function truncateLessons() {
-    var ret = [],
-      flags = [],
-      len = lessons.length,
-      i;
-    for (i = 0; i < len; ++i) {
-      // console.log(lessons[i]);
-      // if (flags[lessons[i].lesson_name]) continue;
-      // flags[lessons[i].lesson_name] = true;
-      // ret.push(lessons[i]);
-    }
-
-    setUniqueLessons(ret);
-  }
-
   const handleClick = () => {
     setOpen(!open);
   };
-
-  useEffect(() => {
-    // truncateLessons();
-  }, []);
 
   return (
     <React.Fragment>
@@ -115,28 +96,6 @@ export default function Chapter({ chap_name, chap_id, lessons }) {
               ''
             );
           })}
-
-      {/* {uniqueLessons.length === 0 ||
-      uniqueLessons === null ||
-      uniqueLessons === undefined
-        ? 'Chap is not completed'
-        : uniqueLessons.map((ele, i) => {
-            return ele.chap_id === chap_id ? (
-              <CourseLesson
-                {...ele}
-                key={i}
-                open={open}
-                isLessonCompleted={true}
-              />
-            ) : (
-              <CourseLesson
-                {...ele}
-                key={i}
-                open={open}
-                isLessonCompleted={false}
-              />
-            );
-          })} */}
     </React.Fragment>
   );
 }

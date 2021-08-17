@@ -1,4 +1,4 @@
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 function swal2Timing(title, html, timer, icon) {
   let timerInterval;
   Swal.fire({
@@ -10,11 +10,10 @@ function swal2Timing(title, html, timer, icon) {
     didOpen: () => {},
     willClose: () => {
       clearInterval(timerInterval);
-    },
+    }
   }).then((result) => {
     /* Read more about handling dismissals below */
     if (result.dismiss === Swal.DismissReason.timer) {
-      console.log("I was closed by the timer");
     }
   });
 }
@@ -29,11 +28,10 @@ function swal2(title, html, icon) {
     didOpen: () => {},
     willClose: () => {
       clearInterval(timerInterval);
-    },
+    }
   }).then((result) => {
     /* Read more about handling dismissals below */
     if (result.dismiss === Swal.DismissReason.timer) {
-      console.log("I was closed by the timer");
     }
   });
 }

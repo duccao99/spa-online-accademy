@@ -10,7 +10,6 @@ export default function Searchbar({
 }) {
   const [all_courses_filter, set_all_courses_filter] = useState([]);
   useEffect(() => {
-    console.log(all_courses);
     set_all_courses_filter(all_courses);
   }, []);
   const handleSearchChange = (e) => {

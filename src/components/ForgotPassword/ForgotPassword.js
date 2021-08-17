@@ -102,25 +102,19 @@ export default function ForgotPassword() {
           ...data
         };
 
-        axios
-          .post(auth_url, auth_data, config)
-          .then((ret) => {
-            const title = 'Account created!';
-            const html = '';
-            const timer = 2000;
-            const icon = 'success';
-            swal2Timing(title, html, timer, icon);
-          })
-          .catch((er) => {
-            console.log(er);
-          });
+        axios.post(auth_url, auth_data, config).then((ret) => {
+          const title = 'Account created!';
+          const html = '';
+          const timer = 2000;
+          const icon = 'success';
+          swal2Timing(title, html, timer, icon);
+        });
       })
       .catch((er) => {
         const title = 'Error!';
         const html = '';
         const timer = 2000;
         const icon = 'error';
-        console.log(er);
 
         swal2Timing(title, html, timer, icon);
       });

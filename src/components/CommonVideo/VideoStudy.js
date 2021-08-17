@@ -1,6 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useState, useRef } from "react";
-import { connect } from "react-redux";
+import axios from 'axios';
+import React, { useEffect, useState, useRef } from 'react';
+import { connect } from 'react-redux';
 import {
   PlayToggle,
   ControlBar,
@@ -10,11 +10,11 @@ import {
   Player,
   ReplayControl,
   TimeDivider,
-  VolumeMenuButton,
-} from "video-react";
-import ReactPlayer from "react-player/lazy";
-import "video-react/dist/video-react.css"; // import css
-import * as env from "../../config/env.config";
+  VolumeMenuButton
+} from 'video-react';
+import ReactPlayer from 'react-player/lazy';
+import 'video-react/dist/video-react.css'; // import css
+import * as env from '../../config/env.config';
 
 function VideoStudy(props) {
   const { video_state, lesson_id, user_id } = props;
@@ -29,16 +29,13 @@ function VideoStudy(props) {
     });
   }
 
-  const handleStore = (store) => {
-    // console.log(store);
-  };
+  const handleStore = (store) => {};
   const handlePlaying = (time) => {
-    console.log(time);
     const url = `${env.DEV_URL}/api/student/history-watching`;
     const data = {
       user_id,
       lesson_id,
-      start_time: time,
+      start_time: time
     };
     axios.post(url, data, {}).then((ret) => {});
   };
@@ -63,14 +60,14 @@ function VideoStudy(props) {
       url={
         props.lesson_video_url
           ? props.lesson_video_url
-          : "https://www.youtube.com/watch?v=hBudaNjwaoU"
+          : 'https://www.youtube.com/watch?v=hBudaNjwaoU'
       }
       onPlay={() => setIsPlaying(true)}
       onProgress={(time) =>
         isPlaying && handlePlaying(Math.floor(time.playedSeconds))
       }
-      width="100%"
-      height="100%"
+      width='100%'
+      height='100%'
       controls={true}
     />
   );
@@ -78,7 +75,7 @@ function VideoStudy(props) {
 
 const mapStateToProps = (state) => {
   return {
-    video_state: state,
+    video_state: state
   };
 };
 export default connect(mapStateToProps, null)(VideoStudy);

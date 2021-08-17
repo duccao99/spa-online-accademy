@@ -1,11 +1,11 @@
-import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { useParams, Link } from "react-router-dom";
-import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
-import * as env from "../../config/env.config";
-import { SET_ALL_COURSES_PURCHASED } from "./../../actionTypes/purchase.type";
+import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useParams, Link } from 'react-router-dom';
+import { ADD_COURSE_TO_CART } from '../../actionTypes/cart.type';
+import * as env from '../../config/env.config';
+import { SET_ALL_COURSES_PURCHASED } from './../../actionTypes/purchase.type';
 
 const common_fontsize = 18;
 const styles = makeStyles((theme) => ({
@@ -13,97 +13,97 @@ const styles = makeStyles((theme) => ({
   ava_course: {},
   section_header: {
     minHeight: 100,
-    marginTop: 100,
+    marginTop: 100
   },
   course_name: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   course_header_title: {
-    textAlign: "left",
+    textAlign: 'left',
     paddingTop: 12,
     paddingBottom: 12,
-    color: "white",
+    color: 'white'
   },
   section_short_des: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   des: {
-    fontWeight: "bold",
+    fontWeight: 'bold'
   },
   section_description: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_syllabus: {
     minHeight: 100,
-    fontSize: common_fontsize,
+    fontSize: common_fontsize
   },
   section_rating: {},
   section_feedback: {
-    marginBottom: 16,
+    marginBottom: 16
   },
   paper: {
     padding: 32,
-    textAlign: "left",
+    textAlign: 'left',
     color: theme.palette.text.secondary,
-    marginBottom: 16,
+    marginBottom: 16
   },
   box_cat: {
     paddingTop: 12,
     paddingBottom: 12,
-    "& .MuiTypography-root": {
-      fontSize: common_fontsize,
-    },
+    '& .MuiTypography-root': {
+      fontSize: common_fontsize
+    }
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   button_wrapper: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center'
   },
 
   btn_add_to_cart: {
-    width: "100%",
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    width: '100%',
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   sale: {
-    display: "flex",
-    alignItems: "center",
-    margin: "5px 0",
-    justifyContent: "flex-start",
+    display: 'flex',
+    alignItems: 'center',
+    margin: '5px 0',
+    justifyContent: 'flex-start'
   },
   price: {
-    fontWeight: "500",
-    marginRight: "10px",
+    fontWeight: '500',
+    marginRight: '10px'
   },
   del_free: {
-    textDecoration: "line-through;",
-    fontSize: "12px",
+    textDecoration: 'line-through;',
+    fontSize: '12px'
   },
   subject_name: {
-    width: "fit-content",
-    fontSize: "14px",
-    fontWeight: "550",
-    color: "grey",
-    margin: "5px 0",
-    paddingTop: "3px",
+    width: 'fit-content',
+    fontSize: '14px',
+    fontWeight: '550',
+    color: 'grey',
+    margin: '5px 0',
+    paddingTop: '3px',
 
-    "&:hover": {
-      color: "darkGrey",
-    },
-  },
+    '&:hover': {
+      color: 'darkGrey'
+    }
+  }
 }));
 
 function CatPrice({
@@ -112,15 +112,15 @@ function CatPrice({
   dispatchAddToCart,
   setPurchasedListId,
   cart_global_state,
-  purchased_id_list,
+  purchased_id_list
 }) {
   const classes = styles();
-  const [course_fee, setcourse_fee] = useState("");
-  const [subject_name, setsubject_name] = useState("");
-  const [sale_percent, setsale_percent] = useState("");
-  const [avg_rate, setavg_rate] = useState("");
-  const [num_stu_rate, setnum_stu_rate] = useState("");
-  const [num_stu_enrolls, setnum_stu_enrolls] = useState("");
+  const [course_fee, setcourse_fee] = useState('');
+  const [subject_name, setsubject_name] = useState('');
+  const [sale_percent, setsale_percent] = useState('');
+  const [avg_rate, setavg_rate] = useState('');
+  const [num_stu_rate, setnum_stu_rate] = useState('');
+  const [num_stu_enrolls, setnum_stu_enrolls] = useState('');
   const { course_id } = useParams();
   const [isAddToCart, setIsAddToCart] = useState(false);
   const [is_in_cart2, set_is_in_cart2] = useState(is_in_cart);
@@ -131,7 +131,7 @@ function CatPrice({
   const { course_avatar_url, course_name, course_title } = course_detail;
 
   const handleAddToCart = (e) => {
-    const curr_user_id = sessionStorage.getItem("user_login_id");
+    const curr_user_id = sessionStorage.getItem('user_login_id');
 
     dispatchAddToCart(
       course_id,
@@ -146,7 +146,7 @@ function CatPrice({
 
   useEffect(() => {
     if (purchased_id_list.length < 1) {
-      const curr_user_id = sessionStorage.getItem("user_login_id");
+      const curr_user_id = sessionStorage.getItem('user_login_id');
       const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
       axios.get(url_pruchased_course_id, {}).then((ret) => {
         setPurchasedListId(ret.data.purchased_courses_id_list);
@@ -168,22 +168,17 @@ function CatPrice({
   function getIsFavorite(user_id, course_id) {
     let url_is_favo = `${env.DEV_URL}/api/student/is-favorite?course_id=${course_id}&user_id=${user_id}`;
 
-    axios
-      .get(url_is_favo, {})
-      .then((ret) => {
-        set_is_favorite(ret.data.is_favorite);
-      })
-      .catch((er) => {
-        console.log(er.response);
-      });
+    axios.get(url_is_favo, {}).then((ret) => {
+      set_is_favorite(ret.data.is_favorite);
+    });
   }
 
   const handleFavoriteClick = (e) => {
     const toggle_favorite_url = `${env.DEV_URL}/api/student/toggle-favorite`;
     const data = {
-      user_id: +sessionStorage.getItem("user_login_id"),
+      user_id: +sessionStorage.getItem('user_login_id'),
       course_id: course_id,
-      is_favorite: is_favorite,
+      is_favorite: is_favorite
     };
 
     axios.patch(toggle_favorite_url, data, {}).then((ret) => {
@@ -192,12 +187,12 @@ function CatPrice({
   };
 
   useEffect(() => {
-    getIsFavorite(+sessionStorage.getItem("user_login_id"), course_id);
+    getIsFavorite(+sessionStorage.getItem('user_login_id'), course_id);
   }, [course_id]);
 
   useEffect(() => {
     // role
-    const user_role = sessionStorage.getItem("user_role");
+    const user_role = sessionStorage.getItem('user_role');
     setUser_role(+user_role);
     const config = {};
     const cat_price_num_url = `${env.DEV_URL}/api/course/detail/cat-price-num/${course_id}`;
@@ -227,8 +222,8 @@ function CatPrice({
   const handleEnroll = (e) => {
     const url = `${env.DEV_URL}/api/student/enroll`;
     const data = {
-      user_id: sessionStorage.getItem("user_login_id"),
-      course_id: course_id,
+      user_id: sessionStorage.getItem('user_login_id'),
+      course_id: course_id
     };
     axios.post(url, data, {}).then((ret) => {});
   };
@@ -237,7 +232,7 @@ function CatPrice({
     <Paper className={classes.paper}>
       <Box className={classes.box_cat}>
         <Typography>
-          <strong>Student enroll: </strong>{" "}
+          <strong>Student enroll: </strong>{' '}
           {num_stu_enrolls === undefined || num_stu_enrolls === null
             ? 0
             : num_stu_enrolls}
@@ -246,7 +241,7 @@ function CatPrice({
 
       <Box className={classes.box_cat}>
         <Typography>
-          <strong>Total review: </strong>{" "}
+          <strong>Total review: </strong>{' '}
           {num_stu_rate === undefined || num_stu_rate === null
             ? 0
             : num_stu_rate}
@@ -263,7 +258,7 @@ function CatPrice({
       <Box className={classes.box_cat}>
         <Link to={`/courses-list/${subject_name}`}>
           <strong>Category: </strong>
-          <Typography className={classes.subject_name} component="a">
+          <Typography className={classes.subject_name} component='a'>
             {subject_name}
           </Typography>
         </Link>
@@ -287,7 +282,7 @@ function CatPrice({
         )}
       </Box>
       <Box className={(classes.box_cat, classes.button_wrapper)}>
-        <Box className={classes.box_cat} style={{ marginRight: "25px" }}>
+        <Box className={classes.box_cat} style={{ marginRight: '25px' }}>
           {user_role === 2 || user_role === 4 ? (
             purchased_id_list && purchased_id_list.indexOf(+course_id) > -1 ? (
               <Link to={`/student/enroll/course/${course_id}`}>
@@ -295,35 +290,35 @@ function CatPrice({
                   className={classes.btn}
                   disabled={is_in_cart2 === true}
                   onClick={handleEnroll}
-                  variant="contained"
-                  size="small"
-                  color="secondary"
+                  variant='contained'
+                  size='small'
+                  color='secondary'
                 >
                   Enroll
                 </Button>
               </Link>
             ) : (
               <Button
-                variant="contained"
-                size="small"
-                color="primary"
+                variant='contained'
+                size='small'
+                color='primary'
                 disabled={is_in_cart2 === true}
                 onClick={handleAddToCart}
               >
-                {is_in_cart2 === true ? "Added to cart" : "Buy"}
+                {is_in_cart2 === true ? 'Added to cart' : 'Buy'}
               </Button>
             )
           ) : (
-            ""
+            ''
           )}
         </Box>
         {+user_role === 2 ? (
           <Box>
             {+is_favorite === 1 ? (
               <Button
-                variant="contained"
-                size="small"
-                color="primary"
+                variant='contained'
+                size='small'
+                color='primary'
                 disabled={is_in_cart2 === true}
                 onClick={handleFavoriteClick}
               >
@@ -335,14 +330,14 @@ function CatPrice({
                 className={(classes.link, classes.favo)}
                 // to={`/course/${course_id}`}
               >
-                <Button variant="outlined" size="small" color="secondary">
+                <Button variant='outlined' size='small' color='secondary'>
                   Add to watchlist
                 </Button>
               </Link>
             )}
           </Box>
         ) : (
-          ""
+          ''
         )}
       </Box>
     </Paper>
@@ -352,7 +347,7 @@ function CatPrice({
 const mapStateToProps = (state) => {
   return {
     cart_global_state: state.cartReducer.cart,
-    purchased_id_list: state.purchasedCourseReducer.purchased_id_list,
+    purchased_id_list: state.purchasedCourseReducer.purchased_id_list
   };
 };
 
@@ -361,7 +356,7 @@ const mapDispatchToProps = (dispatch) => {
     setPurchasedListId: (purchase_list_id) => {
       dispatch({
         type: SET_ALL_COURSES_PURCHASED,
-        payload: purchase_list_id,
+        payload: purchase_list_id
       });
     },
     dispatchAddToCart: (
@@ -380,10 +375,10 @@ const mapDispatchToProps = (dispatch) => {
           course_ava: course_ava,
           course_name: course_name,
           course_title: course_title,
-          user_id: user_id,
-        },
+          user_id: user_id
+        }
       });
-    },
+    }
   };
 };
 

@@ -303,14 +303,9 @@ function CardCourse(props) {
       url_is_favo = `${env.DEV_URL}/api/student/is-favorite?course_id=${course_id}&user_id=${user_id}`;
     }
 
-    axios
-      .get(url_is_favo, {})
-      .then((ret) => {
-        set_is_favorite(ret.data.is_favorite);
-      })
-      .catch((er) => {
-        console.log(er.response);
-      });
+    axios.get(url_is_favo, {}).then((ret) => {
+      set_is_favorite(ret.data.is_favorite);
+    });
   }
 
   const handleFavoriteClick = (e) => {

@@ -162,7 +162,6 @@ export default function Change({ setupdate, update }) {
         swal2Timing(title, html, timer, icon);
       })
       .catch((er) => {
-        console.log(er.response);
         const title = 'error!';
         const html = er.response.data.message || 'Something broke!';
         const timer = 2500;

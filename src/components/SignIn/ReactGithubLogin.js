@@ -7,7 +7,6 @@ import {
 } from '../../config/env.config';
 
 const onSuccess = (res) => {
-  console.log(res);
   const data = {
     client_id: `${GITHUB_CLIENT_ID}`,
     client_secret: `${GITHUB_CLIENT_SECRET}`,
@@ -15,18 +14,9 @@ const onSuccess = (res) => {
     code: res.code
   };
   const access_token_url = `https://github.com/login/oauth/access_token`;
-  axios
-    .post(access_token_url, data, {})
-    .then((ret) => {
-      console.log(ret);
-    })
-    .catch((er) => {
-      console.log(er);
-    });
+  axios.post(access_token_url, data, {}).then((ret) => {});
 };
-const onFailure = (er) => {
-  console.log(er);
-};
+const onFailure = (er) => {};
 
 export default function ReactGithubLogin() {
   return (

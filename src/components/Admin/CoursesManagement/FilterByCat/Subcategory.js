@@ -4,8 +4,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import * as env_config from '../../../../config/env.config';
 
 const StyledMenu = withStyles({
   paper: {
@@ -62,14 +63,22 @@ export default function Subcategory({
   set_cat_close,
   sub_web_cat,
   sub_mobi_cat,
-  classes
+  classes,
+  setcourses
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const { id } = useParams();
+
+  function handleFilterByCat(subject_id) {
+    set_cat_close(true);
+    const url = `${env_config.DEV_URL}/api/extra-task/filter-course-by-category/${subject_id}`;
+    axios.get(url).then((ret) => {
+      setcourses(ret.data);
+    });
+  }
 
   return (
     <div>
@@ -96,36 +105,38 @@ export default function Subcategory({
         {sub_web_cat.length !== 0
           ? sub_web_cat.map((ele, i) => {
               return (
-                <Link
-                  key={ele.subject_name}
-                  onClick={() => {
-                    set_cat_close(true);
-                  }}
-                  className={classes.link}
-                  to={`/courses-list/${ele.subject_name}`}
-                >
-                  <StyledMenuItem>
-                    <ListItemText primary={ele.subject_name} />
-                  </StyledMenuItem>
-                </Link>
+                <Box>
+                  <Button
+                    key={ele.subject_name}
+                    onClick={() => {
+                      handleFilterByCat(ele.subject_id);
+                    }}
+                    className={classes.link}
+                  >
+                    <StyledMenuItem>
+                      <ListItemText primary={ele.subject_name} />
+                    </StyledMenuItem>
+                  </Button>
+                </Box>
               );
             })
           : ''}
         {sub_mobi_cat.length !== 0
           ? sub_mobi_cat.map((ele, i) => {
               return (
-                <Link
-                  key={ele.subject_name}
-                  onClick={() => {
-                    set_cat_close(true);
-                  }}
-                  className={classes.link}
-                  to={`/courses-list/${ele.subject_name}`}
-                >
-                  <StyledMenuItem>
-                    <ListItemText primary={ele.subject_name} />
-                  </StyledMenuItem>
-                </Link>
+                <Box>
+                  <Button
+                    key={ele.subject_name}
+                    onClick={() => {
+                      handleFilterByCat(ele.subject_id);
+                    }}
+                    className={classes.link}
+                  >
+                    <StyledMenuItem>
+                      <ListItemText primary={ele.subject_name} />
+                    </StyledMenuItem>
+                  </Button>
+                </Box>
               );
             })
           : ''}

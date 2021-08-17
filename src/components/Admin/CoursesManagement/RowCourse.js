@@ -1,33 +1,33 @@
-import { Button, FormControl, TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import NativeSelect from "@material-ui/core/NativeSelect";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import axios from "axios";
-import React from "react";
-import { Link } from "react-router-dom";
-import * as env from "../../../config/env.config";
-import { swal2Timing } from "../../../config/swal2.config";
+import { Button, FormControl, TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import * as env from '../../../config/env.config';
+import { swal2Timing } from '../../../config/swal2.config';
 
 const useStyles = makeStyles({
   table: {
-    width: "100%",
+    width: '100%'
   },
   btn: {
-    marginLeft: 12,
+    marginLeft: 12
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
     },
-    "&:hover": {
-      textDecoration: "underline",
-    },
-  },
+    '&:hover': {
+      textDecoration: 'underline'
+    }
+  }
 });
 
 export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
@@ -37,20 +37,6 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
   const [sales, setSales] = React.useState(course.sale_percent);
   const [fee, setFee] = React.useState(course.course_fee);
   const config = {};
-
-  //   function getCourseDetail() {
-  //     const url = `${env.DEV_URL}/api/course/${course.course_id}`;
-  //     const config = {};
-  //     axios
-  //       .get(url, config)
-  //       .then((ret) => {
-  //         console.log("course detail admin", ret.data.course_detail);
-  //         setCourse(ret.data.course_detail);
-  //       })
-  //       .catch((er) => {
-  //         console.log(er);
-  //       });
-  //   }
 
   const handleSalesChange = (e) => {
     setSales(e.target.value);
@@ -71,20 +57,18 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
       const data = {
         sale_percent: sales,
         add_new: course.sale_percent ? false : true,
-        course_id: course.course_id,
+        course_id: course.course_id
       };
 
       axios
         .patch(edit_url, data, config)
-        .then((ret) => {
-          console.log("sale response", ret.data);
-        })
+        .then((ret) => {})
         .catch((err) => {
           setOnEdit(false);
-          const title = "Failed!";
-          const html = "Cannot update course sales";
+          const title = 'Failed!';
+          const html = 'Cannot update course sales';
           const timer = 2000;
-          const icon = "fail";
+          const icon = 'fail';
           swal2Timing(title, html, timer, icon);
           return;
         });
@@ -93,20 +77,18 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
       const edit_url = `${env.DEV_URL}/api/course`;
       const data = {
         course_fee: fee,
-        course_id: course.course_id,
+        course_id: course.course_id
       };
 
       axios
         .patch(edit_url, data, config)
-        .then((ret) => {
-          console.log("course response", ret.data);
-        })
+        .then((ret) => {})
         .catch((err) => {
           setOnEdit(false);
-          const title = "Failed!";
-          const html = "Cannot update course fee";
+          const title = 'Failed!';
+          const html = 'Cannot update course fee';
           const timer = 2000;
-          const icon = "fail";
+          const icon = 'fail';
           swal2Timing(title, html, timer, icon);
           return;
         });
@@ -117,10 +99,10 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
     }
 
     setOnEdit(false);
-    const title = "Success!";
-    const html = "Updated!";
+    const title = 'Success!';
+    const html = 'Updated!';
     const timer = 2000;
-    const icon = "success";
+    const icon = 'success';
     swal2Timing(title, html, timer, icon);
     return;
   };
@@ -131,11 +113,11 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
   };
   return (
     <TableRow key={course.course_id} hover>
-      <TableCell align="left" component="th" scope="row">
+      <TableCell align='left' component='th' scope='row'>
         {course.course_id}
       </TableCell>
 
-      <TableCell align="left" component="th" scope="row">
+      <TableCell align='left' component='th' scope='row'>
         <Link
           className={classes.link}
           to={`/admin/course-management/course/${course.course_id}`}
@@ -146,57 +128,57 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
 
       {onEdit ? (
         <TableCell
-          align="left"
-          component="th"
-          scope="row"
-          style={{ width: "150px" }}
+          align='left'
+          component='th'
+          scope='row'
+          style={{ width: '150px' }}
         >
           <FormControl
             onKeyPress={(e) => {
-              handleKeypress(e, "fee");
+              handleKeypress(e, 'fee');
             }}
           >
             <TextField
-              label="Name"
+              label='Name'
               onChange={handleFeeChange}
               value={fee}
-              type="number"
+              type='number'
             />
           </FormControl>
         </TableCell>
       ) : (
-        <TableCell align="left" component="th" scope="row">
+        <TableCell align='left' component='th' scope='row'>
           {course.course_fee}
         </TableCell>
       )}
 
       {onEdit ? (
         <TableCell
-          align="left"
-          component="th"
-          scope="row"
-          style={{ width: "150px" }}
+          align='left'
+          component='th'
+          scope='row'
+          style={{ width: '150px' }}
         >
           <FormControl
             onKeyPress={(e) => {
-              handleKeypress(e, "sales");
+              handleKeypress(e, 'sales');
             }}
           >
             <TextField
-              type="number"
-              label="Name"
+              type='number'
+              label='Name'
               onChange={handleSalesChange}
               value={sales}
             />
           </FormControl>
         </TableCell>
       ) : (
-        <TableCell align="left" component="th" scope="row">
-          {course.sale_percent ? course.sale_percent + "%" : 0}
+        <TableCell align='left' component='th' scope='row'>
+          {course.sale_percent ? course.sale_percent + '%' : 0}
         </TableCell>
       )}
 
-      <TableCell align="left" component="th" scope="row">
+      <TableCell align='left' component='th' scope='row'>
         {course.views}
       </TableCell>
       {/* <TableCell align="left" component="th" scope="row">
@@ -208,12 +190,12 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
       </Moment>
     </TableCell> */}
       {!onEdit ? (
-        <TableCell align="right">
+        <TableCell align='right'>
           <Button
             onClick={() => setOnEdit(true)}
             className={classes.btn}
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
           >
             Edit
           </Button>
@@ -222,18 +204,18 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
               handleDelCourse(course.course_id);
             }}
             className={classes.btn}
-            variant="contained"
-            color="secondary"
+            variant='contained'
+            color='secondary'
           >
             Delete
           </Button>
         </TableCell>
       ) : (
-        <TableCell align="right">
+        <TableCell align='right'>
           <Button
             className={classes.btn}
-            variant="contained"
-            color="secondary"
+            variant='contained'
+            color='secondary'
             onClick={() => {
               handleEditCourse();
             }}
@@ -245,8 +227,8 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
               setOnEdit(false);
             }}
             className={classes.btn}
-            variant="contained"
-            color="default"
+            variant='contained'
+            color='default'
           >
             Back
           </Button>

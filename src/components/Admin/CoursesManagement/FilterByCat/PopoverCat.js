@@ -63,7 +63,8 @@ export default function PopoverCat({
   title,
   categories,
   sub_mobi_cat,
-  sub_web_cat
+  sub_web_cat,
+  setcourses
 }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -119,6 +120,7 @@ export default function PopoverCat({
         {categories.map((e, i) => {
           return (
             <Subcategory
+              setcourses={setcourses}
               classes={classes}
               key={e.cat_id}
               set_cat_close={set_close}
