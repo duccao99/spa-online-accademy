@@ -2,7 +2,7 @@ import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { useParams } from 'react-router-dom';
 import * as env from '../../config/env.config';
 import { swal2Timing } from '../../config/swal2.config';

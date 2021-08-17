@@ -17,6 +17,8 @@ import * as env from '../../config/env.config';
 import { swal2Timing } from '../../config/swal2.config';
 import Navbar from '../Navbar/Navbar';
 import Footer from './../Footer/Footer';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const common_spacing = 32;
 
@@ -198,6 +200,12 @@ export default function UploadCourse({ match }) {
   const [img_upload, setImg_upload] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [isCourseNameError, setIsCourseNameError] = useState(false);
+  const [isTittleError, setIsTittleError] = useState(false);
+  const [isFeeError, setIsFeeError] = useState(false);
+  const [isFullDesError, setIsFullDesError] = useState(false);
+  const [isShortDesError, setIsShortDesError] = useState(false);
+
   const onUploadAva = (e) => {
     let count = 0;
     const file_one = e.target.files[0];
@@ -298,12 +306,44 @@ export default function UploadCourse({ match }) {
       ...course_state,
       [ev.target.name]: value
     });
+
+    if (ev.target.value === '' && ev.target.name === 'course_name') {
+      setIsCourseNameError(true);
+    } else {
+      setIsCourseNameError(false);
+    }
+
+    if (ev.target.value === '' && ev.target.name === 'course_title') {
+      setIsTittleError(true);
+    } else {
+      setIsTittleError(false);
+    }
+
+    if (
+      (+ev.target.value < 0 && ev.target.name === 'course_fee') ||
+      (ev.target.name === 'course_fee' && isNaN(+ev.target.value)) ||
+      (ev.target.value === '' && ev.target.name === 'course_fee')
+    ) {
+      setIsFeeError(true);
+    } else {
+      setIsFeeError(false);
+    }
   };
 
   const handleSubmit = (ev) => {
     // alert(
     //   `${course_state.course_name}\n${course_state.course_title}\n${course_state.course_fee}\n${fullDes}\n${shortDes}`
     // );
+
+    if (isTittleError || isCourseNameError || isFeeError) {
+      const title = 'error!';
+      const html = 'Something broke!';
+      const timer = 2500;
+      const icon = 'error';
+      swal2Timing(title, html, timer, icon);
+      return;
+    }
+
     const config = {
       headers: {
         'content-type': 'multipart/form-data'
@@ -311,6 +351,8 @@ export default function UploadCourse({ match }) {
     };
 
     const formAvaData = new FormData();
+
+    console.log('full des', fullDes);
 
     // formAvaData.append("ava", image);
     // formAvaData.append("ava", base64Image);
@@ -439,39 +481,6 @@ export default function UploadCourse({ match }) {
     getSubCat();
   }, [match.path, isUpdate, isComponentUpdate, loading]);
 
-  useEffect(() => {
-    const TinyShortDes = `
-      tinymce.init({
-          selector: '#txtShortDes',
-          plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-          toolbar_mode: 'floating',
-      });
-
-    `;
-
-    const TinytxtFullDes = `
-    tinymce.init({
-        selector: '#txtFullDes',
-        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-        toolbar_mode: 'floating',
-    });
-
-  `;
-    const script1 = document.createElement('script');
-    script1.textContent = TinyShortDes;
-
-    const script2 = document.createElement('script');
-    script2.textContent = TinytxtFullDes;
-
-    document.body.appendChild(script1);
-    document.body.appendChild(script2);
-
-    return () => {
-      document.body.removeChild(script1);
-      document.body.removeChild(script2);
-    };
-  }, []);
-
   return (
     <React.Fragment>
       <Box className={classes.container}>
@@ -494,6 +503,8 @@ export default function UploadCourse({ match }) {
                     label='Course name'
                     name='course_name'
                     id='course_name'
+                    error={isCourseNameError}
+                    helperText={isCourseNameError ? 'Cannot empty' : ''}
                     value={course_state.course_name}
                     onChange={handleCourseStateChange}
                   />
@@ -507,6 +518,8 @@ export default function UploadCourse({ match }) {
                     label='Title'
                     name='course_title'
                     id='course_title'
+                    error={isTittleError}
+                    helperText={isTittleError ? 'Cannot empty' : ''}
                     value={course_state.course_title}
                     onChange={handleCourseStateChange}
                   />
@@ -558,6 +571,8 @@ export default function UploadCourse({ match }) {
                     label='Fee'
                     name='course_fee'
                     id='course_fee'
+                    error={isFeeError}
+                    helperText={isFeeError ? 'Fee error' : ''}
                     value={course_state.course_fee}
                     onChange={handleCourseStateChange}
                   />
@@ -571,8 +586,8 @@ export default function UploadCourse({ match }) {
                   </Typography>
                 </Box>
                 <FormControl fullWidth>
-                  <textarea
-                    id='txtFullDes'
+                  <ReactQuill
+                    theme='snow'
                     value={fullDes}
                     onChange={setFullDes}
                   />
@@ -586,8 +601,8 @@ export default function UploadCourse({ match }) {
                   </Typography>
                 </Box>
                 <FormControl fullWidth>
-                  <textarea
-                    id='txtShortDes'
+                  <ReactQuill
+                    theme='snow'
                     value={shortDes}
                     onChange={setShortDes}
                   />
@@ -607,11 +622,8 @@ export default function UploadCourse({ match }) {
                   type='file'
                   className='file'
                   onChange={(e) => handleFileInputChange(e)}
-                  // onChange={(e) => onUploadAva(e)}
-                  // onChange={(e) => uploadImageChange(e)}
                   data-browse-on-zone-click='true'
                 ></input>
-                {/* <FileUploader onFileSelect={(f) => setSelectedFile(f)} /> */}
               </Box>
 
               <Box my={3}>
