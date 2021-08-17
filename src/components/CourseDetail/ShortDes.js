@@ -69,6 +69,9 @@ export default function ShortDes({
   const [user_role, setUserRole] = useState(0);
   const [insId, setInsId] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
+
+  const [isShortDesUpdate, setIsShortDesUpdate] = useState(false);
+
   const [course_detail, set_course_detail] = React.useState({});
   const [shortDes, setshortDes] = useState(
     course_detail.course_short_description
@@ -96,15 +99,16 @@ export default function ShortDes({
     setLoadDing(true);
     const url = `${env.DEV_URL}/api/instructor/edit-short-des`;
     const data = {
-      user_id: insId,
+      user_id: +insId,
       course_short_description: shortDes,
-      course_id: course_detail.course_id
+      course_id: +course_detail.course_id
     };
 
     axios
       .patch(url, data, {})
       .then((ret) => {
         setUpdateCourseDetail(!updateCourseDetail);
+        setIsShortDesUpdate(!isShortDesUpdate);
         setLoadDing(false);
         const title = 'Success!';
         const html = 'Edited!';
@@ -114,7 +118,7 @@ export default function ShortDes({
       })
       .catch((er) => {
         setUpdateCourseDetail(!updateCourseDetail);
-
+        setIsShortDesUpdate(!isShortDesUpdate);
         const title = 'error!';
         const html = 'Something broke!';
         const timer = 2500;
@@ -125,7 +129,7 @@ export default function ShortDes({
 
   useEffect(() => {
     setshortDes(course_detail.course_short_description);
-  }, [course_detail]);
+  }, [course_detail, isShortDesUpdate]);
 
   useEffect(() => {
     const curr_user_role = sessionStorage.getItem('user_role');
@@ -135,7 +139,7 @@ export default function ShortDes({
     setInsId(+user_login_id);
 
     getCourseDetail();
-  }, [isEdit]);
+  }, [isEdit, isShortDesUpdate]);
 
   const handleQuillEdit = (value) => {
     setshortDes(value);
