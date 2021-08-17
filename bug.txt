@@ -8,6 +8,6 @@
 + authentication access token (tu)
 + authentication access token , refresh token (tu)
 
-+ validate json schema (duc)
+
 
 

@@ -216,17 +216,13 @@ function CardCourse(props) {
     user_id,
     avg_rate,
     total_review,
-    most_stu_enroll,
-    most_view_courses,
-    newest_courses,
+
     dispatchAddToCart,
     cart_global_state,
     isLogout,
     isUpdateFromPagi,
     purchased_id_list,
-    // course detail problem
-    // setUpdateCourseDetail,
-    // updateCourseDetail,
+
     setFavoComponentUpdate,
     favoComponentUpdate,
     course_favo_id,
@@ -276,25 +272,6 @@ function CardCourse(props) {
     );
   };
 
-  function allSales() {
-    debounce(() => {
-      const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
-      const config = {};
-      axios.get(all_sales_url, config).then((ret) => {
-        set_all_sales(ret.data.all_sales);
-        if (ret.data.all_sales !== undefined) {
-          for (let i = 0; i < ret.data.all_sales.length; ++i) {
-            if (course_id === ret.data.all_sales[i].course_id) {
-              set_is_sales(true);
-              set_sale(+ret.data.all_sales[i].sale_percent);
-              break;
-            }
-          }
-        }
-      });
-    }, 500)();
-  }
-
   function getIsFavorite(user_id, course_id) {
     let url_is_favo = '';
     if (course_favo_id !== undefined) {
@@ -340,23 +317,23 @@ function CardCourse(props) {
     const user_role = sessionStorage.getItem('user_role');
     setUser_role(+user_role);
     // sale
-    debounce(() => {
-      const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
-      const config = {};
-      axios.get(all_sales_url, config).then((ret) => {
-        set_all_sales(ret.data.all_sales);
 
-        if (ret.data.all_sales !== undefined) {
-          for (let i = 0; i < ret.data.all_sales.length; ++i) {
-            if (course_id === ret.data.all_sales[i].course_id) {
-              set_is_sales(true);
-              set_sale(+ret.data.all_sales[i].sale_percent);
-              break;
-            }
+    const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
+    const config = {};
+    axios.get(all_sales_url, config).then((ret) => {
+      set_all_sales(ret.data.all_sales);
+
+      if (ret.data.all_sales !== undefined) {
+        for (let i = 0; i < ret.data.all_sales.length; ++i) {
+          if (course_id === ret.data.all_sales[i].course_id) {
+            set_is_sales(true);
+            set_sale(+ret.data.all_sales[i].sale_percent);
+            break;
           }
         }
-      });
-    }, 500)();
+      }
+    });
+
     // This stuff make app broken !!!
 
     const email = sessionStorage.getItem('email');
@@ -386,50 +363,7 @@ function CardCourse(props) {
         }
       }
     }
-
-    if (most_stu_enroll !== undefined) {
-      let flag = false;
-
-      for (let i = 0; i < most_stu_enroll.length; ++i) {
-        if (+course_id === +most_stu_enroll[i].course_id) {
-          flag = true;
-          break;
-        }
-      }
-
-      if (flag === true) {
-        set_is_best_seller(true);
-        return;
-      } else {
-        set_is_best_seller(false);
-      }
-    }
-
-    if (newest_courses !== undefined) {
-      let flag = false;
-
-      for (let i = 0; i < newest_courses.length; ++i) {
-        if (+course_id === +newest_courses[i].course_id) {
-          flag = true;
-          set_is_newest(true);
-          break;
-        }
-      }
-
-      if (flag === true) {
-        set_is_newest(true);
-        return;
-      } else {
-        set_is_newest(false);
-        return;
-      }
-    }
-
-    // [most_stu_enroll, most_view_courses, newest_courses, all_sales]
   }, [
-    most_stu_enroll,
-    most_view_courses,
-    newest_courses,
     // toggle_buy_click,
     cart_global_state,
     email,
@@ -443,6 +377,28 @@ function CardCourse(props) {
     is_favorite,
     favoComponentUpdate
   ]);
+
+  function isBestSellerBadgeHandle() {
+    const url = `${env.DEV_URL}/api/extra-task/is-best-seller/${course_id}`;
+
+    axios.get(url).then((ret) => {
+      set_is_best_seller(ret.data);
+    });
+  }
+
+  function isNewBadgeHandle() {
+    const url = `${env.DEV_URL}/api/extra-task/is-newest/${course_id}`;
+
+    axios.get(url).then((ret) => {
+      set_is_newest(ret.data);
+    });
+  }
+
+  // handle badge
+  useEffect(() => {
+    isBestSellerBadgeHandle();
+    isNewBadgeHandle();
+  }, []);
 
   const handleLinkClick = (e) => {
     // setUpdateCourseDetail(!updateCourseDetail);
