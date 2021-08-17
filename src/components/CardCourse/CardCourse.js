@@ -311,20 +311,20 @@ function CardCourse(props) {
   const handleFavoriteClick = (e) => {
     const toggle_favorite_url = `${env.DEV_URL}/api/student/toggle-favorite`;
     const data = {
-      user_id: +sessionStorage.getItem('user_login_id'),
-      course_id: course_id,
+      user_id: Number(sessionStorage.getItem('user_login_id')),
+      course_id: Number(course_id),
       is_favorite: is_favorite
     };
 
-    if (
-      setFavoComponentUpdate !== undefined &&
-      setFavoComponentUpdate !== null
-    ) {
-      setFavoComponentUpdate(!favoComponentUpdate);
-    }
-
     axios.patch(toggle_favorite_url, data, {}).then((ret) => {
       getIsFavorite(data.user_id, data.course_id);
+
+      if (
+        setFavoComponentUpdate !== undefined &&
+        setFavoComponentUpdate !== null
+      ) {
+        setFavoComponentUpdate(!favoComponentUpdate);
+      }
     });
   };
 

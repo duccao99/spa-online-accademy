@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import validator from "validator";
+import validator from 'validator';
 import * as env_config from '../../config/env.config';
 import { swal2Timing } from '../../config/swal2.config';
 import Copyright from './../Copyright/Copyright';
@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const [is_username_error, set_is_username_error] = useState(false);
   const [is_email_error, set_is_email_error] = useState(false);
   const [is_pass_error, set_is_pass_error] = useState(false);
   const [user_name, set_user_name] = useState('');
@@ -70,15 +71,20 @@ export default function SignUp() {
 
   const handleEmailChange = (e) => {
     set_email(e.target.value);
-    // if (validator.isEmail(email) === false) {
-    //   set_is_email_error(true);
-    // } else {
-    //   set_is_email_error(false);
-    // }
+    if (validator.isEmail(e.target.value) === false) {
+      set_is_email_error(true);
+    } else {
+      set_is_email_error(false);
+    }
   };
 
   const handleUsernameChange = (e) => {
     set_user_name(e.target.value);
+    if (e.target.value === '') {
+      set_is_username_error(true);
+    } else {
+      set_is_username_error(false);
+    }
   };
 
   const handlePasswordChange = (e) => {
@@ -206,6 +212,8 @@ export default function SignUp() {
                 id='Username'
                 label='Name'
                 autoFocus
+                error={is_username_error}
+                helperText={is_username_error ? 'Username cannot empty!' : ''}
                 onChange={handleUsernameChange}
               />
             </Grid>
@@ -223,6 +231,7 @@ export default function SignUp() {
                 onChange={handleEmailChange}
                 value={email}
                 FormHelperTextProps={{ className: classes.helperText }}
+                error={is_email_error}
                 helperText={is_email_error === true ? 'Email invalid!' : ''}
               />
             </Grid>
@@ -239,6 +248,7 @@ export default function SignUp() {
                 FormHelperTextProps={{
                   className: classes.helperText
                 }}
+                error={is_pass_error}
                 helperText={
                   is_pass_error === true ? 'At least 6 characters' : ''
                 }

@@ -2,8 +2,6 @@
 
 
 
-+ admin module: filter course by category  (duc)
-
 
 + disable course (tu)
 
@@ -12,5 +10,4 @@
 
 + validate json schema (duc)
 
-+ extra 10 course (tu)
 

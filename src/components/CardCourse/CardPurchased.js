@@ -168,8 +168,8 @@ function CardPurchased(props) {
   const handleEnroll = (e) => {
     const url = `${env.DEV_URL}/api/student/enroll`;
     const data = {
-      user_id: sessionStorage.getItem('user_login_id'),
-      course_id: course_id
+      user_id: Number(sessionStorage.getItem('user_login_id')),
+      course_id: Number(course_id)
     };
     axios.post(url, data, {}).then((ret) => {});
   };

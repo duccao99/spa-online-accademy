@@ -12,6 +12,7 @@ import { Button, FormGroup, TextField } from '@material-ui/core';
 import * as env from '../../config/env.config';
 import axios from 'axios';
 import { swal2Timing } from '../../config/swal2.config';
+import validator from 'validator';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -75,6 +76,10 @@ export default function Change({ setupdate, update }) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [is_name_error, set_is_name_error] = useState(false);
+  const [is_email_error, setIs_email_error] = useState(false);
+  const [is_new_pass_error, setIs_new_pass_error] = useState(false);
+  const [is_old_pass_error, setIs_old_pass_error] = useState(false);
+
   const [user_name, setuser_name] = useState('');
   const [maile, setmaile] = useState('');
   const [user_id, setuser_id] = useState(0);
@@ -214,7 +219,14 @@ export default function Change({ setupdate, update }) {
                   handleUpdateName(e);
                 }
               }}
-              onChange={(e) => setuser_name(e.target.value)}
+              onChange={(e) => {
+                setuser_name(e.target.value);
+                if (e.target.value === '') {
+                  set_is_name_error(true);
+                } else {
+                  set_is_name_error(false);
+                }
+              }}
               error={is_name_error}
               helperText={is_name_error === true ? 'Cannot empty' : ''}
             />
@@ -242,9 +254,17 @@ export default function Change({ setupdate, update }) {
               }}
               fullWidth
               value={maile}
-              onChange={(e) => setmaile(e.target.value)}
-              error={is_name_error}
-              helperText={is_name_error === true ? 'Cannot empty?' : ''}
+              onChange={(e) => {
+                if (!validator.isEmail(e.target.value)) {
+                  setIs_email_error(true);
+                } else {
+                  setIs_email_error(false);
+                }
+
+                setmaile(e.target.value);
+              }}
+              error={is_email_error}
+              helperText={is_email_error === true ? 'Email error' : ''}
             />
             <Box my={2}>
               <Button
@@ -272,9 +292,20 @@ export default function Change({ setupdate, update }) {
                   type='password'
                   fullWidth
                   value={oldpass}
-                  onChange={(e) => setoldpass(e.target.value)}
-                  error={is_name_error}
-                  helperText={is_name_error === true ? 'Error' : ''}
+                  onChange={(e) => {
+                    if (e.target.value.length < 6) {
+                      setIs_old_pass_error(true);
+                    } else {
+                      setIs_old_pass_error(false);
+                    }
+                    setoldpass(e.target.value);
+                  }}
+                  error={is_old_pass_error}
+                  helperText={
+                    is_old_pass_error === true
+                      ? 'Old password length must be >= 6'
+                      : ''
+                  }
                 />
               </FormGroup>
             </Box>
@@ -285,9 +316,20 @@ export default function Change({ setupdate, update }) {
                   type='password'
                   fullWidth
                   value={newpass}
-                  onChange={(e) => setnewpass(e.target.value)}
-                  error={is_name_error}
-                  helperText={is_name_error === true ? 'Cannot empty?' : ''}
+                  onChange={(e) => {
+                    if (e.target.value.length < 6) {
+                      setIs_new_pass_error(true);
+                    } else {
+                      setIs_new_pass_error(false);
+                    }
+                    setnewpass(e.target.value);
+                  }}
+                  error={is_new_pass_error}
+                  helperText={
+                    is_new_pass_error === true
+                      ? 'Password length must be >= 6'
+                      : ''
+                  }
                 />
               </FormGroup>
             </Box>
