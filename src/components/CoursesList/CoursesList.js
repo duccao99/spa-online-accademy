@@ -101,6 +101,7 @@ const sort_info = [
 
 const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   const classes = style();
+  const [isLoading, setIsLoading] = useState(false);
   const [all_courses_finished, set_all_courses_finished] = useState([]);
   const [total_pagi_stuff, set_total_pagi_stuff] = useState([]);
   const [curr_page, set_curr_page] = useState([]);
@@ -119,35 +120,103 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   const location = useLocation();
 
   function getMostStudentEnrollCourses() {
-    debounce(() => {
-      const most_stu_rul = `${env.DEV_URL}/api/course/outstanding-courses`;
-      const config = {};
-      axios.get(most_stu_rul, config).then((ret) => {
-        set_most_stu_enroll(ret.data.outstanding_courses);
-      });
-    }, 500)();
+    setIsLoading(true);
+
+    const most_stu_rul = `${env.DEV_URL}/api/course/outstanding-courses`;
+    const config = {};
+    axios.get(most_stu_rul, config).then((ret) => {
+      set_most_stu_enroll(ret.data.outstanding_courses);
+      setIsLoading(false);
+    });
   }
   function getMostViewCourses() {
-    debounce(() => {
-      const most_views_url = `${env.DEV_URL}/api/course/ten-most-viewed-courses`;
-      const config = {};
-      axios.get(most_views_url, config).then((ret) => {
-        set_most_view_courses(ret.data.ten_most_viewed_courses);
-      });
-    }, 500)();
+    setIsLoading(true);
+
+    const most_views_url = `${env.DEV_URL}/api/course/ten-most-viewed-courses`;
+    const config = {};
+    axios.get(most_views_url, config).then((ret) => {
+      set_most_view_courses(ret.data.ten_most_viewed_courses);
+      setIsLoading(false);
+    });
   }
   function getNewestCourses() {
-    debounce(() => {
-      const newest_url = `${env.DEV_URL}/api/course/ten-newest-courses`;
-      const config = {};
-      axios.get(newest_url, config).then((ret) => {
-        set_newest_courses(ret.data.ten_newest_courses);
-      });
-    }, 500)();
+    setIsLoading(true);
+
+    const newest_url = `${env.DEV_URL}/api/course/ten-newest-courses`;
+    const config = {};
+    axios.get(newest_url, config).then((ret) => {
+      set_newest_courses(ret.data.ten_newest_courses);
+      setIsLoading(false);
+    });
+  }
+
+  function fullTextSearchHandle(search_value) {
+    setIsLoading(true);
+
+    const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
+    const config = {};
+    axios.get(all_courses_by_subcat_url, config).then((ret) => {
+      set_all_courses_finished(ret.data.all_courses);
+      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+      set_curr_page(ret.data.curr_pagi);
+      setIsLoading(false);
+    });
+  }
+
+  function listCourseByCategory(subject_name) {
+    setIsLoading(true);
+
+    const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${subject_name}`;
+    const config = {};
+    axios.get(all_courses_by_subcat_url, config).then((ret) => {
+      set_all_courses_finished(ret.data.course_by_sub_cat);
+      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+      set_curr_page(ret.data.curr_pagi);
+      setIsLoading(false);
+    });
+  }
+
+  function listCourseByRate(rate_value) {
+    setIsLoading(true);
+
+    const all_course_finished_url = `${env.DEV_URL}/api/course/byRate/${rate_value}`;
+    const config = {};
+    axios.get(all_course_finished_url, config).then((ret) => {
+      set_all_courses_finished(ret.data.course_by_rate);
+      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+      set_curr_page(ret.data.curr_pagi);
+      setIsLoading(false);
+    });
+  }
+
+  function listCourseByPrice(price_value) {
+    setIsLoading(true);
+
+    const all_course_finished_url = `${env.DEV_URL}/api/course/byPrice/${price_value}`;
+    const config = {};
+    axios.get(all_course_finished_url, config).then((ret) => {
+      set_all_courses_finished(ret.data.course_by_price);
+      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+      set_curr_page(ret.data.curr_pagi);
+      setIsLoading(false);
+    });
+  }
+
+  function listCourseByNothing() {
+    setIsLoading(true);
+    const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
+    const config = {};
+    axios.get(all_course_finished_url, config).then((ret) => {
+      set_all_courses_finished(ret.data.all_courses_finished);
+      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+      set_curr_page(ret.data.curr_pagi);
+      setIsLoading(false);
+    });
   }
 
   useEffect(() => {
     // navbar logout problem
+
     const isLg = sessionStorage.getItem('isLogout', false);
 
     if (isLg !== null) {
@@ -159,70 +228,53 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
     getMostStudentEnrollCourses();
     getMostViewCourses();
     getNewestCourses();
-    if (search_value) {
-      debounce(() => {
-        const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
-        const config = {};
-        axios.get(all_courses_by_subcat_url, config).then((ret) => {
-          set_all_courses_finished(ret.data.all_courses);
-          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-          set_curr_page(ret.data.curr_pagi);
-        });
-      }, 500)();
+
+    if (search_value.length !== 0) {
+      fullTextSearchHandle(search_value);
+
+      return;
     } else {
       if (id !== undefined) {
         set_search_value('');
-        debounce(() => {
-          const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${id}`;
-          const config = {};
-          axios.get(all_courses_by_subcat_url, config).then((ret) => {
-            set_all_courses_finished(ret.data.course_by_sub_cat);
-            set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-            set_curr_page(ret.data.curr_pagi);
-          });
-        }, 200)();
+        listCourseByCategory(id);
+
+        return;
       } else {
         if (rate_value !== undefined) {
-          debounce(() => {
-            const all_course_finished_url = `${env.DEV_URL}/api/course/byRate/${rate_value}`;
-            const config = {};
-            axios.get(all_course_finished_url, config).then((ret) => {
-              set_all_courses_finished(ret.data.course_by_rate);
-              set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-              set_curr_page(ret.data.curr_pagi);
-            });
-          }, 200)();
+          listCourseByRate(rate_value);
+
+          return;
         } else {
           if (price_value !== undefined) {
-            const all_course_finished_url = `${env.DEV_URL}/api/course/byPrice/${price_value}`;
-            const config = {};
-            axios.get(all_course_finished_url, config).then((ret) => {
-              set_all_courses_finished(ret.data.course_by_price);
-              set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-              set_curr_page(ret.data.curr_pagi);
-            });
+            listCourseByPrice(price_value);
+
+            return;
           } else {
-            debounce(() => {
-              const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
-              const config = {};
-              axios.get(all_course_finished_url, config).then((ret) => {
-                set_all_courses_finished(ret.data.all_courses_finished);
-                set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-                set_curr_page(ret.data.curr_pagi);
-              });
-            }, 200)();
+            listCourseByNothing();
+
+            return;
           }
         }
       }
     }
-  }, [id, search_value, sort_value, rate_value, price_value]);
+  }, [search_value, sort_value, rate_value, price_value]);
 
   useEffect(() => {
+    listCourseByCategory(id);
+
+    return;
+  }, [id]);
+
+  function getListPurchasedCourse() {
     const curr_user_id = sessionStorage.getItem('user_login_id');
     const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
     axios.get(url_pruchased_course_id, {}).then((ret) => {
       setPurchasedListId(ret.data.purchased_courses_id_list);
     });
+  }
+
+  useEffect(() => {
+    getListPurchasedCourse();
   });
 
   const handlePagiChange = (event, value) => {
@@ -238,40 +290,33 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
         pagi: value
       }
     };
-
     if (search_value) {
-      debounce(() => {
-        const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
+      const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
 
-        axios.get(all_courses_by_subcat_url, config).then((ret) => {
-          set_all_courses_finished(ret.data.all_courses);
-          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-          set_curr_page(ret.data.curr_pagi);
-        });
-      }, 500)();
+      axios.get(all_courses_by_subcat_url, config).then((ret) => {
+        set_all_courses_finished(ret.data.all_courses);
+        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+        set_curr_page(ret.data.curr_pagi);
+      });
     } else {
       if (id !== undefined) {
         set_search_value('');
-        debounce(() => {
-          const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${id}`;
+        const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${id}`;
 
-          axios.get(all_courses_by_subcat_url, config).then((ret) => {
-            set_all_courses_finished(ret.data.course_by_sub_cat);
+        axios.get(all_courses_by_subcat_url, config).then((ret) => {
+          set_all_courses_finished(ret.data.course_by_sub_cat);
+          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+          set_curr_page(ret.data.curr_pagi);
+        });
+      } else {
+        if (rate_value !== undefined) {
+          const all_course_finished_url = `${env.DEV_URL}/api/course/byRate/${rate_value}`;
+
+          axios.get(all_course_finished_url, config).then((ret) => {
+            set_all_courses_finished(ret.data.course_by_rate);
             set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
             set_curr_page(ret.data.curr_pagi);
           });
-        }, 200)();
-      } else {
-        if (rate_value !== undefined) {
-          debounce(() => {
-            const all_course_finished_url = `${env.DEV_URL}/api/course/byRate/${rate_value}`;
-
-            axios.get(all_course_finished_url, config).then((ret) => {
-              set_all_courses_finished(ret.data.course_by_rate);
-              set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-              set_curr_page(ret.data.curr_pagi);
-            });
-          }, 200)();
         } else {
           if (price_value !== undefined) {
             const all_course_finished_url = `${env.DEV_URL}/api/course/byPrice/${price_value}`;
@@ -282,15 +327,13 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
               set_curr_page(ret.data.curr_pagi);
             });
           } else {
-            debounce(() => {
-              const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
+            const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
 
-              axios.get(all_course_finished_url, config).then((ret) => {
-                set_all_courses_finished(ret.data.all_courses_finished);
-                set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-                set_curr_page(ret.data.curr_pagi);
-              });
-            }, 200)();
+            axios.get(all_course_finished_url, config).then((ret) => {
+              set_all_courses_finished(ret.data.all_courses_finished);
+              set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+              set_curr_page(ret.data.curr_pagi);
+            });
           }
         }
       }
@@ -343,27 +386,31 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
                   all_courses={all_courses_finished}
                 />
 
-                <Grid container spacing={4} className={classes.course_list}>
-                  {all_courses_finished !== undefined &&
-                  all_courses_finished.length !== 0 ? (
-                    all_courses_finished.map((ele, i) => {
-                      return (
-                        <Grid key={i} item xs={12} sm={6} md={4} lg={4}>
-                          <CardCourse
-                            {...ele}
-                            isUpdateFromPagi={isUpdateFromPagi}
-                            most_stu_enroll={most_stu_enroll}
-                            most_view_courses={most_view_courses}
-                            newest_courses={newest_courses}
-                            purchased_id_list={purchased_id_list}
-                          />
-                        </Grid>
-                      );
-                    })
-                  ) : (
-                    <Box px={2}>Oops... There is no course!</Box>
-                  )}
-                </Grid>
+                {isLoading === true ? (
+                  '...loading'
+                ) : (
+                  <Grid container spacing={4} className={classes.course_list}>
+                    {all_courses_finished !== undefined &&
+                    all_courses_finished.length !== 0 ? (
+                      all_courses_finished.map((ele, i) => {
+                        return (
+                          <Grid key={i} item xs={12} sm={6} md={4} lg={4}>
+                            <CardCourse
+                              {...ele}
+                              isUpdateFromPagi={isUpdateFromPagi}
+                              most_stu_enroll={most_stu_enroll}
+                              most_view_courses={most_view_courses}
+                              newest_courses={newest_courses}
+                              purchased_id_list={purchased_id_list}
+                            />
+                          </Grid>
+                        );
+                      })
+                    ) : (
+                      <Box px={2}>Oops... There is no course!</Box>
+                    )}
+                  </Grid>
+                )}
                 <Grid container spacing={4}>
                   <Grid
                     item

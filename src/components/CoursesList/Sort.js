@@ -73,14 +73,6 @@ export default function Sort(props) {
             return (
               <ListItem key={i} className={classes.nested}>
                 <ListItemIcon className={classes.cat_icon}>
-                  {/* <Checkbox
-                    onChange={handleCheckBoxChange}
-                    value={ele.sub_name}
-                    className={classes.link}
-                    defaultChecked
-                    color="primary"
-                    inputProps={{ "aria-label": ele.sub_name }}
-                  /> */}
                   {ele.sub_name === 'asc' ? (
                     <ArrowUpwardIcon />
                   ) : (
