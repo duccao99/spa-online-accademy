@@ -270,7 +270,6 @@ function HomePage(props) {
 
     // outstanding
     const url = `${env.DEV_URL}/api/course/outstanding-courses`;
-    const config = {};
     axios.get(url, config).then((ret) => {
       if (ret && ret.data) {
         set_outstanding_courses(ret.data.outstanding_courses);
