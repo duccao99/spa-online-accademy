@@ -36,6 +36,7 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
   const [onEdit, setOnEdit] = React.useState(false);
   const [sales, setSales] = React.useState(course.sale_percent);
   const [fee, setFee] = React.useState(course.course_fee);
+  const [isBanned, setIsBanned] = React.useState(course.is_banned);
   const config = {};
 
   const handleSalesChange = (e) => {
@@ -44,6 +45,10 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
 
   const handleFeeChange = (e) => {
     setFee(e.target.value);
+  };
+
+  const handleIsBannedChange = (e) => {
+    setIsBanned(e.target.value);
   };
 
   React.useEffect(() => {}, [onEdit]);
@@ -73,11 +78,13 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
           return;
         });
     }
-    if (course.course_fee !== fee) {
+
+    if (course.course_fee !== fee || course.is_banned !== isBanned) {
       const edit_url = `${env.DEV_URL}/api/course`;
       const data = {
         course_fee: fee,
-        course_id: course.course_id
+        course_id: course.course_id,
+        is_banned: isBanned
       };
 
       axios
@@ -94,7 +101,7 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
         });
     }
 
-    if (course.sale_percent !== sales || course.course_fee !== fee) {
+    if (course.sale_percent !== sales || course.course_fee !== fee || course.is_banned !== isBanned) {
       raiseReLoad();
     }
 
@@ -106,6 +113,7 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
     swal2Timing(title, html, timer, icon);
     return;
   };
+
   const handleKeypress = (e, type) => {
     if (e.which === 13) {
       //   handleEditCourse(type);
@@ -175,6 +183,32 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
       ) : (
         <TableCell align='left' component='th' scope='row'>
           {course.sale_percent ? course.sale_percent + '%' : 0}
+        </TableCell>
+      )}
+
+      {onEdit ? (
+        <TableCell
+          align='left'
+          component='th'
+          scope='row'
+          style={{ width: '150px' }}
+        >
+          <FormControl
+            onKeyPress={(e) => {
+              handleKeypress(e, 'is_banned');
+            }}
+          >
+            <TextField
+              type='number'
+              label='Name'
+              onChange={handleIsBannedChange}
+              value={isBanned}
+            />
+          </FormControl>
+        </TableCell>
+      ) : (
+        <TableCell align='left' component='th' scope='row'>
+          {course.is_banned}
         </TableCell>
       )}
 

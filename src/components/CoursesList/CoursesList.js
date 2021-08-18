@@ -223,7 +223,9 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   }, [search_value, sort_value, rate_value, price_value]);
 
   useEffect(() => {
-    listCourseByCategory(id);
+    if (id) {
+      listCourseByCategory(id);
+    }
 
     return;
   }, [id]);

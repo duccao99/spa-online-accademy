@@ -107,6 +107,7 @@ export default function CourseManagement() {
 
               <TableCell align='left'>Course fee</TableCell>
               <TableCell align='left'>Course sales</TableCell>
+              <TableCell align='left'>Is banned</TableCell>
               <TableCell align='left'>Course views</TableCell>
 
               <TableCell align='right'>Features</TableCell>

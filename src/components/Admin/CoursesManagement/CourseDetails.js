@@ -127,6 +127,12 @@ export default function CourseDetails() {
             </TableCell>
           </TableRow>
           <TableRow>
+            <TableCell variant='head'>Is banned</TableCell>
+            <TableCell className={classes.cell_info}>
+              {course_detail.is_banned}
+            </TableCell>
+          </TableRow>
+          <TableRow>
             <TableCell variant='head'>Average rate</TableCell>
             <TableCell className={classes.cell_info}>
               {course_detail.avg_rate

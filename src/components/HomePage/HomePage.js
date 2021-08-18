@@ -263,7 +263,11 @@ function HomePage(props) {
     const url = `${env.DEV_URL}/api/course/outstanding-courses`;
     const config = {};
     axios.get(url, config).then((ret) => {
-      set_outstanding_courses(ret.data.outstanding_courses);
+      if (ret && ret.data) {
+        set_outstanding_courses(ret.data.outstanding_courses);
+      } else {
+        set_outstanding_courses(null);
+      }
     });
 
     if (user_id) {
