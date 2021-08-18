@@ -258,7 +258,7 @@ function HomePage(props) {
     // add sales dispatch
 
     const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
-    const config = {};
+
     axios
       .get(all_sales_url, config)
       .then((ret) => {
@@ -331,33 +331,38 @@ function HomePage(props) {
 
     const most_viewed_url = `${env.DEV_URL}/api/course/ten-most-viewed-courses`;
 
-    axios.get(most_viewed_url, config).then((ret) => {
-      let first_4 = [];
-      let second_4 = [];
-      let third_2 = [];
+    axios
+      .get(most_viewed_url, config)
+      .then((ret) => {
+        let first_4 = [];
+        let second_4 = [];
+        let third_2 = [];
 
-      if (ret.data.ten_most_viewed_courses.length >= 10) {
-        for (let i = 0; i < 4; ++i) {
-          first_4.push(ret.data.ten_most_viewed_courses[i]);
-        }
+        if (ret.data.ten_most_viewed_courses.length >= 10) {
+          for (let i = 0; i < 4; ++i) {
+            first_4.push(ret.data.ten_most_viewed_courses[i]);
+          }
 
-        for (let i = 4; i < 8; ++i) {
-          second_4.push(ret.data.ten_most_viewed_courses[i]);
-        }
-        for (let i = 8; i < 10; ++i) {
-          third_2.push(ret.data.ten_most_viewed_courses[i]);
-        }
+          for (let i = 4; i < 8; ++i) {
+            second_4.push(ret.data.ten_most_viewed_courses[i]);
+          }
+          for (let i = 8; i < 10; ++i) {
+            third_2.push(ret.data.ten_most_viewed_courses[i]);
+          }
 
-        set_most_viewed_courses_1_4(first_4);
-        set_most_viewed_courses_2_4(second_4);
-        set_most_viewed_courses_3_2(third_2);
-      } else {
-        for (let i = 0; i < ret.data.ten_most_viewed_courses.length; ++i) {
-          first_4.push(ret.data.ten_most_viewed_courses[i]);
+          set_most_viewed_courses_1_4(first_4);
+          set_most_viewed_courses_2_4(second_4);
+          set_most_viewed_courses_3_2(third_2);
+        } else {
+          for (let i = 0; i < ret.data.ten_most_viewed_courses.length; ++i) {
+            first_4.push(ret.data.ten_most_viewed_courses[i]);
+          }
+          set_most_viewed_courses_1_4(first_4);
         }
-        set_most_viewed_courses_1_4(first_4);
-      }
-    });
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
 
     // top sub cat
     const top_sub_cat_url = `${env.DEV_URL}/api/course/top-sub-cat`;
