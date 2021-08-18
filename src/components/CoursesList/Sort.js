@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -34,7 +34,15 @@ const style = makeStyles((theme) => ({
 }));
 
 export default function Sort(props) {
-  const { sort_name, sort_id, sub_sort, sort_value, set_sort_value } = props;
+  const {
+    sort_name,
+    sort_id,
+    sub_sort,
+    sort_value,
+    set_sort_value,
+    sortBy,
+    setSortBy
+  } = props;
   const [page_link, set_page_link] = useState('');
 
   const classes = style();
@@ -48,6 +56,28 @@ export default function Sort(props) {
     });
     if (event.target.value === 'asc' && event.target.checked === true) {
       set_page_link('/courses-list/byRate/asc');
+    }
+  };
+
+  const handleSortClick = (e, sort_name, sort_value) => {
+    var s = 'ads';
+
+    if (sort_name.toLowerCase() === 'rate') {
+      setSortBy({
+        ...sortBy,
+        rate_asc: sort_value === 'asc',
+        rate_desc: sort_value !== 'asc'
+      });
+      return;
+    }
+
+    if (sort_name.toLowerCase() === 'price') {
+      setSortBy({
+        ...sortBy,
+        price_asc: sort_value === 'asc',
+        price_desc: sort_value !== 'asc'
+      });
+      return;
     }
   };
 
@@ -79,16 +109,19 @@ export default function Sort(props) {
                     <ArrowDownwardIcon />
                   )}
                 </ListItemIcon>
-                <Link
+                <Button
                   className={classes.link}
-                  to={`/courses-list/by${sort_name}/${ele.sub_name}`}
+                  onClick={(e) => {
+                    handleSortClick(e, sort_name, ele.sub_name);
+                  }}
+                  // to={`/courses-list/by${sort_name}/${ele.sub_name}`}
                 >
                   <ListItemText
                     primary={`${
                       ele.sub_name === 'asc' ? 'Ascending' : 'Descending'
                     }`}
                   />
-                </Link>
+                </Button>
               </ListItem>
             );
           })}
