@@ -21,6 +21,7 @@ import Searchbar from './Searchbar';
 import Sort from './Sort';
 import { connect } from 'react-redux';
 import { SET_ALL_COURSES_PURCHASED } from './../../actionTypes/purchase.type';
+import _ from 'lodash';
 
 const style = makeStyles((theme) => ({
   main_course_list_wrapper: {
@@ -116,24 +117,37 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   const [isLogout, setisLogout] = useState(true);
   const [isUpdateFromPagi, setisUpdateFromPagi] = useState(false);
 
+  const [combineFullTextAndSort, setCombineFullTextAndSort] = useState([]);
+
+  const [sortBy, setSortBy] = useState({
+    rate_asc: false,
+    rate_desc: false,
+    price_asc: false,
+    price_desc: false
+  });
+
   const location = useLocation();
 
   function fullTextSearchHandle(search_value) {
-    setIsLoading(true);
+    if (typeof id !== 'undefined') {
+      console.log('check params id in full text', id);
+    } else {
+      setIsLoading(true);
 
-    const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
-    const config = {};
-    axios
-      .get(all_courses_by_subcat_url, config)
-      .then((ret) => {
-        set_all_courses_finished(ret.data.all_courses);
-        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-        set_curr_page(ret.data.curr_pagi);
-        setIsLoading(false);
-      })
-      .catch((er) => {
-        console.log(er.response);
-      });
+      const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
+      const config = {};
+      axios
+        .get(all_courses_by_subcat_url, config)
+        .then((ret) => {
+          set_all_courses_finished(ret.data.all_courses);
+          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+          set_curr_page(ret.data.curr_pagi);
+          setIsLoading(false);
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
+    }
   }
 
   function listCourseByCategory(subject_name) {
@@ -156,22 +170,27 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   }
 
   function listCourseByRate(rate_value) {
-    setIsLoading(true);
+    if (search_value.length !== 0) {
+      console.log('combine rate + search', search_value);
+    } else {
+      console.log('combine rate + search', search_value);
+      setIsLoading(true);
 
-    const all_course_finished_url = `${env.DEV_URL}/api/course/byRate/${rate_value}`;
-    const config = {};
-    axios
-      .get(all_course_finished_url, config)
-      .then((ret) => {
-        set_all_courses_finished(ret.data.course_by_rate);
-        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-        set_curr_page(ret.data.curr_pagi);
-        setIsLoading(false);
-      })
-      .catch((er) => {
-        console.log(er.response);
-        setIsLoading(false);
-      });
+      const all_course_finished_url = `${env.DEV_URL}/api/course/byRate/${rate_value}`;
+      const config = {};
+      axios
+        .get(all_course_finished_url, config)
+        .then((ret) => {
+          set_all_courses_finished(ret.data.course_by_rate);
+          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+          set_curr_page(ret.data.curr_pagi);
+          setIsLoading(false);
+        })
+        .catch((er) => {
+          console.log(er.response);
+          setIsLoading(false);
+        });
+    }
   }
 
   function listCourseByPrice(price_value) {
@@ -210,6 +229,44 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
         setIsLoading(false);
       });
   }
+
+  useEffect(() => {
+    let courses_sorted = [];
+    if (sortBy.rate_asc || sortBy.rate_desc) {
+      sortBy.rate_asc
+        ? (courses_sorted = _.sortBy(
+            all_courses_finished,
+            [`avg_rate`],
+            [`asc`]
+          ))
+        : (courses_sorted = _.sortBy(
+            all_courses_finished,
+            [`avg_rate`],
+            [`asc`]
+          ).reverse());
+    }
+
+    if (sortBy.price_desc || sortBy.price_asc) {
+      sortBy.price_asc
+        ? (courses_sorted = _.sortBy(courses_sorted, [`course_fee`], [`asc`]))
+        : (courses_sorted = _.sortBy(
+            courses_sorted,
+            [`course_fee`],
+            [`asc`]
+          ).reverse());
+    }
+
+    console.log(
+      courses_sorted.map((ele) => {
+        return ele.course_fee;
+      })
+    );
+    console.log(
+      courses_sorted.map((ele) => {
+        return ele.avg_rate;
+      })
+    );
+  }, [sortBy]);
 
   useEffect(() => {
     // navbar logout problem
@@ -262,22 +319,6 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
     return;
   }, [id]);
 
-  function getListPurchasedCourse() {
-    const curr_user_id = sessionStorage.getItem('user_login_id');
-    if (curr_user_id) {
-      const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
-      axios
-        .get(url_pruchased_course_id, {})
-        .then((ret) => {
-          setPurchasedListId(ret.data.purchased_courses_id_list);
-        })
-        .catch((er) => {
-          console.log(er.response);
-          setIsLoading(false);
-        });
-    }
-  }
-
   const handlePagiChange = (event, value) => {
     set_curr_page(value);
     setisUpdateFromPagi(!isUpdateFromPagi);
@@ -288,7 +329,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
         pagi: value
       }
     };
-    if (search_value) {
+    if (search_value.length !== 0) {
       const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
 
       axios
@@ -394,6 +435,8 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
                     {sort_info.map((ele, i) => {
                       return (
                         <Sort
+                          setSortBy={setSortBy}
+                          sortBy={sortBy}
                           set_sort_value={set_sort_value}
                           sort_value={sort_value}
                           {...ele}
