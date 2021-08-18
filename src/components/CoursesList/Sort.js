@@ -36,32 +36,15 @@ const style = makeStyles((theme) => ({
 export default function Sort(props) {
   const {
     sort_name,
-    sort_id,
     sub_sort,
-    sort_value,
-    set_sort_value,
     sortBy,
     setSortBy
   } = props;
-  const [page_link, set_page_link] = useState('');
 
   const classes = style();
   const [open, setOpen] = React.useState(false);
-  const [checked, setChecked] = React.useState(true);
-
-  const handleCheckBoxChange = (event) => {
-    set_sort_value({
-      sort_name: event.target.value,
-      is_checked: event.target.checked
-    });
-    if (event.target.value === 'asc' && event.target.checked === true) {
-      set_page_link('/courses-list/byRate/asc');
-    }
-  };
 
   const handleSortClick = (e, sort_name, sort_value) => {
-    var s = 'ads';
-
     if (sort_name.toLowerCase() === 'rate') {
       setSortBy({
         ...sortBy,
@@ -100,8 +83,12 @@ export default function Sort(props) {
       <Collapse in={open} timeout='auto' unmountOnExit>
         <List component='div' disablePadding>
           {sub_sort.map((ele, i) => {
+            const shouldChangeBackground = sortBy.rate_asc && ele.sub_name === 'asc' && sort_name.toLowerCase() === 'rate'
+            || sortBy.rate_desc && ele.sub_name === 'desc' && sort_name.toLowerCase() === 'rate'
+            || sortBy.price_asc && ele.sub_name === 'asc' && sort_name.toLowerCase() === 'price'
+            || sortBy.price_desc && ele.sub_name === 'desc' && sort_name.toLowerCase() === 'price'
             return (
-              <ListItem key={i} className={classes.nested}>
+              <ListItem key={i} className={classes.nested} style={shouldChangeBackground ? {backgroundColor: 'darkgray'} : {}}>
                 <ListItemIcon className={classes.cat_icon}>
                   {ele.sub_name === 'asc' ? (
                     <ArrowUpwardIcon />
@@ -114,7 +101,6 @@ export default function Sort(props) {
                   onClick={(e) => {
                     handleSortClick(e, sort_name, ele.sub_name);
                   }}
-                  // to={`/courses-list/by${sort_name}/${ele.sub_name}`}
                 >
                   <ListItemText
                     primary={`${

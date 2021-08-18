@@ -259,6 +259,8 @@ function HomePage(props) {
 
     const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
 
+    const config = {}
+
     axios
       .get(all_sales_url, config)
       .then((ret) => {
@@ -451,7 +453,7 @@ function HomePage(props) {
           </Typography>
 
           <Grid container spacing={4} justify={'center'}>
-            {outstanding_courses.length > 0
+            {outstanding_courses && outstanding_courses.length > 0
               ? outstanding_courses.map((card, i) => {
                   return (
                     <Grid

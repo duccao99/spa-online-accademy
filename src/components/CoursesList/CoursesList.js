@@ -117,7 +117,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   const [isLogout, setisLogout] = useState(true);
   const [isUpdateFromPagi, setisUpdateFromPagi] = useState(false);
 
-  const [combineFullTextAndSort, setCombineFullTextAndSort] = useState([]);
+  const [fulltextSearchResult, setFulltextSearchResult] = useState([]);
 
   const [sortBy, setSortBy] = useState({
     rate_asc: false,
@@ -139,7 +139,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
       axios
         .get(all_courses_by_subcat_url, config)
         .then((ret) => {
-          set_all_courses_finished(ret.data.all_courses);
+          setFulltextSearchResult(ret.data.all_courses);
           set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
           set_curr_page(ret.data.curr_pagi);
           setIsLoading(false);
@@ -158,7 +158,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
     axios
       .get(all_courses_by_subcat_url, config)
       .then((ret) => {
-        set_all_courses_finished(ret.data.course_by_sub_cat);
+        setFulltextSearchResult(ret.data.course_by_sub_cat);
         set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
         set_curr_page(ret.data.curr_pagi);
         setIsLoading(false);
@@ -181,7 +181,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
       axios
         .get(all_course_finished_url, config)
         .then((ret) => {
-          set_all_courses_finished(ret.data.course_by_rate);
+          setFulltextSearchResult(ret.data.all_courses);
           set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
           set_curr_page(ret.data.curr_pagi);
           setIsLoading(false);
@@ -201,7 +201,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
     axios
       .get(all_course_finished_url, config)
       .then((ret) => {
-        set_all_courses_finished(ret.data.course_by_price);
+        setFulltextSearchResult(ret.data.all_courses);
         set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
         set_curr_page(ret.data.curr_pagi);
         setIsLoading(false);
@@ -219,7 +219,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
     axios
       .get(all_course_finished_url, config)
       .then((ret) => {
-        set_all_courses_finished(ret.data.all_courses_finished);
+        setFulltextSearchResult(ret.data.all_courses_finished);
         set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
         set_curr_page(ret.data.curr_pagi);
         setIsLoading(false);
@@ -231,18 +231,41 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   }
 
   useEffect(() => {
-    let courses_sorted = [];
+    let courses_sorted = fulltextSearchResult;
+
+    if ((sortBy.rate_asc || sortBy.rate_desc) && (sortBy.price_desc || sortBy.price_asc)) {
+    console.log('rate', sortBy.rate_asc ? 'asc' : 'desc')
+    console.log('fee', sortBy.price_asc ? 'asc' : 'desc')
+      sortBy.rate_asc
+        ? (courses_sorted = _.sortBy(
+            fulltextSearchResult,
+            [`avg_rate`]
+          ))
+        : (courses_sorted = _.sortBy(
+            fulltextSearchResult,
+            [`avg_rate`]
+          ).reverse());
+
+      courses_sorted = courses_sorted.sort((a,b) => {
+        if (a.avg_rate === b.avg_rate) {
+          return sortBy.price_asc ? a.course_fee - b.course_fee : b.course_fee - a.course_fee
+        }
+        return 0
+      })
+      
+      set_all_courses_finished(courses_sorted);
+      return
+    }
+
     if (sortBy.rate_asc || sortBy.rate_desc) {
       sortBy.rate_asc
         ? (courses_sorted = _.sortBy(
-            all_courses_finished,
-            [`avg_rate`],
-            [`asc`]
+            fulltextSearchResult,
+            [`avg_rate`]
           ))
         : (courses_sorted = _.sortBy(
             all_courses_finished,
-            [`avg_rate`],
-            [`asc`]
+            [`avg_rate`]
           ).reverse());
     }
 
@@ -256,21 +279,10 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
           ).reverse());
     }
 
-    console.log(
-      courses_sorted.map((ele) => {
-        return ele.course_fee;
-      })
-    );
-    console.log(
-      courses_sorted.map((ele) => {
-        return ele.avg_rate;
-      })
-    );
-  }, [sortBy]);
+    set_all_courses_finished(courses_sorted);
+  }, [sortBy, fulltextSearchResult]);
 
   useEffect(() => {
-    // navbar logout problem
-
     const isLg = sessionStorage.getItem('isLogout', false);
 
     if (isLg !== null) {
@@ -335,7 +347,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
       axios
         .get(all_courses_by_subcat_url, config)
         .then((ret) => {
-          set_all_courses_finished(ret.data.all_courses);
+          setFulltextSearchResult(ret.data.all_courses);
           set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
           set_curr_page(ret.data.curr_pagi);
         })
@@ -351,7 +363,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
         axios
           .get(all_courses_by_subcat_url, config)
           .then((ret) => {
-            set_all_courses_finished(ret.data.course_by_sub_cat);
+            setFulltextSearchResult(ret.data.all_courses);
             set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
             set_curr_page(ret.data.curr_pagi);
           })
@@ -366,7 +378,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
           axios
             .get(all_course_finished_url, config)
             .then((ret) => {
-              set_all_courses_finished(ret.data.course_by_rate);
+              setFulltextSearchResult(ret.data.all_courses);
               set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
               set_curr_page(ret.data.curr_pagi);
             })
@@ -381,7 +393,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
             axios
               .get(all_course_finished_url, config)
               .then((ret) => {
-                set_all_courses_finished(ret.data.course_by_price);
+                setFulltextSearchResult(ret.data.all_courses);
                 set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
                 set_curr_page(ret.data.curr_pagi);
               })
@@ -395,7 +407,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
             axios
               .get(all_course_finished_url, config)
               .then((ret) => {
-                set_all_courses_finished(ret.data.all_courses_finished);
+                setFulltextSearchResult(ret.data.all_courses_finished);
                 set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
                 set_curr_page(ret.data.curr_pagi);
               })
