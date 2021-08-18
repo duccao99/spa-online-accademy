@@ -233,40 +233,42 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   useEffect(() => {
     let courses_sorted = fulltextSearchResult;
 
-    if ((sortBy.rate_asc || sortBy.rate_desc) && (sortBy.price_desc || sortBy.price_asc)) {
-    console.log('rate', sortBy.rate_asc ? 'asc' : 'desc')
-    console.log('fee', sortBy.price_asc ? 'asc' : 'desc')
+    if (
+      (sortBy.rate_asc || sortBy.rate_desc) &&
+      (sortBy.price_desc || sortBy.price_asc)
+    ) {
+      console.log('rate', sortBy.rate_asc ? 'asc' : 'desc');
+      console.log('fee', sortBy.price_asc ? 'asc' : 'desc');
       sortBy.rate_asc
-        ? (courses_sorted = _.sortBy(
-            fulltextSearchResult,
-            [`avg_rate`]
-          ))
-        : (courses_sorted = _.sortBy(
-            fulltextSearchResult,
-            [`avg_rate`]
-          ).reverse());
+        ? (courses_sorted = _.sortBy(fulltextSearchResult, [`avg_rate`]))
+        : (courses_sorted = _.sortBy(fulltextSearchResult, [
+            `avg_rate`
+          ]).reverse());
 
-      courses_sorted = courses_sorted.sort((a,b) => {
+      courses_sorted = courses_sorted.sort((a, b) => {
         if (a.avg_rate === b.avg_rate) {
-          return sortBy.price_asc ? a.course_fee - b.course_fee : b.course_fee - a.course_fee
+          return sortBy.price_asc
+            ? a.course_fee - b.course_fee
+            : b.course_fee - a.course_fee;
         }
-        return 0
-      })
-      
+        return 0;
+      });
+
       set_all_courses_finished(courses_sorted);
-      return
+      return;
     }
 
     if (sortBy.rate_asc || sortBy.rate_desc) {
       sortBy.rate_asc
-        ? (courses_sorted = _.sortBy(
-            fulltextSearchResult,
-            [`avg_rate`]
-          ))
-        : (courses_sorted = _.sortBy(
-            all_courses_finished,
-            [`avg_rate`]
-          ).reverse());
+        ? (courses_sorted = _.sortBy(fulltextSearchResult, [`avg_rate`]))
+        : (courses_sorted = _.sortBy(all_courses_finished, [`avg_rate`]).sort(
+            (a, b) => {
+              if (a.avg_rate === null || b.avg_rate === null) {
+                return 0;
+              }
+              return b.avg_rate - a.avg_rate;
+            }
+          ));
     }
 
     if (sortBy.price_desc || sortBy.price_asc) {

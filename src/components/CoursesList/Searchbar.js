@@ -16,7 +16,7 @@ export default function Searchbar({
   const handleSearchChange = (e) => {
     debounce(() => {
       set_search_value(e.target.value);
-    }, 500)();
+    }, 800)();
   };
   return (
     <div style={{ width: '100%' }}>
