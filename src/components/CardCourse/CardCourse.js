@@ -255,7 +255,12 @@ function CardCourse(props) {
     };
 
     const finished_url = `${env.DEV_URL}/api/instructor/toggle-finished-course/`;
-    axios.patch(finished_url, data, {}).then((ret) => {});
+    axios
+      .patch(finished_url, data, {})
+      .then((ret) => {})
+      .catch((er) => {
+        console.log(er.response);
+      });
     setisUpdate(!isUpdate);
   };
 
@@ -280,9 +285,14 @@ function CardCourse(props) {
       url_is_favo = `${env.DEV_URL}/api/student/is-favorite?course_id=${course_id}&user_id=${user_id}`;
     }
 
-    axios.get(url_is_favo, {}).then((ret) => {
-      set_is_favorite(ret.data.is_favorite);
-    });
+    axios
+      .get(url_is_favo, {})
+      .then((ret) => {
+        set_is_favorite(ret.data.is_favorite);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   const handleFavoriteClick = (e) => {
@@ -293,16 +303,21 @@ function CardCourse(props) {
       is_favorite: is_favorite
     };
 
-    axios.patch(toggle_favorite_url, data, {}).then((ret) => {
-      getIsFavorite(data.user_id, data.course_id);
+    axios
+      .patch(toggle_favorite_url, data, {})
+      .then((ret) => {
+        getIsFavorite(data.user_id, data.course_id);
 
-      if (
-        setFavoComponentUpdate !== undefined &&
-        setFavoComponentUpdate !== null
-      ) {
-        setFavoComponentUpdate(!favoComponentUpdate);
-      }
-    });
+        if (
+          setFavoComponentUpdate !== undefined &&
+          setFavoComponentUpdate !== null
+        ) {
+          setFavoComponentUpdate(!favoComponentUpdate);
+        }
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   };
 
   useEffect(() => {
@@ -320,19 +335,24 @@ function CardCourse(props) {
 
     const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
     const config = {};
-    axios.get(all_sales_url, config).then((ret) => {
-      set_all_sales(ret.data.all_sales);
+    axios
+      .get(all_sales_url, config)
+      .then((ret) => {
+        set_all_sales(ret.data.all_sales);
 
-      if (ret.data.all_sales !== undefined) {
-        for (let i = 0; i < ret.data.all_sales.length; ++i) {
-          if (course_id === ret.data.all_sales[i].course_id) {
-            set_is_sales(true);
-            set_sale(+ret.data.all_sales[i].sale_percent);
-            break;
+        if (ret.data.all_sales !== undefined) {
+          for (let i = 0; i < ret.data.all_sales.length; ++i) {
+            if (course_id === ret.data.all_sales[i].course_id) {
+              set_is_sales(true);
+              set_sale(+ret.data.all_sales[i].sale_percent);
+              break;
+            }
           }
         }
-      }
-    });
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
 
     // This stuff make app broken !!!
 
@@ -381,17 +401,27 @@ function CardCourse(props) {
   function isBestSellerBadgeHandle() {
     const url = `${env.DEV_URL}/api/extra-task/is-best-seller/${course_id}`;
 
-    axios.get(url).then((ret) => {
-      set_is_best_seller(ret.data);
-    });
+    axios
+      .get(url)
+      .then((ret) => {
+        set_is_best_seller(ret.data);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   function isNewBadgeHandle() {
     const url = `${env.DEV_URL}/api/extra-task/is-newest/${course_id}`;
 
-    axios.get(url).then((ret) => {
-      set_is_newest(ret.data);
-    });
+    axios
+      .get(url)
+      .then((ret) => {
+        set_is_newest(ret.data);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   // handle badge
@@ -410,7 +440,12 @@ function CardCourse(props) {
       user_id: sessionStorage.getItem('user_login_id'),
       course_id: course_id
     };
-    axios.post(url, data, {}).then((ret) => {});
+    axios
+      .post(url, data, {})
+      .then((ret) => {})
+      .catch((er) => {
+        console.log(er.response);
+      });
   };
 
   const classes = useStyles();

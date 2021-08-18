@@ -125,9 +125,14 @@ export default function Feedback({ match, curr_user_id, purchased_id_list }) {
     if (course_id !== undefined) {
       const feedback_url = `${env.DEV_URL}/api/course/detail/feedback/${course_id}`;
       const config = {};
-      axios.get(feedback_url, config).then((ret) => {
-        set_feedback(ret.data.feedback);
-      });
+      axios
+        .get(feedback_url, config)
+        .then((ret) => {
+          set_feedback(ret.data.feedback);
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
     }
     return;
   }

@@ -1,113 +1,113 @@
-import { Box } from "@material-ui/core";
-import Badge from "@material-ui/core/Badge";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import axios from "axios";
-import cn from "classnames";
-import { debounce } from "lodash";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { ADD_COURSE_TO_CART } from "../../actionTypes/cart.type";
-import * as env from "../../config/env.config";
+import { Box } from '@material-ui/core';
+import Badge from '@material-ui/core/Badge';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
+import cn from 'classnames';
+import { debounce } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { ADD_COURSE_TO_CART } from '../../actionTypes/cart.type';
+import * as env from '../../config/env.config';
 
 const common_spacing = 32;
 
 const useStyles = makeStyles((theme) => ({
   icon: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(8, 0, 6)
   },
   heroButtons: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(4)
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingBottom: theme.spacing(8)
   },
   card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    boxShadow: "0 4px 8px rgb(0 1 1 / 10%)",
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    boxShadow: '0 4px 8px rgb(0 1 1 / 10%)'
   },
   cardMedia: {
-    paddingTop: "56.25%", // 16:9
+    paddingTop: '56.25%' // 16:9
   },
   cardContent: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
+    padding: theme.spacing(6)
   },
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   btn_sign_in: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   ten_most_newest_courses: {
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: common_spacing,
-    marginBottom: common_spacing,
+    marginBottom: common_spacing
   },
   outstanding_courses: {
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: common_spacing,
-    marginBottom: common_spacing,
+    marginBottom: common_spacing
   },
   card_wrapper: {
     // marginBottom: common_spacing * 2,
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   typo: {
-    textAlign: "left",
+    textAlign: 'left'
   },
   card_action: {
-    display: "flex",
-    alignItems: "flex-end",
-    height: "100%",
+    display: 'flex',
+    alignItems: 'flex-end',
+    height: '100%'
   },
   badge: {
-    "& .MuiBadge-anchorOriginBottomLeftRectangle": {
-      width: "100px",
-    },
+    '& .MuiBadge-anchorOriginBottomLeftRectangle': {
+      width: '100px'
+    }
   },
   sale: {
-    textDecoration: "line-through;",
-  },
+    textDecoration: 'line-through;'
+  }
 }));
 
 const defaultProps = {
-  color: "secondary",
+  color: 'secondary'
 };
 
 function CardCourseEnroll(props) {
@@ -126,7 +126,7 @@ function CardCourseEnroll(props) {
     newest_courses,
     dispatchAddToCart,
     cart_global_state,
-    isLogout,
+    isLogout
   } = props;
   const [is_best_seller, set_is_best_seller] = useState(false);
 
@@ -137,7 +137,7 @@ function CardCourseEnroll(props) {
   const [email, set_email] = useState(undefined);
 
   const handleBuyClick = (e) => {
-    const curr_user_id = sessionStorage.getItem("user_login_id");
+    const curr_user_id = sessionStorage.getItem('user_login_id');
 
     dispatchAddToCart(
       course_id,
@@ -152,10 +152,11 @@ function CardCourseEnroll(props) {
   const [all_sales, set_all_sales] = useState([]);
 
   function allSales() {
-    debounce(() => {
-      const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
-      const config = {};
-      axios.get(all_sales_url, config).then((ret) => {
+    const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
+    const config = {};
+    axios
+      .get(all_sales_url, config)
+      .then((ret) => {
         set_all_sales(ret.data.all_sales);
 
         if (ret.data.all_sales !== undefined) {
@@ -167,17 +168,22 @@ function CardCourseEnroll(props) {
             }
           }
         }
+      })
+      .catch((er) => {
+        console.log(er.response);
       });
-    }, 500)();
+
     return;
   }
 
   useEffect(() => {
     // sale
-    debounce(() => {
-      const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
-      const config = {};
-      axios.get(all_sales_url, config).then((ret) => {
+
+    const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
+    const config = {};
+    axios
+      .get(all_sales_url, config)
+      .then((ret) => {
         set_all_sales(ret.data.all_sales);
 
         if (ret.data.all_sales !== undefined) {
@@ -189,15 +195,18 @@ function CardCourseEnroll(props) {
             }
           }
         }
+      })
+      .catch((er) => {
+        console.log(er.response);
       });
-    }, 500)();
+
     //
-    const email = sessionStorage.getItem("email");
+    const email = sessionStorage.getItem('email');
     if (email === null) {
       return set_email(undefined);
     } else if (email === undefined) {
       return set_email(undefined);
-    } else if (email === "") {
+    } else if (email === '') {
       return set_email(undefined);
     }
     set_email(email);
@@ -217,7 +226,7 @@ function CardCourseEnroll(props) {
     newest_courses,
     cart_global_state,
     email,
-    isLogout,
+    isLogout
   ]);
 
   const classes = useStyles();
@@ -229,17 +238,17 @@ function CardCourseEnroll(props) {
             <CardMedia
               className={classes.cardMedia}
               image={`${course_avatar_url}`}
-              title="Image title"
+              title='Image title'
             />
-            <Box display="flex" px={8} justifyContent="flex-start" width="100%">
+            <Box display='flex' px={8} justifyContent='flex-start' width='100%'>
               <Badge
                 className={classes.badge}
-                variant="standard"
-                badgeContent="Best seller"
+                variant='standard'
+                badgeContent='Best seller'
                 {...defaultProps}
                 anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
+                  vertical: 'bottom',
+                  horizontal: 'left'
                 }}
               />
             </Box>
@@ -248,8 +257,8 @@ function CardCourseEnroll(props) {
               <Typography
                 className={classes.typo}
                 gutterBottom
-                variant="h6"
-                component="p"
+                variant='h6'
+                component='p'
               >
                 {course_name}
               </Typography>
@@ -264,9 +273,9 @@ function CardCourseEnroll(props) {
                     {course_fee}$
                   </Typography>
                   <Typography className={classes.typo}>
-                    {" "}
+                    {' '}
                     Sale: {course_fee -
-                      Math.floor((course_fee * sale) / 100)}${" "}
+                      Math.floor((course_fee * sale) / 100)}${' '}
                   </Typography>
                 </React.Fragment>
               ) : (
@@ -281,14 +290,14 @@ function CardCourseEnroll(props) {
             <Button
               disabled={is_in_cart === true}
               onClick={handleBuyClick}
-              variant="contained"
-              size="small"
-              color="primary"
+              variant='contained'
+              size='small'
+              color='primary'
             >
               Buy
             </Button>
             <Link className={classes.link} to={`/course/${course_id}`}>
-              <Button variant="outlined" size="small" color="primary">
+              <Button variant='outlined' size='small' color='primary'>
                 Detail
               </Button>
             </Link>
@@ -303,7 +312,7 @@ function CardCourseEnroll(props) {
 
 const mapStateToProps = (state) => {
   return {
-    cart_global_state: state.cartReducer.cart,
+    cart_global_state: state.cartReducer.cart
   };
 };
 
@@ -325,10 +334,10 @@ const mapDispatchToProps = (dispatch) => {
           course_ava: course_ava,
           course_name: course_name,
           course_title: course_title,
-          user_id: user_id,
-        },
+          user_id: user_id
+        }
       });
-    },
+    }
   };
 };
 

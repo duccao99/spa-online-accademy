@@ -51,16 +51,21 @@ function UserPay(props) {
       total_money: money
     };
     const config = {};
-    axios.post(add_order_url, data, config).then((ret) => {
-      const title = 'Checkout!';
-      const html = 'Checkout success!';
-      const timer = 2500;
-      const icon = 'success';
+    axios
+      .post(add_order_url, data, config)
+      .then((ret) => {
+        const title = 'Checkout!';
+        const html = 'Checkout success!';
+        const timer = 2500;
+        const icon = 'success';
 
-      swal2Timing(title, html, timer, icon);
+        swal2Timing(title, html, timer, icon);
 
-      dispatchClearCart();
-    });
+        dispatchClearCart();
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   };
 
   return (

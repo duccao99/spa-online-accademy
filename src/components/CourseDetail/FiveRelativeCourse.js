@@ -84,38 +84,43 @@ export default function FiveRelativeCourse({
     if (course_id !== undefined) {
       const five_rel_url = `${env.DEV_URL}/api/course/detail/five-relative-bought-most/${course_id}`;
       const config = {};
-      axios.get(five_rel_url, config).then((ret) => {
-        let first_4 = [];
-        let sec_1 = [];
+      axios
+        .get(five_rel_url, config)
+        .then((ret) => {
+          let first_4 = [];
+          let sec_1 = [];
 
-        if (
-          ret.data.five_relative_cat_course.length === 0 ||
-          ret.data.five_relative_cat_course === undefined
-        ) {
-          set_is_empty(true);
-          return;
-        }
-
-        if (ret.data.five_relative_cat_course.length <= 4) {
-          for (let i = 0; i < ret.data.five_relative_cat_course.length; ++i) {
-            first_4.push(ret.data.five_relative_cat_course[i]);
+          if (
+            ret.data.five_relative_cat_course.length === 0 ||
+            ret.data.five_relative_cat_course === undefined
+          ) {
+            set_is_empty(true);
+            return;
           }
-          set_first_4_courses(first_4);
 
-          set_second_1_course(undefined);
-          return;
-        } else {
-          for (let i = 0; i < 4; ++i) {
-            first_4.push(ret.data.five_relative_cat_course[i]);
-          }
-          set_first_4_courses(first_4);
+          if (ret.data.five_relative_cat_course.length <= 4) {
+            for (let i = 0; i < ret.data.five_relative_cat_course.length; ++i) {
+              first_4.push(ret.data.five_relative_cat_course[i]);
+            }
+            set_first_4_courses(first_4);
 
-          for (let i = 4; i < 5; ++i) {
-            sec_1.push(ret.data.five_relative_cat_course[i]);
+            set_second_1_course(undefined);
+            return;
+          } else {
+            for (let i = 0; i < 4; ++i) {
+              first_4.push(ret.data.five_relative_cat_course[i]);
+            }
+            set_first_4_courses(first_4);
+
+            for (let i = 4; i < 5; ++i) {
+              sec_1.push(ret.data.five_relative_cat_course[i]);
+            }
+            set_second_1_course(sec_1);
           }
-          set_second_1_course(sec_1);
-        }
-      });
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
     }
     return;
   }

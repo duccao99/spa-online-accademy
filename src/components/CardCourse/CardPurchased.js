@@ -171,7 +171,12 @@ function CardPurchased(props) {
       user_id: Number(sessionStorage.getItem('user_login_id')),
       course_id: Number(course_id)
     };
-    axios.post(url, data, {}).then((ret) => {});
+    axios
+      .post(url, data, {})
+      .then((ret) => {})
+      .catch((er) => {
+        console.log(er.response);
+      });
   };
 
   useEffect(() => {

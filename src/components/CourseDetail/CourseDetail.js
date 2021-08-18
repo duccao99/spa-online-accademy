@@ -97,21 +97,31 @@ const CourseDetail = ({
       course_id: +course_id
     };
 
-    axios.post(url, body).then((ret) => {
-      set_is_purchased(ret.data.is_purchased);
-    });
+    axios
+      .post(url, body)
+      .then((ret) => {
+        set_is_purchased(ret.data.is_purchased);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   function getCourseDetail() {
     const url = `${env.DEV_URL}/api/course/${course_id}`;
     const config = {};
-    axios.get(url, config).then((ret) => {
-      set_course_detail(ret.data.course_detail);
-      const last_updated = new Date(
-        `${ret.data.course_detail.course_last_updated}`
-      );
-      set_last_updated(last_updated);
-    });
+    axios
+      .get(url, config)
+      .then((ret) => {
+        set_course_detail(ret.data.course_detail);
+        const last_updated = new Date(
+          `${ret.data.course_detail.course_last_updated}`
+        );
+        set_last_updated(last_updated);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   useEffect(() => {
@@ -128,17 +138,27 @@ const CourseDetail = ({
 
     const relative_url = `${env.DEV_URL}/api/course/detail/five-relative/${course_id}`;
     const relative_url_config = ``;
-    axios.get(relative_url, relative_url_config).then((ret) => {
-      set_five_relative_course(ret.data.five_relative_cat_course);
-    });
+    axios
+      .get(relative_url, relative_url_config)
+      .then((ret) => {
+        set_five_relative_course(ret.data.five_relative_cat_course);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }, [updateCourseDetail]);
 
   useEffect(() => {
     if (!purchased_id_list) {
       const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
-      axios.get(url_pruchased_course_id, {}).then((ret) => {
-        setPurchasedListId(ret.data.purchased_courses_id_list);
-      });
+      axios
+        .get(url_pruchased_course_id, {})
+        .then((ret) => {
+          setPurchasedListId(ret.data.purchased_courses_id_list);
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
     }
 
     if (cart_global_state !== undefined) {

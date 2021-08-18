@@ -42,9 +42,14 @@ export default function Category({ setcourses }) {
   useEffect(() => {
     const url = `${env_config.DEV_URL}/api/instructor`;
     const config = {};
-    axios.get(url, config).then((ret) => {
-      setInstructors(ret.data.instructors);
-    });
+    axios
+      .get(url, config)
+      .then((ret) => {
+        setInstructors(ret.data.instructors);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }, []);
 
   return (

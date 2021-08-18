@@ -53,9 +53,14 @@ export default function CourseDetails() {
 
   function getInstructorDetail() {
     const url = `${env.DEV_URL}/api/course/${id}`;
-    axios.get(url, config).then((ret) => {
-      set_course_detail(ret.data.course_detail);
-    });
+    axios
+      .get(url, config)
+      .then((ret) => {
+        set_course_detail(ret.data.course_detail);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   React.useEffect(() => {
