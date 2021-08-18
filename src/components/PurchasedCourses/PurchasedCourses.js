@@ -59,13 +59,18 @@ export default function PurchasedCourse() {
 
     // purchases courses
     const purchase_url = `${env.DEV_URL}/api/student/purchased-courses/${email}`;
-    axios.get(purchase_url, config).then((ret) => {
-      if (ret && ret.data) {
-        set_purchased_courses(ret.data.purchased_courses);
-      } else {
-        set_purchased_courses(undefined);
-      }
-    });
+    axios
+      .get(purchase_url, config)
+      .then((ret) => {
+        if (ret && ret.data) {
+          set_purchased_courses(ret.data.purchased_courses);
+        } else {
+          set_purchased_courses(undefined);
+        }
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }, []);
 
   return (

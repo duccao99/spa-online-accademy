@@ -12,9 +12,14 @@ export default function CaseUploadedCourse({ email }) {
   const config = {};
   function getUploadedCourse() {
     const url = `${env.DEV_URL}/api/instructor/uploaded-course/${email}`;
-    axios.get(url, config).then((ret) => {
-      setCourses(ret.data.uploaded_course);
-    });
+    axios
+      .get(url, config)
+      .then((ret) => {
+        setCourses(ret.data.uploaded_course);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   useEffect(() => {

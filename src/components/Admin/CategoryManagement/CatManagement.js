@@ -1,39 +1,39 @@
-import { Button, TableFooter, Typography, Box } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import axios from "axios";
-import React from "react";
-import * as env from "../../../config/env.config";
-import { swal2Timing } from "../../../config/swal2.config";
-import AddSubCatModal from "../../CommonModal/AddSubCatModal";
-import RowSubCat from "./RowSubCat";
+import { Button, TableFooter, Typography, Box } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+import React from 'react';
+import * as env from '../../../config/env.config';
+import { swal2Timing } from '../../../config/swal2.config';
+import AddSubCatModal from '../../CommonModal/AddSubCatModal';
+import RowSubCat from './RowSubCat';
 
 const useStyles = makeStyles({
   table: {
-    width: "100%",
+    width: '100%'
   },
   btn: {
-    marginLeft: 12,
+    marginLeft: 12
   },
   link: {
-    color: "inherit",
-    textDecoration: "none",
-    "&:visited": {
-      color: "inherit",
-      textDecoration: "none",
-    },
+    color: 'inherit',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none'
+    }
   },
   header: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  }
 });
 
 export default function CatManagement() {
@@ -50,28 +50,38 @@ export default function CatManagement() {
   function getAllSubCat() {
     const all_sub_cat_url = `${env.DEV_URL}/api/sub-category`;
 
-    axios.get(all_sub_cat_url, config).then((ret) => {
-      set_all_sub_cat(ret.data.all_sub_cats);
-    });
+    axios
+      .get(all_sub_cat_url, config)
+      .then((ret) => {
+        set_all_sub_cat(ret.data.all_sub_cats);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
     return;
   }
 
   function getCountCourse() {
     const all_sub_cat_url = `${env.DEV_URL}/api/sub-category/count-course-in-sub-cat`;
 
-    axios.get(all_sub_cat_url, config).then((ret) => {
-      set_count_course(ret.data.count_course);
-    });
+    axios
+      .get(all_sub_cat_url, config)
+      .then((ret) => {
+        set_count_course(ret.data.count_course);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
     return;
   }
 
   const handleDelSubCat = (subject_id) => {
     for (let i = 0; i < count_course.length; ++i) {
       if (count_course[i].subject_id === subject_id) {
-        const title = "Warning!";
-        const html = "There is course exists in sub category!";
+        const title = 'Warning!';
+        const html = 'There is course exists in sub category!';
         const timer = 3500;
-        const icon = "warning";
+        const icon = 'warning';
         swal2Timing(title, html, timer, icon);
         return;
       }
@@ -79,14 +89,19 @@ export default function CatManagement() {
 
     const all_sub_cat_url = `${env.DEV_URL}/api/sub-category/${subject_id}`;
 
-    axios.delete(all_sub_cat_url, config).then((ret) => {
-      const title2 = "Success!";
-      const html2 = "Deleted sub category!";
-      const timer2 = 2500;
-      const icon2 = "success";
-      swal2Timing(title2, html2, timer2, icon2);
-      getAllSubCat();
-    });
+    axios
+      .delete(all_sub_cat_url, config)
+      .then((ret) => {
+        const title2 = 'Success!';
+        const html2 = 'Deleted sub category!';
+        const timer2 = 2500;
+        const icon2 = 'success';
+        swal2Timing(title2, html2, timer2, icon2);
+        getAllSubCat();
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
     return;
   };
 
@@ -99,19 +114,19 @@ export default function CatManagement() {
   return (
     <React.Fragment>
       <Box mb={3} className={classes.header}>
-        <Typography variant="h6">Category management</Typography>
-        <Button onClick={openModal} variant="contained">
+        <Typography variant='h6'>Category management</Typography>
+        <Button onClick={openModal} variant='contained'>
           Add sub category
         </Button>
       </Box>
       <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
+        <Table className={classes.table} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell align="left">ID</TableCell>
-              <TableCell align="left">Sub category name</TableCell>
-              <TableCell align="left">Category name</TableCell>
-              <TableCell align="right">Features</TableCell>
+              <TableCell align='left'>ID</TableCell>
+              <TableCell align='left'>Sub category name</TableCell>
+              <TableCell align='left'>Category name</TableCell>
+              <TableCell align='right'>Features</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

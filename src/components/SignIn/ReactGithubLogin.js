@@ -14,7 +14,12 @@ const onSuccess = (res) => {
     code: res.code
   };
   const access_token_url = `https://github.com/login/oauth/access_token`;
-  axios.post(access_token_url, data, {}).then((ret) => {});
+  axios
+    .post(access_token_url, data, {})
+    .then((ret) => {})
+    .catch((er) => {
+      console.log(er.response);
+    });
 };
 const onFailure = (er) => {};
 

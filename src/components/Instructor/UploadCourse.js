@@ -284,9 +284,14 @@ export default function UploadCourse({ match }) {
   function getSubCat() {
     const url = `${env.DEV_URL}/api/sub-category`;
     const config = {};
-    axios.get(url, config).then((ret) => {
-      setSubCatArr(ret.data.all_sub_cats);
-    });
+    axios
+      .get(url, config)
+      .then((ret) => {
+        setSubCatArr(ret.data.all_sub_cats);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   const handleSubCatChange = (e) => {
@@ -457,16 +462,21 @@ export default function UploadCourse({ match }) {
       email = email.substring(1, email.length - 1);
       const config = {};
       const verified_url = `${env.DEV_URL}/api/user/check-verify-account/${email}`;
-      axios.get(verified_url, config).then((ret) => {
-        set_is_verified(ret.data.isVerified);
-        if (ret.data.isVerified === false) {
-          const icon = 'warning';
-          const title = 'Verify!';
-          const html = 'Please verify your email account!';
-          const timer = 3500;
-          swal2Timing(title, html, timer, icon);
-        }
-      });
+      axios
+        .get(verified_url, config)
+        .then((ret) => {
+          set_is_verified(ret.data.isVerified);
+          if (ret.data.isVerified === false) {
+            const icon = 'warning';
+            const title = 'Verify!';
+            const html = 'Please verify your email account!';
+            const timer = 3500;
+            swal2Timing(title, html, timer, icon);
+          }
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
     }
 
     const isLg = sessionStorage.getItem('isLogout', false);

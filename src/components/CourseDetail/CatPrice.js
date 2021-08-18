@@ -148,9 +148,14 @@ function CatPrice({
     if (purchased_id_list.length < 1) {
       const curr_user_id = sessionStorage.getItem('user_login_id');
       const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
-      axios.get(url_pruchased_course_id, {}).then((ret) => {
-        setPurchasedListId(ret.data.purchased_courses_id_list);
-      });
+      axios
+        .get(url_pruchased_course_id, {})
+        .then((ret) => {
+          setPurchasedListId(ret.data.purchased_courses_id_list);
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
     }
 
     if (cart_global_state !== undefined) {
@@ -168,9 +173,14 @@ function CatPrice({
   function getIsFavorite(user_id, course_id) {
     let url_is_favo = `${env.DEV_URL}/api/student/is-favorite?course_id=${course_id}&user_id=${user_id}`;
 
-    axios.get(url_is_favo, {}).then((ret) => {
-      set_is_favorite(ret.data.is_favorite);
-    });
+    axios
+      .get(url_is_favo, {})
+      .then((ret) => {
+        set_is_favorite(ret.data.is_favorite);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   const handleFavoriteClick = (e) => {
@@ -181,9 +191,14 @@ function CatPrice({
       is_favorite: is_favorite
     };
 
-    axios.patch(toggle_favorite_url, data, {}).then((ret) => {
-      getIsFavorite(data.user_id, data.course_id);
-    });
+    axios
+      .patch(toggle_favorite_url, data, {})
+      .then((ret) => {
+        getIsFavorite(data.user_id, data.course_id);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   };
 
   useEffect(() => {
@@ -225,7 +240,12 @@ function CatPrice({
       user_id: sessionStorage.getItem('user_login_id'),
       course_id: course_id
     };
-    axios.post(url, data, {}).then((ret) => {});
+    axios
+      .post(url, data, {})
+      .then((ret) => {})
+      .catch((er) => {
+        console.log(er.response);
+      });
   };
 
   return (

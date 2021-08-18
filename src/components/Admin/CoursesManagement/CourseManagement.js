@@ -56,22 +56,32 @@ export default function CourseManagement() {
   function getAllCourse() {
     const all_course_url = `${env.DEV_URL}/api/course`;
 
-    axios.get(all_course_url, config).then((ret) => {
-      setcourses(ret.data.courses);
-    });
+    axios
+      .get(all_course_url, config)
+      .then((ret) => {
+        setcourses(ret.data.courses);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
     return;
   }
   const handleDelCourse = (id) => {
     const del_url = `${env.DEV_URL}/api/course/${id}`;
 
-    axios.delete(del_url, config).then((ret) => {
-      const title2 = 'Success!';
-      const html2 = 'Course was deleted !';
-      const timer2 = 2500;
-      const icon2 = 'success';
-      swal2Timing(title2, html2, timer2, icon2);
-      setisDel(!isDel);
-    });
+    axios
+      .delete(del_url, config)
+      .then((ret) => {
+        const title2 = 'Success!';
+        const html2 = 'Course was deleted !';
+        const timer2 = 2500;
+        const icon2 = 'success';
+        swal2Timing(title2, html2, timer2, icon2);
+        setisDel(!isDel);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
     return;
   };
 

@@ -119,13 +119,18 @@ export default function FullDes({ updateCourseDetail, setUpdateCourseDetail }) {
   function getCourseDetail() {
     const url = `${env.DEV_URL}/api/course/${course_id}`;
     const config = {};
-    axios.get(url, config).then((ret) => {
-      set_course_detail(ret.data.course_detail);
-      const last_updated = new Date(
-        `${ret.data.course_detail.course_last_updated}`
-      );
-      set_last_updated(last_updated);
-    });
+    axios
+      .get(url, config)
+      .then((ret) => {
+        set_course_detail(ret.data.course_detail);
+        const last_updated = new Date(
+          `${ret.data.course_detail.course_last_updated}`
+        );
+        set_last_updated(last_updated);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   const handleEditFulDes = (e) => {

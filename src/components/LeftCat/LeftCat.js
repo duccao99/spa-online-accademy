@@ -29,9 +29,14 @@ export default function LeftCat() {
   useEffect(() => {
     const all_sub_cat_url = `${env.DEV_URL}/api/sub-category/`;
     const config = {};
-    axios.get(all_sub_cat_url, config).then((ret) => {
-      set_all_subcat(ret.data.all_sub_cats);
-    });
+    axios
+      .get(all_sub_cat_url, config)
+      .then((ret) => {
+        set_all_subcat(ret.data.all_sub_cats);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }, []);
 
   return (

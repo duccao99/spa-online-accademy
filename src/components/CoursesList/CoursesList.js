@@ -122,12 +122,17 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
 
     const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
     const config = {};
-    axios.get(all_courses_by_subcat_url, config).then((ret) => {
-      set_all_courses_finished(ret.data.all_courses);
-      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-      set_curr_page(ret.data.curr_pagi);
-      setIsLoading(false);
-    });
+    axios
+      .get(all_courses_by_subcat_url, config)
+      .then((ret) => {
+        set_all_courses_finished(ret.data.all_courses);
+        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+        set_curr_page(ret.data.curr_pagi);
+        setIsLoading(false);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   function listCourseByCategory(subject_name) {
@@ -135,12 +140,17 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
 
     const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${subject_name}`;
     const config = {};
-    axios.get(all_courses_by_subcat_url, config).then((ret) => {
-      set_all_courses_finished(ret.data.course_by_sub_cat);
-      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-      set_curr_page(ret.data.curr_pagi);
-      setIsLoading(false);
-    });
+    axios
+      .get(all_courses_by_subcat_url, config)
+      .then((ret) => {
+        set_all_courses_finished(ret.data.course_by_sub_cat);
+        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+        set_curr_page(ret.data.curr_pagi);
+        setIsLoading(false);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   function listCourseByRate(rate_value) {
@@ -148,12 +158,17 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
 
     const all_course_finished_url = `${env.DEV_URL}/api/course/byRate/${rate_value}`;
     const config = {};
-    axios.get(all_course_finished_url, config).then((ret) => {
-      set_all_courses_finished(ret.data.course_by_rate);
-      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-      set_curr_page(ret.data.curr_pagi);
-      setIsLoading(false);
-    });
+    axios
+      .get(all_course_finished_url, config)
+      .then((ret) => {
+        set_all_courses_finished(ret.data.course_by_rate);
+        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+        set_curr_page(ret.data.curr_pagi);
+        setIsLoading(false);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   function listCourseByPrice(price_value) {
@@ -161,24 +176,34 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
 
     const all_course_finished_url = `${env.DEV_URL}/api/course/byPrice/${price_value}`;
     const config = {};
-    axios.get(all_course_finished_url, config).then((ret) => {
-      set_all_courses_finished(ret.data.course_by_price);
-      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-      set_curr_page(ret.data.curr_pagi);
-      setIsLoading(false);
-    });
+    axios
+      .get(all_course_finished_url, config)
+      .then((ret) => {
+        set_all_courses_finished(ret.data.course_by_price);
+        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+        set_curr_page(ret.data.curr_pagi);
+        setIsLoading(false);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   function listCourseByNothing() {
     setIsLoading(true);
     const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
     const config = {};
-    axios.get(all_course_finished_url, config).then((ret) => {
-      set_all_courses_finished(ret.data.all_courses_finished);
-      set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-      set_curr_page(ret.data.curr_pagi);
-      setIsLoading(false);
-    });
+    axios
+      .get(all_course_finished_url, config)
+      .then((ret) => {
+        set_all_courses_finished(ret.data.all_courses_finished);
+        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+        set_curr_page(ret.data.curr_pagi);
+        setIsLoading(false);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   useEffect(() => {
@@ -197,11 +222,13 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
 
       return;
     } else {
-      if (id !== undefined) {
-        set_search_value('');
-        listCourseByCategory(id);
+      if (typeof id !== 'undefined') {
+        if (id.length !== 0) {
+          set_search_value('');
+          listCourseByCategory(id);
 
-        return;
+          return;
+        }
       } else {
         if (rate_value !== undefined) {
           listCourseByRate(rate_value);
@@ -234,11 +261,16 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
     const curr_user_id = sessionStorage.getItem('user_login_id');
     if (curr_user_id) {
       const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${curr_user_id}`;
-      axios.get(url_pruchased_course_id, {}).then((ret) => {
-        setPurchasedListId(ret.data.purchased_courses_id_list);
-      });
+      axios
+        .get(url_pruchased_course_id, {})
+        .then((ret) => {
+          setPurchasedListId(ret.data.purchased_courses_id_list);
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
     }
-  };
+  }
 
   const handlePagiChange = (event, value) => {
     set_curr_page(value);
@@ -252,47 +284,72 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
     if (search_value) {
       const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/by-full-text-search/${search_value}`;
 
-      axios.get(all_courses_by_subcat_url, config).then((ret) => {
-        set_all_courses_finished(ret.data.all_courses);
-        set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-        set_curr_page(ret.data.curr_pagi);
-      });
+      axios
+        .get(all_courses_by_subcat_url, config)
+        .then((ret) => {
+          set_all_courses_finished(ret.data.all_courses);
+          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+          set_curr_page(ret.data.curr_pagi);
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
     } else {
       if (id !== undefined) {
         set_search_value('');
         const all_courses_by_subcat_url = `${env.DEV_URL}/api/course/byCat/${id}`;
 
-        axios.get(all_courses_by_subcat_url, config).then((ret) => {
-          set_all_courses_finished(ret.data.course_by_sub_cat);
-          set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-          set_curr_page(ret.data.curr_pagi);
-        });
+        axios
+          .get(all_courses_by_subcat_url, config)
+          .then((ret) => {
+            set_all_courses_finished(ret.data.course_by_sub_cat);
+            set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+            set_curr_page(ret.data.curr_pagi);
+          })
+          .catch((er) => {
+            console.log(er.response);
+          });
       } else {
         if (rate_value !== undefined) {
           const all_course_finished_url = `${env.DEV_URL}/api/course/byRate/${rate_value}`;
 
-          axios.get(all_course_finished_url, config).then((ret) => {
-            set_all_courses_finished(ret.data.course_by_rate);
-            set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-            set_curr_page(ret.data.curr_pagi);
-          });
+          axios
+            .get(all_course_finished_url, config)
+            .then((ret) => {
+              set_all_courses_finished(ret.data.course_by_rate);
+              set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+              set_curr_page(ret.data.curr_pagi);
+            })
+            .catch((er) => {
+              console.log(er.response);
+            });
         } else {
           if (price_value !== undefined) {
             const all_course_finished_url = `${env.DEV_URL}/api/course/byPrice/${price_value}`;
 
-            axios.get(all_course_finished_url, config).then((ret) => {
-              set_all_courses_finished(ret.data.course_by_price);
-              set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-              set_curr_page(ret.data.curr_pagi);
-            });
+            axios
+              .get(all_course_finished_url, config)
+              .then((ret) => {
+                set_all_courses_finished(ret.data.course_by_price);
+                set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+                set_curr_page(ret.data.curr_pagi);
+              })
+              .catch((er) => {
+                console.log(er.response);
+              });
           } else {
             const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
 
-            axios.get(all_course_finished_url, config).then((ret) => {
-              set_all_courses_finished(ret.data.all_courses_finished);
-              set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
-              set_curr_page(ret.data.curr_pagi);
-            });
+            axios
+              .get(all_course_finished_url, config)
+              .then((ret) => {
+                set_all_courses_finished(ret.data.all_courses_finished);
+                set_total_pagi_stuff(ret.data.total_num_pagi_stuff);
+                set_curr_page(ret.data.curr_pagi);
+              })
+              .catch((er) => {
+                console.log(er.response);
+              });
           }
         }
       }

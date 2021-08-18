@@ -55,9 +55,14 @@ export default function SubCatDetail() {
 
   function getSubCatDetail() {
     const sub_detail_url = `${env.DEV_URL}/api/sub-category/${id}`;
-    axios.get(sub_detail_url, config).then((ret) => {
-      setSubDetail(ret.data.sub_cat_detail);
-    });
+    axios
+      .get(sub_detail_url, config)
+      .then((ret) => {
+        setSubDetail(ret.data.sub_cat_detail);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   React.useEffect(() => {

@@ -24,9 +24,14 @@ function VideoStudy(props) {
 
   function getHistory() {
     const url = `${env.DEV_URL}/api/student/history?user_id=${user_id}&lesson_id=${lesson_id}`;
-    axios.get(url, {}).then((ret) => {
-      setHistoryTime(+ret.data.history_time);
-    });
+    axios
+      .get(url, {})
+      .then((ret) => {
+        setHistoryTime(+ret.data.history_time);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   const handleStore = (store) => {};
@@ -37,7 +42,12 @@ function VideoStudy(props) {
       lesson_id: +lesson_id,
       start_time: +time
     };
-    axios.post(url, data, {}).then((ret) => {});
+    axios
+      .post(url, data, {})
+      .then((ret) => {})
+      .catch((er) => {
+        console.log(er.response);
+      });
   };
 
   useEffect(() => {

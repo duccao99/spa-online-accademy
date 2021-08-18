@@ -240,16 +240,21 @@ export default function UploadedCourse({ match }) {
       set_ins_email(email);
       const config = {};
       const verified_url = `${env.DEV_URL}/api/user/check-verify-account/${email}`;
-      axios.get(verified_url, config).then((ret) => {
-        set_is_verified(ret.data.isVerified);
-        if (ret.data.isVerified === false) {
-          const icon = 'warning';
-          const title = 'Verify!';
-          const html = 'Please verify your email account!';
-          const timer = 3500;
-          swal2Timing(title, html, timer, icon);
-        }
-      });
+      axios
+        .get(verified_url, config)
+        .then((ret) => {
+          set_is_verified(ret.data.isVerified);
+          if (ret.data.isVerified === false) {
+            const icon = 'warning';
+            const title = 'Verify!';
+            const html = 'Please verify your email account!';
+            const timer = 3500;
+            swal2Timing(title, html, timer, icon);
+          }
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
     }
     // nav
     const isLg = sessionStorage.getItem('isLogout', false);

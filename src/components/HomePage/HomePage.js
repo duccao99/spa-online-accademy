@@ -230,16 +230,21 @@ function HomePage(props) {
       email = email.substring(1, email.length - 1);
       const config = {};
       const verified_url = `${env.DEV_URL}/api/user/check-verify-account/${email}`;
-      axios.get(verified_url, config).then((ret) => {
-        set_is_verified(ret.data.isVerified);
-        if (ret.data.isVerified === false) {
-          const icon = 'warning';
-          const title = 'Verify!';
-          const html = 'Please verify your email account!';
-          const timer = 3500;
-          swal2Timing(title, html, timer, icon);
-        }
-      });
+      axios
+        .get(verified_url, config)
+        .then((ret) => {
+          set_is_verified(ret.data.isVerified);
+          if (ret.data.isVerified === false) {
+            const icon = 'warning';
+            const title = 'Verify!';
+            const html = 'Please verify your email account!';
+            const timer = 3500;
+            swal2Timing(title, html, timer, icon);
+          }
+        })
+        .catch((er) => {
+          console.log(er.response);
+        });
     }
 
     const isLg = sessionStorage.getItem('isLogout', false);
@@ -251,13 +256,17 @@ function HomePage(props) {
     }
 
     // add sales dispatch
-    debounce(() => {
-      const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
-      const config = {};
-      axios.get(all_sales_url, config).then((ret) => {
+
+    const all_sales_url = `${env.DEV_URL}/api/course/all-sales`;
+    const config = {};
+    axios
+      .get(all_sales_url, config)
+      .then((ret) => {
         dispatchAddSales(ret.data.all_sales);
+      })
+      .catch((er) => {
+        console.log(er.response);
       });
-    }, 500)();
 
     // outstanding
     const url = `${env.DEV_URL}/api/course/outstanding-courses`;
@@ -272,43 +281,51 @@ function HomePage(props) {
 
     if (user_id) {
       const url_pruchased_course_id = `${env.DEV_URL}/api/student/purchases-course-id/${user_id}`;
-      axios.get(url_pruchased_course_id, config).then((ret) => {
-        setPurchasedListId(ret.data.purchased_courses_id_list);
-      }).catch(err => {
-        setPurchasedListId([]);
-      });
+      axios
+        .get(url_pruchased_course_id, config)
+        .then((ret) => {
+          setPurchasedListId(ret.data.purchased_courses_id_list);
+        })
+        .catch((err) => {
+          setPurchasedListId([]);
+        });
     }
 
     // newest
 
     const newest_url = `${env.DEV_URL}/api/course/ten-newest-courses`;
 
-    axios.get(newest_url, config).then((ret) => {
-      let first_4 = [];
-      let second_4 = [];
-      let third_2 = [];
+    axios
+      .get(newest_url, config)
+      .then((ret) => {
+        let first_4 = [];
+        let second_4 = [];
+        let third_2 = [];
 
-      if (ret.data.ten_newest_courses.length >= 10) {
-        for (let i = 0; i < 4; ++i) {
-          first_4.push(ret.data.ten_newest_courses[i]);
-        }
+        if (ret.data.ten_newest_courses.length >= 10) {
+          for (let i = 0; i < 4; ++i) {
+            first_4.push(ret.data.ten_newest_courses[i]);
+          }
 
-        for (let i = 4; i < 8; ++i) {
-          second_4.push(ret.data.ten_newest_courses[i]);
+          for (let i = 4; i < 8; ++i) {
+            second_4.push(ret.data.ten_newest_courses[i]);
+          }
+          for (let i = 8; i < 10; ++i) {
+            third_2.push(ret.data.ten_newest_courses[i]);
+          }
+          set_newest_courses_1_4(first_4);
+          set_newest_courses_2_4(second_4);
+          set_newest_courses_3_2(third_2);
+        } else {
+          for (let i = 0; i < ret.data.ten_newest_courses.length; ++i) {
+            first_4.push(ret.data.ten_newest_courses[i]);
+          }
+          set_newest_courses_1_4(first_4);
         }
-        for (let i = 8; i < 10; ++i) {
-          third_2.push(ret.data.ten_newest_courses[i]);
-        }
-        set_newest_courses_1_4(first_4);
-        set_newest_courses_2_4(second_4);
-        set_newest_courses_3_2(third_2);
-      } else {
-        for (let i = 0; i < ret.data.ten_newest_courses.length; ++i) {
-          first_4.push(ret.data.ten_newest_courses[i]);
-        }
-        set_newest_courses_1_4(first_4);
-      }
-    });
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
 
     // viewed
 
@@ -345,9 +362,14 @@ function HomePage(props) {
     // top sub cat
     const top_sub_cat_url = `${env.DEV_URL}/api/course/top-sub-cat`;
 
-    axios.get(top_sub_cat_url, config).then((ret) => {
-      set_top_sub_cat(ret.data.top_sub_cat);
-    });
+    axios
+      .get(top_sub_cat_url, config)
+      .then((ret) => {
+        set_top_sub_cat(ret.data.top_sub_cat);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }, [isLogout, is_logged_in]);
 
   return (

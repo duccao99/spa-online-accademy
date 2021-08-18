@@ -95,6 +95,23 @@ export default function Change({ setupdate, update }) {
   };
 
   const handleUpdateName = function (e) {
+    if (is_name_error) {
+      const title = 'error!';
+      const html = 'error!';
+      const timer = 2500;
+      const icon = 'error';
+      swal2Timing(title, html, timer, icon);
+      return;
+    }
+    if (user_name.length === 0) {
+      const title = 'error!';
+      const html = 'error!';
+      const timer = 2500;
+      const icon = 'error';
+      swal2Timing(title, html, timer, icon);
+      return;
+    }
+
     const url_update_name = `${env.DEV_URL}/api/user/change-name`;
     const data = {
       user_name: user_name,
@@ -122,6 +139,24 @@ export default function Change({ setupdate, update }) {
   };
 
   const handleUpdateMaile = function (e) {
+    if (is_email_error) {
+      const title = 'error!';
+      const html = 'error!';
+      const timer = 2500;
+      const icon = 'error';
+      swal2Timing(title, html, timer, icon);
+      return;
+    }
+
+    if (maile.length === 0) {
+      const title = 'error!';
+      const html = 'error!';
+      const timer = 2500;
+      const icon = 'error';
+      swal2Timing(title, html, timer, icon);
+      return;
+    }
+
     const url_update_maile = `${env.DEV_URL}/api/user/change-email`;
     const data = {
       email: maile,
@@ -150,6 +185,24 @@ export default function Change({ setupdate, update }) {
   };
 
   const handleUpdatePassword = function (e) {
+    if (is_old_pass_error || is_new_pass_error) {
+      const title = 'error!';
+      const html = 'error!';
+      const timer = 2500;
+      const icon = 'error';
+      swal2Timing(title, html, timer, icon);
+      return;
+    }
+
+    if (oldpass.length === 0 || newpass.length === 0) {
+      const title = 'error!';
+      const html = 'error!';
+      const timer = 2500;
+      const icon = 'error';
+      swal2Timing(title, html, timer, icon);
+      return;
+    }
+
     const url_update_pass = `${env.DEV_URL}/api/user/change-password`;
     const data = {
       user_id: user_id,

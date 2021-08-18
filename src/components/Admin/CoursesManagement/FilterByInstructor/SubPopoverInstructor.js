@@ -72,9 +72,14 @@ export default function SubPopoverInstructor(props) {
     set_cat_close(true);
 
     const url = `${env_config.DEV_URL}/api/extra-task/filter-course-by-instructor?instructor_id=${user_id}`;
-    axios.get(url).then((ret) => {
-      setcourses(ret.data);
-    });
+    axios
+      .get(url)
+      .then((ret) => {
+        setcourses(ret.data);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   return (

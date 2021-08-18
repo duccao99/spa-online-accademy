@@ -59,10 +59,15 @@ export default function UserProfile() {
 
   function getNameMaile(id) {
     const url_maile_name = `${env.DEV_URL}/api/user/${id}`;
-    axios.get(url_maile_name, {}).then((ret) => {
-      set_user_name(ret.data.user_detail.user_name);
-      set_email(ret.data.user_detail.email);
-    });
+    axios
+      .get(url_maile_name, {})
+      .then((ret) => {
+        set_user_name(ret.data.user_detail.user_name);
+        set_email(ret.data.user_detail.email);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }
 
   useEffect(() => {

@@ -45,13 +45,20 @@ export default function Category({ setcourses }) {
   useEffect(() => {
     const url = `${env_config.DEV_URL}/api/sub-category`;
     const config = {};
-    axios.get(url, config).then((ret) => {
-      set_sub_cat(ret.data.all_sub_cats);
-      const sub_web_cat = ret.data.all_sub_cats.filter((e) => e.cat_id === 1);
-      const sub_mobi_cat = ret.data.all_sub_cats.filter((e) => e.cat_id === 2);
-      set_sub_web_cat(sub_web_cat);
-      set_sub_mobi_cat(sub_mobi_cat);
-    });
+    axios
+      .get(url, config)
+      .then((ret) => {
+        set_sub_cat(ret.data.all_sub_cats);
+        const sub_web_cat = ret.data.all_sub_cats.filter((e) => e.cat_id === 1);
+        const sub_mobi_cat = ret.data.all_sub_cats.filter(
+          (e) => e.cat_id === 2
+        );
+        set_sub_web_cat(sub_web_cat);
+        set_sub_mobi_cat(sub_mobi_cat);
+      })
+      .catch((er) => {
+        console.log(er.response);
+      });
   }, []);
 
   return (
