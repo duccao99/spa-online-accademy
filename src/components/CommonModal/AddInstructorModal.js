@@ -69,6 +69,12 @@ export default function AddInsModal({
 
   const handleAddIns = (e, name) => {
     e.preventDefault();
+
+    if (username.length === 0 || maile.length === 0 || password.length === 0) {
+      alert('error');
+      return;
+    }
+
     const add_ins_url = `${env.DEV_URL}/api/instructor`;
     const data = {
       user_name: username,
@@ -78,6 +84,7 @@ export default function AddInsModal({
     axios
       .post(add_ins_url, data, config)
       .then((ret) => {
+        console.log(ret);
         setOpen(false);
         setisComponentUpdate(!isComponentUpdate);
         const title = 'Success!';
@@ -88,6 +95,7 @@ export default function AddInsModal({
         return;
       })
       .catch((er) => {
+        alert('create failed');
         setOpen(false);
         setisComponentUpdate(!isComponentUpdate);
 

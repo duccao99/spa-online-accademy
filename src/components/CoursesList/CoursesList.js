@@ -241,9 +241,14 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
       console.log('fee', sortBy.price_asc ? 'asc' : 'desc');
       sortBy.rate_asc
         ? (courses_sorted = _.sortBy(fulltextSearchResult, [`avg_rate`]))
-        : (courses_sorted = _.sortBy(fulltextSearchResult, [
-            `avg_rate`
-          ]).reverse());
+        : (courses_sorted = _.sortBy(fulltextSearchResult, [`avg_rate`]).sort(
+            (a, b) => {
+              if (a.avg_rate === null || b.avg_rate === null) {
+                return 0;
+              }
+              return b.avg_rate - a.avg_rate;
+            }
+          ));
 
       courses_sorted = courses_sorted.sort((a, b) => {
         if (a.avg_rate === b.avg_rate) {

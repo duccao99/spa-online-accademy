@@ -48,6 +48,11 @@ export default function RowSubCat({ row, handleDelSubCat }) {
 
   React.useEffect(() => {}, [openEdit]);
   const handleEditSubCat = (id) => {
+    if (vl.length === 0) {
+      alert('error');
+      return;
+    }
+
     const edit_url = `${env.DEV_URL}/api/sub-category/${id}`;
     const data = {
       subject_name: vl,

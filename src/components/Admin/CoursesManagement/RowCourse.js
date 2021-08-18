@@ -58,11 +58,14 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
 
   const handleEditCourse = (type) => {
     if (course.sale_percent !== sales) {
+      if (sales.length === 0) {
+      }
+
       const edit_url = `${env.DEV_URL}/api/sales`;
       const data = {
-        sale_percent: sales,
+        sale_percent: +sales,
         add_new: course.sale_percent ? false : true,
-        course_id: course.course_id
+        course_id: +course.course_id
       };
 
       axios
@@ -82,8 +85,8 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
     if (course.course_fee !== fee || course.is_banned !== isBanned) {
       const edit_url = `${env.DEV_URL}/api/course`;
       const data = {
-        course_fee: fee,
-        course_id: course.course_id,
+        course_fee: +fee,
+        course_id: +course.course_id,
         is_banned: isBanned
       };
 
@@ -101,7 +104,11 @@ export default function RowCourse({ course, handleDelCourse, raiseReLoad }) {
         });
     }
 
-    if (course.sale_percent !== sales || course.course_fee !== fee || course.is_banned !== isBanned) {
+    if (
+      course.sale_percent !== sales ||
+      course.course_fee !== fee ||
+      course.is_banned !== isBanned
+    ) {
       raiseReLoad();
     }
 
