@@ -222,7 +222,7 @@ function CardCourse(props) {
     isLogout,
     isUpdateFromPagi,
     purchased_id_list,
-
+    isPaginating,
     setFavoComponentUpdate,
     favoComponentUpdate,
     course_favo_id,
@@ -389,9 +389,7 @@ function CardCourse(props) {
     email,
     isLogout,
     show_btn,
-    // bestseller problem
-    // is_best_seller,
-    // is_newest,
+    isPaginating,
     isUpdate,
     isUpdateFromPagi,
     is_favorite,
@@ -399,36 +397,31 @@ function CardCourse(props) {
   ]);
 
   function isBestSellerBadgeHandle() {
-    const url = `${env.DEV_URL}/api/extra-task/is-best-seller/${course_id}`;
+    const url = `${env.DEV_URL}/api/extra-task/is-best-seller/${+course_id}`;
 
-    axios
-      .get(url)
-      .then((ret) => {
-        set_is_best_seller(ret.data);
-      })
-      .catch((er) => {
-        console.log(er.response);
-      });
+    axios.get(url).then((ret) => {
+      set_is_best_seller(ret.data);
+    });
   }
 
   function isNewBadgeHandle() {
-    const url = `${env.DEV_URL}/api/extra-task/is-newest/${course_id}`;
+    const url = `${env.DEV_URL}/api/extra-task/is-newest/${+course_id}`;
 
-    axios
-      .get(url)
-      .then((ret) => {
-        set_is_newest(ret.data);
-      })
-      .catch((er) => {
-        console.log(er.response);
-      });
+    axios.get(url).then((ret) => {
+      set_is_newest(ret.data);
+    });
   }
 
   // handle badge
+  // useEffect(() => {
+  //   isBestSellerBadgeHandle();
+  //   isNewBadgeHandle();
+  // }, []);
+
   useEffect(() => {
     isBestSellerBadgeHandle();
     isNewBadgeHandle();
-  }, []);
+  });
 
   const handleLinkClick = (e) => {
     // setUpdateCourseDetail(!updateCourseDetail);

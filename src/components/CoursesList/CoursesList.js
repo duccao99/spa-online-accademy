@@ -111,6 +111,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
     sort_name: '',
     is_checked: false
   });
+  const [isPaginating, setIsPaginating] = useState(false);
 
   const [isLogout, setisLogout] = useState(true);
   const [isUpdateFromPagi, setisUpdateFromPagi] = useState(false);
@@ -150,6 +151,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
       })
       .catch((er) => {
         console.log(er.response);
+        setIsLoading(false);
       });
   }
 
@@ -168,6 +170,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
       })
       .catch((er) => {
         console.log(er.response);
+        setIsLoading(false);
       });
   }
 
@@ -186,6 +189,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
       })
       .catch((er) => {
         console.log(er.response);
+        setIsLoading(false);
       });
   }
 
@@ -203,6 +207,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
       })
       .catch((er) => {
         console.log(er.response);
+        setIsLoading(false);
       });
   }
 
@@ -268,6 +273,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
         })
         .catch((er) => {
           console.log(er.response);
+          setIsLoading(false);
         });
     }
   }
@@ -275,6 +281,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
   const handlePagiChange = (event, value) => {
     set_curr_page(value);
     setisUpdateFromPagi(!isUpdateFromPagi);
+    setIsPaginating(!isPaginating);
 
     const config = {
       params: {
@@ -294,6 +301,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
         .catch((er) => {
           console.log(er.response);
         });
+      return;
     } else {
       if (id !== undefined) {
         set_search_value('');
@@ -309,6 +317,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
           .catch((er) => {
             console.log(er.response);
           });
+        return;
       } else {
         if (rate_value !== undefined) {
           const all_course_finished_url = `${env.DEV_URL}/api/course/byRate/${rate_value}`;
@@ -323,6 +332,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
             .catch((er) => {
               console.log(er.response);
             });
+          return;
         } else {
           if (price_value !== undefined) {
             const all_course_finished_url = `${env.DEV_URL}/api/course/byPrice/${price_value}`;
@@ -337,6 +347,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
               .catch((er) => {
                 console.log(er.response);
               });
+            return;
           } else {
             const all_course_finished_url = `${env.DEV_URL}/api/course/all-with-finished`;
 
@@ -350,6 +361,7 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
               .catch((er) => {
                 console.log(er.response);
               });
+            return;
           }
         }
       }
@@ -413,6 +425,8 @@ const CoursesList = ({ purchased_id_list, setPurchasedListId }) => {
                           <Grid key={i} item xs={12} sm={6} md={4} lg={4}>
                             <CardCourse
                               {...ele}
+                              course_id={ele.course_id}
+                              isPaginating={isPaginating}
                               isUpdateFromPagi={isUpdateFromPagi}
                               purchased_id_list={purchased_id_list}
                             />

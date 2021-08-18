@@ -342,7 +342,19 @@ export default function UploadCourse({ match }) {
 
     if (isTittleError || isCourseNameError || isFeeError) {
       const title = 'error!';
-      const html = 'Something broke!';
+      const html = 'error!';
+      const timer = 2500;
+      const icon = 'error';
+      swal2Timing(title, html, timer, icon);
+      return;
+    }
+
+    if (
+      course_state.course_name.length === 0 ||
+      course_state.course_title.length === 0
+    ) {
+      const title = 'error!';
+      const html = 'error!';
       const timer = 2500;
       const icon = 'error';
       swal2Timing(title, html, timer, icon);
